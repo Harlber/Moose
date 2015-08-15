@@ -25,7 +25,7 @@ import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
  * Created by Farble on 2015/8/13 23.
  */
 public abstract class ArticleListFragment extends Fragment {
-    private static final String TAG = "ListFragment";
+    private static final String TAG = "ArticleListFragment";
     protected View rootView;
     protected RecyclerView mRecyclerView;
     protected LinearLayoutManager mLayoutManager;
@@ -37,6 +37,7 @@ public abstract class ArticleListFragment extends Fragment {
     protected boolean isScroll = false;//is RecyclerView scrolling
 
     protected int mChannelId = 74;
+    protected int type = 3;//default
     protected int mPage = 1;//default
 
     @Nullable
@@ -44,7 +45,9 @@ public abstract class ArticleListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.fragment_article_list, container, false);
-        mChannelId = getArguments().getInt(Config.CHANNELID);
+        mChannelId = getArguments().getInt(Config.CHANNEL_ID);
+        type = Integer.valueOf(getArguments().getString(Config.CHANNEL_TYPE));
+        Log.e(TAG,"type:"+type);
         initRecyclerView();
         initRefreshLayout();
         init();

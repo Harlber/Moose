@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="selest_array">
+        <item>最近回复</item>
+        <item>人气最旺</item>
+        <item>评论最多</item>
+    </string-array>
+</resources>

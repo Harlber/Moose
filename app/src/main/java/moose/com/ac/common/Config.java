@@ -8,7 +8,8 @@ public class Config {
     public static final String COMMENT_URL = "http://www.acfun.tv";
     public static final String SEARCH_URL = "http://search.acfun.tv";
 
-    public static final String CHANNELID = "CHANNELID";
+    public static final String CHANNEL_ID = "CHANNEL_ID";
+    public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
 
     public static final int OKHTTP_CLIENT_CONNECT_TIMEOUT = 5;
     public static final int OKHTTP_CLIENT_WRITE_TIMEOUT = 10;

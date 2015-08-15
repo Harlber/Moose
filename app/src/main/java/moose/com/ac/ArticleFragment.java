@@ -27,11 +27,34 @@ public class ArticleFragment extends ArticleListFragment {
     @Override
     protected void init() {
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
-        loadData(mPage,true);
+        loadData(type,mPage, true);
     }
-    private void loadData(int pg,boolean isSave){
+
+    @Override
+    protected void loadMore() {
+        loadData(type,mPage, true);
+    }
+
+    @Override
+    protected void doSwapeRefresh() {
+        loadData(type,1, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        RxUtils.unsubscribeIfNotNull(subscription);
+    }
+
+    private void loadData(int tp,int pg, boolean isSave) {
         isRequest = true;
-        subscription.add(api.getArticleList(0,mChannelId,pg,Config.PAGESIZE)
+        subscription.add(api.getArticleList(tp, mChannelId, pg, Config.PAGESIZE)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArticleList>() {
@@ -66,27 +89,6 @@ public class ArticleFragment extends ArticleListFragment {
                         isRequest = false;//refresh request status
                     }
                 }));
-    }
-
-    @Override
-    protected void loadMore() {
-        loadData(mPage,true);
-    }
-
-    @Override
-    protected void doSwapeRefresh() {
-        loadData(1,false);
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RxUtils.unsubscribeIfNotNull(subscription);
     }
 
 }
