@@ -31,8 +31,8 @@ public abstract class ArticleListFragment extends Fragment {
     protected LinearLayoutManager mLayoutManager;
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
 
-    protected List<Article>lists = new ArrayList<>();
-    protected ArticleListAdapter adapter = new ArticleListAdapter(lists,getActivity());
+    protected List<Article> lists = new ArrayList<>();
+    protected ArticleListAdapter adapter = new ArticleListAdapter(lists, getActivity());
     protected boolean isRequest = false;//request data status
     protected boolean isScroll = false;//is RecyclerView scrolling
 
@@ -84,20 +84,23 @@ public abstract class ArticleListFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (isScroll && !recyclerView.canScrollVertically(1)&&!isRequest) {
+                mSwipeRefreshLayout.setEnabled(mLayoutManager
+                        .findFirstCompletelyVisibleItemPosition() == 0);//fix bug while scroll RecyclerView & SwipeRefreshLayout shows also
+                if (isScroll && !recyclerView.canScrollVertically(1) && !isRequest) {
                     loadMore();
                 }
             }
         });
     }
+
     protected abstract void init();
 
     protected abstract void loadMore();
 
     protected abstract void doSwapeRefresh();
 
-    protected void Snack(String msg){
-        Snackbar.make(mRecyclerView,msg,Snackbar.LENGTH_SHORT).show();
+    protected void Snack(String msg) {
+        Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
     }
 
 }
