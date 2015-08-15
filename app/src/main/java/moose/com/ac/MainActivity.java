@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        //adapter.addFragment(new ListFragment(), getString(R.string.complex));
-        // adapter.addFragment(new ListFragment(), getString(R.string.work));
-        //adapter.addFragment(new ListFragment(), getString(R.string.animation));
-        // adapter.addFragment(new ListFragment(), getString(R.string.cartoon));
+        adapter.addFragment(new ArticleFragment(), getString(R.string.complex));
+        adapter.addFragment(new ArticleFragment(), getString(R.string.work));
+        adapter.addFragment(new ArticleFragment(), getString(R.string.animation));
+        adapter.addFragment(new ArticleFragment(), getString(R.string.cartoon));
         viewPager.setAdapter(adapter);
     }
 

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2015 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +16,15 @@
 
 <resources>
     <color name="window_background">#FFF5F5F5</color>
-  <color name="md_orange_700">#f57c00</color>
-  <color name="md_red_500">#e51c23</color>
-  <color name="md_indigo_900">#1a237e</color>
-  <color name="md_green_700">#0a7e07</color>
+    <color name="md_orange_700">#f57c00</color>
+    <color name="md_red_500">#e51c23</color>
+    <color name="md_indigo_900">#1a237e</color>
+    <color name="md_green_700">#0a7e07</color>
+
+    <color name="colorPrimary">#FF9800</color>
+    <color name="colorPrimaryDark">#F57C00</color>
+    <color name="colorPrimaryLight">#FFE0B2</color>
+    <color name="colorAccent">#FF5252</color>
+    <color name="colorAccentLight">#FF8A80</color>
+    <color name="textColorButton">#FFFFFF</color>
 </resources>

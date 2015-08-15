@@ -18,6 +18,46 @@ public class ArticleList implements Serializable {
         private Integer totalCount;
         private Integer orderBy;
         private List<Article>list;
+
+        public Integer getPageNo() {
+            return pageNo;
+        }
+
+        public void setPageNo(Integer pageNo) {
+            this.pageNo = pageNo;
+        }
+
+        public Integer getPageSize() {
+            return pageSize;
+        }
+
+        public void setPageSize(Integer pageSize) {
+            this.pageSize = pageSize;
+        }
+
+        public Integer getTotalCount() {
+            return totalCount;
+        }
+
+        public void setTotalCount(Integer totalCount) {
+            this.totalCount = totalCount;
+        }
+
+        public Integer getOrderBy() {
+            return orderBy;
+        }
+
+        public void setOrderBy(Integer orderBy) {
+            this.orderBy = orderBy;
+        }
+
+        public List<Article> getList() {
+            return list;
+        }
+
+        public void setList(List<Article> list) {
+            this.list = list;
+        }
     }
     public static class Data{
         private Page page;

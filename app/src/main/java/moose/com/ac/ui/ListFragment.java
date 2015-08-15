@@ -3,6 +3,7 @@ package moose.com.ac.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import moose.com.ac.ArticleListAdapter;
 import moose.com.ac.R;
+import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 
 /**
@@ -23,7 +29,11 @@ public abstract class ListFragment extends Fragment {
     protected RecyclerView mRecyclerView;
     protected LinearLayoutManager mLayoutManager;
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    protected RecyclerView.Adapter<? extends RecyclerView.ViewHolder> adapter;
+
+    protected List<Article>lists = new ArrayList<>();
+    protected ArticleListAdapter adapter = new ArticleListAdapter(lists,getActivity());
+    protected boolean isRequest = false;//request data status
+    protected boolean isScroll = false;//is RecyclerView scrolling
 
     @Nullable
     @Override
@@ -32,8 +42,10 @@ public abstract class ListFragment extends Fragment {
                 R.layout.fragment_article_list, container, false);
         initRecyclerView();
         initRefreshLayout();
+        init();
         return rootView;
     }
+
 
     private void initRefreshLayout() {
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
@@ -48,7 +60,6 @@ public abstract class ListFragment extends Fragment {
         });
     }
 
-    protected abstract void doSwapeRefresh();
 
     private void initRecyclerView() {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
@@ -56,17 +67,32 @@ public abstract class ListFragment extends Fragment {
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(adapter);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                isScroll = newState == RecyclerView.SCROLL_STATE_SETTLING;
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (isScroll && recyclerView.canScrollVertically(1)) {
+                    loadMore();
+                }
             }
         });
     }
+    protected abstract void init();
+
+    protected abstract void loadMore();
+
+    protected abstract void doSwapeRefresh();
+
+    protected void Snack(String msg){
+        Snackbar.make(mRecyclerView,msg,Snackbar.LENGTH_SHORT).show();
+    }
+
 }

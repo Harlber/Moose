@@ -16,7 +16,9 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Farble on 2015/8/15 12.
  */
 public class RxUtils {
+    private RxUtils(){
 
+    }
     public static void unsubscribeIfNotNull(Subscription subscription) {
         if (subscription != null) {
             subscription.unsubscribe();
