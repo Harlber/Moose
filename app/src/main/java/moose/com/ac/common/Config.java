@@ -5,4 +5,6 @@ package moose.com.ac.common;
  */
 public class Config {
     public static final String ARTICLE_URL = "http://http://api.acfun.tv";
+    public static final String COMMENT_URL = "http://www.acfun.tv";
+    public static final String SEARCH_URL = "http://search.acfun.tv";
 }
