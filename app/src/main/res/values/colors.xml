@@ -17,4 +17,8 @@
 
 <resources>
     <color name="window_background">#FFF5F5F5</color>
+  <color name="md_orange_700">#f57c00</color>
+  <color name="md_red_500">#e51c23</color>
+  <color name="md_indigo_900">#1a237e</color>
+  <color name="md_green_700">#0a7e07</color>
 </resources>
