@@ -12,6 +12,7 @@ import java.util.List;
 
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.ArticleListVH;
+import moose.com.ac.util.CommonUtil;
 
 /**
  * Created by Farble on 2015/8/15 16.
@@ -48,8 +49,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> {
         final Article article = lists.get(position);
         holder.num.setText(String.valueOf(position));
         holder.title.setText(article.getTitle());
-        holder.user.setText("by "+article.getUser().getUsername());
-        holder.time.setText(article.getReleaseDate().toString());
+        holder.user.setText(String.valueOf(article.getViews())+" views  "+"by " + article.getUser().getUsername());
+        holder.time.setText(CommonUtil.toDate(article.getReleaseDate()));
         holder.comment.setText(article.getViews().toString());
     }
 

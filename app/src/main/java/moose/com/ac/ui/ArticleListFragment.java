@@ -17,13 +17,14 @@ import java.util.List;
 
 import moose.com.ac.ArticleListAdapter;
 import moose.com.ac.R;
+import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 
 /**
  * Created by Farble on 2015/8/13 23.
  */
-public abstract class ListFragment extends Fragment {
+public abstract class ArticleListFragment extends Fragment {
     private static final String TAG = "ListFragment";
     protected View rootView;
     protected RecyclerView mRecyclerView;
@@ -35,11 +36,15 @@ public abstract class ListFragment extends Fragment {
     protected boolean isRequest = false;//request data status
     protected boolean isScroll = false;//is RecyclerView scrolling
 
+    protected int mChannelId = 74;
+    protected int mPage = 1;//default
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.fragment_article_list, container, false);
+        mChannelId = getArguments().getInt(Config.CHANNELID);
         initRecyclerView();
         initRefreshLayout();
         init();
@@ -79,7 +84,7 @@ public abstract class ListFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (isScroll && recyclerView.canScrollVertically(1)) {
+                if (isScroll && !recyclerView.canScrollVertically(1)&&!isRequest) {
                     loadMore();
                 }
             }

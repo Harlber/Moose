@@ -12,7 +12,7 @@
     </style>
     <style name="textSubtitleStyle">
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/md_grey_900</item>
         <item name="android:singleLine">true</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">@dimen/padding</item>
@@ -22,7 +22,7 @@
     </style>
     <style name="textTitleStyle">
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/md_grey_900</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:minLines">2</item>
         <item name="android:paddingLeft">@dimen/padding</item>
@@ -33,7 +33,7 @@
         <item name="android:paddingBottom">@dimen/padding</item>
         <item name="android:gravity">center|center_vertical</item>
         <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
-        <item name="android:textColor">@color/md_green_700</item>
+        <item name="android:textColor">@color/textColorButton</item>
     </style>
     <style name="AppCardView" parent="BaseAppCardView">
         <item name="android:foreground">@drawable/abc_item_background_holo_light</item>

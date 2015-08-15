@@ -27,4 +27,5 @@
     <color name="colorAccent">#FF5252</color>
     <color name="colorAccentLight">#FF8A80</color>
     <color name="textColorButton">#FFFFFF</color>
+    <color name="md_grey_900">#212121</color>
 </resources>

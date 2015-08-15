@@ -9,7 +9,7 @@ import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleList;
-import moose.com.ac.ui.ListFragment;
+import moose.com.ac.ui.ArticleListFragment;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,15 +20,18 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Farble on 2015/8/15 17.
  */
 @SuppressLint("ValidFragment")
-public class ArticleFragment extends ListFragment {
-    private static final int channelId = 74;
+public class ArticleFragment extends ArticleListFragment {
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
 
     @Override
     protected void init() {
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
-        subscription.add(api.getArticleList(0,channelId,1,Config.PAGESIZE)
+        loadData(mPage,true);
+    }
+    private void loadData(int pg,boolean isSave){
+        isRequest = true;
+        subscription.add(api.getArticleList(0,mChannelId,pg,Config.PAGESIZE)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArticleList>() {
@@ -39,29 +42,40 @@ public class ArticleFragment extends ListFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        mSwipeRefreshLayout.setRefreshing(false);
                         Snack(getString(R.string.network_exception));
                         e.printStackTrace();
                     }
 
                     @Override
                     public void onNext(ArticleList articleList) {
+                        if (isSave) {
+                            mPage++;//false : new request
+                        }
+                        mSwipeRefreshLayout.setRefreshing(false);
                         List<Article> articles = new ArrayList<Article>();
                         articles = articleList.getData().getPage().getList();
-                        lists.addAll(articles);
+                        if (isSave) {//add data into local
+                            lists.addAll(articles);
+                        } else {
+                            lists.clear();//clear local data
+                            lists.addAll(articles);
+                        }
                         articles.clear();
                         adapter.notifyDataSetChanged();
+                        isRequest = false;//refresh request status
                     }
                 }));
     }
 
     @Override
     protected void loadMore() {
-
+        loadData(mPage,true);
     }
 
     @Override
     protected void doSwapeRefresh() {
-
+        loadData(1,false);
     }
     @Override
     public void onResume() {

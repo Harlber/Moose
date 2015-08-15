@@ -1,5 +1,7 @@
 package moose.com.ac.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,5 +22,10 @@ public class CommonUtil {
         for (int i = 0; i < list.size(); i++)
             buffer.append(list.get(i));
         return buffer;
+    }
+    public static String toDate(Long aLong){
+        String beginDate = String.valueOf(aLong);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date(Long.parseLong(beginDate)));
     }
 }

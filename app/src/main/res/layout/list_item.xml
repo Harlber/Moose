@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/margin"
-    android:elevation="100dp">
+    android:elevation="50dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -20,9 +20,13 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.common.Config;
+import moose.com.ac.util.ZoomOutPageTransformer;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
@@ -74,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ArticleFragment(), getString(R.string.complex));
-        adapter.addFragment(new ArticleFragment(), getString(R.string.work));
-        adapter.addFragment(new ArticleFragment(), getString(R.string.animation));
-        adapter.addFragment(new ArticleFragment(), getString(R.string.cartoon));
+        adapter.addFragment(getArticleFragment(Config.COMPLEX), getString(R.string.complex));
+        adapter.addFragment(getArticleFragment(Config.WORK), getString(R.string.work));
+        adapter.addFragment(getArticleFragment(Config.ANIMATION), getString(R.string.animation));
+        adapter.addFragment(getArticleFragment(Config.CARTOON), getString(R.string.cartoon));
         viewPager.setAdapter(adapter);
     }
 
@@ -90,6 +95,16 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private Bundle setBundle(int key){
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.CHANNELID, key);
+        return bundle;
+    }
+    private ArticleFragment getArticleFragment(int key){
+        ArticleFragment fragment = new ArticleFragment();
+        fragment.setArguments(setBundle(key));
+        return fragment;
+    }
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
@@ -116,6 +131,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitles.get(position);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        } else {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         }
     }
 }
