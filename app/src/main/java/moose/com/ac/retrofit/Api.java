@@ -1,6 +1,7 @@
 package moose.com.ac.retrofit;
 
 
+import com.google.gson.JsonObject;
 import com.squareup.okhttp.Response;
 
 import moose.com.ac.retrofit.article.ArticleBody;
@@ -22,7 +23,7 @@ public interface Api {
             , @Query("pageNo") int pageNo, @Query("pageSize") int pageSize);
 
     @GET("/comment_list_json.aspx")
-    Observable<Response> getCommentList(@Query("contentId") int contentId, @Query("currentPage") int currentPage);
+    Observable<JsonObject> getCommentList(@Query("contentId") int contentId, @Query("currentPage") int currentPage);
 
     @GET("/apiserver/content/article")
     Observable<ArticleBody> getArticleBody(@Query("contentId") int contentId);

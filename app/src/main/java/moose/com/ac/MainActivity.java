@@ -17,7 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import moose.com.ac.common.Config;
+import moose.com.ac.ui.ArticleFragment;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 public class MainActivity extends AppCompatActivity {
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         return fragment;
     }
 
-    static class Adapter extends FragmentPagerAdapter {
+    public static class Adapter extends FragmentPagerAdapter {
         private final List<ArticleFragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
 

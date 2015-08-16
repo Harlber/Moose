@@ -10,6 +10,7 @@ public class Config {
 
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
+    public static final String CONTENTID = "CONTENTID";
 
     public static final int OKHTTP_CLIENT_CONNECT_TIMEOUT = 5;
     public static final int OKHTTP_CLIENT_WRITE_TIMEOUT = 10;

@@ -1,10 +1,11 @@
-package moose.com.ac;
+package moose.com.ac.ui;
 
 import android.annotation.SuppressLint;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;

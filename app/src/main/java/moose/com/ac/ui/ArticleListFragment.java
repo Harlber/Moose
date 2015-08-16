@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import moose.com.ac.ArticleListAdapter;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.Article;
@@ -32,7 +31,7 @@ public abstract class ArticleListFragment extends Fragment {
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
 
     protected List<Article> lists = new ArrayList<>();
-    protected ArticleListAdapter adapter = new ArticleListAdapter(lists, getActivity());
+    protected ArticleListAdapter adapter;
     protected boolean isRequest = false;//request data status
     protected boolean isScroll = false;//is RecyclerView scrolling
 
@@ -69,6 +68,7 @@ public abstract class ArticleListFragment extends Fragment {
 
 
     private void initRecyclerView() {
+        adapter = new ArticleListAdapter(lists, getActivity());
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
