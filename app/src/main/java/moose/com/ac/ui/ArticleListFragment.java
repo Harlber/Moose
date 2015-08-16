@@ -47,7 +47,6 @@ public abstract class ArticleListFragment extends Fragment {
                 R.layout.fragment_article_list, container, false);
         mChannelId = getArguments().getInt(Config.CHANNEL_ID);
         type = Integer.valueOf(getArguments().getString(Config.CHANNEL_TYPE));
-        Log.e(TAG,"type:"+type);
         initRecyclerView();
         initRefreshLayout();
         init();

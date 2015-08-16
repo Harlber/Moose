@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
     private ViewPager viewPager;
-    private Adapter adapter = new Adapter(getSupportFragmentManager());
+    private TabLayout tabLayout;
+    private Adapter adapter;
     private int type = 0; /*orderBy 0：最近 1：人气最旺 3：评论最多*/
 
     @Override
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
+        adapter = new Adapter(getSupportFragmentManager());
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         if (viewPager != null) {
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -115,14 +118,12 @@ public class MainActivity extends AppCompatActivity {
     private Bundle setBundle(int key, int ty) {
         Bundle bundle = new Bundle();
         bundle.putInt(Config.CHANNEL_ID, key);
-        Log.e(TAG, "ty:" + ty);
         bundle.putString(Config.CHANNEL_TYPE, String.valueOf(ty));
         return bundle;
     }
 
     private ArticleFragment getArticleFragment(int key) {
         ArticleFragment fragment = new ArticleFragment();
-        Log.e(TAG,"type:"+type);
         fragment.setArguments(setBundle(key, type));
         return fragment;
     }
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                         int position = viewPager.getCurrentItem();
                         adapter.clearFragments();
                         setupViewPager(viewPager);
-                        viewPager.setCurrentItem(position);
+                    viewPager.setCurrentItem(position);
                 });
         return builder.create();
     }

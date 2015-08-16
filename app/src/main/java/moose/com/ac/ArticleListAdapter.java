@@ -51,7 +51,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> {
         holder.title.setText(article.getTitle());
         holder.user.setText(String.valueOf(article.getViews())+" views  "+"by " + article.getUser().getUsername());
         holder.time.setText(CommonUtil.toDate(article.getReleaseDate()));
-        holder.comment.setText(article.getViews().toString());
+        holder.comment.setText(article.getComments().toString());
     }
 
     @Override
