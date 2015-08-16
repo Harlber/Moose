@@ -129,16 +129,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static class Adapter extends FragmentPagerAdapter {
+        private FragmentManager fragmentManager;
         private final List<ArticleFragment> mFragments = new ArrayList<>();
         private final List<String> mFragmentTitles = new ArrayList<>();
 
         public Adapter(FragmentManager fm) {
             super(fm);
+            this.fragmentManager = fm;
         }
 
         public void clearFragments() {
+            for (int i=0;i<mFragments.size();i++) {
+                fragmentManager.beginTransaction().remove(mFragments.get(i)).commit();
+            }
             mFragments.clear();
-            notifyDataSetChanged();
         }
 
         public void addFragment(ArticleFragment fragment, String title) {
