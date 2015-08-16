@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void clearFragments() {
-            for (int i=0;i<mFragments.size();i++) {
+            for (int i = 0; i < mFragments.size(); i++) {
                 fragmentManager.beginTransaction().remove(mFragments.get(i)).commit();
             }
             mFragments.clear();
@@ -170,11 +170,11 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(getString(R.string.article_select))
                 .setItems(R.array.selest_array, (DialogInterface.OnClickListener) (dialog, which) -> {
-                        type = which;
-                        //refresh request
-                        int position = viewPager.getCurrentItem();
-                        adapter.clearFragments();
-                        setupViewPager(viewPager);
+                    type = which;
+                    //refresh request
+                    int position = viewPager.getCurrentItem();
+                    adapter.clearFragments();
+                    setupViewPager(viewPager);
                     viewPager.setCurrentItem(position);
                 });
         return builder.create();

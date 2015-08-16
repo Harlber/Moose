@@ -14,7 +14,7 @@ public class ArticleInfo implements Serializable {
     private Integer contentId;
     private Integer isArticle;
     private Integer channelId;
-    private Integer releaseDate;
+    private Long releaseDate;
     private String title;
     private Integer isRecommend;
     private Integer views;
@@ -80,11 +80,11 @@ public class ArticleInfo implements Serializable {
         this.channelId = channelId;
     }
 
-    public Integer getReleaseDate() {
+    public Long getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Integer releaseDate) {
+    public void setReleaseDate(Long releaseDate) {
         this.releaseDate = releaseDate;
     }
 

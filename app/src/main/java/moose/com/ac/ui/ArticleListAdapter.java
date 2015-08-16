@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.ArticleViewActivity;
 import moose.com.ac.BigNewsActivity;
 import moose.com.ac.R;
 import moose.com.ac.retrofit.article.Article;
@@ -56,7 +57,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> {
         holder.time.setText(CommonUtil.toDate(article.getReleaseDate()));
         holder.comment.setText(article.getComments().toString());
         holder.rootView.setOnClickListener(v -> {
-            Intent intent = new Intent(mActivity, BigNewsActivity.class);
+            Intent intent = new Intent(mActivity, ArticleViewActivity.class);
             mActivity.startActivity(intent);
         });
     }
