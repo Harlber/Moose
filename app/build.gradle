@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "23.0.0 rc2"
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "ac.moose.com.moose"
@@ -20,7 +20,6 @@ android {
     sourceSets {
         androidTest.setRoot('tests')
         androidTest.java.srcDirs = ['tests/src']
-
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -55,4 +54,5 @@ dependencies {
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.0.4'
 
     compile 'org.jsoup:jsoup:1.8.1'
+    compile 'com.alibaba:fastjson:1.1.45.android'
 }

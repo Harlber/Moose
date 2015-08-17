@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
+
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
@@ -40,11 +41,17 @@ public class ArticleViewActivity extends AppCompatActivity {
 
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
+    private String HtmlBody;//get body from network
+    private int contendid;
+
+    private Document mDoc;
+    /*wap http://www.acfun.tv/lite/v/#ac=2104712*/
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_view);
+        contendid = getIntent().getIntExtra(Config.CONTENTID,1);
         //mProgress = findViewById(R.id.loading);
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
@@ -76,6 +83,9 @@ public class ArticleViewActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 ArticleViewActivity.this.finish();
+                return true;
+            case R.id.action_module_wap:
+                mWeb.loadUrl("http://www.acfun.tv/lite/v/#ac="+contendid);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -117,7 +127,7 @@ public class ArticleViewActivity extends AppCompatActivity {
     protected void initData() {
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
         setSupportProgressBarIndeterminateVisibility(true);
-        subscription.add(api.getArticleBody(1399954)
+        subscription.add(api.getArticleBody(contendid)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArticleBody>() {
@@ -137,11 +147,36 @@ public class ArticleViewActivity extends AppCompatActivity {
                         if (!articleBody.isSuccess()) {
                             Snack(articleBody.getMsg());
                         } else {
-                            //get body
-                            Log.i(TAG, "test get body:" + articleBody.getData().getFullArticle().getTxt());
+                            HtmlBody = articleBody.getData().getFullArticle().getTxt();
+                            dealBody(HtmlBody);
+                            addHead();
+                            mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
+                            Log.e(TAG,"source:"+HtmlBody);
                         }
                     }
+
                 }));
+    }
+
+    private void addHead() {
+        StringBuffer head = new StringBuffer();
+        head.append("<html lang=\"zh-CN\">");
+        head.append("<body>");
+
+        StringBuffer body = new StringBuffer();
+        body.append("</body>");
+        body.append("</html>");
+        String index = HtmlBody;
+        HtmlBody = head.toString()+index+body.toString();
+    }
+
+    private void dealBody(String html) {
+        //1.deal image <img src=\"http://n.sinaimg.cn/transform/20150817/seQF-fxfxzzn7510940.jpg\" />
+        //into <img src="http://n.sinaimg.cn/transform/20150817/seQF-fxfxzzn7510940.jpg" />
+        //2.\n
+        //3.\r
+        //4.other \
+        html.replace("\\n","").replace("\\r","").replace("\\","");
     }
 
     @SuppressWarnings("deprecation")

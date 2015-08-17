@@ -2,6 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".ArticleViewActivity">
+    <item android:id="@+id/action_module_wap" android:title="访问网页"
+        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_module_view" android:title="模式设置"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_front_view" android:title="字体设置"

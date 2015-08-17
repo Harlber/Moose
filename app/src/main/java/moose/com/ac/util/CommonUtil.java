@@ -1,5 +1,7 @@
 package moose.com.ac.util;
 
+import org.jsoup.nodes.Document;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.List;
  */
 public class CommonUtil {
     private static final String TAG = "CommonUtil";
+    private static Document sDoc,sDocNight;
 
     private CommonUtil() {
 

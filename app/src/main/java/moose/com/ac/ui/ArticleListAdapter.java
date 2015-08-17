@@ -12,10 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import moose.com.ac.ArticleViewActivity;
-import moose.com.ac.BigNewsActivity;
 import moose.com.ac.R;
+import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.ui.ArticleListVH;
 import moose.com.ac.util.CommonUtil;
 
 /**
@@ -58,6 +57,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> {
         holder.comment.setText(article.getComments().toString());
         holder.rootView.setOnClickListener(v -> {
             Intent intent = new Intent(mActivity, ArticleViewActivity.class);
+            intent.putExtra(Config.CONTENTID,article.getContentId());
             mActivity.startActivity(intent);
         });
     }
