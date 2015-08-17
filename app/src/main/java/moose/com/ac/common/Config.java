@@ -7,6 +7,7 @@ public class Config {
     public static final String ARTICLE_URL = "http://api.acfun.tv";
     public static final String COMMENT_URL = "http://www.acfun.tv";
     public static final String SEARCH_URL = "http://search.acfun.tv";
+    public static final String WEB_URL = "http://www.acfun.tv/a/ac";
 
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";

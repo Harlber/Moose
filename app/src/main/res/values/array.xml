@@ -5,4 +5,10 @@
         <item>人气最旺</item>
         <item>评论最多</item>
     </string-array>
+    <string-array name="textsize">
+        <item>小</item>
+        <item>中</item>
+        <item>大</item>
+        <item>特大</item>
+    </string-array>
 </resources>

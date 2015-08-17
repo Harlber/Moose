@@ -18,4 +18,7 @@
     <string name="loading_text">12</string>
     <string name="network_exception">网络异常</string>
     <string name="article_select">文章筛选</string>
+    <string name="text_size">字体大小</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
 </resources>

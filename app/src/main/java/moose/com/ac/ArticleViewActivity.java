@@ -1,9 +1,9 @@
 package moose.com.ac;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,18 +11,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import org.jsoup.nodes.Document;
-
-import java.io.IOException;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
@@ -40,33 +33,36 @@ public class ArticleViewActivity extends AppCompatActivity {
     private static final String TAG = "ArticleViewActivity";
     private WebView mWeb;
     private FloatingActionButton fab;
-
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
     private String HtmlBody;//get body from network
-    private int contendid;
-
-    private Document mDoc;
-    /*wap http://www.acfun.tv/lite/v/#ac=2104712*/
-
+    private int contendid;//article id
+    private int textSize = 2;
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_view);
         contendid = getIntent().getIntExtra(Config.CONTENTID,1);
-        //mProgress = findViewById(R.id.loading);
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         fab = (FloatingActionButton) findViewById(R.id.view_fab);
+        fab.setOnClickListener(v -> {
+        //
+        });
 
         mWeb = (WebView) findViewById(R.id.view_webview);
         mWeb.getSettings().setJavaScriptEnabled(true);
         mWeb.getSettings().setUserAgentString(RxUtils.UA);
         mWeb.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         mWeb.getSettings().setDefaultTextEncodingName("UTF -8");
+        mWeb.getSettings().setSupportZoom(true);
+        mWeb.getSettings().setBuiltInZoomControls(true);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            mWeb.getSettings().setDisplayZoomControls(false);
+        //setTextZoom(AcApp.getConfig().getInt("text_size", 0));
         mWeb.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -94,7 +90,10 @@ public class ArticleViewActivity extends AppCompatActivity {
                 ArticleViewActivity.this.finish();
                 return true;
             case R.id.action_module_wap:
-                mWeb.loadUrl("http://www.acfun.tv/a/ac"+contendid+"/");
+                mWeb.loadUrl(Config.WEB_URL+contendid+"/");
+                return true;
+            case R.id.action_front_view:
+                createTextSizeDialog().show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -120,18 +119,6 @@ public class ArticleViewActivity extends AppCompatActivity {
             finish();
         }
     };
-
-    protected void showErrorDialog() {
-        try {
-            Drawable icon = Drawable.createFromStream(getAssets().open("emotion/ais/27.gif"), "27.gif");
-            icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
-            new AlertDialog.Builder(this).setTitle("加载失败！").setIcon(icon).setMessage("是否重试？").setPositiveButton("重试", mErrorDialogListener)
-                    .setNegativeButton("算了", mErrorDialogListener).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     protected void initData() {
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
@@ -189,25 +176,23 @@ public class ArticleViewActivity extends AppCompatActivity {
         html.replace("\\n","").replace("\\r","").replace("\\", "");
     }
 
-
-    /**
-     * @param script         the JavaScript to execute.
-     * @param resultCallback A callback to be invoked when the script execution completes
-     *                       with the result of the execution (if any). May be null if no
-     *                       notificaion of the result is required.
-     */
-    public void evaluateJavascript(String script, ValueCallback<String> resultCallback) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                mWeb.evaluateJavascript(script, resultCallback);
-                return;
-            } catch (Exception ignored) {
-            }
-        }
-        mWeb.loadUrl(script);
-    }
-
     private void Snack(String msg) {
         Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT).show();
+    }
+    private Dialog createTextSizeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ArticleViewActivity.this);
+        builder.setTitle(R.string.text_size)
+                // Specify the list array, the items to be selected by default (null for none),
+                // and the listener through which to receive callbacks when items are selected
+                .setSingleChoiceItems(R.array.textsize, textSize, (dialog, which) -> {
+                    Snack("choice:"+which);
+
+                })
+                .setPositiveButton(R.string.ok, (dialog, id) -> {
+                })
+                .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> {
+                });
+
+        return builder.create();
     }
 }

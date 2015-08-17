@@ -19,6 +19,7 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Farble on 2015/8/15 17.
+ * 网络请求超时
  */
 @SuppressLint("ValidFragment")
 public class ArticleFragment extends ArticleListFragment {
