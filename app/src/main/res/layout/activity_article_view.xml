@@ -25,8 +25,7 @@
         android:id="@+id/view_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/view_appbar"
-        android:visibility="gone" />
+        android:layout_below="@id/view_appbar"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/view_fab"

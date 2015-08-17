@@ -16,7 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.ValueCallback;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import org.jsoup.nodes.Document;
 
@@ -59,12 +61,19 @@ public class ArticleViewActivity extends AppCompatActivity {
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         fab = (FloatingActionButton) findViewById(R.id.view_fab);
+
         mWeb = (WebView) findViewById(R.id.view_webview);
-        mWeb.getSettings().setAllowFileAccess(true);
         mWeb.getSettings().setJavaScriptEnabled(true);
         mWeb.getSettings().setUserAgentString(RxUtils.UA);
-        mWeb.getSettings().setUseWideViewPort(true);
-        mWeb.getSettings().setLoadWithOverviewMode(true);
+        mWeb.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        mWeb.getSettings().setDefaultTextEncodingName("UTF -8");
+        mWeb.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
         if (Build.VERSION.SDK_INT >= 11)
             mWeb.setBackgroundColor(Color.argb(1, 0, 0, 0));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -85,7 +94,7 @@ public class ArticleViewActivity extends AppCompatActivity {
                 ArticleViewActivity.this.finish();
                 return true;
             case R.id.action_module_wap:
-                mWeb.loadUrl("http://www.acfun.tv/lite/v/#ac="+contendid);
+                mWeb.loadUrl("http://www.acfun.tv/a/ac"+contendid+"/");
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -126,7 +135,6 @@ public class ArticleViewActivity extends AppCompatActivity {
 
     protected void initData() {
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
-        setSupportProgressBarIndeterminateVisibility(true);
         subscription.add(api.getArticleBody(contendid)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -150,8 +158,7 @@ public class ArticleViewActivity extends AppCompatActivity {
                             HtmlBody = articleBody.getData().getFullArticle().getTxt();
                             dealBody(HtmlBody);
                             addHead();
-                            mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
-                            Log.e(TAG,"source:"+HtmlBody);
+                            mWeb.loadData(HtmlBody, "text/html; charset=UTF-8",null);
                         }
                     }
 
@@ -160,10 +167,13 @@ public class ArticleViewActivity extends AppCompatActivity {
 
     private void addHead() {
         StringBuffer head = new StringBuffer();
-        head.append("<html lang=\"zh-CN\">");
+        head.append("<html>");
+        head.append("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=gb2312\">");
         head.append("<body>");
+        head.append("<div>");
 
         StringBuffer body = new StringBuffer();
+        body.append("</div>");
         body.append("</body>");
         body.append("</html>");
         String index = HtmlBody;
@@ -176,15 +186,9 @@ public class ArticleViewActivity extends AppCompatActivity {
         //2.\n
         //3.\r
         //4.other \
-        html.replace("\\n","").replace("\\r","").replace("\\","");
+        html.replace("\\n","").replace("\\r","").replace("\\", "");
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void setSupportProgressBarIndeterminateVisibility(boolean visible) {
-        //mProgress.setVisibility(visible ? View.VISIBLE : View.GONE);
-        mWeb.setVisibility(visible ? View.GONE : View.VISIBLE);
-    }
 
     /**
      * @param script         the JavaScript to execute.
