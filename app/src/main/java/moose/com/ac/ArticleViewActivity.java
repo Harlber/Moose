@@ -23,6 +23,7 @@ import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.ui.view.ObservableWebView;
+import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ScrollFABBehavior;
 import rx.Observer;
@@ -35,17 +36,21 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
     private static final String TAG = "ArticleViewActivity";
-    private static final int FAB_SHOW=0x0000aa;
-    private static final int FAB_HIDE=0x0000bb;
+    private static final int FAB_SHOW = 0x0000aa;
+    private static final int FAB_HIDE = 0x0000bb;
     private ObservableWebView mWeb;
     private FloatingActionButton fab;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
+
     private String HtmlBody;//get body from network
     private int contendid;//article id
     private int textSize = 2;
     private int fabStatus = FAB_SHOW;
+    private String title = "";//default
+    private String contend;
+    private int toolbarHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         setContentView(R.layout.activity_article_view);
 
         contendid = getIntent().getIntExtra(Config.CONTENTID, 1);
+        toolbarHeight = DisplayUtil.dip2px(this, 56f);
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
 
@@ -70,7 +76,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 R.color.md_indigo_900, R.color.md_green_700);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.view_webview);
         mSwipeRefreshLayout.setEnabled(false);
-        getSupportActionBar().setTitle("ac" + contendid);
+        contend = "ac" + contendid;
+        getSupportActionBar().setTitle(contend);
 
         mWeb = (ObservableWebView) findViewById(R.id.view_webview);
         mWeb.getSettings().setJavaScriptEnabled(true);
@@ -160,6 +167,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                             Snack(articleBody.getMsg());
                         } else {
                             HtmlBody = articleBody.getData().getFullArticle().getTxt();
+                            title = articleBody.getData().getFullArticle().getTitle();
                             dealBody(HtmlBody);
                             addHead();
                             mSwipeRefreshLayout.setRefreshing(true);//show progressbar
@@ -217,14 +225,19 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
     @Override
     public void onScroll(int l, int t, int oldl, int oldt) {
-        if (t-oldt>0) {
-            if (fabStatus==FAB_SHOW) {
+        if (t > toolbarHeight) {
+            getSupportActionBar().setTitle(title);
+        } else {
+            getSupportActionBar().setTitle(contend);
+        }
+        if (t - oldt > 0) {
+            if (fabStatus == FAB_SHOW) {
                 //hide fab
                 ScrollFABBehavior.animateOut(fab);
                 fabStatus = FAB_HIDE;
             }
-        }else {
-            if (fabStatus==FAB_HIDE) {
+        } else {
+            if (fabStatus == FAB_HIDE) {
                 //show fab
                 ScrollFABBehavior.animateIn(fab);
                 fabStatus = FAB_SHOW;
@@ -251,5 +264,4 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
-    //class WebViewScroll implements Scroll
 }
