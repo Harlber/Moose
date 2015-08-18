@@ -128,6 +128,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
             case R.id.action_front_view:
                 createTextSizeDialog().show();
                 return true;
+            case R.id.action_module_view:
+                createModeDialog().show();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -226,6 +229,21 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
                     CommonUtil.setTextSize(level);
                     setText();
+                })
+                .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> {
+                });
+
+        return builder.create();
+    }
+
+    private Dialog createModeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ArticleViewActivity.this);
+        builder.setTitle(R.string.text_mode)
+                .setSingleChoiceItems(R.array.mode, 0, (dialog, which) -> {
+
+                })
+                .setPositiveButton(R.string.ok, (dialog, id) -> {
+
                 })
                 .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> {
                 });
