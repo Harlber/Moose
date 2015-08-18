@@ -11,6 +11,7 @@ import moose.com.ac.common.Config;
  */
 public class CommonUtil {
     private static final String TAG = "CommonUtil";
+
     private CommonUtil() {
 
     }
@@ -24,21 +25,27 @@ public class CommonUtil {
             buffer.append(list.get(i));
         return buffer;
     }
-    public static String toDate(Long aLong){
+
+    public static String toDate(Long aLong) {
         String beginDate = String.valueOf(aLong);
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(new Date(Long.parseLong(beginDate)));
     }
-    public static int getTextSize(){
+
+    public static int getTextSize() {
         return PreferenceUtil.getInt(Config.TEXTSIZE, 1);//default 1
     }
-    public static void setTextSize(int size){
-        PreferenceUtil.setIntValue(Config.TEXTSIZE,size);
+
+    public static void setTextSize(int size) {
+        PreferenceUtil.setIntValue(Config.TEXTSIZE, size);
     }
-    public static int getMode(){
-        return PreferenceUtil.getInt(Config.MODE,11);//default
+
+    public static int getMode() {
+        int mode = PreferenceUtil.getInt(Config.MODE, 11);//default
+        return mode == Config.MODE_TEXT_ONLY ? 1 : 0;
     }
-    public static void setMode(int mode){
-        PreferenceUtil.setIntValue(Config.MODE,mode);
+
+    public static void setMode(int mode) {
+        PreferenceUtil.setIntValue(Config.MODE, mode == 0 ? Config.MODE_IMAGE : Config.MODE_TEXT_ONLY);
     }
 }

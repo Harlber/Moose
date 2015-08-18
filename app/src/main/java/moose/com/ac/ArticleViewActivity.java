@@ -59,6 +59,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private Document mDocument;
 
     private String HtmlBody;//get body from network
+    private String HtmlBodyClone;//get body from network
     private WebSettings settings;
     private int contendid;//article id
     private int fabStatus = FAB_SHOW;
@@ -166,7 +167,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
     protected void initData() {
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
-        subscription.add(api.getArticleBody(2108670)//contendid
+        subscription.add(api.getArticleBody(contendid)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArticleBody>() {
@@ -191,7 +192,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                             dealBody(HtmlBody);
                             addHead();
                             mSwipeRefreshLayout.setRefreshing(true);//show progressbar
-                            filterImg(HtmlBody);
+                            if (CommonUtil.getMode() == 1) {
+                                filterImg(HtmlBody);
+                            }
                             mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
                         }
                     }
@@ -212,6 +215,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         body.append("</html>");
         String index = HtmlBody;
         HtmlBody = head.toString() + index + body.toString();
+        HtmlBodyClone = head.toString() + index + body.toString();
     }
 
     private void dealBody(String html) {
@@ -250,7 +254,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
             img.after("<p >[图片]</p>");
             img.remove();
-            // 去掉 style
             img.removeAttr("style");
             HtmlBody = mDocument.toString();
         }
@@ -281,11 +284,20 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private Dialog createModeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ArticleViewActivity.this);
         builder.setTitle(R.string.text_mode)
-                .setSingleChoiceItems(R.array.mode, 0, (dialog, which) -> {
-
-                })
+                .setSingleChoiceItems(R.array.mode, CommonUtil.getMode(), (dialog, which) -> {
+                            if (which == 0 && CommonUtil.getMode() == 1) {//no pic into has img
+                                mWeb.loadData(HtmlBodyClone, "text/html; charset=UTF-8", null);
+                            }
+                            if (CommonUtil.getMode() == 0 && which == 1) {//has pic into no pic
+                                filterImg(HtmlBody);
+                                mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
+                            }
+                            CommonUtil.setMode(which);
+                        }
+                )
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
-
+                    CommonUtil.setTextSize(level);
+                    setText();
                 })
                 .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> {
                 });
