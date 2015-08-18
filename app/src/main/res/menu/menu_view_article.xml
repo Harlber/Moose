@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".ArticleViewActivity">
-    <item android:id="@+id/action_module_wap" android:title="访问网页"
+    <item android:id="@+id/action_module_wap" android:title="@string/web_access_url"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_module_view" android:title="模式设置"
+    <item android:id="@+id/action_module_view" android:title="@string/web_mode"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_front_view" android:title="字体设置"
+    <item android:id="@+id/action_front_view" android:title="@string/web_fornt"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_store" android:title="收藏"
+    <item android:id="@+id/action_store" android:title="@string/web_store"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

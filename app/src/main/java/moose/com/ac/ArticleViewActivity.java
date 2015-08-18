@@ -3,6 +3,7 @@ package moose.com.ac;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.webkit.WebViewClient;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.ArticleBody;
+import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -33,16 +35,19 @@ public class ArticleViewActivity extends AppCompatActivity {
     private static final String TAG = "ArticleViewActivity";
     private WebView mWeb;
     private FloatingActionButton fab;
+    private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
     private String HtmlBody;//get body from network
     private int contendid;//article id
     private int textSize = 2;
+
     @Override
-    protected final void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_view);
-        contendid = getIntent().getIntExtra(Config.CONTENTID,1);
+
+        contendid = getIntent().getIntExtra(Config.CONTENTID, 1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,8 +55,17 @@ public class ArticleViewActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(v -> {
-        //
+            //
         });
+
+        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.web_swipe);
+
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.md_orange_700, R.color.md_red_500,
+                R.color.md_indigo_900, R.color.md_green_700);
+        mSwipeRefreshLayout.setSwipeableChildren(R.id.view_webview);
+        mSwipeRefreshLayout.setEnabled(false);
+        toolbar.setTitle("ac/" + contendid);
 
         mWeb = (WebView) findViewById(R.id.view_webview);
         mWeb.getSettings().setJavaScriptEnabled(true);
@@ -60,23 +74,19 @@ public class ArticleViewActivity extends AppCompatActivity {
         mWeb.getSettings().setDefaultTextEncodingName("UTF -8");
         mWeb.getSettings().setSupportZoom(true);
         mWeb.getSettings().setBuiltInZoomControls(true);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             mWeb.getSettings().setDisplayZoomControls(false);
         //setTextZoom(AcApp.getConfig().getInt("text_size", 0));
-        mWeb.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
+        mWeb.setWebViewClient(new Client());
         if (Build.VERSION.SDK_INT >= 11)
             mWeb.setBackgroundColor(Color.argb(1, 0, 0, 0));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         }
+
         initData();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_view_article, menu);
@@ -90,7 +100,7 @@ public class ArticleViewActivity extends AppCompatActivity {
                 ArticleViewActivity.this.finish();
                 return true;
             case R.id.action_module_wap:
-                mWeb.loadUrl(Config.WEB_URL+contendid+"/");
+                mWeb.loadUrl(Config.WEB_URL + contendid + "/");
                 return true;
             case R.id.action_front_view:
                 createTextSizeDialog().show();
@@ -145,7 +155,8 @@ public class ArticleViewActivity extends AppCompatActivity {
                             HtmlBody = articleBody.getData().getFullArticle().getTxt();
                             dealBody(HtmlBody);
                             addHead();
-                            mWeb.loadData(HtmlBody, "text/html; charset=UTF-8",null);
+                            mSwipeRefreshLayout.setRefreshing(true);//show progressbar
+                            mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
                         }
                     }
 
@@ -164,7 +175,7 @@ public class ArticleViewActivity extends AppCompatActivity {
         body.append("</body>");
         body.append("</html>");
         String index = HtmlBody;
-        HtmlBody = head.toString()+index+body.toString();
+        HtmlBody = head.toString() + index + body.toString();
     }
 
     private void dealBody(String html) {
@@ -173,19 +184,20 @@ public class ArticleViewActivity extends AppCompatActivity {
         //2.\n
         //3.\r
         //4.other \
-        html.replace("\\n","").replace("\\r","").replace("\\", "");
+        html.replace("\\n", "").replace("\\r", "").replace("\\", "");
     }
 
     private void Snack(String msg) {
         Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT).show();
     }
+
     private Dialog createTextSizeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ArticleViewActivity.this);
         builder.setTitle(R.string.text_size)
                 // Specify the list array, the items to be selected by default (null for none),
                 // and the listener through which to receive callbacks when items are selected
                 .setSingleChoiceItems(R.array.textsize, textSize, (dialog, which) -> {
-                    Snack("choice:"+which);
+                    Snack("choice:" + which);
 
                 })
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
@@ -194,5 +206,24 @@ public class ArticleViewActivity extends AppCompatActivity {
                 });
 
         return builder.create();
+    }
+
+    class Client extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

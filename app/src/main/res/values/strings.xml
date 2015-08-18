@@ -21,4 +21,8 @@
     <string name="text_size">字体大小</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
+    <string name="web_store">收藏</string>
+    <string name="web_fornt">字体设置</string>
+    <string name="web_mode">图文模式</string>
+    <string name="web_access_url">访问网页</string>
 </resources>

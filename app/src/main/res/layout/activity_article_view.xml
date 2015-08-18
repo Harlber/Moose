@@ -21,11 +21,17 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <WebView
-        android:id="@+id/view_webview"
+    <moose.com.ac.ui.view.MultiSwipeRefreshLayout
+        android:id="@+id/web_swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/view_appbar"/>
+        android:layout_below="@id/view_appbar">
+
+        <WebView
+            android:id="@+id/view_webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </moose.com.ac.ui.view.MultiSwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/view_fab"
