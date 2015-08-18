@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,11 +13,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
@@ -49,6 +56,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
+    private Document mDocument;
 
     private String HtmlBody;//get body from network
     private WebSettings settings;
@@ -158,7 +166,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
     protected void initData() {
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
-        subscription.add(api.getArticleBody(contendid)
+        subscription.add(api.getArticleBody(2108670)//contendid
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArticleBody>() {
@@ -183,6 +191,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                             dealBody(HtmlBody);
                             addHead();
                             mSwipeRefreshLayout.setRefreshing(true);//show progressbar
+                            filterImg(HtmlBody);
                             mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
                         }
                     }
@@ -212,6 +221,39 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         //3.\r
         //4.other \
         html.replace("\\n", "").replace("\\r", "").replace("\\", "");
+    }
+
+    private void filterImg(String str) {
+        mDocument = Jsoup.parse(str);
+
+        Elements imgs = mDocument.select("img");
+        for (int imgIndex = 0; imgIndex < imgs.size(); imgIndex++) {
+            Element img = imgs.get(imgIndex);
+            String src = img.attr("src").trim();
+            if (TextUtils.isEmpty(src))
+                continue;
+            Uri parsedUri = Uri.parse(src);
+            if ("file".equals(parsedUri.getScheme()))
+                continue;
+            if (parsedUri.getPath() == null)
+                continue;
+            if (!"http".equals(parsedUri.getScheme())) {
+                parsedUri = parsedUri.buildUpon()
+                        .scheme("http")
+                        .authority("www.acfun.tv")
+                        .build();
+            }
+            // url may have encoded path
+            parsedUri = parsedUri.buildUpon().path(parsedUri.getPath()).build();
+            src = parsedUri.toString();
+            img.attr("org", src);
+
+            img.after("<p >[图片]</p>");
+            img.remove();
+            // 去掉 style
+            img.removeAttr("style");
+            HtmlBody = mDocument.toString();
+        }
     }
 
     private void Snack(String msg) {
