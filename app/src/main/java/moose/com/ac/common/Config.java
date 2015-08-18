@@ -12,6 +12,16 @@ public class Config {
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
     public static final String CONTENTID = "CONTENTID";
+    /*setting*/
+    public static final String TEXTSIZE = "TEXTSIZE";
+    public static final int SIZE_SMALL = 1;
+    public static final int SIZE_MIDDLE = 2;
+    public static final int SIZE_BIG = 3;
+    public static final int SIZE_LAEGE = 4;
+
+    public static final String MODE = "MODE";
+    public static final int MODE_TEXT_ONLY = 11;
+    public static final int MODE_IMAGE = 12;
 
     public static final int OKHTTP_CLIENT_CONNECT_TIMEOUT = 5;
     public static final int OKHTTP_CLIENT_WRITE_TIMEOUT = 10;

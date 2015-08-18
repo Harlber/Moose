@@ -23,6 +23,7 @@ import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.ui.view.ObservableWebView;
+import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ScrollFABBehavior;
@@ -33,6 +34,11 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Farble on 2015/8/16 20.
+ * WebView TextSize:
+ * <li>SMALLER</li>
+ * <li>NORMAL</li>
+ * <li>LARGER</li>
+ * <li>LARGEST</li>
  */
 public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
     private static final String TAG = "ArticleViewActivity";
@@ -45,12 +51,13 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private Api api;
 
     private String HtmlBody;//get body from network
+    private WebSettings settings;
     private int contendid;//article id
-    private int textSize = 2;
     private int fabStatus = FAB_SHOW;
     private String title = "";//default
     private String contend;
     private int toolbarHeight;
+    private int level = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +87,13 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         getSupportActionBar().setTitle(contend);
 
         mWeb = (ObservableWebView) findViewById(R.id.view_webview);
-        mWeb.getSettings().setJavaScriptEnabled(true);
-        mWeb.getSettings().setUserAgentString(RxUtils.UA);
-        mWeb.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        mWeb.getSettings().setDefaultTextEncodingName("UTF -8");
-        mWeb.getSettings().setSupportZoom(true);
-        mWeb.getSettings().setBuiltInZoomControls(true);
+        settings = mWeb.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setUserAgentString(RxUtils.UA);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        settings.setDefaultTextEncodingName("UTF -8");
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             mWeb.getSettings().setDisplayZoomControls(false);
         //setTextZoom(AcApp.getConfig().getInt("text_size", 0));
@@ -97,7 +105,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         }
 
         mWeb.setOnScrollChangedCallback(this);
-
+        level = CommonUtil.getTextSize();
+        setText();
         initData();
     }
 
@@ -209,18 +218,53 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private Dialog createTextSizeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ArticleViewActivity.this);
         builder.setTitle(R.string.text_size)
-                // Specify the list array, the items to be selected by default (null for none),
-                // and the listener through which to receive callbacks when items are selected
-                .setSingleChoiceItems(R.array.textsize, textSize, (dialog, which) -> {
-                    Snack("choice:" + which);
-
+                .setSingleChoiceItems(R.array.textsize, CommonUtil.getTextSize(), (dialog, which) -> {
+                    //zoom text
+                    level = settings.getTextZoom();
+                    setZoom(which);
                 })
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
+                    CommonUtil.setTextSize(level);
+                    setText();
                 })
                 .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> {
                 });
 
         return builder.create();
+    }
+
+    private void setZoom(int lev) {
+        level = lev;
+    }
+
+    @SuppressWarnings("deprecation")
+    private void setText() {
+        switch (level) {
+            case 0:
+                mWeb.getSettings().setTextSize(WebSettings.TextSize.SMALLEST);
+                break;
+            case 1:
+                mWeb.getSettings().setTextSize(WebSettings.TextSize.SMALLER);
+                break;
+            case 2:
+                mWeb.getSettings().setTextSize(WebSettings.TextSize.NORMAL);
+                break;
+            case 3:
+                mWeb.getSettings().setTextSize(WebSettings.TextSize.LARGER);
+                break;
+            default:
+                mWeb.getSettings().setTextSize(WebSettings.TextSize.LARGEST);
+                break;
+
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            if (level > 4) {
+                level = 3;
+                CommonUtil.setTextSize(level + 1);//save text size
+            }
+            mWeb.getSettings().setTextSize(WebSettings.TextSize.values()[level + 1]);
+        } else
+            mWeb.getSettings().setTextZoom(100 + level * 25);
     }
 
     @Override
