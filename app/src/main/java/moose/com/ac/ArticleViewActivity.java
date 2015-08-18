@@ -22,7 +22,9 @@ import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
+import moose.com.ac.ui.view.ObservableWebView;
 import moose.com.ac.util.RxUtils;
+import moose.com.ac.util.ScrollFABBehavior;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -31,9 +33,11 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Farble on 2015/8/16 20.
  */
-public class ArticleViewActivity extends AppCompatActivity {
+public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
     private static final String TAG = "ArticleViewActivity";
-    private WebView mWeb;
+    private static final int FAB_SHOW=0x0000aa;
+    private static final int FAB_HIDE=0x0000bb;
+    private ObservableWebView mWeb;
     private FloatingActionButton fab;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -41,6 +45,7 @@ public class ArticleViewActivity extends AppCompatActivity {
     private String HtmlBody;//get body from network
     private int contendid;//article id
     private int textSize = 2;
+    private int fabStatus = FAB_SHOW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +70,9 @@ public class ArticleViewActivity extends AppCompatActivity {
                 R.color.md_indigo_900, R.color.md_green_700);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.view_webview);
         mSwipeRefreshLayout.setEnabled(false);
-        toolbar.setTitle("ac/" + contendid);
+        getSupportActionBar().setTitle("ac" + contendid);
 
-        mWeb = (WebView) findViewById(R.id.view_webview);
+        mWeb = (ObservableWebView) findViewById(R.id.view_webview);
         mWeb.getSettings().setJavaScriptEnabled(true);
         mWeb.getSettings().setUserAgentString(RxUtils.UA);
         mWeb.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
@@ -83,6 +88,8 @@ public class ArticleViewActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         }
+
+        mWeb.setOnScrollChangedCallback(this);
 
         initData();
     }
@@ -208,6 +215,24 @@ public class ArticleViewActivity extends AppCompatActivity {
         return builder.create();
     }
 
+    @Override
+    public void onScroll(int l, int t, int oldl, int oldt) {
+        if (t-oldt>0) {
+            if (fabStatus==FAB_SHOW) {
+                //hide fab
+                ScrollFABBehavior.animateOut(fab);
+                fabStatus = FAB_HIDE;
+            }
+        }else {
+            if (fabStatus==FAB_HIDE) {
+                //show fab
+                ScrollFABBehavior.animateIn(fab);
+                fabStatus = FAB_SHOW;
+            }
+        }
+    }
+
+
     class Client extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -226,4 +251,5 @@ public class ArticleViewActivity extends AppCompatActivity {
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
+    //class WebViewScroll implements Scroll
 }

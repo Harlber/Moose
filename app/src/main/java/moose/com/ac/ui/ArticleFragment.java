@@ -10,7 +10,6 @@ import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleList;
-import moose.com.ac.ui.ArticleListFragment;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -55,6 +54,8 @@ public class ArticleFragment extends ArticleListFragment {
     }
 
     private void loadData(int tp,int pg, boolean isSave) {
+        mSwipeRefreshLayout.setEnabled(true);
+        mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         isRequest = true;
         subscription.add(api.getArticleList(tp, mChannelId, pg, Config.PAGESIZE)
                 .subscribeOn(Schedulers.newThread())
