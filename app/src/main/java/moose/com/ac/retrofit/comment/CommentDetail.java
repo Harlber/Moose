@@ -31,7 +31,7 @@ public class CommentDetail implements Serializable {
     private static final String TAG = "CommentDetail";
     private Long cid;//评论id
     private Long quoteId;//引用的评论id
-    private String content;//评论内容  [emot\u003dac,17/]
+    private String content;//评论内容  [emot\u003dac,17/]  [at]领袖斯大林[/at]
     private String postDate;//评论日期
 
     private Long userID;//user id
