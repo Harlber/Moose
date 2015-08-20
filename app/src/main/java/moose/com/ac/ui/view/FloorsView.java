@@ -67,7 +67,7 @@ public class FloorsView extends LinearLayout {
         for (int i = quoteList.size() - 1; i >= 0; i--) {
             LinearLayout.LayoutParams params = generateDefaultLayoutParams();
             int k = spacing * i;
-            if (quoteList.size() > mMaxNum + 2 && i > mMaxNum) {
+            if (quoteList.size() > mMaxNum + 2 && i > mMaxNum) {//顶部margin的值是之前的view的高度的数目倍，以此达到效果
                 k = spacing * mMaxNum;
             }
             params.leftMargin = k;
@@ -85,7 +85,7 @@ public class FloorsView extends LinearLayout {
     }
 
     @Override
-    protected void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {//纯粹实现边框
         if (!isPressed()) {
             final int i = getChildCount();
             if (this.mBorder == null) {
