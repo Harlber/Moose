@@ -30,9 +30,9 @@ import java.io.Serializable;
 public class CommentDetail implements Serializable {
     private static final String TAG = "CommentDetail";
     private Long cid;//评论id
-    private Long quoteId;//引用的评论id
-    private String content;//评论内容  [emot\u003dac,17/]  [at]领袖斯大林[/at]
-    private String postDate;//评论日期
+    private Long quoteId;//引用的评论id  -1：用户不存在或已删除
+    private String content;//评论内容  [emot\u003dac,17/]  [at]领袖斯大林[/at]  [size\u003d48px][color\u003d#ff0000]接龙大成功！！！！！[size\u003d18px][color\u003d#ff0000]看到这么多人我就安心了。
+    private String postDate;//评论日期 2015-08-11 21:05:25
 
     private Long userID;//user id
     private String userName;//用户名
