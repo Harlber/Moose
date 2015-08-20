@@ -3,6 +3,7 @@ package moose.com.ac;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -82,7 +83,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         ab.setDisplayHomeAsUpEnabled(true);
         fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(v -> {
-            //
+            Intent intent = new Intent(this,BigNewsActivity.class);
+            intent.putExtra(Config.CONTENTID,contendid);
+            startActivity(intent);
         });
 
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.web_swipe);

@@ -26,4 +26,5 @@
     <string name="web_fornt">字体设置</string>
     <string name="web_mode">图文模式</string>
     <string name="web_access_url">访问网页</string>
+    <string name="hide_requote">重复引用已隐藏</string>
 </resources>

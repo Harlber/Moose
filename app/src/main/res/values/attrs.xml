@@ -18,4 +18,7 @@
     <attr name="titleTextSize" format="dimension|reference" />
     <attr name="subtitleTextSize" format="dimension|reference" />
     <attr name="contentTextSize" format="dimension|reference" />
+
+    <attr name="commentItemTextColorSelector" format="reference|color"/>
+    <attr name="requoteBackground" format="reference|color"/>
 </resources>

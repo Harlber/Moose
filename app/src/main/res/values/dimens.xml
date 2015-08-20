@@ -11,4 +11,6 @@
     <dimen name="comment_button_small_size">48dp</dimen>
     <dimen name="padding">8dp</dimen>
     <dimen name="margin">8dp</dimen>
+    <dimen name="emotions_column_width">48dp</dimen>
+    <dimen name="abc_action_bar_default_height">48dip</dimen>
 </resources>

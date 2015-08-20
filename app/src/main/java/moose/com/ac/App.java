@@ -3,8 +3,6 @@ package moose.com.ac;
 import android.app.Application;
 import android.content.Context;
 
-import java.io.File;
-
 import moose.com.ac.util.PreferenceUtil;
 
 /**

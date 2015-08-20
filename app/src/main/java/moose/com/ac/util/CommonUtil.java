@@ -48,4 +48,8 @@ public class CommonUtil {
     public static void setMode(int mode) {
         PreferenceUtil.setIntValue(Config.MODE, mode == 0 ? Config.MODE_IMAGE : Config.MODE_TEXT_ONLY);
     }
+
+    public static int getMaxLine(){
+        return PreferenceUtil.getInt(Config.MAX_LINE,6);
+    }
 }

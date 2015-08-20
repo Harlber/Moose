@@ -9,15 +9,21 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
+import moose.com.ac.retrofit.comment.CommentDetail;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
@@ -34,7 +40,7 @@ public class CommentListFragment extends Fragment {
     private View rootView;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
-    private String contentId;
+    private int contentId;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -44,6 +50,10 @@ public class CommentListFragment extends Fragment {
     private boolean isScroll = false;//is RecyclerView scrolling
     private int page = 1;//default
 
+    private CommentAdapter adapter;
+    private SparseArray<CommentDetail> data = new SparseArray<>();
+    private List<Integer> commentIdList = new ArrayList<>();
+
 
     @Nullable
     @Override
@@ -52,7 +62,8 @@ public class CommentListFragment extends Fragment {
                 R.layout.fragment_comment_list, container, false);
         api = RxUtils.createApi(Api.class, Config.COMMENT_URL);
         //contentId = getArguments().getString(Config.CONTENTID, "1399603");
-        contentId = "1399603";
+        contentId = getArguments().getInt(Config.CHANNEL_ID);
+        adapter = new CommentAdapter(getActivity(),data,commentIdList);
         initRecyclerView();
         initRefreshLayout();
         init();
@@ -96,7 +107,7 @@ public class CommentListFragment extends Fragment {
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        //mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -126,7 +137,7 @@ public class CommentListFragment extends Fragment {
     private void loadMore() {
     }
     private void loadData(int pg){
-        subscription.add(api.getCommentList(Integer.valueOf(contentId),pg)
+        subscription.add(api.getCommentList(contentId,pg)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<JsonObject>() {
@@ -144,6 +155,14 @@ public class CommentListFragment extends Fragment {
 
                     @Override
                     public void onNext(JsonObject response) {
+                        JsonArray jsonElements = response.getAsJsonObject("data").getAsJsonArray("commentList");
+                        JsonObject comlists = response.getAsJsonObject("data").getAsJsonObject("commentContentArr");
+                        for (int i=0;i<jsonElements.size();i++) {
+                            int listid = jsonElements.get(i).getAsInt();
+                            commentIdList.add(listid);
+                            data.put(listid,convertToObject(comlists.getAsJsonObject("c"+listid)));
+                        }
+                        adapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;//refresh request status
                         Log.i(TAG,"get comments response:"+response.toString());
@@ -153,5 +172,25 @@ public class CommentListFragment extends Fragment {
     }
     private void Snack(String msg) {
         Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
+    }
+    private CommentDetail convertToObject(JsonObject object){
+        CommentDetail detail = new CommentDetail();
+        detail.setCid(object.get("cid").getAsLong());
+        detail.setQuoteId(object.get("quoteId").getAsLong());
+        detail.setContent(object.get("content").getAsString());
+        detail.setPostDate(object.get("postDate").getAsString());
+
+        detail.setUserID(object.get("userID").getAsLong());
+        detail.setUserName(object.get("userName").getAsString());
+        //detail.setUserImg(object.get("userImg").getAsString());
+
+        detail.setCount(object.get("count").getAsLong());
+        detail.setDeep(object.get("deep").getAsLong());
+        detail.setRefCount(object.get("refCount").getAsLong());
+        detail.setUps(object.get("ups").getAsLong());
+        detail.setDowns(object.get("downs").getAsLong());
+        detail.setNameRed(object.get("nameRed").getAsLong());
+        detail.setAvatarFrame(object.get("avatarFrame").getAsLong());
+        return  detail;
     }
 }

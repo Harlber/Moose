@@ -45,6 +45,9 @@ public class CommentDetail implements Serializable {
     private Long nameRed;//0: 没红名 1: 有红名
     private Long avatarFrame;//0: 还有楼下跟帖 1：单独的帖子/该楼层帖子终结
 
+    public boolean isQuoted;
+    public int beQuotedPosition;
+
     public Long getCid() {
         return cid;
     }
