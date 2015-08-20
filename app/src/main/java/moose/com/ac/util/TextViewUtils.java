@@ -3,6 +3,7 @@ package moose.com.ac.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
@@ -21,7 +22,7 @@ import moose.com.ac.retrofit.comment.CommentDetail;
 
 /**
  * Created by dell on 2015/8/20.
- *
+ * <p>
  * Copyright (C) 2015 The Android Open Source Project
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,11 +36,10 @@ import moose.com.ac.retrofit.comment.CommentDetail;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 public class TextViewUtils {
-
+    private static final String TAG = "TextViewUtils";
 
     public static void setCommentContent(final TextView comment, CommentDetail c) {
         if (comment.getMovementMethod() != null) // reset focus
@@ -49,7 +49,8 @@ public class TextViewUtils {
             comment.setText("");
             return;
         }
-        // comment.setTextColor(Color.BLACK);
+        comment.setTextColor(Color.BLACK);
+        comment.setText(text);
         //comment.setTextSize(AcApp.getPreferenceFontSize());
         comment.setTextSize(16f);
         Pattern http = Pattern.compile("http://[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]",
@@ -70,7 +71,6 @@ public class TextViewUtils {
             text.setSpan(repl, where < 0 ? 0 : where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-        return;
     }
 
     public static <T> T getLast(Spanned text, Class<T> kind) {

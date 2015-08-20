@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/user_name"
         android:textColor="@color/md_grey_900"
+        android:text="hit"
         android:layout_marginTop="5dip"
         android:focusable="false" />
 

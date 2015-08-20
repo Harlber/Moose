@@ -43,6 +43,7 @@
         android:layout_below="@id/user_name"
         android:layout_marginTop="5dip"
         android:focusable="false"
+        android:text="hit it"
         android:textColor="@color/md_grey_900" />
 
 </RelativeLayout>
