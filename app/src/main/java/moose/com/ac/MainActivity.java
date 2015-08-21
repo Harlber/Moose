@@ -2,6 +2,7 @@ package moose.com.ac;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,16 +16,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.ui.ArticleFragment;
+import moose.com.ac.ui.view.SearchBar;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,15 +40,24 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private Toolbar toolbar;
     private Adapter adapter;
     private int type = 0; /*orderBy 0：最近 1：人气最旺 3：评论最多*/
+
+    private SearchBar searchBar;
+    private CardView card_search;
+    private RelativeLayout view_search;
+    private ListView listView, listContainer;
+    private EditText edit_text_search;
+    private View line_divider, toolbar_shadow;
+    private ImageView image_search_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
@@ -68,11 +85,29 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        searchBar = new SearchBar();
+        card_search = (CardView) findViewById(R.id.card_search);
+        view_search = (RelativeLayout) findViewById(R.id.view_search);
+        edit_text_search = (EditText) findViewById(R.id.edit_text_search);
+        listView = (ListView) findViewById(R.id.listView);
+        listContainer = (ListView) findViewById(R.id.listContainer);
+        line_divider = findViewById(R.id.line_divider);
+        toolbar_shadow = findViewById(R.id.toolbar_shadow);
+
+        image_search_back = (ImageView)findViewById(R.id.image_search_back);
+        image_search_back.setOnClickListener(view -> {
+            searchBar.handleToolBar(MainActivity.this, card_search, toolbar, view_search, listView, edit_text_search, line_divider);
+            listContainer.setVisibility(View.GONE);
+            toolbar_shadow.setVisibility(View.VISIBLE);
+        });
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -84,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_filter:
                 bulidDialog().show();
+                return true;
+            case R.id.action_search:
+                searchBar.handleToolBar(MainActivity.this, card_search, toolbar, view_search, listView, edit_text_search, line_divider);
                 return true;
         }
         return super.onOptionsItemSelected(item);
