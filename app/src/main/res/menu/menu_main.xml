@@ -5,6 +5,8 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_front" android:title="@string/front_set"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_search" android:title="tt"
+        android:orderInCategory="100" app:showAsAction="always" />
     <item android:id="@+id/action_filter" android:title="@string/filter"
-        android:orderInCategory="100" app:showAsAction="ifRoom" />
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>
