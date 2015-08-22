@@ -94,4 +94,10 @@ public class ArticleFragment extends ArticleListFragment {
                 }));
     }
 
+    public void loadChannel(int change){
+        type = change;
+        mPage =1;
+        loadData(type,mPage, false);
+    }
+
 }

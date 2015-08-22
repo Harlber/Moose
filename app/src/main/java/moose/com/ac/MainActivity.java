@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new Adapter(getSupportFragmentManager());
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         if (viewPager != null) {
             setupViewPager(viewPager);
@@ -166,10 +168,10 @@ public class MainActivity extends AppCompatActivity {
         return fragment;
     }
 
-    public static class Adapter extends FragmentPagerAdapter {
+    public  class Adapter extends FragmentPagerAdapter {
         private FragmentManager fragmentManager;
         private final List<ArticleFragment> mFragments = new ArrayList<>();
-        private final List<String> mFragmentTitles = new ArrayList<>();
+        private  List<String> mFragmentTitles = new ArrayList<>();
 
         public Adapter(FragmentManager fm) {
             super(fm);
@@ -181,6 +183,11 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager.beginTransaction().remove(mFragments.get(i)).commit();
             }
             mFragments.clear();
+        }
+        public void changeChannei(int channel){
+            for (int i = 0; i < mFragments.size(); i++) {
+                mFragments.get(i).loadChannel(channel);
+            }
         }
 
         public void addFragment(ArticleFragment fragment, String title) {
@@ -195,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
+            Log.e(TAG,"adapter size:"+mFragments.size());
             return mFragments.size();
         }
 
@@ -211,9 +219,7 @@ public class MainActivity extends AppCompatActivity {
                     type = which;
                     //refresh request
                     int position = viewPager.getCurrentItem();
-                    adapter.clearFragments();
-                    setupViewPager(viewPager);
-                    viewPager.setCurrentItem(position);
+                    adapter.changeChannei(type);
                 });
         return builder.create();
     }
