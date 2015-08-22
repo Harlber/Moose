@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getToolBarTitle());
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         if (viewPager != null) {
             setupViewPager(viewPager);
@@ -193,7 +194,10 @@ public class MainActivity extends AppCompatActivity {
 
         public void changeChannel(int channel) {
             for (int i = 0; i < mFragments.size(); i++) {
-                mFragments.get(i).loadChannel(channel);
+                Log.e(TAG,"i:"+i);
+                if (mFragments.get(i)!=null) {
+                    mFragments.get(i).loadChannel(channel);
+                }
             }
         }
 

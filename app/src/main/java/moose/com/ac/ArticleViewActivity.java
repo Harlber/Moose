@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -81,22 +82,22 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        contend = "ac" + contendid;
+        getSupportActionBar().setTitle(contend);
+
         fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(v -> {
-            Intent intent = new Intent(this,BigNewsActivity.class);
-            intent.putExtra(Config.CONTENTID,contendid);
+            Intent intent = new Intent(this, BigNewsActivity.class);
+            intent.putExtra(Config.CONTENTID, contendid);
             intent.putExtra(Config.TITLE,title);
             startActivity(intent);
         });
 
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.web_swipe);
-
+        mSwipeRefreshLayout.setSwipeableChildren(R.id.view_fab);
         mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.md_orange_700, R.color.md_red_500,
                 R.color.md_indigo_900, R.color.md_green_700);
-        mSwipeRefreshLayout.setSwipeableChildren(R.id.view_webview);
-        contend = "ac" + contendid;
-        getSupportActionBar().setTitle(contend);
 
         mWeb = (ObservableWebView) findViewById(R.id.view_webview);
         settings = mWeb.getSettings();
@@ -120,6 +121,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         level = CommonUtil.getTextSize();
         setText();
         mSwipeRefreshLayout.setRefreshing(true);//show progressbar
+        Log.e(TAG,"is fresh"+mSwipeRefreshLayout.isRefreshing());
         initData();
     }
 
