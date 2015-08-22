@@ -27,4 +27,7 @@
     <string name="web_mode">图文模式</string>
     <string name="web_access_url">访问网页</string>
     <string name="hide_requote">重复引用已隐藏</string>
+    <string name="last_comment">最近回复</string>
+    <string name="most_views">人气最旺</string>
+    <string name="most_coment">评论最多</string>
 </resources>

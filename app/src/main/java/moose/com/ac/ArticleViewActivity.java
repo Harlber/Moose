@@ -85,6 +85,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(this,BigNewsActivity.class);
             intent.putExtra(Config.CONTENTID,contendid);
+            intent.putExtra(Config.TITLE,title);
             startActivity(intent);
         });
 
@@ -94,7 +95,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 R.color.md_orange_700, R.color.md_red_500,
                 R.color.md_indigo_900, R.color.md_green_700);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.view_webview);
-        mSwipeRefreshLayout.setEnabled(false);
         contend = "ac" + contendid;
         getSupportActionBar().setTitle(contend);
 
@@ -119,6 +119,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         mWeb.setOnScrollChangedCallback(this);
         level = CommonUtil.getTextSize();
         setText();
+        mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         initData();
     }
 
@@ -183,6 +184,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     public void onError(Throwable e) {
                         Snack(getString(R.string.network_exception));
                         e.printStackTrace();
+                        mSwipeRefreshLayout.setRefreshing(false);//show progressbar
+                        mSwipeRefreshLayout.setEnabled(false);
                     }
 
                     @Override
@@ -194,7 +197,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                             title = articleBody.getData().getFullArticle().getTitle();
                             dealBody(HtmlBody);
                             addHead();
-                            mSwipeRefreshLayout.setRefreshing(true);//show progressbar
+                            //mSwipeRefreshLayout.setRefreshing(true);//show progressbar
                             if (CommonUtil.getMode() == 1) {
                                 filterImg(HtmlBody);
                             }
@@ -381,6 +384,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setEnabled(false);
         }
     }
 }

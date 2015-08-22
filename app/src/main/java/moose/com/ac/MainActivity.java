@@ -18,7 +18,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -52,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText edit_text_search;
     private View line_divider, toolbar_shadow;
     private ImageView image_search_back;
+    private boolean isSearch = false;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
+        //noinspection ConstantConditions
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
 
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         adapter = new Adapter(getSupportFragmentManager());
+
+        getSupportActionBar().setTitle(getToolBarTitle());
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(1);
@@ -97,18 +101,19 @@ public class MainActivity extends AppCompatActivity {
         line_divider = findViewById(R.id.line_divider);
         toolbar_shadow = findViewById(R.id.toolbar_shadow);
 
-        image_search_back = (ImageView)findViewById(R.id.image_search_back);
+        image_search_back = (ImageView) findViewById(R.id.image_search_back);
         image_search_back.setOnClickListener(view -> {
             searchBar.handleToolBar(MainActivity.this, card_search, toolbar, view_search, listView, edit_text_search, line_divider);
             listContainer.setVisibility(View.GONE);
             toolbar_shadow.setVisibility(View.VISIBLE);
+            isSearch = false;
         });
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -124,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_search:
                 searchBar.handleToolBar(MainActivity.this, card_search, toolbar, view_search, listView, edit_text_search, line_divider);
+                isSearch = true;
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -131,10 +137,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 0) {
-            super.onBackPressed();
+        if (isSearch) {
+            searchBar.handleToolBar(MainActivity.this, card_search, toolbar, view_search, listView, edit_text_search, line_divider);
+            listContainer.setVisibility(View.GONE);
+            toolbar_shadow.setVisibility(View.VISIBLE);
+            isSearch = false;
         } else {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            if (viewPager.getCurrentItem() == 0) {
+                super.onBackPressed();
+            } else {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            }
         }
     }
 
@@ -168,23 +181,17 @@ public class MainActivity extends AppCompatActivity {
         return fragment;
     }
 
-    public  class Adapter extends FragmentPagerAdapter {
+    public class Adapter extends FragmentPagerAdapter {
         private FragmentManager fragmentManager;
         private final List<ArticleFragment> mFragments = new ArrayList<>();
-        private  List<String> mFragmentTitles = new ArrayList<>();
+        private List<String> mFragmentTitles = new ArrayList<>();
 
         public Adapter(FragmentManager fm) {
             super(fm);
             this.fragmentManager = fm;
         }
 
-        public void clearFragments() {
-            for (int i = 0; i < mFragments.size(); i++) {
-                fragmentManager.beginTransaction().remove(mFragments.get(i)).commit();
-            }
-            mFragments.clear();
-        }
-        public void changeChannei(int channel){
+        public void changeChannel(int channel) {
             for (int i = 0; i < mFragments.size(); i++) {
                 mFragments.get(i).loadChannel(channel);
             }
@@ -202,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            Log.e(TAG,"adapter size:"+mFragments.size());
             return mFragments.size();
         }
 
@@ -212,16 +218,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     private Dialog bulidDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        //noinspection RedundantCast
         builder.setTitle(getString(R.string.article_select))
                 .setItems(R.array.selest_array, (DialogInterface.OnClickListener) (dialog, which) -> {
                     type = which;
+                    getSupportActionBar().setTitle(getToolBarTitle());
                     //refresh request
-                    int position = viewPager.getCurrentItem();
-                    adapter.changeChannei(type);
+                    adapter.changeChannel(type);
                 });
         return builder.create();
+    }
+
+    private String getToolBarTitle() {
+        if (type == 0) {
+            return getString(R.string.last_comment);
+        } else if (type == 1) {
+            return getString(R.string.most_views);
+        } else {
+            return getString(R.string.most_coment);
+        }
     }
 
 }
