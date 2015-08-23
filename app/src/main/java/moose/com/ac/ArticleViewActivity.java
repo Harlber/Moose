@@ -120,8 +120,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         mWeb.setOnScrollChangedCallback(this);
         level = CommonUtil.getTextSize();
         setText();
-        mSwipeRefreshLayout.setRefreshing(true);//show progressbar
-        Log.e(TAG,"is fresh"+mSwipeRefreshLayout.isRefreshing());
         initData();
     }
 
@@ -172,6 +170,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     };
 
     protected void initData() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setEnabled(true);
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
         subscription.add(api.getArticleBody(contendid)
                 .subscribeOn(Schedulers.newThread())
@@ -192,6 +192,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
                     @Override
                     public void onNext(ArticleBody articleBody) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mSwipeRefreshLayout.setEnabled(false);
                         if (!articleBody.isSuccess()) {
                             Snack(articleBody.getMsg());
                         } else {
@@ -380,6 +382,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
+            mSwipeRefreshLayout.setEnabled(true);
+            mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         }
 
         @Override
