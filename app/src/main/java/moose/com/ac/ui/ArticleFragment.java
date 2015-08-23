@@ -1,6 +1,11 @@
 package moose.com.ac.ui;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +30,18 @@ public class ArticleFragment extends ArticleListFragment {
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(
+                R.layout.fragment_article_list, container, false);
+        mChannelId = getArguments().getInt(Config.CHANNEL_ID);
+        type = Integer.valueOf(getArguments().getString(Config.CHANNEL_TYPE));
+        initRecyclerView();
+        initRefreshLayout();
+        init();
+        return rootView;
+    }
     @Override
     protected void init() {
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
@@ -97,7 +114,7 @@ public class ArticleFragment extends ArticleListFragment {
     public void loadChannel(int change){
         type = change;
         mPage =1;
-        loadData(type,mPage, false);
+        loadData(type, mPage, false);
     }
 
 }

@@ -61,7 +61,6 @@ public class CommentListFragment extends Fragment {
         rootView = inflater.inflate(
                 R.layout.fragment_comment_list, container, false);
         api = RxUtils.createApi(Api.class, Config.COMMENT_URL);
-        //contentId = getArguments().getString(Config.CONTENTID, "1399603");
         contentId = getArguments().getInt(Config.CHANNEL_ID);
         adapter = new CommentAdapter(getActivity(),data,commentIdList);
         initRecyclerView();
@@ -132,11 +131,13 @@ public class CommentListFragment extends Fragment {
         loadData(page);
     }
     private void doSwapeRefresh() {
-
+        loadData(page);
     }
     private void loadMore() {
     }
     private void loadData(int pg){
+        mSwipeRefreshLayout.setEnabled(true);
+        mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         subscription.add(api.getCommentList(contentId,pg)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

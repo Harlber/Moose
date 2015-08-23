@@ -134,13 +134,14 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:padding="12dp"
-                    android:src="@drawable/ic_keyboard_voice" />
+                    android:src="@drawable/ic_search_white_24dp"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <View
                 android:id="@+id/line_divider"
                 android:layout_width="match_parent"
-                android:layout_height=".5dp"
+                android:layout_height="5dp"
                 android:layout_below="@+id/linearLayout_search"
                 android:background="#eee" />
 

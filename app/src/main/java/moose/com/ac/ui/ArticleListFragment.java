@@ -39,21 +39,8 @@ public abstract class ArticleListFragment extends Fragment {
     protected int type = 3;//default
     protected int mPage = 1;//default
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(
-                R.layout.fragment_article_list, container, false);
-        mChannelId = getArguments().getInt(Config.CHANNEL_ID);
-        type = Integer.valueOf(getArguments().getString(Config.CHANNEL_TYPE));
-        initRecyclerView();
-        initRefreshLayout();
-        init();
-        return rootView;
-    }
 
-
-    private void initRefreshLayout() {
+    protected void initRefreshLayout() {
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
 
         mSwipeRefreshLayout.setColorSchemeResources(
@@ -67,7 +54,7 @@ public abstract class ArticleListFragment extends Fragment {
     }
 
 
-    private void initRecyclerView() {
+    protected void initRecyclerView() {
         adapter = new ArticleListAdapter(lists, getActivity());
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);

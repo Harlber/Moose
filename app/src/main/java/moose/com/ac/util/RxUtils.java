@@ -1,6 +1,7 @@
 package moose.com.ac.util;
 
 import android.os.Build;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -20,6 +21,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Farble on 2015/8/15 12.
  */
 public class RxUtils {
+    private static final String TAG = "RxUtils";
     public static final String UA = "acfun/1.0 (Linux; U; Android "+ Build.VERSION.RELEASE+"; "+
             Build.MODEL+"; "+ Locale.getDefault().getLanguage()+"-"+
             Locale.getDefault().getCountry().toLowerCase()+
@@ -49,6 +51,21 @@ public class RxUtils {
             switch (r.getStatus()) {
                 case 401:
 
+                    break;
+                case 200:
+                    Log.e(TAG,"200");
+                    break;
+                case 404:
+                    Log.e(TAG,"404");
+                    break;
+                case 410:
+                    Log.e(TAG,"410");
+                    break;
+                case 500:
+                    Log.e(TAG,"500");
+                    break;
+                case 503:
+                    Log.e(TAG,"503");
                     break;
                 default:
                     break;
