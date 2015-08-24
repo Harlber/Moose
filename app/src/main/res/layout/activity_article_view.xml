@@ -25,12 +25,16 @@
         android:id="@+id/web_swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/view_appbar">
+        android:layout_below="@id/view_appbar"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp">
 
         <moose.com.ac.ui.view.ObservableWebView
             android:id="@+id/view_webview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
     </moose.com.ac.ui.view.MultiSwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
