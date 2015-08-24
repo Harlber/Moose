@@ -41,7 +41,7 @@ public class CommonUtil {
     }
 
     public static int getMode() {
-        int mode = PreferenceUtil.getInt(Config.MODE, 11);//default
+        int mode = PreferenceUtil.getInt(Config.MODE, Config.MODE_IMAGE);//default
         return mode == Config.MODE_TEXT_ONLY ? 1 : 0;
     }
 

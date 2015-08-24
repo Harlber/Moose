@@ -297,24 +297,21 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     }
 
     private Dialog createModeDialog() {
+        int oldMode = CommonUtil.getMode();
         AlertDialog.Builder builder = new AlertDialog.Builder(ArticleViewActivity.this);
         builder.setTitle(R.string.text_mode)
                 .setSingleChoiceItems(R.array.mode, CommonUtil.getMode(), (dialog, which) -> {
-                            if (which == 0 && CommonUtil.getMode() == 1) {//no pic into has img
-                                mWeb.loadData(HtmlBodyClone, "text/html; charset=UTF-8", null);
-                            }
-                            if (CommonUtil.getMode() == 0 && which == 1) {//has pic into no pic
-                                filterImg(HtmlBody);
-                                mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
-                            }
                             CommonUtil.setMode(which);
                         }
                 )
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
-                    CommonUtil.setTextSize(level);
-                    setText();
+                    if (oldMode != CommonUtil.getMode()) {
+                        filterImg(HtmlBody);//whenever mode what,do this
+                        mWeb.loadData(CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html; charset=UTF-8", null);
+                    }
                 })
                 .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> {
+                    CommonUtil.setMode(oldMode);
                 });
 
         return builder.create();
