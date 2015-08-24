@@ -35,4 +35,5 @@
     <string name="nw_500">NetWork 500</string>
     <string name="nw_404">NetWork 404</string>
     <string name="net_work">"NetWork "</string>
+    <string name="upuser">"UP主: "</string>
 </resources>

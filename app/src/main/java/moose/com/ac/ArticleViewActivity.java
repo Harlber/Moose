@@ -284,7 +284,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         head.append(title);
         head.append("</h2>\n");
         head.append("<p class=\"name\"><span>");
-        head.append(user);
+        head.append(getString(R.string.upuser)+user);
         head.append("</span></p>\n");
         head.append("</div>\n");
 
