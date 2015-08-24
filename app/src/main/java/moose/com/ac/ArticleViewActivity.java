@@ -65,6 +65,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private int contendid;//article id
     private int fabStatus = FAB_SHOW;
     private String title = "";//default
+    private String user = "";//default
     private String contend;
     private int toolbarHeight;
     private int level = 1;
@@ -135,7 +136,11 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 ArticleViewActivity.this.finish();
                 return true;
             case R.id.action_module_wap:
-                mWeb.loadUrl(Config.WEB_URL + contendid + "/");
+                Intent intent= new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(Config.WEB_URL + contendid + "/");
+                intent.setData(content_url);
+                startActivity(intent);
                 return true;
             case R.id.action_front_view:
                 createTextSizeDialog().show();
@@ -204,6 +209,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         } else {
                             HtmlBody = articleBody.getData().getFullArticle().getTxt();
                             title = articleBody.getData().getFullArticle().getTitle();
+                            user = articleBody.getData().getFullArticle().getUser().getUsername();
                             dealBody(HtmlBody);
                             addHead();
                             //mSwipeRefreshLayout.setRefreshing(true);//show progressbar
@@ -220,8 +226,68 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private void addHead() {
         StringBuffer head = new StringBuffer();
         head.append("<html>");
+        head.append("<head>");
         head.append("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=gb2312\">");
+
+        head.append("<style type=\"text/css\">\n");
+        head.append("* {\n" +
+                "\t\t\tpadding: 0;\n" +
+                "\t\t\tmargin: 0;\n" +
+                "\t\t}\n" +
+                "\t\thtml,\n" +
+                "\t\tbody { height: 100%;}\n" +
+                "\t\thtml {\n" +
+                "\t\t\tfont-size: 100%;\n" +
+                "\t\t\tfont-size: 1rem;\n" +
+                "\t\t}\n" +
+                "\t\tbody {\n" +
+                "\t\t\twidth: 100%;\n" +
+                "\t\t\tfont-size: 12px;\n" +
+                "\t\t\tfont-family: SimHei, '黑体', '宋体';\n" +
+                "\t\t\tcolor: #949393;\n" +
+                "\t\t}\n" +
+                "\t\t.block-title {\n" +
+                "\t\t  margin: 0 8px 8px 0;\n" +
+                "\t\t  padding: 8px 0;\n" +
+                "\t\t  border-bottom: 1px dashed #eee;\n" +
+                "\t\t}\n" +
+                "\t\t.block-title .title {\n" +
+                "\t\t  font-size: 1.125rem;\n" +
+                "\t\t  font-weight: normal;\n" +
+                "\t\t  border-left: 6px solid #ff851b;\n" +
+                "\t\t  padding: 2px 0 4px 8px;\n" +
+                "\t\t  text-shadow: 0 1px 4px rgba(0,0,0,0.1);\n" +
+                "\t\t  color: #333;\n" +
+                "\t\t}\n" +
+                "\t\t.block-title .name {\n" +
+                "\t\t\tfont-size: 14px;\n" +
+                "\t\t  border-left: 6px solid #ff851b;\n" +
+                "\t\t  text-align: right;\n" +
+                "\t\t  padding-right: 8px;\n" +
+                "\t\t  padding-top: 4px;\n" +
+                "\t\t}\n" +
+                "\t\t.block-title .name span {\n" +
+                "\t\t  color: #ff851b;\n" +
+                "\t\t}\n" +
+                "\t\t.icon {\n" +
+                "\t\t\tmargin-right: 5px;\n" +
+                "\t\t\tfont-size: .875rem;\n" +
+                "  \t\tcolor: #666;\n" +
+                "\t\t}");
+        head.append("</style>\n");
+
+        head.append("</head>");
         head.append("<body>");
+
+        head.append("<div class=\"block-title\">\n");
+        head.append("<h2 class=\"title\">");
+        head.append(title);
+        head.append("</h2>\n");
+        head.append("<p class=\"name\"><span>");
+        head.append(user);
+        head.append("</span></p>\n");
+        head.append("</div>\n");
+
         head.append("<div>");
 
         StringBuffer body = new StringBuffer();
@@ -233,13 +299,15 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         HtmlBodyClone = head.toString() + index + body.toString();
     }
 
+    /**
+     * <li>deal image <img src=\"http://n.sinaimg.cn/transform/20150817/seQF-fxfxzzn7510940.jpg\" /></li>
+     * into <li><img src="http://n.sinaimg.cn/transform/20150817/seQF-fxfxzzn7510940.jpg" /></li>
+     * <li>\n</li>
+     * <li>\r</li>
+     * <li>other </li>
+     */
     private void dealBody(String html) {
-        //1.deal image <img src=\"http://n.sinaimg.cn/transform/20150817/seQF-fxfxzzn7510940.jpg\" />
-        //into <img src="http://n.sinaimg.cn/transform/20150817/seQF-fxfxzzn7510940.jpg" />
-        //2.\n
-        //3.\r
-        //4.other \
-        html.replace("\\n", "").replace("\\r", "").replace("\\", "");
+        html.replace("\\n", "").replace("\\r", "").replace("\\", "").replace(title,"");
     }
 
     private void filterImg(String str) {
