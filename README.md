@@ -1,9 +1,20 @@
 ##Moose
 About acfun , class begins.
 
+###Incomplete List
+<li>Night mode
+<li>Screen flip
+<li>Landed
+<li>Comment
+<li>Search
+<li>Favorites
+<li>History record
+<li>Setting
+<li>Replies
+
 ####License
     
-	
+    
 	    Licensed under the Apache License, Version 2.0 (the "License");
 	    you may not use this file except in compliance with the License.
 	    You may obtain a copy of the License at
