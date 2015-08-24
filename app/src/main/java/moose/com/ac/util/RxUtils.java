@@ -1,18 +1,14 @@
 package moose.com.ac.util;
 
 import android.os.Build;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.util.Locale;
 
-import retrofit.ErrorHandler;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 import retrofit.client.OkClient;
-import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -43,36 +39,17 @@ public class RxUtils {
         return subscription;
     }
 
-    static class FarbleError implements ErrorHandler {
+/*    static class FarbleError implements ErrorHandler {
         @Override
         public Throwable handleError(RetrofitError cause) {
-            Response r = cause.getResponse();
-            assert (r != null);
-            switch (r.getStatus()) {
-                case 401:
-
-                    break;
-                case 200:
-                    Log.e(TAG,"200");
-                    break;
-                case 404:
-                    Log.e(TAG,"404");
-                    break;
-                case 410:
-                    Log.e(TAG,"410");
-                    break;
-                case 500:
-                    Log.e(TAG,"500");
-                    break;
-                case 503:
-                    Log.e(TAG,"503");
-                    break;
-                default:
-                    break;
-            }
+            if (cause.getKind() == RetrofitError.Kind.NETWORK) {
+            //handle network error
+        } else {
+            //handle error message from server
+        }
             return cause;
         }
-    }
+    }*/
 
     public static <T> T createApi(Class<T> c, String url) {
         RequestInterceptor requestInterceptor = request -> {
@@ -80,11 +57,10 @@ public class RxUtils {
             request.addHeader("Accept", "application/json; q=0.5");
         };
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(url)
+                .setEndpoint(url)//.setLogLevel(RestAdapter.LogLevel.FULL)
                 .setRequestInterceptor(requestInterceptor)
                 .setClient(new OkClient(OkHttpClientProvider.get()))
-                .setConverter(new GsonConverter(new Gson()))
-                .setErrorHandler(new FarbleError())
+                .setConverter(new GsonConverter(new Gson()))//.setErrorHandler(new FarbleError())
                 .build();
         return restAdapter.create(c);
     }

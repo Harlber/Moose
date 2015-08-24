@@ -2,14 +2,12 @@ package moose.com.ac.retrofit;
 
 
 import com.google.gson.JsonObject;
-import com.squareup.okhttp.Response;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.retrofit.article.ArticleList;
 import moose.com.ac.retrofit.search.SearchBody;
 import retrofit.http.GET;
-import retrofit.http.POST;
 import retrofit.http.Query;
 import rx.Observable;
 

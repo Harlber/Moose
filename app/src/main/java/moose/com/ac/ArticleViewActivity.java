@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -36,9 +35,9 @@ import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ScrollFABBehavior;
+import retrofit.RetrofitError;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -89,7 +88,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(this, BigNewsActivity.class);
             intent.putExtra(Config.CONTENTID, contendid);
-            intent.putExtra(Config.TITLE,title);
+            intent.putExtra(Config.TITLE, title);
             startActivity(intent);
         });
 
@@ -174,6 +173,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
         subscription.add(api.getArticleBody(contendid)
                 .observeOn(AndroidSchedulers.mainThread())
+                .retry(1)
                 .subscribe(new Observer<ArticleBody>() {
                     @Override
                     public void onCompleted() {
@@ -182,10 +182,17 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
                     @Override
                     public void onError(Throwable e) {
-                        Snack(getString(R.string.network_exception));
                         e.printStackTrace();
                         mSwipeRefreshLayout.setRefreshing(false);//show progressbar
-                        mSwipeRefreshLayout.setEnabled(false);
+                        mSwipeRefreshLayout.setEnabled(true);
+                        if (e instanceof RetrofitError) {
+                            if (((RetrofitError) e).getResponse() != null) {
+                                Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
+                            } else {
+                                Snack(getString(R.string.no_network));
+                            }
+
+                        }
                     }
 
                     @Override
@@ -268,7 +275,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     }
 
     private void Snack(String msg) {
-        Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(fab, msg, Snackbar.LENGTH_SHORT).show();
     }
 
     private Dialog createTextSizeDialog() {

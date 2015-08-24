@@ -26,9 +26,9 @@ import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.comment.CommentDetail;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
+import retrofit.RetrofitError;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -62,7 +62,7 @@ public class CommentListFragment extends Fragment {
                 R.layout.fragment_comment_list, container, false);
         api = RxUtils.createApi(Api.class, Config.COMMENT_URL);
         contentId = getArguments().getInt(Config.CHANNEL_ID);
-        adapter = new CommentAdapter(getActivity(),data,commentIdList);
+        adapter = new CommentAdapter(getActivity(), data, commentIdList);
         initRecyclerView();
         initRefreshLayout();
         init();
@@ -81,7 +81,6 @@ public class CommentListFragment extends Fragment {
         super.onPause();
         RxUtils.unsubscribeIfNotNull(subscription);
     }
-
 
 
     private void initRefreshLayout() {
@@ -125,19 +124,22 @@ public class CommentListFragment extends Fragment {
             }
         });
     }
+
     private void init() {
-        fab = (FloatingActionButton)rootView.findViewById(R.id.news_fab);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.news_fab);
         loadData(page);
     }
+
     private void doSwapeRefresh() {
         loadData(page);
     }
+
     private void loadMore() {
     }
-    private void loadData(int pg){
+
+    private void loadData(int pg) {
         mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));//show progressbar
-        subscription.add(api.getCommentList(contentId,pg)
-                .subscribeOn(Schedulers.newThread())
+        subscription.add(api.getCommentList(contentId, pg)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<JsonObject>() {
                     @Override
@@ -148,31 +150,40 @@ public class CommentListFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
-                        Snack(getString(R.string.network_exception));
                         e.printStackTrace();
+                        if (e instanceof RetrofitError) {
+                            if (((RetrofitError) e).getResponse() != null) {
+                                Snack(getString(R.string.net_work)+((RetrofitError) e).getResponse().getStatus());
+                            }else {
+                                Snack(getString(R.string.no_network));
+                            }
+
+                        }
                     }
 
                     @Override
                     public void onNext(JsonObject response) {
                         JsonArray jsonElements = response.getAsJsonObject("data").getAsJsonArray("commentList");
                         JsonObject comlists = response.getAsJsonObject("data").getAsJsonObject("commentContentArr");
-                        for (int i=0;i<jsonElements.size();i++) {
+                        for (int i = 0; i < jsonElements.size(); i++) {
                             int listid = jsonElements.get(i).getAsInt();
                             commentIdList.add(listid);
-                            data.put(listid,convertToObject(comlists.getAsJsonObject("c"+listid)));
+                            data.put(listid, convertToObject(comlists.getAsJsonObject("c" + listid)));
                         }
                         adapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;//refresh request status
-                        Log.i(TAG,"get comments response:"+response.toString());
-                        page ++;//超出范围未做处理
+                        Log.i(TAG, "get comments response:" + response.toString());
+                        page++;//超出范围未做处理
                     }
                 }));
     }
+
     private void Snack(String msg) {
         Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
     }
-    private CommentDetail convertToObject(JsonObject object){
+
+    private CommentDetail convertToObject(JsonObject object) {
         CommentDetail detail = new CommentDetail();
         detail.setCid(object.get("cid").getAsLong());
         detail.setQuoteId(object.get("quoteId").getAsLong());
@@ -190,6 +201,6 @@ public class CommentListFragment extends Fragment {
         detail.setDowns(object.get("downs").getAsLong());
         detail.setNameRed(object.get("nameRed").getAsLong());
         detail.setAvatarFrame(object.get("avatarFrame").getAsLong());
-        return  detail;
+        return detail;
     }
 }

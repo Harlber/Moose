@@ -30,4 +30,9 @@
     <string name="last_comment">最近回复</string>
     <string name="most_views">人气最旺</string>
     <string name="most_coment">评论最多</string>
+    <string name="no_network">无网络连接</string>
+    <string name="nw_503">NetWork 503</string>
+    <string name="nw_500">NetWork 500</string>
+    <string name="nw_404">NetWork 404</string>
+    <string name="net_work">"NetWork "</string>
 </resources>

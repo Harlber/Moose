@@ -16,6 +16,7 @@ import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleList;
 import moose.com.ac.util.RxUtils;
+import retrofit.RetrofitError;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -42,20 +43,21 @@ public class ArticleFragment extends ArticleListFragment {
         init();
         return rootView;
     }
+
     @Override
     protected void init() {
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
-        loadData(type,mPage, true);
+        loadData(type, mPage, true);
     }
 
     @Override
     protected void loadMore() {
-        loadData(type,mPage, true);
+        loadData(type, mPage, true);
     }
 
     @Override
     protected void doSwapeRefresh() {
-        loadData(type,1, false);
+        loadData(type, 1, false);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class ArticleFragment extends ArticleListFragment {
         RxUtils.unsubscribeIfNotNull(subscription);
     }
 
-    private void loadData(int tp,int pg, boolean isSave) {
+    private void loadData(int tp, int pg, boolean isSave) {
         mSwipeRefreshLayout.setEnabled(true);
         mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         isRequest = true;
@@ -86,8 +88,16 @@ public class ArticleFragment extends ArticleListFragment {
                     @Override
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
-                        Snack(getString(R.string.network_exception));
                         e.printStackTrace();
+                        if (e instanceof RetrofitError) {
+                            if (((RetrofitError) e).getResponse() != null) {
+                                Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
+                            } else {
+                                Snack(getString(R.string.no_network));
+                            }
+
+                        }
+
                     }
 
                     @Override
@@ -111,9 +121,9 @@ public class ArticleFragment extends ArticleListFragment {
                 }));
     }
 
-    public void loadChannel(int change){
+    public void loadChannel(int change) {
         type = change;
-        mPage =1;
+        mPage = 1;
         loadData(type, mPage, false);
     }
 
