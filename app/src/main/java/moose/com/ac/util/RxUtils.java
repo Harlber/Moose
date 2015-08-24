@@ -80,7 +80,6 @@ public class RxUtils {
             request.addHeader("Accept", "application/json; q=0.5");
         };
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint(url)
                 .setRequestInterceptor(requestInterceptor)
                 .setClient(new OkClient(OkHttpClientProvider.get()))

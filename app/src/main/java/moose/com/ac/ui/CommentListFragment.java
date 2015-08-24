@@ -66,7 +66,6 @@ public class CommentListFragment extends Fragment {
         initRecyclerView();
         initRefreshLayout();
         init();
-        Log.e(TAG,"start");
         return rootView;
     }
 
@@ -136,8 +135,7 @@ public class CommentListFragment extends Fragment {
     private void loadMore() {
     }
     private void loadData(int pg){
-        mSwipeRefreshLayout.setEnabled(true);
-        mSwipeRefreshLayout.setRefreshing(true);//show progressbar
+        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));//show progressbar
         subscription.add(api.getCommentList(contentId,pg)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

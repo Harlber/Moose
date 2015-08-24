@@ -170,11 +170,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     };
 
     protected void initData() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        mSwipeRefreshLayout.setEnabled(true);
+        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
         subscription.add(api.getArticleBody(contendid)
-                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArticleBody>() {
                     @Override
