@@ -10,6 +10,7 @@
     <string name="main_page">主页</string>
     <string name="store">收藏夹</string>
     <string name="set">设置</string>
+    <string name="history">历史记录</string>
     <string name="about">关于</string>
     <string name="me">联系我</string>
     <string name="night_style">夜间模式</string>
@@ -36,4 +37,34 @@
     <string name="nw_404">NetWork 404</string>
     <string name="net_work">"NetWork "</string>
     <string name="upuser">"UP主: "</string>
+
+    <!--about-->
+    <string name="application_info_title">Application Info</string>
+    <string name="license_title">License</string>
+    <string name="application_info_text" formatted="false">
+        <![CDATA[
+            <p>Version: %s</p>
+            <p>This application is open source at <a href="https://github.com/Harlber/Moose">github.com/Harlber/Moose</a></p>
+        ]]>
+    </string>
+     <string name="license_text">
+        <![CDATA[
+            <p>Copyright 2015 Moose</p>
+            <p>Licensed under the Apache License, Version 2.0 (the "License");
+            you may not use this file except in compliance with the License.
+            You may obtain a copy of the License at</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+            <p>Unless required by applicable law or agreed to in writing, software
+            distributed under the License is distributed on an "AS IS" BASIS,
+            WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+            See the License for the specific language governing permissions and
+            limitations under the License.</p>
+        ]]>
+    </string>
+    <string name="developer_info_title">About me</string>
+        <string name="developer_info_text">
+        <![CDATA[
+            <p><a href="https://github.com/Harlber">My Github</a></p>
+        ]]>
+    </string>
 </resources>

@@ -51,4 +51,24 @@
         <item name="cardElevation">@dimen/cardview_default_elevation</item>
         <item name="cardCornerRadius">@dimen/cardview_default_radius</item>
     </style>
+<!--about-->
+    <style name="layoutPadding">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+    </style>
+    <style name="HeadlineTextStyle" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/md_grey_1000</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">@dimen/padding</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="textContentStyle">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textAppearance">@style/textAppearanceContentNormal</item>
+    </style>
+    <style name="textAppearanceContentNormal">
+        <item name="android:textColor">@color/md_grey_1000</item>
+    </style>
 </resources>

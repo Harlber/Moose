@@ -30,4 +30,6 @@
     <color name="md_grey_900">#212121</color>
     <color name="backgroud_main">#ededed</color>
     <color name="main_color_dark">#0099cc</color>
+    <color name="md_grey_1000">#000000</color>
+    <color name="md_teal_800">#00695c</color>
 </resources>
