@@ -23,4 +23,8 @@ public class App extends Application {
     public void onLowMemory() {
         super.onLowMemory();
     }
+
+    public static Context getmContext() {
+        return mContext;
+    }
 }
