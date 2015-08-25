@@ -21,6 +21,7 @@
         <activity android:name=".BigNewsActivity" />
         <activity android:name=".ArticleViewActivity" />
         <activity android:name=".About" />
+        <activity android:name=".Collects" />
     </application>
 
 </manifest>

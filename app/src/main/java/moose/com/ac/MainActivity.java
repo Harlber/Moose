@@ -170,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this,About.class);
                     startActivity(intent);
                     break;
+                case R.id.nav_store:
+                    Intent intents = new Intent(MainActivity.this,Collects.class);
+                    startActivity(intents);
                 default:
                     break;
             }

@@ -6,11 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.retrofit.article.ArticleUser;
 
 /**
  * Created by dell on 2015/8/25.
@@ -26,47 +22,6 @@ public class DbHelper {
 
     public DBCustomHelper getmDbHelper() {
         return mDbHelper;
-    }
-
-    public List<Article> getArticleLists(String tab) {
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        List<Article> lists = new ArrayList<>();
-        String[] projection = {
-                ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ID,
-                ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_TITLE,
-                ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_VIEWS,
-                ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_USERNAME,
-                ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_COMMENT,
-                ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE,
-                ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE,
-                ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ISFAV
-        };
-        String sortOrder =
-                ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE + " DESC";
-        Cursor c = db.query(tab, projection, null, null, null, null, sortOrder);
-        Log.i(TAG, "cursor count:" + c.getCount());
-        if (c.getCount() < 1) {
-            c.close();
-            db.close();
-            return lists;
-        }
-        while (c.moveToFirst()) {
-            Article article = new Article();
-            ArticleUser user = new ArticleUser();
-            article.setContentId(Integer.valueOf(c.getString(c.getColumnIndex("contentId"))));
-            article.setTitle(c.getString(c.getColumnIndex("title")));
-            article.setViews(Integer.valueOf(c.getString(c.getColumnIndex("views"))));
-            user.setUsername(c.getString(c.getColumnIndex("username")));
-            article.setComments(Integer.valueOf(c.getString(c.getColumnIndex("comment"))));
-            article.setReleaseDate(Long.valueOf(c.getString(c.getColumnIndex("releaserdate"))));
-            article.setSavedate(c.getString(c.getColumnIndex("savedate")));
-            article.setIsfav(c.getString(c.getColumnIndex("isfav")));
-
-            article.setUser(user);
-            lists.add(article);
-        }
-
-        return lists;
     }
 
     public boolean insertArticle(Article article, String tabName) {

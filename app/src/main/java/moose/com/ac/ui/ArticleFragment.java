@@ -78,7 +78,7 @@ public class ArticleFragment extends ArticleListFragment {
         mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));//show progressbar
         isRequest = true;
         subscription.add(api.getArticleList(tp, mChannelId, pg, Config.PAGESIZE)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArticleList>() {
                     @Override
