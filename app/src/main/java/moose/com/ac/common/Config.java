@@ -19,6 +19,8 @@ public class Config {
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
     public static final String CONTENTID = "CONTENTID";
     public static final String TITLE = "TITLE";
+    public static final String STORE = "st";
+    public static final String NO_ST = "nost";
     /*setting*/
     public static final String TEXTSIZE = "TEXTSIZE";
     public static final int SIZE_SMALL = 1;

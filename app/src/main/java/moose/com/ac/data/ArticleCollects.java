@@ -11,38 +11,40 @@ public final class ArticleCollects {
     public static final String TEXT_TYPE = " TEXT";
     public static final String COLUMN_NAME_NULLABLE = "EMPTY_COLUMN";
     public static final String INTEGER_TYPE = " INTEGER";
-    public static final String PRIMARY = " PRIMARY KEY AUTOINCREMENT";
+    public static final String VARCHAR_TITLE = " VARCHAR(200)";
+    public static final String VARCHAR_NAME = " VARCHAR(20)";
+    public static final String PRIMARY = " PRIMARY KEY ";
     public static final String COMMA_SEP = ",";
     public static final String SQL_CREATE_ARTICLESTORY =
             "CREATE TABLE " + ArticleEntry.TABLE_NAME + " (" +
-                    ArticleEntry._ID + " INTEGER PRIMARY KEY," +
-                    ArticleEntry.COLUMN_NAME_ID + INTEGER_TYPE +" "+PRIMARY+ COMMA_SEP +
+                    ArticleEntry._ID + PRIMARY +COMMA_SEP+
+                    ArticleEntry.COLUMN_NAME_ID + INTEGER_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_AID + TEXT_TYPE + COMMA_SEP +
-                    ArticleEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
+                    ArticleEntry.COLUMN_NAME_TITLE + VARCHAR_TITLE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_VIEWS + TEXT_TYPE + COMMA_SEP +
-                    ArticleEntry.COLUMN_NAME_USERNAME + TEXT_TYPE + COMMA_SEP +
+                    ArticleEntry.COLUMN_NAME_USERNAME + VARCHAR_NAME + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_COMMENT + TEXT_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_RELEASEDATE + TEXT_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_SAVEDATE + TEXT_TYPE + COMMA_SEP +
-                    ArticleEntry.COLUMN_NAME_ISFAV + TEXT_TYPE + COMMA_SEP +
-            " )";
+                    ArticleEntry.COLUMN_NAME_ISFAV + TEXT_TYPE +
+            ")";
 
     public static final String SQL_DELETE_ARTICLESTORY =
             "DROP TABLE IF EXISTS " + ArticleEntry.TABLE_NAME;
 
     public static final String SQL_CREATE_ARTICLEHISTORY =
-            "CREATE TABLE " + ArticleEntry.TABLE_NAME + " (" +
-                    ArticleHistoryEntry._ID + " INTEGER PRIMARY KEY," +
-                    ArticleHistoryEntry.COLUMN_NAME_ID + INTEGER_TYPE +" "+PRIMARY+ COMMA_SEP +
+            "CREATE TABLE " + ArticleHistoryEntry.TABLE_NAME + " (" +
+                    ArticleHistoryEntry._ID + PRIMARY +COMMA_SEP+
+                    ArticleHistoryEntry.COLUMN_NAME_ID + INTEGER_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_AID + TEXT_TYPE + COMMA_SEP +
-                    ArticleHistoryEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
+                    ArticleHistoryEntry.COLUMN_NAME_TITLE + VARCHAR_TITLE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_VIEWS + TEXT_TYPE + COMMA_SEP +
-                    ArticleHistoryEntry.COLUMN_NAME_USERNAME + TEXT_TYPE + COMMA_SEP +
+                    ArticleHistoryEntry.COLUMN_NAME_USERNAME + VARCHAR_NAME + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_COMMENT + TEXT_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE + TEXT_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_SAVEDATE + TEXT_TYPE + COMMA_SEP +
-                    ArticleHistoryEntry.COLUMN_NAME_ISFAV + TEXT_TYPE + COMMA_SEP +
-                    " )";
+                    ArticleHistoryEntry.COLUMN_NAME_ISFAV + TEXT_TYPE +
+                    ")";
 
     public static final String SQL_DELETE_ARTICLEHISTORY =
             "DROP TABLE IF EXISTS " + ArticleHistoryEntry.TABLE_NAME;

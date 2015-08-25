@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:layout_alignBottom="@+id/meta_container"
             android:layout_alignTop="@id/title"
-            android:background="@color/colorPrimaryDark" />
+            android:background="#FFFFEA5F" />
 
         <ImageView
             android:id="@id/bookmarked"

@@ -28,7 +28,7 @@ public class DbHelper {
         return mDbHelper;
     }
 
-    private List<Article> getArticleLists(String tab) {
+    public List<Article> getArticleLists(String tab) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         List<Article> lists = new ArrayList<>();
         String[] projection = {
@@ -69,7 +69,7 @@ public class DbHelper {
         return lists;
     }
 
-    private boolean insertArticle(Article article, String tabName, String isfav, String date) {
+    public boolean insertArticle(Article article, String tabName) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -79,8 +79,8 @@ public class DbHelper {
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_USERNAME, article.getUser().getUsername());
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_COMMENT, article.getComments() + "");
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE, article.getReleaseDate() + "");
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE, date);
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ISFAV, isfav);
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE, article.getIsfav());
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ISFAV, article.getSavedate());
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;
@@ -89,10 +89,11 @@ public class DbHelper {
                 ArticleCollects.COLUMN_NAME_NULLABLE,
                 values);
         db.close();
+        Log.i(TAG,"insertArticle result:"+newRowId);
         return newRowId > 0;
     }
 
-    private boolean deleteArticle(String tabName, String aid) {
+    public boolean deleteArticle(String tabName, String aid) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         // Define 'where' part of query.
         String selection = ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_AID + " =?";
@@ -101,7 +102,18 @@ public class DbHelper {
         // Issue SQL statement.
         int status = db.delete(tabName, selection, selectionArgs);
         db.close();
+        Log.i(TAG, "deleteArticle result:" + status);
         return status > 0;
+    }
+
+    public boolean isExits(String tabName,String aid){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor query = db.rawQuery("SELECT contentId FROM "+tabName+" where contentId=?", new String[]{String.valueOf(aid)});
+        boolean isFav = query.getCount() >0;
+        query.close();
+        db.close();
+        Log.i(TAG, "isExits result:" + isFav);
+        return isFav;
     }
 
 }

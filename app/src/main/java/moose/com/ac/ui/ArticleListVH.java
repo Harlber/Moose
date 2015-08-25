@@ -2,6 +2,7 @@ package moose.com.ac.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -15,6 +16,7 @@ public class ArticleListVH extends RecyclerView.ViewHolder implements View.OnCli
     public  TextView user;
     public  TextView time;
     public  TextView comment;
+    public ImageView mark;
     public ArticleItemClickListener listener;
 
     public ArticleListVH(View itemView,ArticleItemClickListener listener) {
