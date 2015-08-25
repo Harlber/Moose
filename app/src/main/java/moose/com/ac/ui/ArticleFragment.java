@@ -27,7 +27,8 @@ import rx.subscriptions.CompositeSubscription;
  * 网络请求超时
  */
 @SuppressLint("ValidFragment")
-public class ArticleFragment extends ArticleListFragment {
+public class ArticleFragment extends ArticleListFragment implements ArticleListVH.ArticleItemClickListener {
+    private static final String TAG = "ArticleFragment";
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
 
@@ -46,6 +47,7 @@ public class ArticleFragment extends ArticleListFragment {
 
     @Override
     protected void init() {
+        adapter.setListener(this);
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
         loadData(type, mPage, true);
     }
@@ -127,4 +129,13 @@ public class ArticleFragment extends ArticleListFragment {
         loadData(type, mPage, false);
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) {
+
+    }
 }
