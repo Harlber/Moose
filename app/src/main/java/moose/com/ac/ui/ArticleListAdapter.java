@@ -1,6 +1,7 @@
 package moose.com.ac.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +11,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.ArticleViewActivity;
 import moose.com.ac.R;
+import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.util.CommonUtil;
 
 /**
  * Created by Farble on 2015/8/15 16.
  */
-public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> {
+public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> implements ArticleListVH.ArticleItemClickListener {
     private static final String TAG = "ArticleListAdapter";
     private List<Article> lists = new ArrayList<>();
     private Activity mActivity;
@@ -30,6 +33,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> {
     public ArticleListAdapter(List<Article> lists, Activity mActivity) {
         this(lists);
         this.mActivity = mActivity;
+        setListener(this);
     }
 
     public ArticleListAdapter(List<Article> lists,Activity mActivity, ArticleListVH.ArticleItemClickListener listener) {
@@ -58,11 +62,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> {
         holder.user.setText(String.valueOf(article.getViews())+" views  "+"by " + article.getUser().getUsername());
         holder.time.setText(CommonUtil.toDate(article.getReleaseDate()));
         holder.comment.setText(article.getComments().toString());
-        /*holder.rootView.setOnClickListener(v -> {
-            Intent intent = new Intent(mActivity, ArticleViewActivity.class);
-            intent.putExtra(Config.CONTENTID,article.getContentId());
-            mActivity.startActivity(intent);
-        });*/
     }
 
     @Override
@@ -76,5 +75,17 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> {
 
     public void setListener(ArticleListVH.ArticleItemClickListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Intent intent = new Intent(mActivity, ArticleViewActivity.class);
+        intent.putExtra(Config.CONTENTID,lists.get(position).getContentId());
+        mActivity.startActivity(intent);
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) {
+
     }
 }

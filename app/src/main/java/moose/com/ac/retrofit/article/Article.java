@@ -54,6 +54,9 @@ public class Article implements Serializable {
     private Integer toplevel;
     private String cover;
 
+    private String savedate;
+    private String isfav;
+
     public ArticleUser getUser() {
         return user;
     }
@@ -172,5 +175,21 @@ public class Article implements Serializable {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getSavedate() {
+        return savedate;
+    }
+
+    public void setSavedate(String savedate) {
+        this.savedate = savedate;
+    }
+
+    public String getIsfav() {
+        return isfav;
+    }
+
+    public void setIsfav(String isfav) {
+        this.isfav = isfav;
     }
 }

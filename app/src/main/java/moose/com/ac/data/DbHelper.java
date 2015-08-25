@@ -28,9 +28,9 @@ public class DbHelper {
         return mDbHelper;
     }
 
-    private List<DbArticle> getArticleLists(String tab) {
+    private List<Article> getArticleLists(String tab) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        List<DbArticle> lists = new ArrayList<>();
+        List<Article> lists = new ArrayList<>();
         String[] projection = {
                 ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ID,
                 ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_TITLE,
@@ -51,7 +51,6 @@ public class DbHelper {
             return lists;
         }
         while (c.moveToFirst()) {
-            DbArticle dbArticle = new DbArticle();
             Article article = new Article();
             ArticleUser user = new ArticleUser();
             article.setContentId(Integer.valueOf(c.getString(c.getColumnIndex("contentId"))));
@@ -60,12 +59,11 @@ public class DbHelper {
             user.setUsername(c.getString(c.getColumnIndex("username")));
             article.setComments(Integer.valueOf(c.getString(c.getColumnIndex("comment"))));
             article.setReleaseDate(Long.valueOf(c.getString(c.getColumnIndex("releaserdate"))));
-            dbArticle.setSavedate(c.getString(c.getColumnIndex("savedate")));
-            dbArticle.setIsfav(c.getString(c.getColumnIndex("isfav")));
+            article.setSavedate(c.getString(c.getColumnIndex("savedate")));
+            article.setIsfav(c.getString(c.getColumnIndex("isfav")));
 
             article.setUser(user);
-            dbArticle.setArticle(article);
-            lists.add(dbArticle);
+            lists.add(article);
         }
 
         return lists;
