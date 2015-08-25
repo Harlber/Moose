@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.RxDataBase;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.ArticleListActivity;
@@ -18,6 +19,7 @@ import rx.schedulers.Schedulers;
  */
 public class Collects extends ArticleListActivity {
     private static final String TAG = "Collects";
+    private RxDataBase rxDataBase;
 
     @Override
     protected void initToolBar() {
@@ -32,6 +34,7 @@ public class Collects extends ArticleListActivity {
 
     @Override
     protected void init() {
+        rxDataBase = new RxDataBase(ArticleCollects.ArticleEntry.TABLE_NAME);
         Subscriber<List<Article>> listSubscriber = new Subscriber<List<Article>>() {
             @Override
             public void onCompleted() {
@@ -54,7 +57,7 @@ public class Collects extends ArticleListActivity {
             }
         };
         mSwipeRefreshLayout.setRefreshing(true);
-        RxDataBase.favLists
+        rxDataBase.favLists
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listSubscriber);

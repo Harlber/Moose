@@ -18,14 +18,19 @@ import rx.Subscriber;
  */
 public class RxDataBase {
     private static final String TAG = "TAG";
+    private String tabName;
 
-    public static Observable<List<Article>> favLists = Observable.create(new Observable.OnSubscribe<List<Article>>() {
+    public RxDataBase(String tabName) {
+        this.tabName = tabName;
+    }
+
+    public Observable<List<Article>> favLists = Observable.create(new Observable.OnSubscribe<List<Article>>() {
         @Override
         public void call(Subscriber<? super List<Article>> subscriber) {
             DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
             SQLiteDatabase db = mDbHelper.getReadableDatabase();
             List<Article> lists = new ArrayList<>();
-            Cursor c = db.rawQuery("SELECT * FROM " + ArticleCollects.ArticleEntry.TABLE_NAME, null);
+            Cursor c = db.rawQuery("SELECT * FROM " + tabName, null);
             Log.i(TAG, "cursor count:" + c.getCount());
             if (c.getCount() < 1) {
                 c.close();
