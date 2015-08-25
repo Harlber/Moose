@@ -2,6 +2,7 @@ package moose.com.ac.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,7 +44,8 @@ public class ArticleFragment extends ArticleListFragment {
         type = Integer.valueOf(getArguments().getString(Config.CHANNEL_TYPE));
         initRecyclerView();
         initRefreshLayout();
-        init();
+        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));//show progressbar
+        new Handler().postDelayed(this::init, Config.TIME_LATE);
         return rootView;
     }
 
@@ -95,7 +97,7 @@ public class ArticleFragment extends ArticleListFragment {
 
     private void loadData(int tp, int pg, boolean isSave) {
         mSwipeRefreshLayout.setEnabled(true);
-        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));//show progressbar
+        mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         isRequest = true;
         subscription.add(api.getArticleList(tp, mChannelId, pg, Config.PAGESIZE)
                 .subscribeOn(Schedulers.io())

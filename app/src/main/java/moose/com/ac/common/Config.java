@@ -42,5 +42,7 @@ public class Config {
     public static final int ANIMATION = 74;
     public static final int CARTOON = 75;
 
+    public static final int TIME_LATE = 200;
+
     public static final String MAX_LINE = "MAX_LINE";
 }

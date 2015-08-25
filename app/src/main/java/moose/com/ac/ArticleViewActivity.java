@@ -136,7 +136,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 ArticleViewActivity.this.finish();
                 return true;
             case R.id.action_module_wap:
-                Intent intent= new Intent();
+                Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse(Config.WEB_URL + contendid + "/");
                 intent.setData(content_url);
@@ -286,7 +286,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         head.append(title);
         head.append("</h2>\n");
         head.append("<p class=\"name\"><span>");
-        head.append(getString(R.string.upuser)+user);
+        head.append(getString(R.string.upuser) + user);
         head.append("</span></p>\n");
         head.append("</div>\n");
 
@@ -309,7 +309,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
      * <li>other </li>
      */
     private void dealBody(String html) {
-        html.replace("\\n", "").replace("\\r", "").replace("\\", "").replace(title,"");
+        html.replace("\\n", "").replace("\\r", "").replace("\\", "").replace(title, "");
     }
 
     private void filterImg(String str) {
