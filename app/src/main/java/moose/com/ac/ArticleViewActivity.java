@@ -174,6 +174,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     };
 
     protected void initData() {
+        HtmlBody = "";
+        HtmlBodyClone = "";//maybe reset by getting data again
         mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
         subscription.add(api.getArticleBody(contendid)
@@ -374,8 +376,13 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 )
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
                     if (oldMode != CommonUtil.getMode()) {
-                        filterImg(HtmlBody);//whenever mode what,do this
-                        mWeb.loadData(CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html; charset=UTF-8", null);
+                        if (HtmlBody != null && !HtmlBody.equals("")) {
+                            filterImg(HtmlBody);//whenever mode what,do this
+                            mWeb.loadData(CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html; charset=UTF-8", null);
+                        } else {
+                            Snack(getString(R.string.get_data_again));
+                            initData();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> {

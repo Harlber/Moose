@@ -67,4 +67,5 @@
             <p><a href="https://github.com/Harlber">My Github</a></p>
         ]]>
     </string>
+    <string name="get_data_again">正在重新获取数据</string>
 </resources>
