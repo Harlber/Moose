@@ -3,6 +3,7 @@ package moose.com.ac.ui;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class ArticleFragment extends ArticleListFragment {
     private static final String TAG = "ArticleFragment";
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
+    private boolean isRequest = false;//request data status
 
     @Nullable
     @Override
@@ -47,6 +49,24 @@ public class ArticleFragment extends ArticleListFragment {
 
     @Override
     protected void init() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                isScroll = newState == RecyclerView.SCROLL_STATE_SETTLING;
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                mSwipeRefreshLayout.setEnabled(mLayoutManager
+                        .findFirstCompletelyVisibleItemPosition() == 0);//fix bug while scroll RecyclerView & SwipeRefreshLayout shows also
+                if (isScroll && !recyclerView.canScrollVertically(1) && !isRequest) {
+                    loadMore();
+                }
+            }
+        });
+        //refactor recyclerview scroll
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
         loadData(type, mPage, true);
     }

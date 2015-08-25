@@ -13,4 +13,5 @@
     <dimen name="margin">8dp</dimen>
     <dimen name="emotions_column_width">48dp</dimen>
     <dimen name="abc_action_bar_default_height">48dip</dimen>
+    <dimen name="magin_8">8dp</dimen>
 </resources>

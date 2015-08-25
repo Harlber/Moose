@@ -27,7 +27,7 @@ public abstract class ArticleListFragment extends Fragment {
 
     protected List<Article> lists = new ArrayList<>();
     protected ArticleListAdapter adapter;
-    protected boolean isRequest = false;//request data status
+
     protected boolean isScroll = false;//is RecyclerView scrolling
 
     protected int mChannelId = 74;
@@ -58,23 +58,6 @@ public abstract class ArticleListFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(adapter);
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                isScroll = newState == RecyclerView.SCROLL_STATE_SETTLING;
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                mSwipeRefreshLayout.setEnabled(mLayoutManager
-                        .findFirstCompletelyVisibleItemPosition() == 0);//fix bug while scroll RecyclerView & SwipeRefreshLayout shows also
-                if (isScroll && !recyclerView.canScrollVertically(1) && !isRequest) {
-                    loadMore();
-                }
-            }
-        });
     }
 
     protected abstract void init();

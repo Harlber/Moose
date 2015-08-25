@@ -23,6 +23,7 @@
 
     <moose.com.ac.ui.view.MultiSwipeRefreshLayout
         android:id="@+id/swiperefresh"
+        android:layout_margin="@dimen/magin_8"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/news_appbar">

@@ -2,7 +2,6 @@ package moose.com.ac;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.List;
@@ -19,6 +18,7 @@ import rx.schedulers.Schedulers;
  */
 public class Collects extends ArticleListActivity {
     private static final String TAG = "Collects";
+
     @Override
     protected void initToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.news_toolbar);
@@ -29,6 +29,7 @@ public class Collects extends ArticleListActivity {
         //noinspection ConstantConditions
         ab.setDisplayHomeAsUpEnabled(true);
     }
+
     @Override
     protected void init() {
         Subscriber<List<Article>> listSubscriber = new Subscriber<List<Article>>() {
@@ -39,7 +40,6 @@ public class Collects extends ArticleListActivity {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG,"onError");
                 mSwipeRefreshLayout.setRefreshing(false);
                 mSwipeRefreshLayout.setEnabled(false);
                 Snack(getString(R.string.db_error));
@@ -47,7 +47,6 @@ public class Collects extends ArticleListActivity {
 
             @Override
             public void onNext(List<Article> articles) {
-                Log.e(TAG,"onNext");
                 lists.addAll(articles);
                 adapter.notifyDataSetChanged();
                 mSwipeRefreshLayout.setRefreshing(false);
