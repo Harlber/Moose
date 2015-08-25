@@ -68,4 +68,5 @@
         ]]>
     </string>
     <string name="get_data_again">正在重新获取数据</string>
+    <string name="no_comment_here">目前没有评论</string>
 </resources>

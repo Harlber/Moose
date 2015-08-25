@@ -170,6 +170,9 @@ public class CommentListFragment extends Fragment {
                             commentIdList.add(listid);
                             data.put(listid, convertToObject(comlists.getAsJsonObject("c" + listid)));
                         }
+                        if (data.size()==0) {
+                            Snack(getString(R.string.no_comment_here));
+                        }
                         adapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;//refresh request status
