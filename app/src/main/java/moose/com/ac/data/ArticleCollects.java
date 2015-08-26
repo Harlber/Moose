@@ -5,6 +5,7 @@ import android.provider.BaseColumns;
 /**
  * Created by dell on 2015/8/25.
  * http://developer.android.com/training/basics/data-storage/databases.html
+ * max lines 500?
  */
 public final class ArticleCollects {
     public static final String TAG = "ArticleCollects";

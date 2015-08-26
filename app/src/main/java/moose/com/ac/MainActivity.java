@@ -37,6 +37,9 @@ import moose.com.ac.ui.ArticleFragment;
 import moose.com.ac.ui.view.SearchBar;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
+/**
+ * when intent another activity,need cancel network request
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
@@ -167,15 +170,15 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_home:
                     break;
                 case R.id.nav_about:
-                    Intent intent = new Intent(MainActivity.this,About.class);
+                    Intent intent = new Intent(MainActivity.this, About.class);
                     startActivity(intent);
                     break;
                 case R.id.nav_store:
-                    Intent intents = new Intent(MainActivity.this,Collects.class);
+                    Intent intents = new Intent(MainActivity.this, Collects.class);
                     startActivity(intents);
                     break;
                 case R.id.nav_history:
-                    Intent intenth = new Intent(MainActivity.this,History.class);
+                    Intent intenth = new Intent(MainActivity.this, History.class);
                     startActivity(intenth);
                     break;
                 default:
@@ -212,8 +215,8 @@ public class MainActivity extends AppCompatActivity {
 
         public void changeChannel(int channel) {
             for (int i = 0; i < mFragments.size(); i++) {
-                Log.e(TAG,"i:"+i);
-                if (mFragments.get(i)!=null) {
+                Log.e(TAG, "i:" + i);
+                if (mFragments.get(i) != null) {
                     mFragments.get(i).loadChannel(channel);
                 }
             }

@@ -74,4 +74,12 @@
     <string name="step_history">历史记录</string>
     <string name="no_collects_now">暂时没有收藏</string>
     <string name="format_date">yyyy/MM/dd HH:mm:ss</string>
+    <string name="time_store">收藏时间排序</string>
+    <string name="time_push">发布时间排序</string>
+    <string name="clear_local">清空本地收藏</string>
+    <string name="positive">确定</string>
+    <string name="clear_store_all">确定删除全部收藏?</string>
+    <string name="remove_data_error">删除数据异常</string>
+    <string name="data_clear_already">数据已清除</string>
+    <string name="delete_data_dalse">清空数据失败</string>
 </resources>

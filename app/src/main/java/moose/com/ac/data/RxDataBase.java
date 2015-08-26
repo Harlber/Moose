@@ -36,7 +36,7 @@ public class RxDataBase {
                 c.close();
                 db.close();
                 mDbHelper.close();
-            }else {
+            } else {
                 while (c.moveToNext()) {
                     Article article = new Article();
                     ArticleUser user = new ArticleUser();
@@ -59,6 +59,15 @@ public class RxDataBase {
             subscriber.onNext(lists);
             subscriber.onCompleted();
         }
+    });
+
+    public Observable<Integer> dropTable = Observable.create(subscriber -> {
+        DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        int result = db.delete(tabName,null,null);
+        db.close();
+        subscriber.onNext(result);
+        subscriber.onCompleted();
     });
 
 }

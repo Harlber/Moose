@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".ArticleViewActivity">
+    <item android:id="@+id/action_time_store" android:title="@string/time_store"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_time_push" android:title="@string/time_push"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_clear_store" android:title="@string/clear_local"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>

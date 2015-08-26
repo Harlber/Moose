@@ -34,8 +34,8 @@ public class DbHelper {
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_USERNAME, article.getUser().getUsername());
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_COMMENT, article.getComments() + "");
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE, article.getReleaseDate() + "");
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE, article.getIsfav());
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ISFAV, article.getSavedate());
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE,article.getSavedate() );
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ISFAV, article.getIsfav());
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;
