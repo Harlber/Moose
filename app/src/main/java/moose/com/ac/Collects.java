@@ -64,7 +64,7 @@ public class Collects extends ArticleListActivity {
     public void onResume() {
         super.onResume();
         if (listSubscriber == null || listSubscriber.isUnsubscribed()) {
-            newInstance();
+            listSubscriber = newInstance();
         }
     }
 
