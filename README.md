@@ -7,7 +7,7 @@ About acfun , class begins.
 <li>Landed
 <li>Comment
 <li>Search
-<li>Favorites
+<li><del>Favorites</del>  done
 <li>History record
 <li>Setting
 <li>Replies
