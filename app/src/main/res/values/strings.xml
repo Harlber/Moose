@@ -73,4 +73,5 @@
     <string name="db_error">获取数据库数据异常</string>
     <string name="step_history">历史记录</string>
     <string name="no_collects_now">暂时没有收藏</string>
+    <string name="format_date">yyyy/MM/dd HH:mm:ss</string>
 </resources>

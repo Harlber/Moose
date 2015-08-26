@@ -8,6 +8,9 @@ import android.text.style.ClickableSpan;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Farble on 2015/8/24 15.
  * https://github.com/hidroh
@@ -50,5 +53,22 @@ public class AppUtils {
 
     public static void setHtmlText(TextView textView, String htmlText) {
         textView.setText(TextUtils.isEmpty(htmlText) ? null : Html.fromHtml(htmlText));
+    }
+
+    public static String formatDateByLongTime(String longtime,String format){
+        try {
+            Long lon= Long.parseLong(longtime);
+            Date date = new Date(lon);
+            return formatDate(date,format);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+    public static String formatDate(Date date,String format){
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(date);
     }
 }

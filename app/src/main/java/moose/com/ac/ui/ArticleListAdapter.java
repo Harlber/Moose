@@ -18,7 +18,7 @@ import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.util.CommonUtil;
+import moose.com.ac.util.AppUtils;
 
 /**
  * Created by Farble on 2015/8/15 16.
@@ -47,13 +47,13 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     public ArticleListVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item, parent, false);
-        ArticleListVH vh = new ArticleListVH(v,listener);
+        ArticleListVH vh = new ArticleListVH(v, listener);
         vh.num = (TextView) v.findViewById(R.id.rank);
         vh.title = (TextView) v.findViewById(R.id.title);
         vh.user = (TextView) v.findViewById(R.id.source);
         vh.time = (TextView) v.findViewById(R.id.posted);
         vh.comment = (TextView) v.findViewById(R.id.text);
-        vh.mark = (ImageView)v.findViewById(R.id.bookmarked);
+        vh.mark = (ImageView) v.findViewById(R.id.bookmarked);
         return vh;
     }
 
@@ -62,10 +62,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         final Article article = lists.get(position);
         holder.num.setText(String.valueOf(position));
         holder.title.setText(article.getTitle());
-        holder.user.setText(String.valueOf(article.getViews())+" views  "+"by " + article.getUser().getUsername());
-        holder.time.setText(CommonUtil.toDate(article.getReleaseDate()));
+        holder.user.setText(String.valueOf(article.getViews()) + " views  " + "by " + article.getUser().getUsername());
+        holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
         holder.comment.setText(article.getComments().toString());
-        holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId()))?View.VISIBLE:View.INVISIBLE);
+        holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId())) ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
@@ -84,20 +84,20 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     @Override
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(mActivity, ArticleViewActivity.class);
-        intent.putExtra(Config.CONTENTID,lists.get(position).getContentId());
+        intent.putExtra(Config.CONTENTID, lists.get(position).getContentId());
         mActivity.startActivity(intent);
     }
 
     @Override
     public void onItemLongClick(View view, int position) {
         Article article = lists.get(position);
-        if (dbHelper.isExits(TAB_NAME,String.valueOf(article.getContentId()))) {//exits
+        if (dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId()))) {//exits
             article.setIsfav(Config.NO_ST);//set not fav
-            dbHelper.deleteArticle(TAB_NAME,String.valueOf(article.getContentId()));//remove from db
-        }else {
+            dbHelper.deleteArticle(TAB_NAME, String.valueOf(article.getContentId()));//remove from db
+        } else {
             article.setIsfav(Config.STORE);//set not fav
             article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
-            dbHelper.insertArticle(article,TAB_NAME);//remove from db
+            dbHelper.insertArticle(article, TAB_NAME);//remove from db
         }
         notifyDataSetChanged();
     }
