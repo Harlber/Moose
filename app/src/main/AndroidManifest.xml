@@ -22,6 +22,7 @@
         <activity android:name=".ArticleViewActivity" />
         <activity android:name=".About" />
         <activity android:name=".Collects" />
+        <activity android:name=".History" />
     </application>
 
 </manifest>

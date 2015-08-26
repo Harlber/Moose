@@ -96,6 +96,9 @@ public class Collects extends ArticleListActivity {
                 adapter.notifyDataSetChanged();
                 mSwipeRefreshLayout.setRefreshing(false);
                 mSwipeRefreshLayout.setEnabled(false);
+                if (lists.size()==0) {
+                    Snack(getString(R.string.no_collects_now));
+                }
             }
         };
     }
