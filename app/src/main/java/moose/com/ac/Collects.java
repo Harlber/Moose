@@ -20,6 +20,7 @@ import rx.schedulers.Schedulers;
 public class Collects extends ArticleListActivity {
     private static final String TAG = "Collects";
     private RxDataBase rxDataBase;
+    private Subscriber<List<Article>> listSubscriber;
 
     @Override
     protected void initToolBar() {
@@ -35,27 +36,7 @@ public class Collects extends ArticleListActivity {
     @Override
     protected void init() {
         rxDataBase = new RxDataBase(ArticleCollects.ArticleEntry.TABLE_NAME);
-        Subscriber<List<Article>> listSubscriber = new Subscriber<List<Article>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                mSwipeRefreshLayout.setEnabled(false);
-                Snack(getString(R.string.db_error));
-            }
-
-            @Override
-            public void onNext(List<Article> articles) {
-                lists.addAll(articles);
-                adapter.notifyDataSetChanged();
-                mSwipeRefreshLayout.setRefreshing(false);
-                mSwipeRefreshLayout.setEnabled(false);
-            }
-        };
+        listSubscriber = newInstance();
         mSwipeRefreshLayout.setRefreshing(true);
         rxDataBase.favLists
                 .subscribeOn(Schedulers.io())
@@ -77,5 +58,45 @@ public class Collects extends ArticleListActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (listSubscriber == null || listSubscriber.isUnsubscribed()) {
+            newInstance();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (listSubscriber != null) {
+            listSubscriber.unsubscribe();
+        }
+    }
+
+    private Subscriber<List<Article>> newInstance() {
+        return new Subscriber<List<Article>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setEnabled(false);
+                Snack(getString(R.string.db_error));
+            }
+
+            @Override
+            public void onNext(List<Article> articles) {
+                lists.addAll(articles);
+                adapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setEnabled(false);
+            }
+        };
     }
 }
