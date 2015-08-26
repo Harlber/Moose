@@ -111,6 +111,7 @@ public class ArticleFragment extends ArticleListFragment {
                     @Override
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
+                        isRequest = false;//refresh request status
                         e.printStackTrace();
                         if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {
