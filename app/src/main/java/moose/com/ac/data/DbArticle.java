@@ -7,6 +7,7 @@ import moose.com.ac.retrofit.article.Article;
 /**
  * Created by dell on 2015/8/25.
  */
+@Deprecated
 public class DbArticle implements Serializable {
     private Article article;
     private String savedate;
