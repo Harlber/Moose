@@ -52,4 +52,11 @@ public class CommonUtil {
     public static int getMaxLine(){
         return PreferenceUtil.getInt(Config.MAX_LINE,6);
     }
+
+    public static boolean isVisistor(){
+        return PreferenceUtil.getBoolean(Config.VISISTOR_MODE, false);
+    }
+    public static void setVisistor(boolean bl){
+        PreferenceUtil.setBooleanValue(Config.VISISTOR_MODE,bl);
+    }
 }

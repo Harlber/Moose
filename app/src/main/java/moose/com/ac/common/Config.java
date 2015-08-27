@@ -45,4 +45,5 @@ public class Config {
     public static final int TIME_LATE = 200;
 
     public static final String MAX_LINE = "MAX_LINE";
+    public static final String VISISTOR_MODE = "VISISTOR_MODE";
 }

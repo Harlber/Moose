@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.App;
 import moose.com.ac.ArticleViewActivity;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
@@ -83,6 +84,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
 
     @Override
     public void onItemClick(View view, int position) {
+        if (!App.isVistor()) {
+            App.getDbHelper().insertArticle(lists.get(position),ArticleCollects.ArticleHistoryEntry.TABLE_NAME);
+        }
         Intent intent = new Intent(mActivity, ArticleViewActivity.class);
         intent.putExtra(Config.CONTENTID, lists.get(position).getContentId());
         mActivity.startActivity(intent);

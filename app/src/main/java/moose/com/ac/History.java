@@ -25,7 +25,7 @@ public class History extends ArticleListActivity {
 
     @Override
     protected void init() {
-        rxDataBase = new RxDataBase(ArticleCollects.ArticleEntry.TABLE_NAME);
+        rxDataBase = new RxDataBase(ArticleCollects.ArticleHistoryEntry.TABLE_NAME);
         listSubscriber = newInstance();
         mSwipeRefreshLayout.setRefreshing(true);
         rxDataBase.favLists
@@ -96,6 +96,9 @@ public class History extends ArticleListActivity {
                 adapter.notifyDataSetChanged();
                 mSwipeRefreshLayout.setRefreshing(false);
                 mSwipeRefreshLayout.setEnabled(false);
+                if (lists.size()==0) {
+                    Snack(getString(R.string.no_history));
+                }
             }
         };
     }

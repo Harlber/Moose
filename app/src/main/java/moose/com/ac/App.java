@@ -3,6 +3,8 @@ package moose.com.ac;
 import android.app.Application;
 import android.content.Context;
 
+import moose.com.ac.data.DbHelper;
+import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.PreferenceUtil;
 
 /**
@@ -12,11 +14,15 @@ import moose.com.ac.util.PreferenceUtil;
 public class App extends Application {
     private static final String TAG = "App";
     private static Context mContext;
+    private static DbHelper dbHelper;
+    private static boolean isVistor;
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
         new PreferenceUtil(mContext);
+        dbHelper = new DbHelper(this);
+        isVistor = CommonUtil.isVisistor();
     }
 
     @Override
@@ -26,5 +32,17 @@ public class App extends Application {
 
     public static Context getmContext() {
         return mContext;
+    }
+
+    public static DbHelper getDbHelper() {
+        return dbHelper;
+    }
+
+    public static boolean isVistor() {
+        return isVistor;
+    }
+
+    public static void setIsVistor(boolean isVistor) {
+        App.isVistor = isVistor;
     }
 }
