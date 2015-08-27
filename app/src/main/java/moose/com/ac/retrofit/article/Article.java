@@ -56,6 +56,7 @@ public class Article implements Serializable {
 
     private String savedate;
     private String isfav;
+    private String channelType;//used for chart
 
     public ArticleUser getUser() {
         return user;
@@ -191,5 +192,13 @@ public class Article implements Serializable {
 
     public void setIsfav(String isfav) {
         this.isfav = isfav;
+    }
+
+    public String getChannelType() {
+        return channelType;
+    }
+
+    public void setChannelType(String channelType) {
+        this.channelType = channelType;
     }
 }

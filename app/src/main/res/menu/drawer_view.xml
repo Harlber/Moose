@@ -41,10 +41,6 @@
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_dashboard"
                 android:title="@string/about" />
-            <item
-                android:id="@+id/nav_connect_me"
-                android:icon="@drawable/ic_forum"
-                android:title="@string/me" />
         </menu>
     </item>
 

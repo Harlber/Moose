@@ -32,6 +32,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     private Activity mActivity;
     private ArticleListVH.ArticleItemClickListener listener;
     private DbHelper dbHelper;
+    private String type;
 
     public ArticleListAdapter(List<Article> lists) {
         this.lists = lists;
@@ -44,6 +45,12 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         setListener(this);
     }
 
+    public ArticleListAdapter(List<Article> lists, Activity mActivity, String type) {
+        this(lists,mActivity);
+        dbHelper = new DbHelper(mActivity);
+        this.type = type;
+        setListener(this);
+    }
 
     @Override
     public ArticleListVH onCreateViewHolder(ViewGroup parent, int viewType) {

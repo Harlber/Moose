@@ -43,6 +43,9 @@
 #your package path where your gson models are stored
 -keep class moose.com.ac.retrofit.** { *; }
 
+#WilliamChart
+-keep class com.db.chart.** { *; }
+
 ##---------------android  support----------
 -dontwarn android.support.**
 

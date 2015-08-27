@@ -43,6 +43,9 @@
         <activity android:name=".History"
             android:exported="false"
             android:screenOrientation="portrait"/>
+        <activity android:name=".BehaviorChart"
+            android:exported="false"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>
