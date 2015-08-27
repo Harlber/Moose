@@ -50,7 +50,7 @@ dependencies {
     compile "com.android.support:design:$supportVersion"
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'io.reactivex:rxjava:1.0.10'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.infstory:retrofit:2.0.0'
     compile 'io.reactivex:rxandroid:0.25.0'
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.0.4'
     compile 'org.jsoup:jsoup:1.8.1'
