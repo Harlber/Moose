@@ -7,7 +7,9 @@ import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.retrofit.article.ArticleList;
 import moose.com.ac.retrofit.search.SearchBody;
+import retrofit.client.Response;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Query;
 import rx.Observable;
 
@@ -30,5 +32,8 @@ public interface Api {
     Observable<SearchBody> getSearch(@Query("q") String q, @Query("pageNo") int pageNo, @Query("pageSize") int pageSize);
 
     @GET(Config.API_SORT)/*?channelIds=110,73,74,75*/
-    Observable<ArticleList> getSortList(@Query("channelIds")String channelIds,@Query("pageSize") int pageSize);
+    Observable<ArticleList> getSortList(@Query("channelIds") String channelIds, @Query("pageSize") int pageSize);
+
+    @POST(Config.API_LOGIN)
+    Observable<Response> login(@Query("username") String username, @Query("password") String password);
 }

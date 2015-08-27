@@ -14,6 +14,7 @@ public class Config {
     public static final String API_ARTICLE = "/apiserver/content/article";
     public static final String API_SEARCH = "/search?type=2&field=title&sortField=releaseDate&parentChannelId=63";
     public static final String API_SORT = "/apiserver/content/rank";
+    public static final String API_LOGIN = "/login.aspx";
 
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
