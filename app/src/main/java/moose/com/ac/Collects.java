@@ -2,6 +2,7 @@ package moose.com.ac;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +26,6 @@ import rx.schedulers.Schedulers;
  */
 public final class Collects extends ArticleListActivity {
     private static final String TAG = "Collects";
-    private RxDataBase rxDataBase;
     private Subscriber<List<Article>> listSubscriber;
     private Subscriber<Integer> deleteSubscriber;
 
@@ -133,37 +133,8 @@ public final class Collects extends ArticleListActivity {
                 mSwipeRefreshLayout.setEnabled(false);
                 if (lists.size() == 0) {
                     Snack(getString(R.string.no_collects_now));
+                    new Handler().postDelayed(Collects.this::finish, 2000);
                 }
-            }
-        };
-    }
-
-    private Subscriber<Integer> newDeleteInstance() {
-        return new Subscriber<Integer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                mSwipeRefreshLayout.setRefreshing(false);
-                mSwipeRefreshLayout.setEnabled(false);
-                Snack(getString(R.string.remove_data_error));
-            }
-
-            @Override
-            public void onNext(Integer integer) {
-                if (integer>1) {
-                    lists.clear();
-                    adapter.notifyDataSetChanged();
-                    Snack(getString(R.string.data_clear_already));
-                }else {
-                    Snack(getString(R.string.delete_data_dalse));
-                }
-                mSwipeRefreshLayout.setRefreshing(false);
-                mSwipeRefreshLayout.setEnabled(false);
             }
         };
     }
@@ -173,12 +144,16 @@ public final class Collects extends ArticleListActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(Collects.this);
         builder.setMessage(str)
                 .setPositiveButton(R.string.positive, (dialog, id) -> {
-                    mSwipeRefreshLayout.setEnabled(true);
-                    mSwipeRefreshLayout.setRefreshing(true);
-                    rxDataBase.dropTable
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(deleteSubscriber);
+                    if (lists.size()==0) {
+                        Snack(getString(R.string.no_data_to_clear));
+                    }else {
+                        mSwipeRefreshLayout.setEnabled(true);
+                        mSwipeRefreshLayout.setRefreshing(true);
+                        rxDataBase.dropTable
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(deleteSubscriber);
+                    }
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {
 

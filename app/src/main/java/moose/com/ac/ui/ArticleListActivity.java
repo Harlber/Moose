@@ -11,8 +11,10 @@ import java.util.List;
 
 import moose.com.ac.R;
 import moose.com.ac.data.DbHelper;
+import moose.com.ac.data.RxDataBase;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
+import rx.Subscriber;
 
 /**
  * Created by dell on 2015/8/25.
@@ -28,6 +30,8 @@ public abstract class ArticleListActivity extends AppCompatActivity {
     protected ArticleListAdapter adapter;
     protected boolean isRequest = false;//request data status
     protected boolean isScroll = false;//is RecyclerView scrolling
+
+    protected RxDataBase rxDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,5 +92,35 @@ public abstract class ArticleListActivity extends AppCompatActivity {
 
     protected void Snack(String msg) {
         Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    protected Subscriber<Integer> newDeleteInstance() {
+        return new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setEnabled(false);
+                Snack(getString(R.string.remove_data_error));
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                if (integer>1) {
+                    lists.clear();
+                    adapter.notifyDataSetChanged();
+                    Snack(getString(R.string.data_clear_already));
+                }else {
+                    Snack(getString(R.string.delete_data_dalse));
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setEnabled(false);
+            }
+        };
     }
 }
