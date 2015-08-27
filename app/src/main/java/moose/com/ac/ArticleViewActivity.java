@@ -378,6 +378,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     if (oldMode != CommonUtil.getMode()) {
                         if (HtmlBody != null && !HtmlBody.equals("")) {
                             filterImg(HtmlBody);//whenever mode what,do this
+                            mWeb.stopLoading();//maybe load image then ANR comes
                             mWeb.loadData(CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html; charset=UTF-8", null);
                         } else {
                             Snack(getString(R.string.get_data_again));
