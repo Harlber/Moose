@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getToolBarTitle());
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         if (viewPager != null) {
             setupViewPager(viewPager);

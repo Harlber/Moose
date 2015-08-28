@@ -93,6 +93,7 @@ public class ArticleFragment extends ArticleListFragment {
     public void onPause() {
         super.onPause();
         RxUtils.unsubscribeIfNotNull(subscription);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void loadData(int tp, int pg, boolean isSave) {
