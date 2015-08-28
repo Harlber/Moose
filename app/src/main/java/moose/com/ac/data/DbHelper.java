@@ -24,7 +24,7 @@ public class DbHelper {
         return mDbHelper;
     }
 
-    public boolean insertArticle(Article article, String tabName) {
+    public boolean insertArticle(Article article, String tabName,int channel) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -36,6 +36,7 @@ public class DbHelper {
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE, article.getReleaseDate() + "");
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE,article.getSavedate() );
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ISFAV, article.getIsfav());
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_CHANNEL, channel);
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;
@@ -69,6 +70,12 @@ public class DbHelper {
         db.close();
         Log.i(TAG, "isExits result:" + isFav);
         return isFav;
+    }
+    public void dropSql(String tab){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String deleteSql = "drop table if exists " + tab;
+        db.execSQL(deleteSql);
+        db.close();
     }
 
 }

@@ -27,7 +27,8 @@ public final class ArticleCollects {
                     ArticleEntry.COLUMN_NAME_COMMENT + TEXT_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_RELEASEDATE + TEXT_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_SAVEDATE + TEXT_TYPE + COMMA_SEP +
-                    ArticleEntry.COLUMN_NAME_ISFAV + TEXT_TYPE +
+                    ArticleEntry.COLUMN_NAME_ISFAV + TEXT_TYPE +COMMA_SEP+
+                    ArticleEntry.COLUMN_NAME_CHANNEL + INTEGER_TYPE +
             ")";
 
     public static final String SQL_DELETE_ARTICLESTORY =
@@ -44,7 +45,8 @@ public final class ArticleCollects {
                     ArticleHistoryEntry.COLUMN_NAME_COMMENT + TEXT_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE + TEXT_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_SAVEDATE + TEXT_TYPE + COMMA_SEP +
-                    ArticleHistoryEntry.COLUMN_NAME_ISFAV + TEXT_TYPE +
+                    ArticleHistoryEntry.COLUMN_NAME_ISFAV + TEXT_TYPE +COMMA_SEP+
+                    ArticleHistoryEntry.COLUMN_NAME_CHANNEL + INTEGER_TYPE +
                     ")";
 
     public static final String SQL_DELETE_ARTICLEHISTORY =
@@ -65,6 +67,7 @@ public final class ArticleCollects {
         public static final String COLUMN_NAME_RELEASEDATE = "releaserdate";
         public static final String COLUMN_NAME_SAVEDATE = "savedate";
         public static final String COLUMN_NAME_ISFAV = "isfav";
+        public static final String COLUMN_NAME_CHANNEL = "channelid";
     }
     public static abstract class ArticleHistoryEntry implements BaseColumns{
         public static final String TABLE_NAME = "histroy";
@@ -78,5 +81,6 @@ public final class ArticleCollects {
         public static final String COLUMN_NAME_RELEASEDATE = "releaserdate";
         public static final String COLUMN_NAME_SAVEDATE = "savedate";
         public static final String COLUMN_NAME_ISFAV = "isfav";
+        public static final String COLUMN_NAME_CHANNEL = "channelid";
     }
 }

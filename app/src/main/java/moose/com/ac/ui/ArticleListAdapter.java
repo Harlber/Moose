@@ -32,7 +32,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     private Activity mActivity;
     private ArticleListVH.ArticleItemClickListener listener;
     private DbHelper dbHelper;
-    private String type;
+    private int channnel = Config.COMPLEX;//add channel support
 
     public ArticleListAdapter(List<Article> lists) {
         this.lists = lists;
@@ -45,10 +45,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         setListener(this);
     }
 
-    public ArticleListAdapter(List<Article> lists, Activity mActivity, String type) {
+    public ArticleListAdapter(List<Article> lists, Activity mActivity, int channnel) {
         this(lists,mActivity);
         dbHelper = new DbHelper(mActivity);
-        this.type = type;
+        this.channnel = channnel;
         setListener(this);
     }
 
@@ -95,7 +95,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         Article article = lists.get(position);
         article.setSavedate(String.valueOf(System.currentTimeMillis()));
         if (!App.isVistor()) {
-            App.getDbHelper().insertArticle(article,ArticleCollects.ArticleHistoryEntry.TABLE_NAME);
+            App.getDbHelper().insertArticle(article,ArticleCollects.ArticleHistoryEntry.TABLE_NAME,channnel);
         }
         Intent intent = new Intent(mActivity, ArticleViewActivity.class);
         intent.putExtra(Config.CONTENTID, lists.get(position).getContentId());
@@ -111,8 +111,16 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         } else {
             article.setIsfav(Config.STORE);//set not fav
             article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
-            dbHelper.insertArticle(article, TAB_NAME);//remove from db
+            dbHelper.insertArticle(article, TAB_NAME,channnel);//remove from db
         }
         notifyDataSetChanged();
+    }
+
+    public int getChannnel() {
+        return channnel;
+    }
+
+    public void setChannnel(int channnel) {
+        this.channnel = channnel;
     }
 }

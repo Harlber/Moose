@@ -17,7 +17,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="@dimen/card_margin"
-        card_view:cardBackgroundColor="#4e6b1b"
+        card_view:cardBackgroundColor="#FFF3FFE6"
         card_view:cardCornerRadius="4dp">
         <com.db.chart.view.LineChartView
             xmlns:chart="http://schemas.android.com/apk/res-auto"

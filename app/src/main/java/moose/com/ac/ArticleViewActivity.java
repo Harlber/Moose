@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -120,7 +121,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         mWeb.setOnScrollChangedCallback(this);
         level = CommonUtil.getTextSize();
         setText();
-        initData();
+        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
+        new Handler().postDelayed(this::initData, Config.TIME_LATE);
     }
 
     @Override
@@ -176,7 +178,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     protected void initData() {
         HtmlBody = "";
         HtmlBodyClone = "";//maybe reset by getting data again
-        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
         subscription.add(api.getArticleBody(contendid)
                 .observeOn(AndroidSchedulers.mainThread())

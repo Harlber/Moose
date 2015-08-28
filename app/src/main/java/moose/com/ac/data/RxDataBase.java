@@ -64,10 +64,20 @@ public class RxDataBase {
     public Observable<Integer> dropTable = Observable.create(subscriber -> {
         DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        int result = db.delete(tabName,null,null);
+        int result = db.delete(tabName, null, null);
         db.close();
         subscriber.onNext(result);
         subscriber.onCompleted();
+    });
+
+    public Observable<Integer> ReSetInstance = Observable.create(subscriber -> {
+        DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        //create table after dropping
+        db.execSQL(ArticleCollects.SQL_DELETE_ARTICLESTORY);//
+        db.execSQL(ArticleCollects.SQL_DELETE_ARTICLEHISTORY);//
+        db.execSQL(ArticleCollects.SQL_CREATE_ARTICLESTORY);//story
+        db.execSQL(ArticleCollects.SQL_CREATE_ARTICLEHISTORY);//history
     });
 
 }

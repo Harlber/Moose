@@ -37,7 +37,8 @@ public class Config {
     public static final int OKHTTP_CLIENT_WRITE_TIMEOUT = 5;
     public static final int OKHTTP_CLIENT_READ_TIMEOUT = 5;
 
-    public static final int PAGESIZE = 10;
+    public static final int PAGESIZE = 20;
+
     public static final int COMPLEX = 110;
     public static final int WORK = 73;
     public static final int ANIMATION = 74;

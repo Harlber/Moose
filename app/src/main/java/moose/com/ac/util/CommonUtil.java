@@ -65,6 +65,7 @@ public class CommonUtil {
     public static String[] getDays() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
         String str = df.format(new Date());
+        str = "2015-08-11 08:12:54";
         String[] index = new String[7];
         ArrayList<String> data = new ArrayList<>();
         int MON_TWO;
@@ -109,10 +110,13 @@ public class CommonUtil {
 
             if (iday > 6) {
                 String m = "";
+                String n = "";
                 if (imon < 10)
                     m = " 0";
-                for (int i = 0; i < 6; i++)
-                    data.add(m + imon + "/" + --iday);
+                for (int i = 0; i < 6; i++) {
+                    n = (iday - 1) < 10 ? " 0" : "";
+                    data.add(m + imon + "/" + n + (--iday));
+                }
             } else {
                 String m = "";
                 if (imon < 10)
