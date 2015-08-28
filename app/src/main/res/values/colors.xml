@@ -32,4 +32,5 @@
     <color name="main_color_dark">#0099cc</color>
     <color name="md_grey_1000">#000000</color>
     <color name="md_teal_800">#00695c</color>
+    <color name="contents">#00000000</color>
 </resources>

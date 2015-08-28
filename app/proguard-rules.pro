@@ -53,6 +53,13 @@
 # https://github.com/evant/gradle-retrolambda#user-content-proguard
 -dontwarn java.lang.invoke.*
 
+#Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}
+
 # Remove logging calls
 -assumenosideeffects class android.util.Log {
     public static boolean isLoggable(java.lang.String, int);

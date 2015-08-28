@@ -15,19 +15,26 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="192dp"
     android:background="?attr/colorPrimaryDark"
     android:padding="16dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:orientation="vertical"
-    android:gravity="bottom">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <TextView
+        android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Username"
+        android:text="南小鸟"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/magin_8"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-
-</LinearLayout>
+    <moose.com.ac.ui.view.CircleImageView
+        android:id="@+id/login_userimg"
+        android:layout_above="@id/login_username"
+        android:layout_marginBottom="8dp"
+        android:background="@color/contents"
+        android:layout_width="96dp"
+        android:layout_height="96dp" />
+</RelativeLayout>

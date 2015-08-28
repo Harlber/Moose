@@ -28,13 +28,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.ui.ArticleFragment;
+import moose.com.ac.ui.view.CircleImageView;
 import moose.com.ac.ui.view.SearchBar;
+import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 /**
@@ -46,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Toolbar toolbar;
+    private TextView user_name;
+    private CircleImageView logo;
     private Adapter adapter;
     private int type = 0; /*orderBy 0：最近 1：人气最旺 3：评论最多*/
 
@@ -97,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        user_name = (TextView)findViewById(R.id.login_username);
+        logo = (CircleImageView)findViewById(R.id.login_userimg);
+
         searchBar = new SearchBar();
         card_search = (CardView) findViewById(R.id.card_search);
         view_search = (RelativeLayout) findViewById(R.id.view_search);
@@ -113,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
             toolbar_shadow.setVisibility(View.VISIBLE);
             isSearch = false;
         });
+
+        Glide.with(this)
+                .load(CommonUtil.getUserLogo())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(logo);
 
     }
 

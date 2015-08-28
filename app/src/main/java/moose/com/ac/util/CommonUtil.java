@@ -61,6 +61,15 @@ public class CommonUtil {
     public static void setVisistor(boolean bl) {
         PreferenceUtil.setBooleanValue(Config.VISISTOR_MODE, bl);
     }
+    public static String getUserName(){
+        return PreferenceUtil.getString(Config.USERNAME,"未登陆");
+    }
+    public static void setUserName(String name){
+        PreferenceUtil.setStringValue(Config.USERNAME,name);
+    }
+    public static String getUserLogo(){
+        return PreferenceUtil.getString(Config.USER_LOG,"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201508/28125157rq4fchv6.jpg");
+    }
 
     public static String[] getDays() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
