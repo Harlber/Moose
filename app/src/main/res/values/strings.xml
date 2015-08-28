@@ -39,7 +39,7 @@
     <string name="upuser">"UP主: "</string>
 
     <!--about-->
-    <string name="application_info_title">Application Info</string>
+    <string name="application_info_title">App Info</string>
     <string name="license_title">License</string>
     <string name="application_info_text" formatted="false">
         <![CDATA[
@@ -61,10 +61,10 @@
             limitations under the License.</p>
         ]]>
     </string>
-    <string name="developer_info_title">About me</string>
+    <string name="developer_info_title">Special Contribution</string>
         <string name="developer_info_text">
         <![CDATA[
-            <p><a href="https://github.com/Harlber">My Github</a></p>
+            <p>咲くやこの花❤</p>
         ]]>
     </string>
     <string name="get_data_again">正在重新获取数据</string>

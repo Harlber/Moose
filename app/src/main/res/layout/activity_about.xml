@@ -42,7 +42,8 @@
                     android:id="@+id/text_developer_info"
                     style="@style/textContentStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_teal_800"/>
 
                 <TextView
                     style="@style/HeadlineTextStyle"
