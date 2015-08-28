@@ -28,7 +28,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import moose.com.ac.common.Config;
+import moose.com.ac.data.ArticleCollects;
+import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.Api;
+import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.ui.view.ObservableWebView;
@@ -53,8 +56,10 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private static final String TAG = "ArticleViewActivity";
     private static final int FAB_SHOW = 0x0000aa;
     private static final int FAB_HIDE = 0x0000bb;
+    private String TAB_NAME = ArticleCollects.ArticleEntry.TABLE_NAME;
     private ObservableWebView mWeb;
     private FloatingActionButton fab;
+    private MenuItem menFav;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
@@ -65,18 +70,27 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private WebSettings settings;
     private int contendid;//article id
     private int fabStatus = FAB_SHOW;
+
     private String title = "";//default
     private String user = "";//default
     private String contend;
     private int toolbarHeight;
     private int level = 1;
+    private boolean isFav = false;
+    private Article article;
+
+    private DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_view);
 
-        contendid = getIntent().getIntExtra(Config.CONTENTID, 1);
+        dbHelper = new DbHelper(this);
+
+        article = (Article)getIntent().getSerializableExtra(Config.ARTICLE);
+        isFav = dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId()));
+        contendid = article.getContentId();
         toolbarHeight = DisplayUtil.dip2px(this, 56f);
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
@@ -122,12 +136,16 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         level = CommonUtil.getTextSize();
         setText();
         mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
-        new Handler().postDelayed(this::initData, Config.TIME_LATE);
+        new Handler().postDelayed(() -> {
+            menFav.setTitle(isFav?getString(R.string.store_it):getString(R.string.cancel_store));
+            initData();
+        },Config.TIME_LATE);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_view_article, menu);
+        menFav = menu.findItem(R.id.action_store);
         return true;
     }
 
@@ -149,6 +167,29 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 return true;
             case R.id.action_module_view:
                 createModeDialog().show();
+                return true;
+            case R.id.action_store:
+                if (isFav) {//cancel store
+                    boolean deleteSuc = App.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME,String.valueOf(contendid));
+                    menFav.setTitle(deleteSuc?getString(R.string.cancel_store):getString(R.string.store_it));
+                    isFav = !deleteSuc;
+                    if(deleteSuc) {
+                        Snack(getString(R.string.cancel_success));
+                    }else {
+                        Snack(getString(R.string.cancel_fal));
+                    }
+                }else {//store it
+                    article.setIsfav(Config.STORE);//set not fav
+                    article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
+                    boolean insertSuc = dbHelper.insertArticle(article, TAB_NAME, article.getChannelId());
+                    menFav.setTitle(insertSuc ? getString(R.string.store_it) : getString(R.string.cancel_store));
+                    isFav = insertSuc;
+                    if(isFav) {
+                        Snack(getString(R.string.store_success));
+                    }else {
+                        Snack(getString(R.string.store_fal));
+                    }
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);

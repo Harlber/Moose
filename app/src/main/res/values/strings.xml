@@ -88,4 +88,10 @@
     <string name="locus">轨迹图</string>
     <string name="no_data_to_clear">没有数据可以清除</string>
     <string name="reset">重置</string>
+    <string name="store_it">取消收藏</string>
+    <string name="cancel_store">收藏</string>
+    <string name="cancel_success">取消收藏成功</string>
+    <string name="store_success">收藏成功</string>
+    <string name="store_fal">收藏失败</string>
+    <string name="cancel_fal">取消收藏失败</string>
 </resources>

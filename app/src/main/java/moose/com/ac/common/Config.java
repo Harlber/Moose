@@ -19,7 +19,9 @@ public class Config {
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
     public static final String CONTENTID = "CONTENTID";
+    public static final String ISFAV = "ISFAV";
     public static final String TITLE = "TITLE";
+    public static final String ARTICLE = "ARTICLE";
     public static final String STORE = "st";
     public static final String NO_ST = "nost";
     /*setting*/

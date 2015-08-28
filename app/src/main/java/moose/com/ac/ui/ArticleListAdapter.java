@@ -2,6 +2,7 @@ package moose.com.ac.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -95,10 +96,12 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         Article article = lists.get(position);
         article.setSavedate(String.valueOf(System.currentTimeMillis()));
         if (!App.isVistor()) {
-            App.getDbHelper().insertArticle(article,ArticleCollects.ArticleHistoryEntry.TABLE_NAME,channnel);
+            App.getDbHelper().insertArticle(article,ArticleCollects.ArticleHistoryEntry.TABLE_NAME,article.getChannelId());
         }
         Intent intent = new Intent(mActivity, ArticleViewActivity.class);
-        intent.putExtra(Config.CONTENTID, lists.get(position).getContentId());
+        Bundle mBundle = new Bundle();
+        mBundle.putSerializable(Config.ARTICLE, article);
+        intent.putExtras(mBundle);
         new Handler().postDelayed(() -> mActivity.startActivity(intent), 50);//make sure db insert done before intent
     }
 
