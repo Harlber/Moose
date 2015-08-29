@@ -2,6 +2,7 @@ package moose.com.ac.ui;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -65,7 +66,10 @@ public class CommentListFragment extends Fragment {
         adapter = new CommentAdapter(getActivity(), data, commentIdList);
         initRecyclerView();
         initRefreshLayout();
-        init();
+        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
+        new Handler().postDelayed(() -> {
+            loadData(page);
+        }, Config.TIME_LATE);
         return rootView;
     }
 
@@ -127,7 +131,6 @@ public class CommentListFragment extends Fragment {
 
     private void init() {
         fab = (FloatingActionButton) rootView.findViewById(R.id.news_fab);
-        loadData(page);
     }
 
     private void doSwapeRefresh() {
@@ -138,7 +141,6 @@ public class CommentListFragment extends Fragment {
     }
 
     private void loadData(int pg) {
-        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));//show progressbar
         subscription.add(api.getCommentList(contentId, pg)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<JsonObject>() {
