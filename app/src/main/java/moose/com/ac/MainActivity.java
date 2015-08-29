@@ -38,6 +38,7 @@ import java.util.List;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.ui.ArticleFragment;
+import moose.com.ac.ui.ArticleListFragment;
 import moose.com.ac.ui.view.CircleImageView;
 import moose.com.ac.ui.view.SearchBar;
 import moose.com.ac.util.CommonUtil;
@@ -99,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        fab.setOnClickListener(view ->
+        adapter.getFragment(viewPager.getCurrentItem()).getmRecyclerView().smoothScrollToPosition(0));
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -242,7 +243,9 @@ public class MainActivity extends AppCompatActivity {
             mFragments.add(fragment);
             mFragmentTitles.add(title);
         }
-
+        public ArticleFragment getFragment(int position){
+            return mFragments.get(position);
+        }
         @Override
         public Fragment getItem(int position) {
             return mFragments.get(position);

@@ -70,4 +70,7 @@ public abstract class ArticleListFragment extends Fragment {
         Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
     }
 
+    public RecyclerView getmRecyclerView() {
+        return mRecyclerView;
+    }
 }
