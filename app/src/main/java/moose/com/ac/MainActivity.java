@@ -42,8 +42,11 @@ import moose.com.ac.ui.ArticleListFragment;
 import moose.com.ac.ui.view.CircleImageView;
 import moose.com.ac.ui.view.SearchBar;
 import moose.com.ac.util.CommonUtil;
+import moose.com.ac.util.ScrollFABBehavior;
 import moose.com.ac.util.ScrollUtils;
 import moose.com.ac.util.ZoomOutPageTransformer;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * when intent another activity,need cancel network request
@@ -51,6 +54,7 @@ import moose.com.ac.util.ZoomOutPageTransformer;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
+    private static FloatingActionButton fab;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Toolbar toolbar;
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             setupViewPager(viewPager);
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(view ->
         adapter.getFragment(viewPager.getCurrentItem()).getmRecyclerView().smoothScrollToPosition(0));
 
@@ -287,5 +291,17 @@ public class MainActivity extends AppCompatActivity {
             return getString(R.string.most_coment);
         }
     }
+
+    public static Observable<Integer> hideFab = Observable.create(subscriber -> {
+        ScrollFABBehavior.animateOut(fab);
+        subscriber.onNext(1);
+        subscriber.onCompleted();
+    });
+
+    public static Observable<Integer> showFab = Observable.create(subscriber -> {
+        ScrollFABBehavior.animateIn(fab);
+        subscriber.onNext(1);
+        subscriber.onCompleted();
+    });
 
 }
