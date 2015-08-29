@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -38,15 +37,12 @@ import java.util.List;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.ui.ArticleFragment;
-import moose.com.ac.ui.ArticleListFragment;
 import moose.com.ac.ui.view.CircleImageView;
 import moose.com.ac.ui.view.SearchBar;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.ScrollFABBehavior;
-import moose.com.ac.util.ScrollUtils;
 import moose.com.ac.util.ZoomOutPageTransformer;
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * when intent another activity,need cancel network request
