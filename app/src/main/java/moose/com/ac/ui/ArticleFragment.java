@@ -19,7 +19,6 @@ import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleList;
-import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
 import retrofit.RetrofitError;
 import rx.Observer;
@@ -38,7 +37,6 @@ public class ArticleFragment extends ArticleListFragment {
     private static final int MIN_SCROLL_TO_HIDE = 10;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Subscriber<Integer> subscriber = newFabInstance();
-    private Subscriber<Integer> subscribershow = newFabInstance();
     private Api api;
     private boolean isRequest = false;//request data status
     private boolean isHide = false;
@@ -46,7 +44,7 @@ public class ArticleFragment extends ArticleListFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,@Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.fragment_article_list, container, false);
         mChannelId = getArguments().getInt(Config.CHANNEL_ID);
@@ -88,7 +86,7 @@ public class ArticleFragment extends ArticleListFragment {
                     if (accummulatedDy < (0 - MIN_SCROLL_TO_HIDE) && isHide) {
                         MainActivity.showFab
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(subscribershow);
+                                .subscribe(subscriber);
                         isHide = false;
                     }
                 }
@@ -116,9 +114,6 @@ public class ArticleFragment extends ArticleListFragment {
         if (subscriber == null || subscriber.isUnsubscribed()) {
             subscriber = newFabInstance();
         }
-        if (subscribershow == null || subscribershow.isUnsubscribed()) {
-            subscribershow = newFabInstance();
-        }
     }
 
     @Override
@@ -128,9 +123,6 @@ public class ArticleFragment extends ArticleListFragment {
         mSwipeRefreshLayout.setRefreshing(false);
         if (subscriber != null) {
             subscriber.unsubscribe();
-        }
-        if (subscribershow != null) {
-            subscribershow.unsubscribe();
         }
     }
 
