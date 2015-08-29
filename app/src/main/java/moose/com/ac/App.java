@@ -2,6 +2,8 @@ package moose.com.ac;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.squareup.leakcanary.LeakCanary;
 
@@ -18,6 +20,7 @@ public class App extends Application {
     private static Context mContext;
     private static DbHelper dbHelper;
     private static boolean isVistor;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -47,5 +50,16 @@ public class App extends Application {
 
     public static void setIsVistor(boolean isVistor) {
         App.isVistor = isVistor;
+    }
+
+    public static boolean isWifi() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null
+                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
     }
 }
