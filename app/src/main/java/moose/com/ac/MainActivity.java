@@ -42,6 +42,7 @@ import moose.com.ac.ui.ArticleListFragment;
 import moose.com.ac.ui.view.CircleImageView;
 import moose.com.ac.ui.view.SearchBar;
 import moose.com.ac.util.CommonUtil;
+import moose.com.ac.util.ScrollUtils;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 /**
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 .load(CommonUtil.getUserLogo())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(logo);
+
 
     }
 
