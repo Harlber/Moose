@@ -48,6 +48,7 @@ public class RxDataBase {
                     article.setReleaseDate(Long.valueOf(c.getString(c.getColumnIndex("releaserdate"))));
                     article.setSavedate(c.getString(c.getColumnIndex("savedate")));
                     article.setIsfav(c.getString(c.getColumnIndex("isfav")));
+                    article.setChannelId(c.getInt(c.getColumnIndex("channelid")));
 
                     article.setUser(user);
                     lists.add(article);
