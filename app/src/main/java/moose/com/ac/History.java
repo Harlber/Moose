@@ -117,7 +117,7 @@ public class History extends ArticleListActivity {
             @Override
             public void onNext(List<Article> articles) {
                 lists.addAll(articles);
-                SortUtil.StoreComparator comparator = new SortUtil.StoreComparator();
+                SortUtil.HisComparator comparator = new SortUtil.HisComparator();
                 Collections.sort(lists, comparator);
                 adapter.notifyDataSetChanged();
                 mSwipeRefreshLayout.setRefreshing(false);

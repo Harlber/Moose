@@ -24,4 +24,13 @@ public class SortUtil {
             return Integer.valueOf((article.getReleaseDate() - t1.getReleaseDate()) + "");
         }
     }
+
+    public static class HisComparator implements Comparator<Article> {
+
+        @Override
+        public int compare(Article article, Article t1) {
+            return Integer.valueOf(String.valueOf(Long.valueOf(t1.getSavedate()) - Long.valueOf(article.getSavedate())));
+
+        }
+    }
 }
