@@ -40,12 +40,12 @@ public class RxDataBase {
                 while (c.moveToNext()) {
                     Article article = new Article();
                     ArticleUser user = new ArticleUser();
-                    article.setContentId(Integer.valueOf(c.getString(c.getColumnIndex("contentId"))));
+                    article.setContentId(c.getInt(c.getColumnIndex("contentId")));
                     article.setTitle(c.getString(c.getColumnIndex("title")));
-                    article.setViews(Integer.valueOf(c.getString(c.getColumnIndex("views"))));
+                    article.setViews(c.getInt(c.getColumnIndex("views")));
                     user.setUsername(c.getString(c.getColumnIndex("username")));
-                    article.setComments(Integer.valueOf(c.getString(c.getColumnIndex("comment"))));
-                    article.setReleaseDate(Long.valueOf(c.getString(c.getColumnIndex("releaserdate"))));
+                    article.setComments(c.getInt(c.getColumnIndex("comment")));
+                    article.setReleaseDate(c.getLong(c.getColumnIndex("releaserdate")));
                     article.setSavedate(c.getString(c.getColumnIndex("savedate")));
                     article.setIsfav(c.getString(c.getColumnIndex("isfav")));
                     article.setChannelId(c.getInt(c.getColumnIndex("channelid")));
