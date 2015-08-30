@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
             isSearch = false;
         } else {
             if (viewPager.getCurrentItem() == 0) {
-                super.onBackPressed();
+                MainActivity.this.finish();
             } else {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
             }
