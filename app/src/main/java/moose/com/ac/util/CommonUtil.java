@@ -1,5 +1,7 @@
 package moose.com.ac.util;
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +31,7 @@ public class CommonUtil {
 
     public static String toDate(Long aLong) {
         String beginDate = String.valueOf(aLong);
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(new Date(Long.parseLong(beginDate)));
     }
@@ -72,9 +75,9 @@ public class CommonUtil {
     }
 
     public static String[] getDays() {
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
         String str = df.format(new Date());
-        str = "2015-08-11 08:12:54";
         String[] index = new String[7];
         ArrayList<String> data = new ArrayList<>();
         int MON_TWO;
@@ -133,7 +136,7 @@ public class CommonUtil {
                 for (int i = 1; i < iday; i++)
                     data.add(m + imon + "/" + (iday - i));
                 for (int j = 0; j < 7 - iday; j++)
-                    data.add(m + (imon - 1) + "/" + (isLeap(imon - 1) - j));
+                    data.add(m + (imon - 1) + "/" + (daysInMonth(imon - 1) - j));
             }
         }
         for (int i = 0; i < data.size(); i++) {
@@ -142,7 +145,7 @@ public class CommonUtil {
         return index;
     }
 
-    public static int isLeap(int mon) {
+    public static int daysInMonth(int mon) {
         switch (mon) {
             case 1:
             case 3:
