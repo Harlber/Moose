@@ -77,6 +77,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private int toolbarHeight;
     private int level = 1;
     private boolean isFav = false;
+    private boolean isWebViewLoading  =false;
     private Article article;
 
     private DbHelper dbHelper;
@@ -417,6 +418,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         }
                 )
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
+                    if(isWebViewLoading)//cancel loading
+                        mWeb.stopLoading();
                     if (oldMode != CommonUtil.getMode()) {
                         if (HtmlBody != null && !HtmlBody.equals("")) {
                             filterImg(HtmlBody);//whenever mode what,do this
@@ -502,6 +505,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
+            isWebViewLoading = true;
             mSwipeRefreshLayout.setEnabled(true);
             mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         }
@@ -509,6 +513,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            isWebViewLoading  =false;
             mSwipeRefreshLayout.setRefreshing(false);
             mSwipeRefreshLayout.setEnabled(false);
         }
