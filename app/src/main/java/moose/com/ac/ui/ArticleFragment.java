@@ -1,11 +1,11 @@
 package moose.com.ac.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +22,6 @@ import moose.com.ac.retrofit.article.ArticleList;
 import moose.com.ac.util.RxUtils;
 import retrofit.RetrofitError;
 import rx.Observer;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -36,7 +35,7 @@ public class ArticleFragment extends ArticleListFragment {
     private static final String TAG = "ArticleFragment";
     private static final int MIN_SCROLL_TO_HIDE = 10;
     private CompositeSubscription subscription = new CompositeSubscription();
-    private Subscriber<Integer> subscriber = newFabInstance();
+    private MainActivity mainActivity;
     private Api api;
     private boolean isRequest = false;//request data status
     private boolean isHide = false;
@@ -76,17 +75,13 @@ public class ArticleFragment extends ArticleListFragment {
                 if (dy > 0) {
                     accummulatedDy = accummulatedDy > 0 ? accummulatedDy + dy : dy;
                     if (accummulatedDy > MIN_SCROLL_TO_HIDE && !isHide) {
-                        MainActivity.hideFab
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(subscriber);
+                        mainActivity.animateOut();
                         isHide = true;
                     }
                 } else if (dy < 0) {
                     accummulatedDy = accummulatedDy < 0 ? accummulatedDy + dy : dy;
                     if (accummulatedDy < (0 - MIN_SCROLL_TO_HIDE) && isHide) {
-                        MainActivity.showFab
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(subscriber);
+                        mainActivity.animateIn();
                         isHide = false;
                     }
                 }
@@ -111,9 +106,6 @@ public class ArticleFragment extends ArticleListFragment {
     public void onResume() {
         super.onResume();
         subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-        if (subscriber == null || subscriber.isUnsubscribed()) {
-            subscriber = newFabInstance();
-        }
     }
 
     @Override
@@ -121,9 +113,18 @@ public class ArticleFragment extends ArticleListFragment {
         super.onPause();
         RxUtils.unsubscribeIfNotNull(subscription);
         mSwipeRefreshLayout.setRefreshing(false);
-        if (subscriber != null) {
-            subscriber.unsubscribe();
-        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mainActivity = (MainActivity) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mainActivity = null;
     }
 
     private void loadData(int tp, int pg, boolean isSave) {
@@ -180,25 +181,6 @@ public class ArticleFragment extends ArticleListFragment {
         type = change;
         mPage = 1;
         loadData(type, mPage, false);
-    }
-
-    private Subscriber<Integer> newFabInstance() {
-        return new Subscriber<Integer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(Integer integer) {
-                Log.i(TAG, "fab complete");
-            }
-        };
     }
 
 }

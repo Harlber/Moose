@@ -77,7 +77,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private int toolbarHeight;
     private int level = 1;
     private boolean isFav = false;
-    private boolean isWebViewLoading  =false;
+    private boolean isWebViewLoading = false;
     private Article article;
 
     private DbHelper dbHelper;
@@ -89,7 +89,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
         dbHelper = new DbHelper(this);
 
-        article = (Article)getIntent().getSerializableExtra(Config.ARTICLE);
+        article = (Article) getIntent().getSerializableExtra(Config.ARTICLE);
         isFav = dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId()));
         contendid = article.getContentId();
         toolbarHeight = DisplayUtil.dip2px(this, 56f);
@@ -138,9 +138,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         setText();
         mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
         new Handler().postDelayed(() -> {
-            menFav.setTitle(isFav?getString(R.string.store_it):getString(R.string.cancel_store));
+            menFav.setTitle(isFav ? getString(R.string.store_it) : getString(R.string.cancel_store));
             initData();
-        },Config.TIME_LATE);
+        }, Config.TIME_LATE);
     }
 
     @Override
@@ -171,23 +171,23 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 return true;
             case R.id.action_store:
                 if (isFav) {//cancel store
-                    boolean deleteSuc = App.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME,String.valueOf(contendid));
-                    menFav.setTitle(deleteSuc?getString(R.string.cancel_store):getString(R.string.store_it));
+                    boolean deleteSuc = App.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME, String.valueOf(contendid));
+                    menFav.setTitle(deleteSuc ? getString(R.string.cancel_store) : getString(R.string.store_it));
                     isFav = !deleteSuc;
-                    if(deleteSuc) {
+                    if (deleteSuc) {
                         Snack(getString(R.string.cancel_success));
-                    }else {
+                    } else {
                         Snack(getString(R.string.cancel_fal));
                     }
-                }else {//store it
+                } else {//store it
                     article.setIsfav(Config.STORE);//set not fav
                     article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
                     boolean insertSuc = dbHelper.insertArticle(article, TAB_NAME, article.getChannelId());
                     menFav.setTitle(insertSuc ? getString(R.string.store_it) : getString(R.string.cancel_store));
                     isFav = insertSuc;
-                    if(isFav) {
+                    if (isFav) {
                         Snack(getString(R.string.store_success));
-                    }else {
+                    } else {
                         Snack(getString(R.string.store_fal));
                     }
                 }
@@ -257,7 +257,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                             user = articleBody.getData().getFullArticle().getUser().getUsername();
                             dealBody(HtmlBody);
                             addHead();
-                            //mSwipeRefreshLayout.setRefreshing(true);//show progressbar
                             if (CommonUtil.getMode() == 1) {
                                 filterImg(HtmlBody);
                             }
@@ -418,7 +417,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         }
                 )
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
-                    if(isWebViewLoading)//cancel loading
+                    if (isWebViewLoading)//cancel loading
                         mWeb.stopLoading();
                     if (oldMode != CommonUtil.getMode()) {
                         if (HtmlBody != null && !HtmlBody.equals("")) {
@@ -513,7 +512,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            isWebViewLoading  =false;
+            isWebViewLoading = false;
             mSwipeRefreshLayout.setRefreshing(false);
             mSwipeRefreshLayout.setEnabled(false);
         }

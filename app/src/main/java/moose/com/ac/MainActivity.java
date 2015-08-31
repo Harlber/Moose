@@ -3,6 +3,7 @@ package moose.com.ac;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -11,7 +12,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPropertyAnimatorListener;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +27,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -40,9 +47,7 @@ import moose.com.ac.ui.ArticleFragment;
 import moose.com.ac.ui.view.CircleImageView;
 import moose.com.ac.ui.view.SearchBar;
 import moose.com.ac.util.CommonUtil;
-import moose.com.ac.util.ScrollFABBehavior;
 import moose.com.ac.util.ZoomOutPageTransformer;
-import rx.Observable;
 
 /**
  * when intent another activity,need cancel network request
@@ -50,7 +55,7 @@ import rx.Observable;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
-    private static FloatingActionButton fab;
+    private FloatingActionButton fab;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Toolbar toolbar;
@@ -288,16 +293,56 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static Observable<Integer> hideFab = Observable.create(subscriber -> {
-        ScrollFABBehavior.animateOut(fab);
-        subscriber.onNext(1);
-        subscriber.onCompleted();
-    });
+    // Same animation that FloatingActionButton.Behavior uses to hide the FAB when the AppBarLayout exits
+    public  void animateOut() {
+        Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
+        if (Build.VERSION.SDK_INT >= 14) {
+            ViewCompat.animate(fab).scaleX(0.0F).scaleY(0.0F).alpha(0.0F).setInterpolator(INTERPOLATOR).withLayer()
+                    .setListener(new ViewPropertyAnimatorListener() {
+                        public void onAnimationStart(View view) {
+                        }
 
-    public static Observable<Integer> showFab = Observable.create(subscriber -> {
-        ScrollFABBehavior.animateIn(fab);
-        subscriber.onNext(1);
-        subscriber.onCompleted();
-    });
+                        public void onAnimationCancel(View view) {
+                        }
+
+                        public void onAnimationEnd(View view) {
+                            view.setVisibility(View.GONE);
+                        }
+                    }).start();
+        } else {
+            Animation anim = AnimationUtils.loadAnimation(fab.getContext(), R.anim.fab_out);
+            anim.setInterpolator(INTERPOLATOR);
+            anim.setDuration(200L);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                public void onAnimationStart(Animation animation) {
+                }
+
+                public void onAnimationEnd(Animation animation) {
+                    fab.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(final Animation animation) {
+                }
+            });
+            fab.startAnimation(anim);
+        }
+    }
+
+    // Same animation that FloatingActionButton.Behavior uses to show the FAB when the AppBarLayout enters
+    public  void animateIn() {
+        Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
+        fab.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= 14) {
+            ViewCompat.animate(fab).scaleX(1.0F).scaleY(1.0F).alpha(1.0F)
+                    .setInterpolator(INTERPOLATOR).withLayer().setListener(null)
+                    .start();
+        } else {
+            Animation anim = AnimationUtils.loadAnimation(fab.getContext(), R.anim.fab_in);
+            anim.setDuration(200L);
+            anim.setInterpolator(INTERPOLATOR);
+            fab.startAnimation(anim);
+        }
+    }
 
 }
