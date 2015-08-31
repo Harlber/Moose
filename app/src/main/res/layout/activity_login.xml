@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/login_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:background="@color/contents"
+        android:src="@drawable/avatar_bg" />
+
+    <EditText
+        android:id="@+id/login_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_head"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:hint="2945752045@qq.com" />
+
+    <EditText
+        android:id="@+id/login_pwd"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/login_submit"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_pwd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="登陆" />
+    <Button
+        android:layout_below="@id/login_submit"
+        android:id="@+id/qiandao"
+        android:layout_width="180dp"
+        android:layout_centerHorizontal="true"
+        android:text="签到"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -6,8 +6,9 @@ import com.google.gson.JsonObject;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.retrofit.article.ArticleList;
+import moose.com.ac.retrofit.login.CheckIn;
+import moose.com.ac.retrofit.login.LoginEntry;
 import moose.com.ac.retrofit.search.SearchBody;
-import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
@@ -35,5 +36,8 @@ public interface Api {
     Observable<ArticleList> getSortList(@Query("channelIds") String channelIds, @Query("pageSize") int pageSize);
 
     @POST(Config.API_LOGIN)
-    Observable<Response> login(@Query("username") String username, @Query("password") String password);
+    Observable<LoginEntry> login(@Query("username") String username, @Query("password") String password);
+
+    @POST(Config.API_CHENK_IN)
+    Observable<CheckIn> chenkin();
 }

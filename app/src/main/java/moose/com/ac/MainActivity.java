@@ -107,12 +107,13 @@ public class MainActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(view ->
-        adapter.getFragment(viewPager.getCurrentItem()).getmRecyclerView().smoothScrollToPosition(0));
+                adapter.getFragment(viewPager.getCurrentItem()).getmRecyclerView().smoothScrollToPosition(0));
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         user_name = (TextView)findViewById(R.id.login_username);
+        user_name.setOnClickListener(view -> startActivity(new Intent(MainActivity.this,Login.class)));
         logo = (CircleImageView)findViewById(R.id.login_userimg);
 
         searchBar = new SearchBar();

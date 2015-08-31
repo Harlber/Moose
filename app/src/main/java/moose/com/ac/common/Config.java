@@ -5,7 +5,7 @@ package moose.com.ac.common;
  */
 public class Config {
     public static final String ARTICLE_URL = "http://api.acfun.tv";
-    public static final String COMMENT_URL = "http://www.acfun.tv";
+    public static final String BASE_URL = "http://www.acfun.tv";
     public static final String SEARCH_URL = "http://search.acfun.tv";
     public static final String WEB_URL = "http://www.acfun.tv/a/ac";
 
@@ -15,6 +15,7 @@ public class Config {
     public static final String API_SEARCH = "/search?type=2&field=title&sortField=releaseDate&parentChannelId=63";
     public static final String API_SORT = "/apiserver/content/rank";
     public static final String API_LOGIN = "/login.aspx";
+    public static final String API_CHENK_IN = "/member/checkin.aspx";
 
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";

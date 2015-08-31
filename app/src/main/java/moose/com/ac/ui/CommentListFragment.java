@@ -61,7 +61,7 @@ public class CommentListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.fragment_comment_list, container, false);
-        api = RxUtils.createApi(Api.class, Config.COMMENT_URL);
+        api = RxUtils.createApi(Api.class, Config.BASE_URL);
         contentId = getArguments().getInt(Config.CHANNEL_ID);
         adapter = new CommentAdapter(getActivity(), data, commentIdList);
         initRecyclerView();
