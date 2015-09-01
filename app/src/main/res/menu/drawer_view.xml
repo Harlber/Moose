@@ -27,7 +27,7 @@
             android:title="@string/store" />
         <item
             android:id="@+id/nav_history"
-            android:icon="@drawable/ic_headset"
+            android:icon="@drawable/ic_history_blacy24px"
             android:title="@string/history" />
     </group>
 
@@ -35,16 +35,16 @@
         <menu>
             <item
                 android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_headset"
+                android:icon="@drawable/ic_settings_black600_24dp"
                 android:title="@string/set" />
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_dashboard"
+                android:icon="@drawable/ic_info_black600_24dp"
                 android:title="@string/about" />
             <item
-                android:id="@+id/nav_reset"
-                android:icon="@drawable/ic_dashboard"
-                android:title="@string/reset" />
+                android:id="@+id/nav_sync"
+                android:icon="@drawable/ic_sync_blacy24px"
+                android:title="@string/sync" />
         </menu>
     </item>
 

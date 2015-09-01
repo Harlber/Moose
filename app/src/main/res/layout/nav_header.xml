@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/login_username"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="南小鸟"
         android:layout_alignParentBottom="true"
