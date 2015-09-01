@@ -29,6 +29,10 @@
             android:id="@+id/nav_history"
             android:icon="@drawable/ic_history_blacy24px"
             android:title="@string/history" />
+        <item
+            android:id="@+id/nav_checkin"
+            android:icon="@drawable/ic_checkin_blacy24px"
+            android:title="@string/main_check_in" />
     </group>
 
     <item android:title="About">
