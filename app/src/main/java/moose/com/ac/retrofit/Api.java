@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.retrofit.article.ArticleList;
+import moose.com.ac.retrofit.collect.Like;
+import moose.com.ac.retrofit.collect.Store;
 import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.retrofit.login.LoginEntry;
 import moose.com.ac.retrofit.search.SearchBody;
@@ -40,4 +42,13 @@ public interface Api {
 
     @POST(Config.API_CHENK_IN)
     Observable<CheckIn> chenkin();
+
+    @POST(Config.API_COLLECT)
+    Observable<Store> collectArticle(@Query("cId") int cId, @Query("operate") int operate);
+    //operate = 1 收藏 0：取消收藏
+    //http://www.acfun.tv/member/collect.aspx?cId=2147867&operate=1
+    @Deprecated
+    @POST(Config.API_LIKE)
+    Observable<Like> likeArticle(@Query("contentId") int contentId);
+    //http://www.acfun.tv/content_up.aspx?contentId=2147685
 }

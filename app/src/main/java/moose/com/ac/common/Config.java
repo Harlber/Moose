@@ -8,6 +8,7 @@ public class Config {
     public static final String BASE_URL = "http://www.acfun.tv";
     public static final String SEARCH_URL = "http://search.acfun.tv";
     public static final String WEB_URL = "http://www.acfun.tv/a/ac";
+    public static final String COLLECT_URL = "http://www.acfun.tv/member/";
 
     public static final String API_CHANNEL = "/apiserver/content/channel";
     public static final String API_COMMENT_LIST = "/comment_list_json.aspx";
@@ -16,6 +17,8 @@ public class Config {
     public static final String API_SORT = "/apiserver/content/rank";
     public static final String API_LOGIN = "/login.aspx";
     public static final String API_CHENK_IN = "/member/checkin.aspx";
+    public static final String API_COLLECT = "collect.aspx";
+    public static final String API_LIKE = "/content_up.aspx";
 
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
