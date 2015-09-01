@@ -50,6 +50,7 @@
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity android:name=".Login"/>
+        <activity android:name=".Settings"/>
     </application>
 
 </manifest>

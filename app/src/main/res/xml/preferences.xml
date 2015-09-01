@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/action_settings">
+    <PreferenceCategory android:title="@string/action_settings">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_wifi_load"
+            android:title="@string/pref_title_wifi_load" />
+        <Preference
+            android:key="pref_key_auto_delete"
+            android:title="@string/pref_title_clear_cache" />
+        <Preference
+            android:key="pref_key_auto_delete_his"
+            android:title="@string/pref_title_clear_his" />
+        <Preference
+            android:key="pref_key_local_collect"
+            android:title="@string/pref_title_clear_collect" />
+        <ListPreference
+            android:key="pref_key_collect_type"
+            android:title="@string/collect_type"
+            android:entryValues="@array/value_collect"
+            android:entries="@array/value_collect_arr"
+            android:defaultValue="本地"
+            android:dialogTitle="@string/collect_type"
+            android:summary="@string/store_local"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

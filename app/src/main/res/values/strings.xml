@@ -2,7 +2,7 @@
     <string name="app_name">Moose</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">设置</string>
     <string name="complex">综合</string>
     <string name="work">工作/情感</string>
     <string name="animation">动漫文化</string>
@@ -94,4 +94,10 @@
     <string name="store_success">收藏成功</string>
     <string name="store_fal">收藏失败</string>
     <string name="cancel_fal">取消收藏失败</string>
+    <string name="pref_title_clear_cache">清除缓存</string>
+    <string name="pref_title_wifi_load">WIFI网络下自动加载图片</string>
+    <string name="pref_title_clear_his">清空历史记录</string>
+    <string name="pref_title_clear_collect">清空本地收藏</string>
+    <string name="collect_type">文章收藏在</string>
+    <string name="store_local">本地</string>
 </resources>

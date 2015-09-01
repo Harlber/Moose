@@ -206,6 +206,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent intenth = new Intent(MainActivity.this, History.class);
                     startActivity(intenth);
                     break;
+                case R.id.nav_setting:
+                    Intent intent1s = new Intent(MainActivity.this,Settings.class);
+                    startActivity(intent1s);
+                    break;
                 default:
                     break;
             }
