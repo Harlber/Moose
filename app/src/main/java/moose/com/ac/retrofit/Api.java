@@ -1,6 +1,8 @@
 package moose.com.ac.retrofit;
 
 
+import android.text.Html;
+
 import com.google.gson.JsonObject;
 
 import moose.com.ac.common.Config;
@@ -51,4 +53,7 @@ public interface Api {
     @POST(Config.API_LIKE)
     Observable<Like> likeArticle(@Query("contentId") int contentId);
     //http://www.acfun.tv/content_up.aspx?contentId=2147685
+
+    @GET(Config.API_USERINFO)
+    Observable<Html> getUserInfo(@Query("time")String time);
 }

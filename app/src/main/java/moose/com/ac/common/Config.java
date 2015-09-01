@@ -8,7 +8,7 @@ public class Config {
     public static final String BASE_URL = "http://www.acfun.tv";
     public static final String SEARCH_URL = "http://search.acfun.tv";
     public static final String WEB_URL = "http://www.acfun.tv/a/ac";
-    public static final String COLLECT_URL = "http://www.acfun.tv/member/";
+    public static final String COLLECT_URL = "http://www.acfun.tv/member";
 
     public static final String API_CHANNEL = "/apiserver/content/channel";
     public static final String API_COMMENT_LIST = "/comment_list_json.aspx";
@@ -17,8 +17,9 @@ public class Config {
     public static final String API_SORT = "/apiserver/content/rank";
     public static final String API_LOGIN = "/login.aspx";
     public static final String API_CHENK_IN = "/member/checkin.aspx";
-    public static final String API_COLLECT = "collect.aspx";
+    public static final String API_COLLECT = "/collect.aspx";
     public static final String API_LIKE = "/content_up.aspx";
+    public static final String API_USERINFO = "/splash.aspx";
 
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
@@ -26,6 +27,9 @@ public class Config {
     public static final String ISFAV = "ISFAV";
     public static final String TITLE = "TITLE";
     public static final String ARTICLE = "ARTICLE";
+    public static final String LOGIN_STATUS = "LOGIN_STATUS";
+    public static final String LOGIN_IN = "LOGIN_IN";
+    public static final String LOGIN_OUT = "LOGIN_OUT";
     public static final String FAB = "FAB";
     public static final String STORE = "st";
     public static final String NO_ST = "nost";
@@ -52,6 +56,7 @@ public class Config {
     public static final int CARTOON = 75;
 
     public static final int TIME_LATE = 200;
+    public static final int TIME_LOGIN = 500;
 
     public static final String MAX_LINE = "MAX_LINE";
     public static final String VISISTOR_MODE = "VISISTOR_MODE";

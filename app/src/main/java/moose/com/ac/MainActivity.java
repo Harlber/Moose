@@ -112,9 +112,18 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        user_name = (TextView)findViewById(R.id.login_username);
-        user_name.setOnClickListener(view -> startActivity(new Intent(MainActivity.this,Login.class)));
-        logo = (CircleImageView)findViewById(R.id.login_userimg);
+        user_name = (TextView) findViewById(R.id.login_username);
+        user_name.setText(CommonUtil.getUserName());
+        user_name.setOnClickListener(view -> {
+                    if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
+                        Intent intent = new Intent(MainActivity.this,UserInfoActivity.class);
+                        startActivity(intent);
+                    } else {
+                        startActivity(new Intent(MainActivity.this, Login.class));
+                    }
+                }
+        );
+        logo = (CircleImageView) findViewById(R.id.login_userimg);
 
         searchBar = new SearchBar();
         card_search = (CardView) findViewById(R.id.card_search);
@@ -181,6 +190,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!user_name.getText().equals(CommonUtil.getUserName())) {
+            user_name.setText(CommonUtil.getUserName());
+            Glide.with(this)
+                    .load(CommonUtil.getUserLogo())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(logo);
+        }
+    }
+
+
     private void setupViewPager(ViewPager viewPager) {
         adapter.addFragment(getArticleFragment(Config.COMPLEX), getString(R.string.complex));
         adapter.addFragment(getArticleFragment(Config.WORK), getString(R.string.work));
@@ -207,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intenth);
                     break;
                 case R.id.nav_setting:
-                    Intent intent1s = new Intent(MainActivity.this,Settings.class);
+                    Intent intent1s = new Intent(MainActivity.this, Settings.class);
                     startActivity(intent1s);
                     break;
                 default:
@@ -255,9 +277,11 @@ public class MainActivity extends AppCompatActivity {
             mFragments.add(fragment);
             mFragmentTitles.add(title);
         }
-        public ArticleFragment getFragment(int position){
+
+        public ArticleFragment getFragment(int position) {
             return mFragments.get(position);
         }
+
         @Override
         public Fragment getItem(int position) {
             return mFragments.get(position);
@@ -299,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Same animation that FloatingActionButton.Behavior uses to hide the FAB when the AppBarLayout exits
-    public  void animateOut() {
+    public void animateOut() {
         Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
         if (Build.VERSION.SDK_INT >= 14) {
             ViewCompat.animate(fab).scaleX(0.0F).scaleY(0.0F).alpha(0.0F).setInterpolator(INTERPOLATOR).withLayer()
@@ -335,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Same animation that FloatingActionButton.Behavior uses to show the FAB when the AppBarLayout enters
-    public  void animateIn() {
+    public void animateIn() {
         Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
         fab.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= 14) {

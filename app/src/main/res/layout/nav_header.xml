@@ -26,7 +26,7 @@
         android:id="@+id/login_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="南小鸟"
+        android:text="@string/un_login"
         android:layout_alignParentBottom="true"
         android:padding="@dimen/magin_8"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
@@ -34,7 +34,7 @@
         android:id="@+id/login_userimg"
         android:layout_above="@id/login_username"
         android:layout_marginBottom="8dp"
-        android:background="@color/contents"
+        android:background="@color/colorContents"
         android:layout_width="96dp"
         android:layout_height="96dp" />
 </RelativeLayout>

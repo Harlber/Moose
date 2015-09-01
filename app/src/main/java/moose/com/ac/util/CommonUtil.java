@@ -64,14 +64,29 @@ public class CommonUtil {
     public static void setVisistor(boolean bl) {
         PreferenceUtil.setBooleanValue(Config.VISISTOR_MODE, bl);
     }
-    public static String getUserName(){
-        return PreferenceUtil.getString(Config.USERNAME,"未登陆");
+
+    public static String getUserName() {
+        return PreferenceUtil.getString(Config.USERNAME, "未登陆");
     }
-    public static void setUserName(String name){
-        PreferenceUtil.setStringValue(Config.USERNAME,name);
+
+    public static void setUserName(String name) {
+        PreferenceUtil.setStringValue(Config.USERNAME, name);
     }
-    public static String getUserLogo(){
-        return PreferenceUtil.getString(Config.USER_LOG,"http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201508/28125157rq4fchv6.jpg");
+
+    public static String getUserLogo() {
+        return PreferenceUtil.getString(Config.USER_LOG, "http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201508/28125157rq4fchv6.jpg");
+    }
+
+    public static void setUserLogo(String str) {
+        PreferenceUtil.setStringValue(Config.USER_LOG, str);
+    }
+
+    public static String getLoginStatus() {
+        return PreferenceUtil.getString(Config.LOGIN_STATUS, Config.LOGIN_OUT);
+    }
+
+    public static void setLoginStatus(String str) {
+        PreferenceUtil.setStringValue(Config.LOGIN_STATUS, str);
     }
 
     public static String[] getDays() {

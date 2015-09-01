@@ -36,42 +36,5 @@
             android:background="@color/colorContents"
             android:src="@drawable/login" />
 
-        <moose.com.ac.ui.view.EmailEditText
-            android:id="@+id/login_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/login_head"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="16dp"
-            android:hint="@string/login_user_name" />
-
-        <EditText
-            android:id="@+id/login_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/login_name"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="16dp"
-            android:inputType="textPassword"
-            android:singleLine="true" />
-
-        <Button
-            android:id="@+id/login_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/login_pwd"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:gravity="center"
-            android:singleLine="true"
-            android:background="@color/main_color_dark"
-            android:textColor="@color/backgroud_main"
-            android:text="@string/login" />
     </RelativeLayout>
 </moose.com.ac.ui.view.MultiSwipeRefreshLayout>

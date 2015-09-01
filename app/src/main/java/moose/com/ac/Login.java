@@ -1,16 +1,23 @@
 package moose.com.ac;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
-import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.retrofit.login.LoginEntry;
+import moose.com.ac.ui.view.EmailEditText;
+import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
+import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
+import retrofit.RetrofitError;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -46,82 +53,129 @@ import rx.subscriptions.CompositeSubscription;
 public class Login extends AppCompatActivity {
     private static final String TAG = "Login";
     private Api api;
-    private Api apiqiandao;
     private CompositeSubscription subscription = new CompositeSubscription();
-    private CompositeSubscription subscriptionll = new CompositeSubscription();
-    private EditText name;
+    protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
+    private EmailEditText name;
     private EditText pwd;
     private Button login;
-    private Button checkin;
+
+    private boolean isRequest = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         api = RxUtils.createLoginApi(Api.class, Config.BASE_URL);
-        apiqiandao = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
         initView();
     }
 
     private void initView() {
-        name = (EditText) findViewById(R.id.login_name);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        toolbar.setTitle(getString(R.string.login));
+        setSupportActionBar(toolbar);
+
+        final ActionBar ab = getSupportActionBar();
+        //noinspection ConstantConditions
+        ab.setDisplayHomeAsUpEnabled(true);
+
+        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.login_swipe);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.md_orange_700, R.color.md_red_500,
+                R.color.md_indigo_900, R.color.md_green_700);
+        mSwipeRefreshLayout.setSwipeableChildren(R.id.login_swipe_child);
+        mSwipeRefreshLayout.setEnabled(false);
+        mSwipeRefreshLayout.setRefreshing(false);
+
+        name = (EmailEditText) findViewById(R.id.login_name);
         pwd = (EditText) findViewById(R.id.login_pwd);
         login = (Button) findViewById(R.id.login_submit);
-        checkin = (Button) findViewById(R.id.qiandao);
-        checkin.setOnClickListener(view -> {
-            subscriptionll.add(apiqiandao.chenkin()
-                    .subscribe(new Observer<CheckIn>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                        }
-
-                        @Override
-                        public void onNext(CheckIn response) {
-                            Log.e(TAG, "  apiqiandao.chenkin():" + response.getResult());
-                        }
-                    }));
-        });
         login.setOnClickListener(view -> {
-            subscription.add(api.login(name.getText().toString(), pwd.getText().toString())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<LoginEntry>() {
-                        @Override
-                        public void onCompleted() {
+            if (check()&&!isRequest){
+                isRequest = true;
+                mSwipeRefreshLayout.setEnabled(true);
+                mSwipeRefreshLayout.setRefreshing(true);
+                subscription.add(api.login(name.getText().toString(), pwd.getText().toString())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<LoginEntry>() {
+                            @Override
+                            public void onCompleted() {
 
-                        }
+                            }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                        }
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                mSwipeRefreshLayout.setRefreshing(false);
+                                mSwipeRefreshLayout.setEnabled(false);
+                                isRequest = false;//refresh request status
+                                e.printStackTrace();
+                                if (e instanceof RetrofitError) {
+                                    if (((RetrofitError) e).getResponse() != null) {
+                                        Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
+                                    } else {
+                                        Snack(getString(R.string.no_network));
+                                    }
 
-                        @Override
-                        public void onNext(LoginEntry response) {
-                            Log.i(TAG, "onnext:" + response.getResult());
+                                }
+                            }
 
-                        }
-                    }));
+                            @Override
+                            public void onNext(LoginEntry response) {
+                                isRequest = true;
+                                mSwipeRefreshLayout.setRefreshing(false);
+                                mSwipeRefreshLayout.setEnabled(false);
+                                if (response.isSuccess()) {
+                                    CommonUtil.setUserName(response.getUsername());
+                                    CommonUtil.setUserLogo(response.getImg());
+                                    CommonUtil.setLoginStatus(Config.LOGIN_IN);
+                                    Snack(getString(R.string.login_success));
+                                    new Handler().postDelayed(Login.this::finish, Config.TIME_LOGIN);
+                                }else {
+                                    Snack(response.getResult());
+                                }
+                            }
+                        }));
+        }
         });
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Login.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onResume() {
         super.onResume();
         subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-        subscriptionll = RxUtils.getNewCompositeSubIfUnsubscribed(subscriptionll);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         RxUtils.unsubscribeIfNotNull(subscription);
-        RxUtils.unsubscribeIfNotNull(subscriptionll);
+    }
+
+
+    private boolean check() {
+        if (name.getText().toString().equals("")) {
+            name.setError(getString(R.string.empty_username));
+            return false;
+        }
+        if (pwd.getText().toString().equals("")) {
+            pwd.setError(getString(R.string.empty_pwd));
+            return false;
+        }
+        return true;
+    }
+
+    private void Snack(String msg) {
+        Snackbar.make(login, msg, Snackbar.LENGTH_SHORT).show();
     }
 }

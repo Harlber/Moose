@@ -105,6 +105,27 @@ public class RxUtils {
                 .build();
         return restAdapter.create(c);
     }
+    public static <T> T createCookieTextApi(Class<T> c, String url) {
+        OkHttpClient client = OkHttpClientProvider.get(); //create OKHTTPClient
+        CookieManager cookieManager = new CookieManager();
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        client.setCookieHandler(cookieManager); //finally set the cookie handler on client
+        client.interceptors().add(new AddCookiesInterceptor());
+
+        OkClient serviceClient = new OkClient(client);
+        RequestInterceptor requestInterceptor = request -> {
+            request.addHeader("User-Agent", UA);
+            request.addHeader("Accept", "text/html;charset=UTF-8");
+        };
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setEndpoint(url)//
+                .setRequestInterceptor(requestInterceptor)
+                .setClient(serviceClient)
+                .setConverter(new GsonConverter(new Gson()))//.setErrorHandler(new FarbleError())
+                .build();
+        return restAdapter.create(c);
+    }
     /**
      * This Interceptor add all received Cookies to the app DefaultPreferences.
      * Your implementation on how to save the Cookies on the Preferences MAY VARY.
