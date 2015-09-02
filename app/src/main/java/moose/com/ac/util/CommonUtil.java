@@ -91,6 +91,38 @@ public class CommonUtil {
         PreferenceUtil.setStringValue(Config.LOGIN_STATUS, str);
     }
 
+    public static void setRegistDate() {
+        PreferenceUtil.setLongValue(Config.LOGIN_REGIST, System.currentTimeMillis());
+    }
+
+    public static Long getRegist() {
+        return PreferenceUtil.getLong(Config.LOGIN_REGIST, 0l);
+    }
+
+    public static void setSignatrue(String sign) {
+        PreferenceUtil.setStringValue(Config.USER_SIGNATRUE, sign);
+    }
+
+    public static String getSignatrue() {
+        return PreferenceUtil.getString(Config.USER_SIGNATRUE, App.getmContext().getString(R.string.un_login));
+    }
+
+    public static void setRegDate(Long date) {
+        PreferenceUtil.setLongValue(Config.USER_DATE, date);
+    }
+
+    public static Long getRegDate() {
+        return PreferenceUtil.getLong(Config.USER_DATE, 0l);
+    }
+
+    public static void setGender(int gender) {
+        PreferenceUtil.setIntValue(Config.USER_GENDER, gender);
+    }
+
+    public static int getGender() {
+        return PreferenceUtil.getInt(Config.USER_GENDER, -4);
+    }
+
     public static String[] getDays() {
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
@@ -176,7 +208,8 @@ public class CommonUtil {
                 return 30;
         }
     }
-/*1,  男 0:女 -1 不公开*/
+
+    /*1,  男 0:女 -1 不公开*/
     public static String getGender(Integer gender) {
         switch (gender) {
             case 0:
@@ -188,5 +221,20 @@ public class CommonUtil {
             default:
                 return App.getmContext().getString(R.string.unknown);
         }
+    }
+
+    public static boolean hasRegis() {
+        String now = toDate(System.currentTimeMillis());
+        String getLocal = String.valueOf(getRegist());
+        if (getLocal.length() < 5) {
+            return false;
+        }
+        String local = toDate(Long.valueOf(getLocal));
+        if (local.length() < 11) {
+            return false;
+        }
+        String nowDate = now.substring(0, 10);
+        String localDate = local.substring(0, 10);
+        return nowDate.equals(localDate);
     }
 }

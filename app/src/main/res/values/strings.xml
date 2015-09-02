@@ -116,4 +116,6 @@
     <string name="mal">男</string>
     <string name="unknown">不公开</string>
     <string name="gender">"性别: "</string>
+    <string name="reg_success">签到成功</string>
+    <string name="already_regi">已签到</string>
 </resources>

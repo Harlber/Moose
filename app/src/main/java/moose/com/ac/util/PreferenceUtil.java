@@ -30,6 +30,11 @@ public class PreferenceUtil {
         editor.putBoolean(key, value);
         editor.commit();
     }
+    public static void setLongValue(String key, Long value) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(key, value);
+        editor.commit();
+    }
 
     public static String getString(String key, String defaultValue) {
         if (preferences == null) {
@@ -40,6 +45,9 @@ public class PreferenceUtil {
 
     public static int getInt(String key, int defaultValue) {
         return preferences.getInt(key, defaultValue);
+    }
+    public static Long getLong(String key, Long defaultValue) {
+        return preferences.getLong(key, defaultValue);
     }
 
     public static boolean getBoolean(String key, boolean defaultValue) {
