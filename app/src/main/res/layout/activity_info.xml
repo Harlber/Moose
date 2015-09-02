@@ -1,40 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <moose.com.ac.ui.view.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/login_swipe"
+    android:id="@+id/profile_swipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <!--moose.com.ac.ui.view.MultiSwipeRefreshLayout-->
     <RelativeLayout
-        android:id="@+id/login_swipe_child"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/login_appbar"
+        <LinearLayout
+            android:id="@+id/profile_swipe_child"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/login_toolbar"
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/profile_appbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                android:layout_height="wrap_content"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        </android.support.design.widget.AppBarLayout>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/profile_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <ImageView
-            android:id="@+id/login_head"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_below="@id/login_appbar"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="48dp"
-            android:background="@color/colorContents"
-            android:src="@drawable/login" />
+            </android.support.design.widget.AppBarLayout>
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="192dp"
+                android:layout_margin="@dimen/magin_8"
+                android:elevation="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/colorPrimary">
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/profile_chenkin"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="16dp"
+                        android:gravity="center"
+                        android:text="@string/main_check_in"
+                        android:textColor="@color/textColorButton"
+                        android:background="@color/colorAccentLight"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/profile_logo"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_above="@id/profile_chenkin"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/colorContents" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/profile_logout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="16dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/log_out"
+                        android:background="@color/colorAccentLight"
+                        android:textColor="@color/textColorButton" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/profile_uid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="16dp"
+                        android:padding="5dp"
+                        android:text="eterye"
+                        android:textColor="@color/textColorButton" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/magin_8">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/profile_qian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:padding="5dp"
+                    android:text="eterye" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/magin_8">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/profile_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:padding="5dp"
+                    android:text="2014-12-01" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/magin_8">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/profile_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:padding="5dp"
+                    android:text="女" />
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/snak_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorContents" />
     </RelativeLayout>
 </moose.com.ac.ui.view.MultiSwipeRefreshLayout>

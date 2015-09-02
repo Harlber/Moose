@@ -5,10 +5,10 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
@@ -56,8 +56,8 @@ public class Login extends AppCompatActivity {
     private CompositeSubscription subscription = new CompositeSubscription();
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private EmailEditText name;
-    private EditText pwd;
-    private Button login;
+    private AppCompatEditText pwd;
+    private AppCompatButton login;
 
     private boolean isRequest = false;
 
@@ -87,8 +87,8 @@ public class Login extends AppCompatActivity {
         mSwipeRefreshLayout.setRefreshing(false);
 
         name = (EmailEditText) findViewById(R.id.login_name);
-        pwd = (EditText) findViewById(R.id.login_pwd);
-        login = (Button) findViewById(R.id.login_submit);
+        pwd = (AppCompatEditText) findViewById(R.id.login_pwd);
+        login = (AppCompatButton) findViewById(R.id.login_submit);
         login.setOnClickListener(view -> {
             if (check()&&!isRequest){
                 isRequest = true;

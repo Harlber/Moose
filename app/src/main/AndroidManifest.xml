@@ -51,7 +51,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".Login"/>
         <activity android:name=".Settings"/>
-        <activity android:name=".UserInfoActivity"/>
+        <activity android:name=".ProfileActivity"/>
     </application>
 
 </manifest>

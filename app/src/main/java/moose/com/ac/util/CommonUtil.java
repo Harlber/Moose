@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import moose.com.ac.App;
+import moose.com.ac.R;
 import moose.com.ac.common.Config;
 
 /**
@@ -172,6 +174,19 @@ public class CommonUtil {
                 return 31;
             default:
                 return 30;
+        }
+    }
+/*1,  男 0:女 -1 不公开*/
+    public static String getGender(Integer gender) {
+        switch (gender) {
+            case 0:
+                return App.getmContext().getString(R.string.fem);
+            case 1:
+                return App.getmContext().getString(R.string.mal);
+            case -1:
+                return App.getmContext().getString(R.string.unknown);
+            default:
+                return App.getmContext().getString(R.string.unknown);
         }
     }
 }

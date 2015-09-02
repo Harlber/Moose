@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         user_name.setText(CommonUtil.getUserName());
         user_name.setOnClickListener(view -> {
                     if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
-                        Intent intent = new Intent(MainActivity.this,UserInfoActivity.class);
+                        Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
                         startActivity(intent);
                     } else {
                         startActivity(new Intent(MainActivity.this, Login.class));

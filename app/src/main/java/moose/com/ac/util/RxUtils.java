@@ -164,16 +164,17 @@ public class RxUtils {
             Request.Builder builder = chain.request().newBuilder();
             //HashSet<String> preferences = (HashSet) Preferences.getDefaultPreferences().getStringSet(Preferences.PREF_COOKIES, new HashSet<>());
                 builder.addHeader("Cookie", "clientlanguage=zh_CN; Path=/");
-                builder.addHeader("Cookie", "JSESSIONID=3d849fe0fb0a418e9b97e2e5f8a7f25d; Domain=acfun.tv; Expires=Wed, 30-Sep-2015 09:37:13 GMT; Path=/; HttpOnly");
+                builder.addHeader("Cookie", "JSESSIONID=5c820fc6c3994c5a922b17895b8b3683; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/; HttpOnly");
                 builder.addHeader("Cookie", "_error_remaining=\"\"; Domain=acfun.tv; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/");
                 builder.addHeader("Cookie", "_error_remaining=\"\"; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/");
-                builder.addHeader("Cookie", "auth_key=880780; Domain=acfun.tv; Expires=Wed, 30-Sep-2015 09:37:13 GMT; Path=/");
-                builder.addHeader("Cookie", "auth_key_ac_sha1=951032386; Domain=acfun.tv; Expires=Wed, 30-Sep-2015 09:37:13 GMT; Path=/");
-                builder.addHeader("Cookie", "auth_key_ac_sha1_=\"ztIcYzNqIEj83ubn5KNLzO5cK10=\"; Version=1; Domain=acfun.tv; Max-Age=2592000; Expires=Wed, 30-Sep-2015 09:37:13 GMT; Path=/");
-                builder.addHeader("Cookie", "ac_username=%E6%88%91%E6%9C%89%E8%8F%87%E5%87%89%E6%9E%9C%E7%85%A7; Domain=acfun.tv; Expires=Wed, 30-Sep-2015 09:37:13 GMT; Path=/");
+                builder.addHeader("Cookie", "auth_key=880780; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
+                builder.addHeader("Cookie", "auth_key_ac_sha1=-1668151428; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
+                builder.addHeader("Cookie", "auth_key_ac_sha1_=\"VBruBFWEQpgxoGFSl6LtcYHDNd8=\"; Version=1; Domain=acfun.tv; Max-Age=2592000; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
+                builder.addHeader("Cookie", "ac_username=%E6%88%91%E6%9C%89%E8%8F%87%E5%87%89%E6%9E%9C%E7%85%A7; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
                 builder.addHeader("Cookie", "ac_time=\"\"; Domain=acfun.tv; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/");
                 builder.addHeader("Cookie", "ac_time=\"\"; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/");
-                builder.addHeader("Cookie", "ac_userimg=http%3A%2F%2Fcdn.aixifan.com%2Fdotnet%2Fartemis%2Fu%2Fcms%2Fwww%2F201505%2F1413200735rj.jpg; Domain=acfun.tv; Expires=Wed, 30-Sep-2015 09:37:13 GMT; Path=/");
+                builder.addHeader("Cookie", "ac_userimg=http%3A%2F%2Fcdn.aixifan.com%2Fdotnet%2Fartemis%2Fu%2Fcms%2Fwww%2F201505%2F1413200735rj.jpg; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
+                builder.addHeader("Cookie", "_sid_=\"\"; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
                 Log.v("OkHttp", "Adding Header: " ); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
 
             return chain.proceed(builder.build());

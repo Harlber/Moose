@@ -1,12 +1,12 @@
 package moose.com.ac.ui.view;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import moose.com.ac.R;
@@ -14,7 +14,7 @@ import moose.com.ac.R;
 /**
  *Created by dell on 2015/9/1.
  */
-public class EmailEditText extends AutoCompleteTextView {
+public class EmailEditText extends AppCompatAutoCompleteTextView {
 
     private static final String TAG = "EmailAutoCompleteTextView";
 

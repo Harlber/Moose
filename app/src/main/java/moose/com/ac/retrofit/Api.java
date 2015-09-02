@@ -1,8 +1,6 @@
 package moose.com.ac.retrofit;
 
 
-import android.text.Html;
-
 import com.google.gson.JsonObject;
 
 import moose.com.ac.common.Config;
@@ -13,6 +11,7 @@ import moose.com.ac.retrofit.collect.Store;
 import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.retrofit.login.LoginEntry;
 import moose.com.ac.retrofit.search.SearchBody;
+import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
@@ -55,5 +54,8 @@ public interface Api {
     //http://www.acfun.tv/content_up.aspx?contentId=2147685
 
     @GET(Config.API_USERINFO)
-    Observable<Html> getUserInfo(@Query("time")String time);
+    Observable<Response> getUserInfo(@Query("time")String time);
+
+    @GET(Config.API_PROFILE)
+    Observable<Profile> getUserProfile();
 }
