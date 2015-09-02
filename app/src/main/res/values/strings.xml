@@ -108,4 +108,6 @@
     <string name="un_login">未登陆</string>
     <string name="user_info">个人中心</string>
     <string name="main_check_in">签到</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

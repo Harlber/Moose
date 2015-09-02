@@ -3,6 +3,7 @@ package moose.com.ac;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,13 +12,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -54,6 +55,7 @@ import moose.com.ac.util.ZoomOutPageTransformer;
  */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private FloatingActionButton fab;
     private ViewPager viewPager;
@@ -88,6 +90,10 @@ public class MainActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this,
+                mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
@@ -159,9 +165,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle == null) {
+            return super.onOptionsItemSelected(item);
+        }
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                if (mDrawerLayout.isDrawerOpen(mDrawerLayout)) {
+                    mDrawerLayout.closeDrawer(mDrawerLayout);
+                } else {
+                    mDrawerLayout.openDrawer(mDrawerLayout);
+                }
+                //mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_filter:
                 bulidDialog().show();
@@ -200,6 +218,17 @@ public class MainActivity extends AppCompatActivity {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(logo);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
     }
 
 
