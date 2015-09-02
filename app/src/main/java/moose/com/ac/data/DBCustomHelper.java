@@ -22,6 +22,7 @@ public class DBCustomHelper extends SQLiteOpenHelper {
         Log.i(TAG,"db onCreate");
         db.execSQL(ArticleCollects.SQL_CREATE_ARTICLESTORY);//story
         db.execSQL(ArticleCollects.SQL_CREATE_ARTICLEHISTORY);//history
+        db.execSQL(ArticleCollects.SQL_CREATE_COOKIES);//cookie
     }
 
     @Override
@@ -29,6 +30,7 @@ public class DBCustomHelper extends SQLiteOpenHelper {
         Log.i("DB", "onUpgrade::oldVersion="+i+",newVersion="+i1);
         db.execSQL(ArticleCollects.SQL_DELETE_ARTICLESTORY);
         db.execSQL(ArticleCollects.SQL_DELETE_ARTICLEHISTORY);
+        db.execSQL(ArticleCollects.SQL_DELETE_COOKIE);
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

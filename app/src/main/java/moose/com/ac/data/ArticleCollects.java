@@ -52,6 +52,14 @@ public final class ArticleCollects {
     public static final String SQL_DELETE_ARTICLEHISTORY =
             "DROP TABLE IF EXISTS " + ArticleHistoryEntry.TABLE_NAME;
 
+    public static final String SQL_CREATE_COOKIES =
+            "CREATE TABLE " + ArticleCookies.TABLE_NAME + " (" +
+                    ArticleCookies._ID + PRIMARY +COMMA_SEP+
+                    ArticleCookies.COLUMN_NAME_COOKIES + VARCHAR_TITLE +
+                    ")";
+
+    public static final String SQL_DELETE_COOKIE =
+            "DROP TABLE IF EXISTS " + ArticleCookies.TABLE_NAME;
     public ArticleCollects() {
     }
 
@@ -82,5 +90,10 @@ public final class ArticleCollects {
         public static final String COLUMN_NAME_SAVEDATE = "savedate";
         public static final String COLUMN_NAME_ISFAV = "isfav";
         public static final String COLUMN_NAME_CHANNEL = "channelid";
+    }
+
+    public static abstract class ArticleCookies implements BaseColumns{
+        public static final String TABLE_NAME = "cookie";
+        public static final String COLUMN_NAME_COOKIES = "content";
     }
 }

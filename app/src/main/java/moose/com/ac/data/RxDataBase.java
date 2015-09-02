@@ -62,6 +62,33 @@ public class RxDataBase {
         }
     });
 
+    public Observable<List<LocalCookie>> cookieCollect = Observable.create(subscriber -> {
+        DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        List<LocalCookie> lists = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT * FROM " + tabName, null);
+        Log.i(TAG, "cursor count:" + c.getCount());
+        if (c.getCount() < 1) {
+            c.close();
+            db.close();
+            mDbHelper.close();
+        } else {
+            while (c.moveToNext()) {
+                LocalCookie localCookie = new LocalCookie();
+                localCookie.setCookie(c.getString(c.getColumnIndex("content")));
+                lists.add(localCookie);
+            }
+        }
+        c.close();
+        db.close();
+        mDbHelper.close();
+        subscriber.onNext(lists);
+        subscriber.onCompleted();
+
+    });
+
+    //get cookies from database
+
     public Observable<Integer> dropTable = Observable.create(subscriber -> {
         DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
