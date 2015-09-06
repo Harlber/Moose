@@ -1,10 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#58bee4</item>
         <item name="colorPrimaryDark">#58bee4</item>
         <item name="colorAccent">#ff87a0</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">#5a000000</item>
         <item name="android:windowBackground">@color/window_background</item>
     </style>
     <style name="AppTheme.Tabs" parent="AppTheme">

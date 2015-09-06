@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <moose.com.ac.ui.view.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_swipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -45,7 +46,9 @@
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginTop="16dp"
-            android:hint="@string/login_user_name" />
+            android:elevation="5dp"
+            android:hint="@string/login_user_name"
+            tools:ignore="UnusedAttribute" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/login_pwd"
@@ -57,7 +60,10 @@
             android:layout_marginRight="32dp"
             android:layout_marginTop="16dp"
             android:inputType="textPassword"
-            android:singleLine="true" />
+            android:elevation="5dp"
+            android:singleLine="true"
+            tools:ignore="UnusedAttribute"
+            android:elegantTextHeight="true"/>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/login_submit"
