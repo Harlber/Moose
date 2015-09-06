@@ -242,4 +242,16 @@ public class CommonUtil {
         String localToDate = localDate.substring(0, 10);
         return nowDate.equals(localToDate);
     }
+    public static String sqliteEscape(String keyWord){
+        keyWord = keyWord.replace("/", "//");
+        keyWord = keyWord.replace("'", "''");
+        keyWord = keyWord.replace("[", "/[");
+        keyWord = keyWord.replace("]", "/]");
+        keyWord = keyWord.replace("%", "/%");
+        keyWord = keyWord.replace("&","/&");
+        keyWord = keyWord.replace("_", "/_");
+        keyWord = keyWord.replace("(", "/(");
+        keyWord = keyWord.replace(")", "/)");
+        return keyWord;
+    }
 }

@@ -1,6 +1,7 @@
 package moose.com.ac;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,10 +16,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import moose.com.ac.common.Config;
+import moose.com.ac.data.ArticleCollects;
+import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.Profile;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
+import moose.com.ac.util.PreferenceUtil;
 import moose.com.ac.util.RxUtils;
 import retrofit.RetrofitError;
 import rx.Observer;
@@ -156,6 +160,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                         CommonUtil.setGender(profile.getGender());
                                         CommonUtil.setRegistDate();//签到
                                         Snack(getString(R.string.reg_success));
+                                        registButton.setText(getString(R.string.already_regi));
 
                                         Glide.with(ProfileActivity.this)
                                                 .load(profile.getUserImg())
@@ -174,6 +179,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
                     Snack(getString(R.string.reg_today_yet));
                 }
+                break;
+            case R.id.profile_logout:
+                CommonUtil.setLoginStatus(Config.LOGIN_OUT);
+                DbHelper dbHelper = new DbHelper(ProfileActivity.this);
+                dbHelper.dropSql(ArticleCollects.ArticleCookies.TABLE_NAME);//clear cookies
+                dbHelper.createTab(ArticleCollects.SQL_CREATE_COOKIES);//cookie
+                PreferenceUtil.setStringValue(Config.USERNAME, getString(R.string.un_login));
+                PreferenceUtil.setStringValue(Config.USER_LOG,getString(R.string.default_user_logo));
+                Snack(getString(R.string.logout_success));
+                new Handler().postDelayed(ProfileActivity.this::finish, Config.TIME_LATE);
                 break;
             default:
                 break;

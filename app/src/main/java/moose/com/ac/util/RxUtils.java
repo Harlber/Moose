@@ -12,9 +12,14 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 
+import moose.com.ac.App;
+import moose.com.ac.data.DbHelper;
+import moose.com.ac.data.LocalCookie;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -27,13 +32,15 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class RxUtils {
     private static final String TAG = "RxUtils";
-    public static final String UA = "acfun/1.0 (Linux; U; Android "+ Build.VERSION.RELEASE+"; "+
-            Build.MODEL+"; "+ Locale.getDefault().getLanguage()+"-"+
-            Locale.getDefault().getCountry().toLowerCase()+
+    public static final String UA = "acfun/1.0 (Linux; U; Android " + Build.VERSION.RELEASE + "; " +
+            Build.MODEL + "; " + Locale.getDefault().getLanguage() + "-" +
+            Locale.getDefault().getCountry().toLowerCase() +
             ") AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 ";
-    private RxUtils(){
+
+    private RxUtils() {
 
     }
+
     public static void unsubscribeIfNotNull(Subscription subscription) {
         if (subscription != null) {
             subscription.unsubscribe();
@@ -62,6 +69,7 @@ public class RxUtils {
                 .build();
         return restAdapter.create(c);
     }
+
     public static <T> T createLoginApi(Class<T> c, String url) {
         OkHttpClient client = OkHttpClientProvider.get(); //create OKHTTPClient
         CookieManager cookieManager = new CookieManager();
@@ -69,7 +77,7 @@ public class RxUtils {
         client.setCookieHandler(cookieManager); //finally set the cookie handler on client
         client.interceptors().add(new ReceivedCookiesInterceptor());
 
-                OkClient serviceClient = new OkClient(client);
+        OkClient serviceClient = new OkClient(client);
         RequestInterceptor requestInterceptor = request -> {
             request.addHeader("User-Agent", UA);
             request.addHeader("Accept", "application/json; q=0.5");
@@ -105,6 +113,7 @@ public class RxUtils {
                 .build();
         return restAdapter.create(c);
     }
+
     public static <T> T createCookieTextApi(Class<T> c, String url) {
         OkHttpClient client = OkHttpClientProvider.get(); //create OKHTTPClient
         CookieManager cookieManager = new CookieManager();
@@ -126,6 +135,7 @@ public class RxUtils {
                 .build();
         return restAdapter.create(c);
     }
+
     /**
      * This Interceptor add all received Cookies to the app DefaultPreferences.
      * Your implementation on how to save the Cookies on the Preferences MAY VARY.
@@ -138,11 +148,14 @@ public class RxUtils {
             Response originalResponse = chain.proceed(chain.request());
 
             if (!originalResponse.headers("Set-Cookie").isEmpty()) {
+                DbHelper dbHelper = App.getDbHelper();
                 HashSet<String> cookies = new HashSet<>();
 
                 for (String header : originalResponse.headers("Set-Cookie")) {
                     cookies.add(header);
-                    Log.i(TAG, "cookies:" + header);
+                    dbHelper.insertCookies(header);
+                    Log.i(TAG, "get cookies:" + header);
+
                 }
 
             }
@@ -163,19 +176,14 @@ public class RxUtils {
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
             //HashSet<String> preferences = (HashSet) Preferences.getDefaultPreferences().getStringSet(Preferences.PREF_COOKIES, new HashSet<>());
-                builder.addHeader("Cookie", "clientlanguage=zh_CN; Path=/");
-                builder.addHeader("Cookie", "JSESSIONID=5c820fc6c3994c5a922b17895b8b3683; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/; HttpOnly");
-                builder.addHeader("Cookie", "_error_remaining=\"\"; Domain=acfun.tv; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/");
-                builder.addHeader("Cookie", "_error_remaining=\"\"; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/");
-                builder.addHeader("Cookie", "auth_key=880780; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
-                builder.addHeader("Cookie", "auth_key_ac_sha1=-1668151428; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
-                builder.addHeader("Cookie", "auth_key_ac_sha1_=\"VBruBFWEQpgxoGFSl6LtcYHDNd8=\"; Version=1; Domain=acfun.tv; Max-Age=2592000; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
-                builder.addHeader("Cookie", "ac_username=%E6%88%91%E6%9C%89%E8%8F%87%E5%87%89%E6%9E%9C%E7%85%A7; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
-                builder.addHeader("Cookie", "ac_time=\"\"; Domain=acfun.tv; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/");
-                builder.addHeader("Cookie", "ac_time=\"\"; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/");
-                builder.addHeader("Cookie", "ac_userimg=http%3A%2F%2Fcdn.aixifan.com%2Fdotnet%2Fartemis%2Fu%2Fcms%2Fwww%2F201505%2F1413200735rj.jpg; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
-                builder.addHeader("Cookie", "_sid_=\"\"; Domain=acfun.tv; Expires=Fri, 02-Oct-2015 08:51:13 GMT; Path=/");
-                Log.v("OkHttp", "Adding Header: " ); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
+            DbHelper dbHelper = new DbHelper(App.getmContext());
+            List<LocalCookie> cookies = new ArrayList<>();
+            cookies = dbHelper.getDbCookies();
+            for (LocalCookie cookie : cookies) {
+                builder.addHeader("Cookie", cookie.getCookie());
+                Log.i(TAG, "set cookies:" + cookie.getCookie());
+            }
+            Log.v("OkHttp", "Adding Header: "); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
 
             return chain.proceed(builder.build());
         }

@@ -120,4 +120,5 @@
     <string name="already_regi">已签到</string>
     <string name="reg_today_yet">今日已签到</string>
     <string name="default_user_logo">http://cdn.aixifan.com/dotnet/20120923/style/image/avatar.jpg</string>
+    <string name="logout_success">退出登陆成功</string>
 </resources>

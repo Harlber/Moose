@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import moose.com.ac.retrofit.article.Article;
 
@@ -46,8 +48,46 @@ public class DbHelper {
                 ArticleCollects.COLUMN_NAME_NULLABLE,
                 values);
         db.close();
-        Log.i(TAG,"insertArticle result:"+newRowId);
+        //Log.i(TAG,"insertArticle result:"+newRowId);
         return newRowId > 0;
+    }
+
+    public boolean insertCookies(String cookie){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(ArticleCollects.ArticleCookies.COLUMN_NAME_COOKIES, cookie);
+        long newRowId;
+        newRowId = db.insert(
+                ArticleCollects.ArticleCookies.TABLE_NAME,
+                ArticleCollects.COLUMN_NAME_NULLABLE,
+                values);
+        db.close();
+        Log.i(TAG, "insert Cookies result:" + newRowId);
+        return newRowId > 0;
+    }
+
+    public List<LocalCookie> getDbCookies(){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        List<LocalCookie> lists = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT * FROM " + ArticleCollects.ArticleCookies.TABLE_NAME, null);
+        Log.i(TAG, "cursor count:" + c.getCount());
+        if (c.getCount() < 1) {
+            c.close();
+            db.close();
+            mDbHelper.close();
+        } else {
+            while (c.moveToNext()) {
+                LocalCookie cookie = new LocalCookie();
+                cookie.setCookie(c.getString(c.getColumnIndex("content")));
+
+                lists.add(cookie);
+            }
+        }
+        c.close();
+        db.close();
+        mDbHelper.close();
+        return lists;
     }
 
     public boolean deleteArticle(String tabName, String aid) {
@@ -59,7 +99,7 @@ public class DbHelper {
         // Issue SQL statement.
         int status = db.delete(tabName, selection, selectionArgs);
         db.close();
-        Log.i(TAG, "deleteArticle result:" + status);
+        //Log.i(TAG, "deleteArticle result:" + status);
         return status > 0;
     }
 
@@ -69,13 +109,18 @@ public class DbHelper {
         boolean isFav = query.getCount() >0;
         query.close();
         db.close();
-        Log.i(TAG, "isExits result:" + isFav);
+        //Log.i(TAG, "isExits result:" + isFav);
         return isFav;
     }
     public void dropSql(String tab){
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String deleteSql = "drop table if exists " + tab;
         db.execSQL(deleteSql);
+        db.close();
+    }
+    public void createTab(String tab){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        db.execSQL(tab);
         db.close();
     }
 
