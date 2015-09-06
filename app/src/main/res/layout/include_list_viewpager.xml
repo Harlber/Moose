@@ -111,7 +111,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:padding="12dp"
-                    android:src="@drawable/ic_arrow_back" />
+                    android:src="@drawable/abc_ic_ab_back_mtrl_am_black" />
 
                 <EditText
                     android:id="@+id/edit_text_search"
