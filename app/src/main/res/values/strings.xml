@@ -119,4 +119,5 @@
     <string name="reg_success">签到成功</string>
     <string name="already_regi">已签到</string>
     <string name="reg_today_yet">今日已签到</string>
+    <string name="default_user_logo">http://cdn.aixifan.com/dotnet/20120923/style/image/avatar.jpg</string>
 </resources>

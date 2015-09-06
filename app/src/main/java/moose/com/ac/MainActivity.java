@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         user_name = (TextView) findViewById(R.id.login_username);
-        user_name.setText(CommonUtil.getUserName());
+
         user_name.setOnClickListener(view -> {
                     if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             isSearch = false;
         });
 
+        user_name.setText(CommonUtil.getUserName());
         Glide.with(this)
                 .load(CommonUtil.getUserLogo())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

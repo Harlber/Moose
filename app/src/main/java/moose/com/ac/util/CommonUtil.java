@@ -68,7 +68,7 @@ public class CommonUtil {
     }
 
     public static String getUserName() {
-        return PreferenceUtil.getString(Config.USERNAME, "未登陆");
+        return PreferenceUtil.getString(Config.USERNAME, App.getmContext().getString(R.string.un_login));
     }
 
     public static void setUserName(String name) {
@@ -76,7 +76,7 @@ public class CommonUtil {
     }
 
     public static String getUserLogo() {
-        return PreferenceUtil.getString(Config.USER_LOG, "http://cdn.aixifan.com/dotnet/artemis/u/cms/www/201508/28125157rq4fchv6.jpg");
+        return PreferenceUtil.getString(Config.USER_LOG, App.getmContext().getString(R.string.default_user_logo));
     }
 
     public static void setUserLogo(String str) {
