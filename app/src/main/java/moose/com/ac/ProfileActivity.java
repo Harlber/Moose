@@ -17,7 +17,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.Profile;
-import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
@@ -74,72 +73,20 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         date = (AppCompatTextView) findViewById(R.id.profile_date);
         gender = (AppCompatTextView) findViewById(R.id.profile_sex);
         snakView = (View) findViewById(R.id.snak_view);
-
-        api = RxUtils.createCookieApi(Api.class, Config.MEMBER_URL);
-        apiCheckIn = RxUtils.createCookieApi(Api.class, Config.MEMBER_URL);
         if (CommonUtil.hasRegis()) {
             registButton.setText(R.string.already_regi);
-        }
-        if (!CommonUtil.hasRegis()) {
-            mSwipeRefreshLayout.setRefreshing(true);
-            subscription.add(api.getUserProfile()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Profile>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            mSwipeRefreshLayout.setEnabled(false);
-                            e.printStackTrace();
-                            if (e instanceof RetrofitError) {
-                                if (((RetrofitError) e).getResponse() != null) {
-                                    Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
-                                } else {
-                                    Snack(getString(R.string.no_network));
-                                }
-
-                            }
-                        }
-
-                        @Override
-                        public void onNext(Profile profile) {
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            mSwipeRefreshLayout.setEnabled(false);
-                            if (profile.isSuccess()) {
-                                Glide.with(ProfileActivity.this)
-                                        .load(profile.getUserImg())
-                                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                        .into(logo);
-                                uid.setText(profile.getUsername());
-                                signature.setText(getString(R.string.user_sign) + profile.getSign());
-                                date.setText(CommonUtil.toDate(profile.getRegTime()));
-                                gender.setText(getString(R.string.gender) + CommonUtil.getGender(profile.getGender()));
-
-                                CommonUtil.setSignatrue(profile.getSign());
-                                CommonUtil.setRegDate(profile.getRegTime());
-                                CommonUtil.setGender(profile.getGender());
-                                CommonUtil.setRegistDate();//签到
-                            } else {
-                                Snack(profile.getInfo());
-                            }
-                        }
-                    }));
-        } else {
-            Glide.with(ProfileActivity.this)
-                    .load(CommonUtil.getUserLogo())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(logo);
-            uid.setText(CommonUtil.getUserName());
             signature.setText(getString(R.string.user_sign) + CommonUtil.getSignatrue());
             date.setText(CommonUtil.toDate(CommonUtil.getRegDate()));
             gender.setText(getString(R.string.gender) + CommonUtil.getGender(CommonUtil.getGender()));
         }
+        api = RxUtils.createCookieApi(Api.class, Config.MEMBER_URL);
+        apiCheckIn = RxUtils.createCookieApi(Api.class, Config.MEMBER_URL);
+
+        Glide.with(ProfileActivity.this)
+                .load(CommonUtil.getUserLogo())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(logo);
+        uid.setText(CommonUtil.getUserName());
     }
 
     @Override
@@ -172,14 +119,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.profile_chenkin:
-                //签到的机制?
                 if (!CommonUtil.hasRegis()) {
-                    mSwipeRefreshLayout.setEnabled(true);
                     mSwipeRefreshLayout.setRefreshing(true);
-                    subscription.add(api.chenkin()
+                    subscription.add(api.getUserProfile()
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<CheckIn>() {
+                            .subscribe(new Observer<Profile>() {
                                 @Override
                                 public void onCompleted() {
 
@@ -202,18 +147,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 }
 
                                 @Override
-                                public void onNext(CheckIn profile) {
+                                public void onNext(Profile profile) {
                                     mSwipeRefreshLayout.setRefreshing(false);
                                     mSwipeRefreshLayout.setEnabled(false);
                                     if (profile.isSuccess()) {
+                                        CommonUtil.setSignatrue(profile.getSign());
+                                        CommonUtil.setRegDate(profile.getRegTime());
+                                        CommonUtil.setGender(profile.getGender());
+                                        CommonUtil.setRegistDate();//签到
                                         Snack(getString(R.string.reg_success));
-                                        registButton.setText(R.string.already_regi);
-                                        CommonUtil.setRegistDate();
+
+                                        Glide.with(ProfileActivity.this)
+                                                .load(profile.getUserImg())
+                                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                                .into(logo);
+                                        uid.setText(profile.getUsername());
+                                        signature.setText(getString(R.string.user_sign) + profile.getSign());
+                                        date.setText(CommonUtil.toDate(profile.getRegTime()));
+                                        gender.setText(getString(R.string.gender) + CommonUtil.getGender(profile.getGender()));
+
                                     } else {
-                                        Snack(profile.getResult());
+                                        Snack(profile.getInfo());
                                     }
                                 }
                             }));
+                } else {
+                    Snack(getString(R.string.reg_today_yet));
                 }
                 break;
             default:

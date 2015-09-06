@@ -123,6 +123,14 @@ public class CommonUtil {
         return PreferenceUtil.getInt(Config.USER_GENDER, -4);
     }
 
+    public static void setLoginEmail(String email) {
+        PreferenceUtil.setStringValue(Config.USER_LOGIN_EMAIL, email);
+    }
+
+    public static String getLoginEmail() {
+        return PreferenceUtil.getString(Config.USER_LOGIN_EMAIL, "");
+    }
+
     public static String[] getDays() {
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
@@ -225,16 +233,13 @@ public class CommonUtil {
 
     public static boolean hasRegis() {
         String now = toDate(System.currentTimeMillis());
-        String getLocal = String.valueOf(getRegist());
-        if (getLocal.length() < 5) {
-            return false;
-        }
-        String local = toDate(Long.valueOf(getLocal));
+        String local = String.valueOf(getRegist());
         if (local.length() < 11) {
             return false;
         }
         String nowDate = now.substring(0, 10);
-        String localDate = local.substring(0, 10);
-        return nowDate.equals(localDate);
+        String localDate = toDate(getRegist());
+        String localToDate = localDate.substring(0, 10);
+        return nowDate.equals(localToDate);
     }
 }

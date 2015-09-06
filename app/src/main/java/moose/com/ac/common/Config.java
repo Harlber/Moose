@@ -72,4 +72,5 @@ public class Config {
     /*user-info*/
     public static final String USERNAME = "USERNAME";
     public static final String USER_LOG = "USER_LOG";
+    public static final String USER_LOGIN_EMAIL = "USER_LOGIN_EMAIL";
 }

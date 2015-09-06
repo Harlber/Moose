@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         user_name.setText(CommonUtil.getUserName());
         user_name.setOnClickListener(view -> {
                     if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
-                        Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
+                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                         startActivity(intent);
                     } else {
                         startActivity(new Intent(MainActivity.this, Login.class));
@@ -225,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -261,6 +262,11 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent1s = new Intent(MainActivity.this, Settings.class);
                     startActivity(intent1s);
                     break;
+                case R.id.nav_checkin:
+                    Intent intentIn = CommonUtil.getLoginStatus().equals(Config.LOGIN_IN) ?
+                            new Intent(MainActivity.this, ProfileActivity.class) :
+                            new Intent(MainActivity.this, Login.class);
+                    startActivity(intentIn);
                 default:
                     break;
             }

@@ -66,6 +66,9 @@ public class Login extends AppCompatActivity {
         name = (EmailEditText) findViewById(R.id.login_name);
         pwd = (AppCompatEditText) findViewById(R.id.login_pwd);
         login = (AppCompatButton) findViewById(R.id.login_submit);
+
+        if (!CommonUtil.getLoginEmail().equals(""))
+            name.setText(CommonUtil.getLoginEmail());
         login.setOnClickListener(view -> {
             if (check()&&!isRequest){
                 isRequest = true;
@@ -106,6 +109,7 @@ public class Login extends AppCompatActivity {
                                     CommonUtil.setUserName(response.getUsername());
                                     CommonUtil.setUserLogo(response.getImg());
                                     CommonUtil.setLoginStatus(Config.LOGIN_IN);
+                                    CommonUtil.setLoginEmail(name.getText().toString());
                                     Snack(getString(R.string.login_success));
                                     new Handler().postDelayed(Login.this::finish, Config.TIME_LOGIN);
                                 }else {

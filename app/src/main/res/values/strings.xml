@@ -106,7 +106,7 @@
     <string name="empty_pwd">密码不能为空哦</string>
     <string name="login_success">登陆成功</string>
     <string name="un_login">未登陆</string>
-    <string name="user_info">信息中心</string>
+    <string name="user_info">个人中心</string>
     <string name="main_check_in">签到</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -118,4 +118,5 @@
     <string name="gender">"性别: "</string>
     <string name="reg_success">签到成功</string>
     <string name="already_regi">已签到</string>
+    <string name="reg_today_yet">今日已签到</string>
 </resources>
