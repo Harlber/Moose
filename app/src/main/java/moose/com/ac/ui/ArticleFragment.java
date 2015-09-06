@@ -147,9 +147,9 @@ public class ArticleFragment extends ArticleListFragment {
                         e.printStackTrace();
                         if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {
-                                Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
+                                mainActivity.Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
                             } else {
-                                Snack(getString(R.string.no_network));
+                                mainActivity.Snack(getString(R.string.no_network));
                             }
 
                         }

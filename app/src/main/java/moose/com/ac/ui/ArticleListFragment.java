@@ -1,7 +1,6 @@
 package moose.com.ac.ui;
 
 
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,10 +64,6 @@ public abstract class ArticleListFragment extends Fragment {
     protected abstract void loadMore();
 
     protected abstract void doSwapeRefresh();
-
-    protected void Snack(String msg) {
-        Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
-    }
 
     public RecyclerView getmRecyclerView() {
         return mRecyclerView;
