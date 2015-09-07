@@ -79,7 +79,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private boolean isFav = false;
     private boolean isWebViewLoading = false;
     private Article article;
-
+    private boolean isRequest = false;
     private DbHelper dbHelper;
 
     @Override
@@ -218,6 +218,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     };
 
     protected void initData() {
+        isRequest = true;
         HtmlBody = "";
         HtmlBodyClone = "";//maybe reset by getting data again
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
@@ -232,6 +233,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
                     @Override
                     public void onError(Throwable e) {
+                        isRequest = true;
                         e.printStackTrace();
                         mSwipeRefreshLayout.setRefreshing(false);//show progressbar
                         mSwipeRefreshLayout.setEnabled(true);
@@ -247,6 +249,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
                     @Override
                     public void onNext(ArticleBody articleBody) {
+                        isRequest= true;
                         mSwipeRefreshLayout.setRefreshing(false);
                         mSwipeRefreshLayout.setEnabled(false);
                         if (!articleBody.isSuccess()) {
@@ -425,6 +428,10 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                             mWeb.stopLoading();//maybe load image then ANR comes
                             mWeb.loadData(CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html; charset=UTF-8", null);
                         } else {
+                            if (isRequest) {
+                                RxUtils.unsubscribeIfNotNull(subscription);
+                                subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
+                            }
                             Snack(getString(R.string.get_data_again));
                             initData();
                         }

@@ -123,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.profile_chenkin:
-                if (!CommonUtil.hasRegis()) {
+                if (!CommonUtil.hasRegis()) {//jkk
                     mSwipeRefreshLayout.setRefreshing(true);
                     subscription.add(api.getUserProfile()
                             .subscribeOn(Schedulers.io())
