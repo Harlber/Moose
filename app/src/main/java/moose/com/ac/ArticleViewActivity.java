@@ -153,8 +153,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         menFav = menu.findItem(R.id.action_store);
         menuShare = menu.findItem(R.id.action_share);
         actionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuShare);
-        actionProvider.setShareHistoryFileName(null);
-        String shareurl = title + " " + Config.WEB_URL + contendid;
+        actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+        String shareurl = article.getTitle() + " " + Config.WEB_URL + contendid;
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareurl += getString(R.string.share_content);
         shareIntent.setType("text/plain");
