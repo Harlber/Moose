@@ -123,5 +123,5 @@
     <string name="logout_success">退出登陆成功</string>
     <string name="menu_share">分享</string>
     <string name="share">分享</string>
-    <string name="share_content">" ——来自#Acfun#文章区开源客户端 https://github.com/Harlber/Moose"</string>
+    <string name="share_content">" ——【测试】来自#Acfun#文章区开源客户端 https://github.com/Harlber/Moose"</string>
 </resources>
