@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.retrofit.Profile;
 import moose.com.ac.retrofit.article.Article;
 
 /**
@@ -65,6 +66,50 @@ public class DbHelper {
         db.close();
         Log.i(TAG, "insert Cookies result:" + newRowId);
         return newRowId > 0;
+    }
+    public boolean insertUserInfo(Profile profile){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(ArticleCollects.UserInfo.COLUMN_NAME_NICKNAME, profile.getUsername());
+        values.put(ArticleCollects.UserInfo.COLUMN_NAME_SIGNWORD, profile.getSign());
+        values.put(ArticleCollects.UserInfo.COLUMN_NAME_RSGDATE, profile.getRegTime() + "");//long
+        values.put(ArticleCollects.UserInfo.COLUMN_NAME_GENER, profile.getGender());//int
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = db.insert(
+                ArticleCollects.UserInfo.TABLE_NAME,
+                ArticleCollects.COLUMN_NAME_NULLABLE,
+                values);
+        db.close();
+        //Log.i(TAG,"insertArticle result:"+newRowId);
+        return newRowId > 0;
+
+    }
+
+    public Profile getUserInfo(){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Profile profile = new Profile();
+        Cursor c = db.rawQuery("SELECT * FROM " + ArticleCollects.ArticleCookies.TABLE_NAME, null);
+        Log.i(TAG, "cursor count:" + c.getCount());
+        if (c.getCount() < 1) {
+            c.close();
+            db.close();
+            mDbHelper.close();
+        } else {
+            if(c.moveToNext()){
+                profile.setUsername(c.getString(c.getColumnIndex("nickname")));
+                profile.setSign(c.getString(c.getColumnIndex("signword")));
+                profile.setRegTime(Long.valueOf(c.getString(c.getColumnIndex("regdate"))));
+                profile.setGender(c.getInt(c.getColumnIndex("gener")));
+            }
+
+        }
+        c.close();
+        db.close();
+        mDbHelper.close();
+        return profile;
     }
 
     public List<LocalCookie> getDbCookies(){

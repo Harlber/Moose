@@ -18,7 +18,7 @@ public final class ArticleCollects {
     public static final String COMMA_SEP = ",";
     public static final String SQL_CREATE_ARTICLESTORY =
             "CREATE TABLE " + ArticleEntry.TABLE_NAME + " (" +
-                    ArticleEntry._ID + PRIMARY +COMMA_SEP+
+                    ArticleEntry._ID + PRIMARY + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_ID + INTEGER_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_AID + TEXT_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_TITLE + VARCHAR_TITLE + COMMA_SEP +
@@ -27,16 +27,16 @@ public final class ArticleCollects {
                     ArticleEntry.COLUMN_NAME_COMMENT + TEXT_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_RELEASEDATE + TEXT_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_SAVEDATE + TEXT_TYPE + COMMA_SEP +
-                    ArticleEntry.COLUMN_NAME_ISFAV + TEXT_TYPE +COMMA_SEP+
+                    ArticleEntry.COLUMN_NAME_ISFAV + TEXT_TYPE + COMMA_SEP +
                     ArticleEntry.COLUMN_NAME_CHANNEL + INTEGER_TYPE +
-            ")";
+                    ")";
 
     public static final String SQL_DELETE_ARTICLESTORY =
             "DROP TABLE IF EXISTS " + ArticleEntry.TABLE_NAME;
 
     public static final String SQL_CREATE_ARTICLEHISTORY =
             "CREATE TABLE " + ArticleHistoryEntry.TABLE_NAME + " (" +
-                    ArticleHistoryEntry._ID + PRIMARY +COMMA_SEP+
+                    ArticleHistoryEntry._ID + PRIMARY + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_ID + INTEGER_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_AID + TEXT_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_TITLE + VARCHAR_TITLE + COMMA_SEP +
@@ -45,7 +45,7 @@ public final class ArticleCollects {
                     ArticleHistoryEntry.COLUMN_NAME_COMMENT + TEXT_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE + TEXT_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_SAVEDATE + TEXT_TYPE + COMMA_SEP +
-                    ArticleHistoryEntry.COLUMN_NAME_ISFAV + TEXT_TYPE +COMMA_SEP+
+                    ArticleHistoryEntry.COLUMN_NAME_ISFAV + TEXT_TYPE + COMMA_SEP +
                     ArticleHistoryEntry.COLUMN_NAME_CHANNEL + INTEGER_TYPE +
                     ")";
 
@@ -54,16 +54,29 @@ public final class ArticleCollects {
 
     public static final String SQL_CREATE_COOKIES =
             "CREATE TABLE " + ArticleCookies.TABLE_NAME + " (" +
-                    ArticleCookies._ID + PRIMARY +COMMA_SEP+
+                    ArticleCookies._ID + PRIMARY + COMMA_SEP +
                     ArticleCookies.COLUMN_NAME_COOKIES + VARCHAR_TITLE +
                     ")";
 
     public static final String SQL_DELETE_COOKIE =
             "DROP TABLE IF EXISTS " + ArticleCookies.TABLE_NAME;
+
+    public static final String SQL_CREATE_USERINFO =
+            "CREATE TABLE " + ArticleHistoryEntry.TABLE_NAME + " (" +
+                    UserInfo._ID + PRIMARY + COMMA_SEP +
+                    UserInfo.COLUMN_NAME_NICKNAME + TEXT_TYPE + COMMA_SEP +
+                    UserInfo.COLUMN_NAME_SIGNWORD + TEXT_TYPE + COMMA_SEP +
+                    UserInfo.COLUMN_NAME_RSGDATE + VARCHAR_TITLE + COMMA_SEP +
+                    UserInfo.COLUMN_NAME_GENER + INTEGER_TYPE +
+                    ")";
+
+    public static final String SQL_DELETE_USERINFO =
+            "DROP TABLE IF EXISTS " + UserInfo.TABLE_NAME;
+
     public ArticleCollects() {
     }
 
-    public static abstract class ArticleEntry implements BaseColumns{
+    public static abstract class ArticleEntry implements BaseColumns {
         public static final String TABLE_NAME = "story";
         public static final String COLUMN_NAME_ID = "id";
 
@@ -77,7 +90,8 @@ public final class ArticleCollects {
         public static final String COLUMN_NAME_ISFAV = "isfav";
         public static final String COLUMN_NAME_CHANNEL = "channelid";
     }
-    public static abstract class ArticleHistoryEntry implements BaseColumns{
+
+    public static abstract class ArticleHistoryEntry implements BaseColumns {
         public static final String TABLE_NAME = "histroy";
         public static final String COLUMN_NAME_ID = "id";
 
@@ -92,8 +106,16 @@ public final class ArticleCollects {
         public static final String COLUMN_NAME_CHANNEL = "channelid";
     }
 
-    public static abstract class ArticleCookies implements BaseColumns{
+    public static abstract class ArticleCookies implements BaseColumns {
         public static final String TABLE_NAME = "cookie";
         public static final String COLUMN_NAME_COOKIES = "content";
+    }
+
+    public static abstract class UserInfo implements BaseColumns {
+        public static final String TABLE_NAME = "user";
+        public static final String COLUMN_NAME_NICKNAME = "nickname";
+        public static final String COLUMN_NAME_SIGNWORD = "signword";//个性签名
+        public static final String COLUMN_NAME_RSGDATE = "regdate";//注册时间
+        public static final String COLUMN_NAME_GENER = "gener";//性别
     }
 }

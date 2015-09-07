@@ -23,6 +23,7 @@ public class DBCustomHelper extends SQLiteOpenHelper {
         db.execSQL(ArticleCollects.SQL_CREATE_ARTICLESTORY);//story
         db.execSQL(ArticleCollects.SQL_CREATE_ARTICLEHISTORY);//history
         db.execSQL(ArticleCollects.SQL_CREATE_COOKIES);//cookie
+        db.execSQL(ArticleCollects.SQL_CREATE_USERINFO);//userinfo
     }
 
     @Override
