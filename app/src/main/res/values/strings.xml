@@ -121,4 +121,7 @@
     <string name="reg_today_yet">今日已签到</string>
     <string name="default_user_logo">http://cdn.aixifan.com/dotnet/20120923/style/image/avatar.jpg</string>
     <string name="logout_success">退出登陆成功</string>
+    <string name="menu_share">分享</string>
+    <string name="share">分享</string>
+    <string name="share_content">" ——来自#Acfun#文章区开源客户端 https://github.com/Harlber/Moose"</string>
 </resources>

@@ -10,4 +10,8 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_store" android:title="@string/web_store"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_share" android:title="@string/menu_share"
+        android:orderInCategory="100" app:showAsAction="always"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"/>
 </menu>

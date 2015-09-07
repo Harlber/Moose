@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -60,6 +62,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private ObservableWebView mWeb;
     private FloatingActionButton fab;
     private MenuItem menFav;
+    private MenuItem menuShare;
+    private ShareActionProvider actionProvider;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
@@ -147,8 +151,19 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_view_article, menu);
         menFav = menu.findItem(R.id.action_store);
+        menuShare = menu.findItem(R.id.action_share);
+        actionProvider =  (ShareActionProvider) MenuItemCompat.getActionProvider(menuShare);
+        actionProvider.setShareHistoryFileName(null);
+        String shareurl = title + " " +Config.WEB_URL+ contendid;
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareurl += getString(R.string.share_content);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareurl);
+        actionProvider.setShareIntent(shareIntent);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -208,7 +223,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         RxUtils.unsubscribeIfNotNull(subscription);
     }
 
-    protected DialogInterface.OnClickListener mErrorDialogListener = (dialog, which) -> {
+    private DialogInterface.OnClickListener mErrorDialogListener = (dialog, which) -> {
         dialog.dismiss();
         if (which == DialogInterface.BUTTON_POSITIVE) {
             initData();
@@ -217,7 +232,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         }
     };
 
-    protected void initData() {
+    private void initData() {
         isRequest = true;
         HtmlBody = "";
         HtmlBodyClone = "";//maybe reset by getting data again
