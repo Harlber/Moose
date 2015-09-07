@@ -1,16 +1,16 @@
 ##Moose
 About acfun , class begins.
 
-###Incomplete List
-<li>Night mode
-<li>Screen flip
-<li>Landed
-<li>Comment
-<li>Search
-<li><del>Favorites</del>  done
-<li>History record
-<li>Setting
-<li>Replies
+##正在进行中
+
+##Screen shots
+<img src="http://i3.tietuku.com/7316cfbdcd5aad6f.png" width = "300" height = "572" alt="demo3" align=center />
+<img src="http://i3.tietuku.com/e0b45a3cb4113841.png" width = "300" height = "572" alt="demo1" align=center />
+<img src="http://i3.tietuku.com/5767219000845b97.png" width = "300" height = "572" alt="demo2" align=center />
+<img src="http://i3.tietuku.com/223ede42b6701097.png" width = "300" height = "572" alt="demo4" align=center />
+<img src="http://i3.tietuku.com/5b3f47c70af91c73.png" width = "300" height = "572" alt="demo5" align=center />
+<img src="http://i3.tietuku.com/beca18eeb4d1a8db.png" width = "300" height = "572" alt="demo6" align=center />
+
 
 ####License
     
