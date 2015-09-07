@@ -25,4 +25,17 @@
         <attr name="border_width" format="dimension" />
         <attr name="border_color2" format="color" />
     </declare-styleable>
+    <!--light or day mode-->
+    <attr name="statusBarColor" format="color"/>
+    <attr name="appBarColor" format="color"/>
+    <attr name="backgroundColor" format="color"/>
+    <attr name="cardColor" format="color"/>
+    <!--material theme-->
+    <attr name="baseColor" format="color"/>
+    <attr name="textColor" format="color"/>
+    <attr name="sendrytextColor" format="color"/>
+    <attr name="hinttextColor" format="color"/>
+    <attr name="dividersColor" format="color"/>
+    <attr name="primaryColor" format="color"/>
+    <attr name="accentColor" format="color"/>
 </resources>

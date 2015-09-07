@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_swipe"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColor">
+
 <!--moose.com.ac.ui.view.MultiSwipeRefreshLayout-->
     <RelativeLayout
         android:id="@+id/login_swipe_child"
@@ -21,7 +23,7 @@
                 android:id="@+id/login_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
+                android:background="?attr/appBarColor"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -48,6 +50,7 @@
             android:layout_marginTop="16dp"
             android:elevation="5dp"
             android:hint="@string/login_user_name"
+            android:textColor="?attr/cardColor"
             tools:ignore="UnusedAttribute" />
 
         <android.support.v7.widget.AppCompatEditText
@@ -62,6 +65,7 @@
             android:inputType="textPassword"
             android:elevation="5dp"
             android:singleLine="true"
+            android:textColor="?attr/cardColor"
             tools:ignore="UnusedAttribute"
             android:elegantTextHeight="true"/>
 

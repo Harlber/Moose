@@ -17,10 +17,10 @@
 <resources>
     <color name="window_background">#FFF5F5F5</color>
 
-    <color name="colorPrimary">#FF9800</color>
-    <color name="colorPrimaryDark">#F57C00</color>
+    <color name="colorPrimary">#58bee4</color>
+    <color name="colorPrimaryDark">#58bee4</color>
     <color name="colorPrimaryLight">#FFE0B2</color>
-    <color name="colorAccent">#FF5252</color>
+    <color name="colorAccent">#ff87a0</color>
     <color name="colorAccentLight">#FF8A80</color>
     <color name="textColorButton">#FFFFFF</color>
     <color name="backgroud_main">#ededed</color>
@@ -311,6 +311,7 @@
     <color name="md_grey_800">#424242</color>
     <color name="md_grey_900">#212121</color>
     <color name="md_grey_1000">#000000</color>
+    <color name="md_grey_1100">#303030</color>
 
     <!-- blue_grey -->
     <color name="md_blue_grey_50">#eceff1</color>

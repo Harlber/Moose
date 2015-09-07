@@ -127,6 +127,13 @@ public class ArticleFragment extends ArticleListFragment {
         mainActivity = null;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //final View decorView = getActivity().getWindow().getDecorView();
+       // decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
+
     private void loadData(int tp, int pg, boolean isSave) {
         mSwipeRefreshLayout.setEnabled(true);
         mSwipeRefreshLayout.setRefreshing(true);//show progressbar
