@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".ArticleViewActivity">
-    <item android:id="@+id/action_module_wap" android:title="@string/web_access_url"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_module_view" android:title="@string/web_mode"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_front_view" android:title="@string/web_fornt"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_store" android:title="@string/web_store"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_share" android:title="@string/menu_share"
-        android:orderInCategory="100" app:showAsAction="always"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ArticleViewActivity">
+    <item
+        android:id="@+id/action_module_wap"
+        android:orderInCategory="100"
+        android:title="@string/web_access_url"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_module_view"
+        android:orderInCategory="100"
+        android:title="@string/web_mode"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_front_view"
+        android:orderInCategory="100"
+        android:title="@string/web_fornt"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_store"
+        android:orderInCategory="100"
+        android:title="@string/web_store"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
+        android:orderInCategory="100"
+        android:title="@string/menu_share"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"/>
+        app:showAsAction="always" />
 </menu>

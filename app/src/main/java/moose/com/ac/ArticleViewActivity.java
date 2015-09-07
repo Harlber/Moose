@@ -152,9 +152,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         getMenuInflater().inflate(R.menu.menu_view_article, menu);
         menFav = menu.findItem(R.id.action_store);
         menuShare = menu.findItem(R.id.action_share);
-        actionProvider =  (ShareActionProvider) MenuItemCompat.getActionProvider(menuShare);
+        actionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuShare);
         actionProvider.setShareHistoryFileName(null);
-        String shareurl = title + " " +Config.WEB_URL+ contendid;
+        String shareurl = title + " " + Config.WEB_URL + contendid;
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareurl += getString(R.string.share_content);
         shareIntent.setType("text/plain");
@@ -264,7 +264,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
                     @Override
                     public void onNext(ArticleBody articleBody) {
-                        isRequest= true;
+                        isRequest = true;
                         mSwipeRefreshLayout.setRefreshing(false);
                         mSwipeRefreshLayout.setEnabled(false);
                         if (!articleBody.isSuccess()) {
