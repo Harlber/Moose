@@ -21,8 +21,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/appbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -35,27 +35,25 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar"
-            android:background="#58bee4"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
         <View
             android:id="@+id/toolbar_shadow"
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:layout_below="@+id/tabs"
-            android:background="@drawable/toolbar_shadow" />
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
+            android:background="@drawable/toolbar_shadow"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_shadow"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    </RelativeLayout>
+            android:layout_height="wrap_content" />
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
     <RelativeLayout
@@ -135,7 +133,7 @@
                     android:clickable="true"
                     android:padding="12dp"
                     android:src="@drawable/ic_search_white_24dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
             <View
