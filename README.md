@@ -2,6 +2,7 @@
 About acfun , class begins.
 
 ##正在进行中
+准备使用mvvm与retrofit 2.0beta。关于评论页面，暂不改动，等待设计图，准备一种全新的显示方式。至于view inject的类库，目前来看，意义不大。
 
 ##Screen shots
 <img src="http://i3.tietuku.com/7316cfbdcd5aad6f.png" width = "300" height = "572" alt="demo3" align=center />
