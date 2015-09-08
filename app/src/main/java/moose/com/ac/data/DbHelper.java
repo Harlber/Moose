@@ -49,7 +49,7 @@ public class DbHelper {
                 ArticleCollects.COLUMN_NAME_NULLABLE,
                 values);
         db.close();
-        //Log.i(TAG,"insertArticle result:"+newRowId);
+        Log.i(TAG,"insertArticle result:"+newRowId);
         return newRowId > 0;
     }
 
@@ -83,7 +83,7 @@ public class DbHelper {
                 ArticleCollects.COLUMN_NAME_NULLABLE,
                 values);
         db.close();
-        //Log.i(TAG,"insertArticle result:"+newRowId);
+        Log.i(TAG,"insertArticle result:"+newRowId);
         return newRowId > 0;
 
     }
@@ -154,7 +154,7 @@ public class DbHelper {
         boolean isFav = query.getCount() >0;
         query.close();
         db.close();
-        //Log.i(TAG, "isExits result:" + isFav);
+        Log.i(TAG, "isExits result:" + isFav);
         return isFav;
     }
     public void dropSql(String tab){

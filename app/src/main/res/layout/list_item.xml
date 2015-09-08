@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="top|left"
             android:src="@drawable/ic_bookmark_grey600_24dp"
-            android:tint="@color/colorPrimary"
+            android:tint="@color/md_yellow_800"
             android:visibility="invisible" />
 
         <TextView
