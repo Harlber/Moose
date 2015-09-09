@@ -11,7 +11,7 @@ import moose.com.ac.retrofit.collect.Store;
 import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.retrofit.login.LoginEntry;
 import moose.com.ac.retrofit.search.SearchBody;
-import retrofit.client.Response;
+import retrofit.Response;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;

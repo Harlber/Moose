@@ -20,10 +20,8 @@ import java.util.Locale;
 import moose.com.ac.App;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.LocalCookie;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
-import retrofit.converter.GsonConverter;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -57,7 +55,7 @@ public class RxUtils {
 
 
     public static <T> T createApi(Class<T> c, String url) {
-        RequestInterceptor requestInterceptor = request -> {
+       /* RequestInterceptor requestInterceptor = request -> {
             request.addHeader("User-Agent", UA);
             request.addHeader("Accept", "application/json; q=0.5");
         };
@@ -67,7 +65,14 @@ public class RxUtils {
                 .setClient(new OkClient(OkHttpClientProvider.get()))
                 .setConverter(new GsonConverter(new Gson()))//.setErrorHandler(new FarbleError())
                 .build();
-        return restAdapter.create(c);
+        return restAdapter.create(c);*/
+        Retrofit retrofit  = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .build();
+
+        return retrofit.create(c);
+
     }
 
     public static <T> T createLoginApi(Class<T> c, String url) {
