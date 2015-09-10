@@ -30,7 +30,7 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class RxUtils {
     private static final String TAG = "RxUtils";
-    public static final String UA = "acfun/1.0 (Linux; U; Android " + Build.VERSION.RELEASE + "; " +
+    public static  String UA = "acfun/1.0 (Linux; U; Android " + Build.VERSION.RELEASE + "; " +
             Build.MODEL + "; " + Locale.getDefault().getLanguage() + "-" +
             Locale.getDefault().getCountry().toLowerCase() +
             ") AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 ";
@@ -66,11 +66,12 @@ public class RxUtils {
                 .setConverter(new GsonConverter(new Gson()))//.setErrorHandler(new FarbleError())
                 .build();
         return restAdapter.create(c);*/
+        OkHttpClient client = OkHttpClientProvider.get(); //create OKHTTPClient
         Retrofit retrofit  = new Retrofit.Builder()
                 .baseUrl(url)
+                .client(client )
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .build();
-
         return retrofit.create(c);
 
     }
