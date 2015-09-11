@@ -49,6 +49,7 @@ public class ArticleFragment extends ArticleListFragment {
         type = Integer.valueOf(getArguments().getString(Config.CHANNEL_TYPE));
         initRecyclerView();
         initRefreshLayout();
+
         mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));//show progressbar
         new Handler().postDelayed(this::init, Config.TIME_LATE);
         return rootView;

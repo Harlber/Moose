@@ -10,6 +10,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
 import moose.com.ac.R;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
@@ -19,6 +20,7 @@ import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
  */
 public abstract class ArticleListFragment extends Fragment {
     private static final String TAG = "ArticleListFragment";
+    private static final int ANIMATION_DURATION = 2000;
     protected View rootView;
     protected RecyclerView mRecyclerView;
     protected LinearLayoutManager mLayoutManager;
@@ -26,6 +28,7 @@ public abstract class ArticleListFragment extends Fragment {
 
     protected List<Article> lists = new ArrayList<>();
     protected ArticleListAdapter adapter;
+    protected FlipInTopXAnimator animator;
 
     protected boolean isScroll = false;//is RecyclerView scrolling
 
@@ -56,6 +59,10 @@ public abstract class ArticleListFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(adapter);
+        animator = new FlipInTopXAnimator();
+        animator.setAddDuration(ANIMATION_DURATION);
+        animator.setRemoveDuration(ANIMATION_DURATION);
+        mRecyclerView.setItemAnimator(animator);
 
     }
 
