@@ -27,7 +27,6 @@ import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.comment.CommentDetail;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
-import retrofit.RetrofitError;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -153,14 +152,15 @@ public class CommentListFragment extends Fragment {
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
                         e.printStackTrace();
-                        if (e instanceof RetrofitError) {
+                        Snack(getString(R.string.no_network));
+                        /*if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {
                                 Snack(getString(R.string.net_work)+((RetrofitError) e).getResponse().getStatus());
                             }else {
                                 Snack(getString(R.string.no_network));
                             }
 
-                        }
+                        }*/
                     }
 
                     @Override

@@ -24,7 +24,6 @@ import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.PreferenceUtil;
 import moose.com.ac.util.RxUtils;
-import retrofit.RetrofitError;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -36,7 +35,6 @@ import rx.subscriptions.CompositeSubscription;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "ProfileActivity";
     private Api api;
-    private Api apiCheckIn;
     private CompositeSubscription subscription = new CompositeSubscription();
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private ImageView logo;
@@ -83,8 +81,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             date.setText(CommonUtil.toDate(CommonUtil.getRegDate()));
             gender.setText(getString(R.string.gender) + CommonUtil.getGender(CommonUtil.getGender()));
         }
-        api = RxUtils.createCookieApi(Api.class, Config.MEMBER_URL);
-        apiCheckIn = RxUtils.createCookieApi(Api.class, Config.MEMBER_URL);
+        api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
 
         Glide.with(ProfileActivity.this)
                 .load(CommonUtil.getUserLogo())
@@ -140,14 +137,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                     mSwipeRefreshLayout.setRefreshing(false);
                                     mSwipeRefreshLayout.setEnabled(false);
                                     e.printStackTrace();
-                                    if (e instanceof RetrofitError) {
+                                    Snack(getString(R.string.no_network));
+                                    /*if (e instanceof RetrofitError) {
                                         if (((RetrofitError) e).getResponse() != null) {
                                             Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
                                         } else {
                                             Snack(getString(R.string.no_network));
                                         }
 
-                                    }
+                                    }*/
                                 }
 
                                 @Override

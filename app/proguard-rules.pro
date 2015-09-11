@@ -31,13 +31,10 @@
 -keep interface com.squareup.okhttp.** { *; }
 
 -dontwarn retrofit.**
--dontwarn retrofit.appengine.UrlFetchClient
 -keep class retrofit.** { *; }
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
-
 -keepattributes Signature
+-keepattributes Exceptions
+
 -keepattributes *Annotation*
 
 #your package path where your gson models are stored

@@ -41,7 +41,6 @@ import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ScrollFABBehavior;
-import retrofit.RetrofitError;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -252,14 +251,15 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         e.printStackTrace();
                         mSwipeRefreshLayout.setRefreshing(false);//show progressbar
                         mSwipeRefreshLayout.setEnabled(true);
-                        if (e instanceof RetrofitError) {
+                        Snack(getString(R.string.no_network));
+                        /*if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {
                                 Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
                             } else {
                                 Snack(getString(R.string.no_network));
                             }
 
-                        }
+                        }*/
                     }
 
                     @Override
