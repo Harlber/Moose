@@ -22,6 +22,7 @@ import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.LocalCookie;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -30,7 +31,7 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class RxUtils {
     private static final String TAG = "RxUtils";
-    public static  String UA = "acfun/1.0 (Linux; U; Android " + Build.VERSION.RELEASE + "; " +
+    public static String UA = "acfun/1.0 (Linux; U; Android " + Build.VERSION.RELEASE + "; " +
             Build.MODEL + "; " + Locale.getDefault().getLanguage() + "-" +
             Locale.getDefault().getCountry().toLowerCase() +
             ") AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 ";
@@ -55,22 +56,13 @@ public class RxUtils {
 
 
     public static <T> T createApi(Class<T> c, String url) {
-       /* RequestInterceptor requestInterceptor = request -> {
-            request.addHeader("User-Agent", UA);
-            request.addHeader("Accept", "application/json; q=0.5");
-        };
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(url)//.setLogLevel(RestAdapter.LogLevel.FULL)
-                .setRequestInterceptor(requestInterceptor)
-                .setClient(new OkClient(OkHttpClientProvider.get()))
-                .setConverter(new GsonConverter(new Gson()))//.setErrorHandler(new FarbleError())
-                .build();
-        return restAdapter.create(c);*/
         OkHttpClient client = OkHttpClientProvider.get(); //create OKHTTPClient
-        Retrofit retrofit  = new Retrofit.Builder()
+        client.interceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
-                .client(client )
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         return retrofit.create(c);
 
@@ -83,19 +75,13 @@ public class RxUtils {
         client.setCookieHandler(cookieManager); //finally set the cookie handler on client
         client.interceptors().add(new ReceivedCookiesInterceptor());
 
-        OkClient serviceClient = new OkClient(client);
-        RequestInterceptor requestInterceptor = request -> {
-            request.addHeader("User-Agent", UA);
-            request.addHeader("Accept", "application/json; q=0.5");
-        };
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint(url)//
-                .setRequestInterceptor(requestInterceptor)
-                .setClient(serviceClient)
-                .setConverter(new GsonConverter(new Gson()))//.setErrorHandler(new FarbleError())
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        return restAdapter.create(c);
+        return retrofit.create(c);
     }
 
     public static <T> T createCookieApi(Class<T> c, String url) {
@@ -104,20 +90,15 @@ public class RxUtils {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         client.setCookieHandler(cookieManager); //finally set the cookie handler on client
         client.interceptors().add(new AddCookiesInterceptor());
+        client.interceptors().add(new LoggingInterceptor());
 
-        OkClient serviceClient = new OkClient(client);
-        RequestInterceptor requestInterceptor = request -> {
-            request.addHeader("User-Agent", UA);
-            request.addHeader("Accept", "application/json; q=0.5");
-        };
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint(url)//
-                .setRequestInterceptor(requestInterceptor)
-                .setClient(serviceClient)
-                .setConverter(new GsonConverter(new Gson()))//.setErrorHandler(new FarbleError())
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        return restAdapter.create(c);
+        return retrofit.create(c);
     }
 
     public static <T> T createCookieTextApi(Class<T> c, String url) {
@@ -127,19 +108,13 @@ public class RxUtils {
         client.setCookieHandler(cookieManager); //finally set the cookie handler on client
         client.interceptors().add(new AddCookiesInterceptor());
 
-        OkClient serviceClient = new OkClient(client);
-        RequestInterceptor requestInterceptor = request -> {
-            request.addHeader("User-Agent", UA);
-            request.addHeader("Accept", "text/html;charset=UTF-8");
-        };
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint(url)//
-                .setRequestInterceptor(requestInterceptor)
-                .setClient(serviceClient)
-                .setConverter(new GsonConverter(new Gson()))//.setErrorHandler(new FarbleError())
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        return restAdapter.create(c);
+        return retrofit.create(c);
     }
 
     /**
@@ -185,13 +160,42 @@ public class RxUtils {
             DbHelper dbHelper = new DbHelper(App.getmContext());
             List<LocalCookie> cookies = new ArrayList<>();
             cookies = dbHelper.getDbCookies();
+            builder.addHeader("User-Agent", UA);
+            builder.addHeader("Accept", "application/json; q=0.5");
             for (LocalCookie cookie : cookies) {
                 builder.addHeader("Cookie", cookie.getCookie());
-                Log.i(TAG, "set cookies:" + cookie.getCookie());
+                //Log.i(TAG, "set cookies:" + cookie.getCookie());
             }
-            Log.v("OkHttp", "Adding Header: "); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
+            //Log.v("OkHttp", "Adding Header: "); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
 
             return chain.proceed(builder.build());
+        }
+    }
+
+    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .header("User-Agent", UA)
+                .header("Accept", "application/json; q=0.5")
+                .build();
+    };
+
+   static class LoggingInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+
+            long t1 = System.nanoTime();
+            Log.e("OkHttp", String.format("Sending request %s on %s%n%s",
+                    request.url(), chain.connection(), request.headers()));
+
+            Response response = chain.proceed(request);
+
+            long t2 = System.nanoTime();
+            Log.e("OkHttp", String.format("Received response for %s in %.1fms%n%s",
+                    response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+
+            return response;
         }
     }
 }

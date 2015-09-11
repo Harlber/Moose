@@ -18,7 +18,6 @@ import moose.com.ac.ui.view.EmailEditText;
 import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
-import retrofit.RetrofitError;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -42,7 +41,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTheme(R.style.NightTheme);
+        this.setTheme(R.style.DayTheme);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_black));
         } else {
@@ -97,14 +96,15 @@ public class Login extends AppCompatActivity {
                                 mSwipeRefreshLayout.setEnabled(false);
                                 isRequest = false;//refresh request status
                                 e.printStackTrace();
-                                if (e instanceof RetrofitError) {
+                                Snack(getString(R.string.no_network));
+                               /* if (e instanceof RetrofitError) {
                                     if (((RetrofitError) e).getResponse() != null) {
                                         Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
                                     } else {
                                         Snack(getString(R.string.no_network));
                                     }
 
-                                }
+                                }*/
                             }
 
                             @Override

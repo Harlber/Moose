@@ -20,7 +20,6 @@ import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleList;
 import moose.com.ac.util.RxUtils;
-import retrofit.RetrofitError;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -151,15 +150,16 @@ public class ArticleFragment extends ArticleListFragment {
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;//refresh request status
+                        mainActivity.Snack(getString(R.string.no_network));
                         e.printStackTrace();
-                        if (e instanceof RetrofitError) {
+                        /*if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {
                                 mainActivity.Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
                             } else {
                                 mainActivity.Snack(getString(R.string.no_network));
                             }
 
-                        }
+                        }*/
 
                     }
 
