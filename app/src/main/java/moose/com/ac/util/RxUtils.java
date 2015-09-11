@@ -166,9 +166,9 @@ public class RxUtils {
             builder.addHeader("Accept", "application/json; q=0.5");
             for (LocalCookie cookie : cookies) {
                 builder.addHeader("Cookie", cookie.getCookie());
-                //Log.i(TAG, "set cookies:" + cookie.getCookie());
+                Log.i(TAG, "set cookies:" + cookie.getCookie());
             }
-            //Log.v("OkHttp", "Adding Header: "); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
+            Log.v("OkHttp", "Adding Header: "); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
 
             return chain.proceed(builder.build());
         }
@@ -191,13 +191,13 @@ public class RxUtils {
             Request request = chain.request();
 
             long t1 = System.nanoTime();
-            Log.e("OkHttp", String.format("Sending request %s on %s%n%s",
+            Log.v("OkHttp", String.format("Sending request %s on %s%n%s",
                     request.url(), chain.connection(), request.headers()));
 
             Response response = chain.proceed(request);
 
             long t2 = System.nanoTime();
-            Log.e("OkHttp", String.format("Received response for %s in %.1fms%n%s",
+            Log.v("OkHttp", String.format("Received response for %s in %.1fms%n%s",
                     response.request().url(), (t2 - t1) / 1e6d, response.headers()));
 
             return response;
