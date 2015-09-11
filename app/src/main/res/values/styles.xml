@@ -13,7 +13,7 @@
         <item name="colorPrimaryDark" tools:ignore="NewApi">@color/colorPrimary</item>
         <item name="statusBarColor">@color/colorPrimary</item>
         <item name="appBarColor">@color/colorPrimary</item>
-        <item name="backgroundColor">@color/md_grey_50</item>
+        <item name="backgroundColor">@color/colorPrimary</item>
         <item name="cardColor">@color/md_white</item>
     </style>
 

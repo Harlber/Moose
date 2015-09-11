@@ -28,6 +28,8 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Farble on 2015/8/15 12.
+ * see http://mattlogan.me/notes-on-updating-to-retrofit-2.html
+ * see https://github.com/square/retrofit/blob/master/CHANGELOG.md
  */
 public class RxUtils {
     private static final String TAG = "RxUtils";
@@ -180,7 +182,10 @@ public class RxUtils {
                 .build();
     };
 
-   static class LoggingInterceptor implements Interceptor {
+    /**
+     * see http://stackoverflow.com/questions/24952199/okhttp-enable-logs
+     */
+    static class LoggingInterceptor implements Interceptor {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();

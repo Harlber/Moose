@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor">
 
-<!--moose.com.ac.ui.view.MultiSwipeRefreshLayout-->
+    <!--moose.com.ac.ui.view.MultiSwipeRefreshLayout-->
     <RelativeLayout
         android:id="@+id/login_swipe_child"
         android:layout_width="match_parent"
@@ -39,50 +39,63 @@
             android:background="@color/colorContents"
             android:src="@drawable/login" />
 
-        <moose.com.ac.ui.view.EmailEditText
-            android:id="@+id/login_name"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_head"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="16dp"
-            android:elevation="5dp"
-            android:hint="@string/login_user_name"
-            android:textColor="?attr/cardColor"
-            tools:ignore="UnusedAttribute" />
+            android:layout_below="@id/login_head">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/login_pwd"
+            <moose.com.ac.ui.view.EmailEditText
+                android:id="@+id/login_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="16dp"
+                android:elevation="5dp"
+                android:hint="@string/login_user_name"
+                android:textColor="?attr/cardColor"
+                tools:ignore="UnusedAttribute" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_name"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="16dp"
-            android:inputType="textPassword"
-            android:elevation="5dp"
-            android:singleLine="true"
-            android:textColor="?attr/cardColor"
-            tools:ignore="UnusedAttribute"
-            android:elegantTextHeight="true"/>
+            android:layout_below="@id/input_layout_name">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/login_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="16dp"
+                android:elegantTextHeight="true"
+                android:elevation="5dp"
+                android:inputType="textPassword"
+                android:hint="@string/pwd"
+                android:singleLine="true"
+                android:textColor="?attr/cardColor"
+                tools:ignore="UnusedAttribute" />
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/login_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_pwd"
+            android:layout_below="@id/input_layout_pwd"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
-            android:padding="5dp"
-            android:gravity="center"
-            android:singleLine="true"
+            android:layout_marginTop="16dp"
             android:background="@color/main_color_dark"
-            android:textColor="@color/backgroud_main"
-            android:text="@string/login" />
+            android:gravity="center"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="@string/login"
+            android:textColor="@color/backgroud_main" />
     </RelativeLayout>
 </moose.com.ac.ui.view.MultiSwipeRefreshLayout>

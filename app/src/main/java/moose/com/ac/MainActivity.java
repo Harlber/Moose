@@ -55,6 +55,7 @@ import moose.com.ac.util.ZoomOutPageTransformer;
 
 /**
  * when intent another activity,need cancel network request
+ * SearchView see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines
  */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

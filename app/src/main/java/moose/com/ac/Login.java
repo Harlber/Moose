@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
@@ -34,6 +35,8 @@ public class Login extends AppCompatActivity {
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private EmailEditText name;
     private AppCompatEditText pwd;
+    private TextInputLayout tname;
+    private TextInputLayout tpwd;
     private AppCompatButton login;
 
     private boolean isRequest = false;
@@ -60,6 +63,11 @@ public class Login extends AppCompatActivity {
         final ActionBar ab = getSupportActionBar();
         //noinspection ConstantConditions
         ab.setDisplayHomeAsUpEnabled(true);
+
+        tname = (TextInputLayout)findViewById(R.id.input_layout_name);
+        tpwd = (TextInputLayout)findViewById(R.id.input_layout_pwd);
+        tname.setHintAnimationEnabled(true);
+        tpwd.setHintAnimationEnabled(true);
 
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.login_swipe);
         mSwipeRefreshLayout.setColorSchemeResources(

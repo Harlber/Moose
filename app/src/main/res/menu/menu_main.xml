@@ -5,10 +5,10 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_front" android:title="@string/front_set"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_filter" android:title="@string/filter"
-        android:orderInCategory="100" app:showAsAction="always" />
     <item android:id="@+id/action_search" android:title="search"
         android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
         android:orderInCategory="100" app:showAsAction="always"
         app:actionViewClass="android.support.v7.widget.SearchView"/>
+    <item android:id="@+id/action_filter" android:title="@string/filter"
+        android:orderInCategory="100" app:showAsAction="always" />
 </menu>
