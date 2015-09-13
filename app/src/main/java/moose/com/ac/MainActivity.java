@@ -62,21 +62,22 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private FloatingActionButton fab;
+    private NavigationView navigationView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Toolbar toolbar;
-    private TextView user_name;
+    private TextView userName;
     private CircleImageView logo;
     private Adapter adapter;
     private int type = 0; /*orderBy 0：最近 1：人气最旺 3：评论最多*/
 
     private SearchBar searchBar;
-    private CardView card_search;
-    private RelativeLayout view_search;
+    private CardView cardSearch;
+    private RelativeLayout viewSearch;
     private ListView listView, listContainer;
-    private EditText edit_text_search;
-    private View line_divider, toolbar_shadow;
-    private ImageView image_search_back;
+    private EditText editSearch;
+    private View lineDivider, toolbarShadow;
+    private ImageView searchBack;
     private boolean isSearch = false;
 
     @SuppressWarnings("ConstantConditions")
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
@@ -135,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        user_name = (TextView) findViewById(R.id.login_username);
+        userName = (TextView) findViewById(R.id.login_username);
 
-        user_name.setOnClickListener(view -> {
+        userName.setOnClickListener(view -> {
                     if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                         startActivity(intent);
@@ -149,23 +150,23 @@ public class MainActivity extends AppCompatActivity {
         logo = (CircleImageView) findViewById(R.id.login_userimg);
 
         searchBar = new SearchBar();
-        card_search = (CardView) findViewById(R.id.card_search);
-        view_search = (RelativeLayout) findViewById(R.id.view_search);
-        edit_text_search = (EditText) findViewById(R.id.edit_text_search);
+        cardSearch = (CardView) findViewById(R.id.card_search);
+        viewSearch = (RelativeLayout) findViewById(R.id.view_search);
+        editSearch = (EditText) findViewById(R.id.edit_text_search);
         listView = (ListView) findViewById(R.id.listView);
         listContainer = (ListView) findViewById(R.id.listContainer);
-        line_divider = findViewById(R.id.line_divider);
-        toolbar_shadow = findViewById(R.id.toolbar_shadow);
+        lineDivider = findViewById(R.id.line_divider);
+        toolbarShadow = findViewById(R.id.toolbar_shadow);
 
-        image_search_back = (ImageView) findViewById(R.id.image_search_back);
-        image_search_back.setOnClickListener(view -> {
-            searchBar.handleToolBar(MainActivity.this, card_search, toolbar, view_search, listView, edit_text_search, line_divider);
+        searchBack = (ImageView) findViewById(R.id.image_search_back);
+        searchBack.setOnClickListener(view -> {
+            searchBar.handleToolBar(MainActivity.this, cardSearch, toolbar, viewSearch, listView, editSearch, lineDivider);
             listContainer.setVisibility(View.GONE);
-            toolbar_shadow.setVisibility(View.VISIBLE);
+            toolbarShadow.setVisibility(View.VISIBLE);
             isSearch = false;
         });
 
-        user_name.setText(CommonUtil.getUserName());
+        userName.setText(CommonUtil.getUserName());
         Glide.with(this)
                 .load(CommonUtil.getUserLogo())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 bulidDialog().show();
                 return true;
             case R.id.action_search:
-                searchBar.handleToolBar(MainActivity.this, card_search, toolbar, view_search, listView, edit_text_search, line_divider);
+                searchBar.handleToolBar(MainActivity.this, cardSearch, toolbar, viewSearch, listView, editSearch, lineDivider);
                 isSearch = true;
                 return true;
         }
@@ -213,9 +214,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (isSearch) {
-            searchBar.handleToolBar(MainActivity.this, card_search, toolbar, view_search, listView, edit_text_search, line_divider);
+            searchBar.handleToolBar(MainActivity.this, cardSearch, toolbar, viewSearch, listView, editSearch, lineDivider);
             listContainer.setVisibility(View.GONE);
-            toolbar_shadow.setVisibility(View.VISIBLE);
+            toolbarShadow.setVisibility(View.VISIBLE);
             isSearch = false;
         } else {
             if (viewPager.getCurrentItem() == 0) {
@@ -229,8 +230,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (!user_name.getText().equals(CommonUtil.getUserName())) {
-            user_name.setText(CommonUtil.getUserName());
+        navigationView.setCheckedItem(R.id.nav_home);
+        if (!userName.getText().equals(CommonUtil.getUserName())) {
+            userName.setText(CommonUtil.getUserName());
             Glide.with(this)
                     .load(CommonUtil.getUserLogo())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -263,24 +265,30 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
+                    navigationView.setCheckedItem(R.id.nav_home);
                     break;
                 case R.id.nav_about:
+                    navigationView.setCheckedItem(R.id.nav_about);
                     Intent intent = new Intent(MainActivity.this, About.class);
                     startActivity(intent);
                     break;
                 case R.id.nav_store:
+                    navigationView.setCheckedItem(R.id.nav_store);
                     Intent intents = new Intent(MainActivity.this, Collects.class);
                     startActivity(intents);
                     break;
                 case R.id.nav_history:
+                    navigationView.setCheckedItem(R.id.nav_history);
                     Intent intenth = new Intent(MainActivity.this, History.class);
                     startActivity(intenth);
                     break;
                 case R.id.nav_setting:
+                    navigationView.setCheckedItem(R.id.nav_setting);
                     Intent intent1s = new Intent(MainActivity.this, Settings.class);
                     startActivity(intent1s);
                     break;
                 case R.id.nav_checkin:
+                    navigationView.setCheckedItem(R.id.nav_checkin);
                     Intent intentIn = CommonUtil.getLoginStatus().equals(Config.LOGIN_IN) ?
                             new Intent(MainActivity.this, ProfileActivity.class) :
                             new Intent(MainActivity.this, Login.class);
@@ -428,7 +436,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Snack(String msg) {
-        Snackbar.make(viewPager, msg, Snackbar.LENGTH_SHORT).show();
+        final Snackbar snackBar = Snackbar.make(viewPager, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.snackbar_action, v -> {
+            snackBar.dismiss();
+        });
+        snackBar.show();
     }
 
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="loading_text">0</string>
     <string name="snackbar_action">知道了</string>
     <string name="reload_action">重新加载</string>
 </resources>

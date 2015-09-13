@@ -127,4 +127,6 @@
     <string name="pwd">密码</string>
     <string name="default_article_item_text">......</string>
     <string name="default_article_item_number">0</string>
+    <string name="snackbar_action">知道了</string>
+    <string name="reload_action">重新加载</string>
 </resources>

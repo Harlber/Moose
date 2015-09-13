@@ -405,7 +405,12 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     }
 
     private void Snack(String msg) {
-        Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT).show();
+        final Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.reload_action, v -> {
+            snackBar.dismiss();
+            initData();
+        });
+        snackBar.show();
     }
 
     private Dialog createTextSizeDialog() {
