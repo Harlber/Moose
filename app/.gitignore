@@ -1,1 +1,6 @@
 /build
+/Moose.iml
+/local.properties
+.gradle
+/.idea/workspace.xml
+/.idea/libraries
