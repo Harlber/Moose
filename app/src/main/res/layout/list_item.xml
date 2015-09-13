@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:text="46" />
+            android:text="@string/default_article_item_number" />
 
         <TextView
             android:id="@id/title"
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/rank"
-            android:text="A lil' bit of programming that matters" />
+            android:text="@string/default_article_item_text" />
 
         <RelativeLayout
             android:id="@+id/meta_container"
@@ -57,7 +57,7 @@
                 android:id="@id/source"
                 style="@style/textSubtitleStyle.Italic"
                 android:layout_toLeftOf="@id/comment"
-                android:text="hidroh.github.io"
+                android:text="@string/default_article_item_text"
                 android:ellipsize="end"/>
 
             <TextView
@@ -67,7 +67,7 @@
                 android:layout_toLeftOf="@id/comment"
                 android:paddingBottom="@dimen/padding"
                 android:singleLine="false"
-                android:text="Since January 01, 2015" />
+                android:text="@string/default_article_item_text" />
 
             <include
                 android:id="@id/comment"
