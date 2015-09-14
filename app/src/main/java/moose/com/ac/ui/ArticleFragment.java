@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,7 +151,8 @@ public class ArticleFragment extends ArticleListFragment {
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;//refresh request status
-                        mainActivity.Snack(getString(R.string.no_network));
+                        mainActivity.Snack(e.getMessage());
+                        //mainActivity.Snack(getString(R.string.no_network));
                         e.printStackTrace();
                         /*if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {

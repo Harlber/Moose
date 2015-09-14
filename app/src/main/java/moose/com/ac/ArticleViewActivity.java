@@ -251,7 +251,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         e.printStackTrace();
                         mSwipeRefreshLayout.setRefreshing(false);//show progressbar
                         mSwipeRefreshLayout.setEnabled(true);
-                        Snack(getString(R.string.no_network));
+                        Snack(e.getMessage());
+                        //Snack(getString(R.string.no_network));
                         /*if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {
                                 Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
