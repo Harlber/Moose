@@ -435,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void Snack(String msg) {
+    public void snack(String msg) {
         final Snackbar snackBar = Snackbar.make(viewPager, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction(R.string.snackbar_action, v -> {
             snackBar.dismiss();

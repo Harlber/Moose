@@ -151,14 +151,14 @@ public class ArticleFragment extends ArticleListFragment {
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;//refresh request status
-                        mainActivity.Snack(e.getMessage());
-                        //mainActivity.Snack(getString(R.string.no_network));
+                        mainActivity.snack(e.getMessage());
+                        //mainActivity.snack(getString(R.string.no_network));
                         e.printStackTrace();
                         /*if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {
-                                mainActivity.Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
+                                mainActivity.snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
                             } else {
-                                mainActivity.Snack(getString(R.string.no_network));
+                                mainActivity.snack(getString(R.string.no_network));
                             }
 
                         }*/

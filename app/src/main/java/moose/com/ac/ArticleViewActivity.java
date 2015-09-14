@@ -189,9 +189,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     menFav.setTitle(deleteSuc ? getString(R.string.cancel_store) : getString(R.string.store_it));
                     isFav = !deleteSuc;
                     if (deleteSuc) {
-                        Snack(getString(R.string.cancel_success));
+                        snack(getString(R.string.cancel_success));
                     } else {
-                        Snack(getString(R.string.cancel_fal));
+                        snack(getString(R.string.cancel_fal));
                     }
                 } else {//store it
                     article.setIsfav(Config.STORE);//set not fav
@@ -200,9 +200,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     menFav.setTitle(insertSuc ? getString(R.string.store_it) : getString(R.string.cancel_store));
                     isFav = insertSuc;
                     if (isFav) {
-                        Snack(getString(R.string.store_success));
+                        snack(getString(R.string.store_success));
                     } else {
-                        Snack(getString(R.string.store_fal));
+                        snack(getString(R.string.store_fal));
                     }
                 }
                 return true;
@@ -251,13 +251,13 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         e.printStackTrace();
                         mSwipeRefreshLayout.setRefreshing(false);//show progressbar
                         mSwipeRefreshLayout.setEnabled(true);
-                        Snack(e.getMessage());
-                        //Snack(getString(R.string.no_network));
+                        snack(e.getMessage());
+                        //snack(getString(R.string.no_network));
                         /*if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {
-                                Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
+                                snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
                             } else {
-                                Snack(getString(R.string.no_network));
+                                snack(getString(R.string.no_network));
                             }
 
                         }*/
@@ -269,7 +269,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         mSwipeRefreshLayout.setRefreshing(false);
                         mSwipeRefreshLayout.setEnabled(false);
                         if (!articleBody.isSuccess()) {
-                            Snack(articleBody.getMsg());
+                            snack(articleBody.getMsg());
                         } else {
                             HtmlBody = articleBody.getData().getFullArticle().getTxt();
                             title = articleBody.getData().getFullArticle().getTitle();
@@ -405,7 +405,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         }
     }
 
-    private void Snack(String msg) {
+    private void snack(String msg) {
         final Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction(R.string.reload_action, v -> {
             snackBar.dismiss();
@@ -453,7 +453,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                                 RxUtils.unsubscribeIfNotNull(subscription);
                                 subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
                             }
-                            Snack(getString(R.string.get_data_again));
+                            snack(getString(R.string.get_data_again));
                             initData();
                         }
                     }

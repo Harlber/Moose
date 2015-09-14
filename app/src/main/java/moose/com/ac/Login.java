@@ -107,9 +107,9 @@ public class Login extends AppCompatActivity {
                                 Snack(getString(R.string.no_network));
                                /* if (e instanceof RetrofitError) {
                                     if (((RetrofitError) e).getResponse() != null) {
-                                        Snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
+                                        snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
                                     } else {
-                                        Snack(getString(R.string.no_network));
+                                        snack(getString(R.string.no_network));
                                     }
 
                                 }*/

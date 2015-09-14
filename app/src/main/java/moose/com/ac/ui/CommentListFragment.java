@@ -152,13 +152,13 @@ public class CommentListFragment extends Fragment {
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
                         e.printStackTrace();
-                        Snack(e.getMessage());
-                        //Snack(getString(R.string.no_network));
+                        snack(e.getMessage());
+                        //snack(getString(R.string.no_network));
                         /*if (e instanceof RetrofitError) {
                             if (((RetrofitError) e).getResponse() != null) {
-                                Snack(getString(R.string.net_work)+((RetrofitError) e).getResponse().getStatus());
+                                snack(getString(R.string.net_work)+((RetrofitError) e).getResponse().getStatus());
                             }else {
-                                Snack(getString(R.string.no_network));
+                                snack(getString(R.string.no_network));
                             }
 
                         }*/
@@ -174,7 +174,7 @@ public class CommentListFragment extends Fragment {
                             data.put(listid, convertToObject(comlists.getAsJsonObject("c" + listid)));
                         }
                         if (data.size()==0) {
-                            Snack(getString(R.string.no_comment_here));
+                            snack(getString(R.string.no_comment_here));
                         }
                         adapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
@@ -185,7 +185,7 @@ public class CommentListFragment extends Fragment {
                 }));
     }
 
-    private void Snack(String msg) {
+    private void snack(String msg) {
         Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
     }
 
