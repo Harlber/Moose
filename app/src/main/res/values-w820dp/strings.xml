@@ -3,4 +3,5 @@
     <string name="loading_text">0</string>
     <string name="snackbar_action">知道了</string>
     <string name="reload_action">重新加载</string>
+    <string name="serach">搜索...</string>
 </resources>

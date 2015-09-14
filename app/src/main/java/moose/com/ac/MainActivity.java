@@ -1,9 +1,11 @@
 package moose.com.ac;
 
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +15,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPropertyAnimatorListener;
@@ -23,12 +26,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -36,6 +42,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,6 +58,7 @@ import moose.com.ac.ui.ArticleFragment;
 import moose.com.ac.ui.view.CircleImageView;
 import moose.com.ac.ui.view.SearchBar;
 import moose.com.ac.util.CommonUtil;
+import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 /**
@@ -177,8 +185,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        /**see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines*/
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        final ActionBar ab = getSupportActionBar();
+        //noinspection ConstantConditions
+        ab.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        ab.setDisplayHomeAsUpEnabled(true);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnCloseListener(() -> {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+            mDrawerToggle.onDrawerClosed(mDrawerLayout);
+            return false;
+        });
         return true;
     }
 
@@ -204,8 +226,8 @@ public class MainActivity extends AppCompatActivity {
                 bulidDialog().show();
                 return true;
             case R.id.action_search:
-                searchBar.handleToolBar(MainActivity.this, cardSearch, toolbar, viewSearch, listView, editSearch, lineDivider);
-                isSearch = true;
+                //searchBar.handleToolBar(MainActivity.this, cardSearch, toolbar, viewSearch, listView, editSearch, lineDivider);
+                //isSearch = true;
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -442,5 +464,4 @@ public class MainActivity extends AppCompatActivity {
         });
         snackBar.show();
     }
-
 }
