@@ -14,7 +14,7 @@ import java.util.List;
 
 import moose.com.ac.R;
 import moose.com.ac.retrofit.comment.CommentDetail;
-import moose.com.ac.ui.view.FloorsView;
+import moose.com.ac.ui.widget.FloorsView;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.TextViewUtils;

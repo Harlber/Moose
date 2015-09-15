@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <moose.com.ac.ui.view.MultiSwipeRefreshLayout
+    <moose.com.ac.ui.widget.MultiSwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_margin="@dimen/magin_8"
         android:layout_width="match_parent"
@@ -33,6 +33,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
-    </moose.com.ac.ui.view.MultiSwipeRefreshLayout>
+    </moose.com.ac.ui.widget.MultiSwipeRefreshLayout>
 
 </RelativeLayout>

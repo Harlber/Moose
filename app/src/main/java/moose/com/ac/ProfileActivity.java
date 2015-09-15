@@ -20,7 +20,7 @@ import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.Profile;
-import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
+import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.PreferenceUtil;
 import moose.com.ac.util.RxUtils;

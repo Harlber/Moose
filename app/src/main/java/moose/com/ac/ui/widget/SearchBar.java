@@ -1,4 +1,4 @@
-package moose.com.ac.ui.view;
+package moose.com.ac.ui.widget;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -32,6 +32,7 @@ import android.widget.ListView;
  * limitations under the License.
  * Created by dell on 2015/8/21.
  */
+@Deprecated
 public class SearchBar {
     private static final String TAG = "SearchBar";
 

@@ -1,4 +1,4 @@
-package moose.com.ac.ui.view;
+package moose.com.ac.ui.widget;
 
 /*       Copyright (C) 2015 The Android Open Source Project
 

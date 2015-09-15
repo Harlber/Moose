@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<moose.com.ac.ui.view.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<moose.com.ac.ui.widget.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/profile_swipe"
     android:layout_width="match_parent"
@@ -139,4 +139,4 @@
             android:layout_alignParentBottom="true"
             android:background="@color/colorContents" />
     </RelativeLayout>
-</moose.com.ac.ui.view.MultiSwipeRefreshLayout>
+</moose.com.ac.ui.widget.MultiSwipeRefreshLayout>

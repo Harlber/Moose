@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,26 +24,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -55,10 +46,8 @@ import java.util.List;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.ui.ArticleFragment;
-import moose.com.ac.ui.view.CircleImageView;
-import moose.com.ac.ui.view.SearchBar;
+import moose.com.ac.ui.widget.CircleImageView;
 import moose.com.ac.util.CommonUtil;
-import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 /**
@@ -71,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private FloatingActionButton fab;
     private NavigationView navigationView;
+    private SearchView searchView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Toolbar toolbar;
@@ -79,14 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
     private int type = 0; /*orderBy 0：最近 1：人气最旺 3：评论最多*/
 
-    private SearchBar searchBar;
-    private CardView cardSearch;
-    private RelativeLayout viewSearch;
-    private ListView listView, listContainer;
-    private EditText editSearch;
-    private View lineDivider, toolbarShadow;
-    private ImageView searchBack;
-    private boolean isSearch = false;
+    private boolean searchShow = false;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -157,29 +140,11 @@ public class MainActivity extends AppCompatActivity {
         );
         logo = (CircleImageView) findViewById(R.id.login_userimg);
 
-        searchBar = new SearchBar();
-        cardSearch = (CardView) findViewById(R.id.card_search);
-        viewSearch = (RelativeLayout) findViewById(R.id.view_search);
-        editSearch = (EditText) findViewById(R.id.edit_text_search);
-        listView = (ListView) findViewById(R.id.listView);
-        listContainer = (ListView) findViewById(R.id.listContainer);
-        lineDivider = findViewById(R.id.line_divider);
-        toolbarShadow = findViewById(R.id.toolbar_shadow);
-
-        searchBack = (ImageView) findViewById(R.id.image_search_back);
-        searchBack.setOnClickListener(view -> {
-            searchBar.handleToolBar(MainActivity.this, cardSearch, toolbar, viewSearch, listView, editSearch, lineDivider);
-            listContainer.setVisibility(View.GONE);
-            toolbarShadow.setVisibility(View.VISIBLE);
-            isSearch = false;
-        });
-
         userName.setText(CommonUtil.getUserName());
         Glide.with(this)
                 .load(CommonUtil.getUserLogo())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(logo);
-
 
     }
 
@@ -188,18 +153,27 @@ public class MainActivity extends AppCompatActivity {
         /**see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines*/
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        final ActionBar ab = getSupportActionBar();
-        //noinspection ConstantConditions
-        ab.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        ab.setDisplayHomeAsUpEnabled(true);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnSearchClickListener(view -> searchShow = true);
         searchView.setOnCloseListener(() -> {
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-            ab.setDisplayHomeAsUpEnabled(true);
-            mDrawerToggle.onDrawerClosed(mDrawerLayout);
+            searchShow = false;
             return false;
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!CommonUtil.isEmpty(query)) {
+
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
         });
         return true;
     }
@@ -214,20 +188,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         switch (item.getItemId()) {
-            case android.R.id.home:
-                if (mDrawerLayout.isDrawerOpen(mDrawerLayout)) {
-                    mDrawerLayout.closeDrawer(mDrawerLayout);
-                } else {
-                    mDrawerLayout.openDrawer(mDrawerLayout);
-                }
-                //mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
             case R.id.action_filter:
                 bulidDialog().show();
                 return true;
             case R.id.action_search:
-                //searchBar.handleToolBar(MainActivity.this, cardSearch, toolbar, viewSearch, listView, editSearch, lineDivider);
-                //isSearch = true;
+                mDrawerToggle.onDrawerSlide(mDrawerLayout, 1);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -235,17 +200,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (isSearch) {
-            searchBar.handleToolBar(MainActivity.this, cardSearch, toolbar, viewSearch, listView, editSearch, lineDivider);
-            listContainer.setVisibility(View.GONE);
-            toolbarShadow.setVisibility(View.VISIBLE);
-            isSearch = false;
+        if (searchShow) {
+            searchView.onActionViewCollapsed();
         } else {
-            if (viewPager.getCurrentItem() == 0) {
-                MainActivity.this.finish();
-            } else {
-                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-            }
+            super.onBackPressed();
         }
     }
 

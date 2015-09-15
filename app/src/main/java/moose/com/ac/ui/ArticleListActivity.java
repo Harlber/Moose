@@ -13,7 +13,7 @@ import moose.com.ac.R;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.RxDataBase;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
+import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import rx.Subscriber;
 
 /**

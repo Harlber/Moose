@@ -1,4 +1,4 @@
-package moose.com.ac.ui.view;
+package moose.com.ac.ui.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;

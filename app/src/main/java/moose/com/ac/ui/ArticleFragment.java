@@ -69,7 +69,7 @@ public class ArticleFragment extends ArticleListFragment {
                 super.onScrolled(recyclerView, dx, dy);
                 mSwipeRefreshLayout.setEnabled(mLayoutManager
                         .findFirstCompletelyVisibleItemPosition() == 0);//fix bug while scroll RecyclerView & SwipeRefreshLayout shows also
-                if (isScroll && !recyclerView.canScrollVertically(1) && !isRequest) {
+                if (!recyclerView.canScrollVertically(1) && !isRequest) {
                     loadMore();
                 }
                 if (dy > 0) {
@@ -130,8 +130,6 @@ public class ArticleFragment extends ArticleListFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //final View decorView = getActivity().getWindow().getDecorView();
-       // decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
     private void loadData(int tp, int pg, boolean isSave) {
@@ -152,16 +150,7 @@ public class ArticleFragment extends ArticleListFragment {
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;//refresh request status
                         mainActivity.snack(e.getMessage());
-                        //mainActivity.snack(getString(R.string.no_network));
                         e.printStackTrace();
-                        /*if (e instanceof RetrofitError) {
-                            if (((RetrofitError) e).getResponse() != null) {
-                                mainActivity.snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
-                            } else {
-                                mainActivity.snack(getString(R.string.no_network));
-                            }
-
-                        }*/
 
                     }
 

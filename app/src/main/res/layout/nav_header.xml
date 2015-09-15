@@ -30,7 +30,7 @@
         android:layout_alignParentBottom="true"
         android:padding="@dimen/magin_8"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-    <moose.com.ac.ui.view.CircleImageView
+    <moose.com.ac.ui.widget.CircleImageView
         android:id="@+id/login_userimg"
         android:layout_above="@id/login_username"
         android:layout_marginBottom="8dp"

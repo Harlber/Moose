@@ -254,4 +254,11 @@ public class CommonUtil {
         keyWord = keyWord.replace(")", "/)");
         return keyWord;
     }
+
+    public static boolean isEmpty(String str) {
+        if (str==null||str.equals("")) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
 import moose.com.ac.R;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.ui.view.MultiSwipeRefreshLayout;
+import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 
 /**
  * Created by Farble on 2015/8/13 23.
