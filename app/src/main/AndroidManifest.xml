@@ -49,9 +49,18 @@
         <activity android:name=".Reset"
             android:exported="false"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Login"/>
-        <activity android:name=".Settings"/>
-        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".Login"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Settings"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Search"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

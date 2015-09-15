@@ -164,7 +164,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (!CommonUtil.isEmpty(query)) {
-
+                    Intent intent = new Intent(MainActivity.this,Search.class);
+                    intent.putExtra(Config.SEARCH_KEY,query);
+                    startActivity(intent);
+                    searchView.onActionViewCollapsed();
+                    searchShow = false;
                 }
                 return false;
             }
@@ -201,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (searchShow) {
             searchView.onActionViewCollapsed();
+            searchShow = false;
         } else {
             super.onBackPressed();
         }
@@ -306,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void changeChannel(int channel) {
             for (int i = 0; i < mFragments.size(); i++) {
-                Log.e(TAG, "i:" + i);
+                Log.i(TAG, "i:" + i);
                 if (mFragments.get(i) != null) {
                     mFragments.get(i).loadChannel(channel);
                 }

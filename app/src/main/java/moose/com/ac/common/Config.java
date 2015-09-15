@@ -39,6 +39,8 @@ public class Config {
     public static final String USER_DATE = "USER_DATE";
     public static final String USER_GENDER = "USER_GENDER";
 
+    public static final String SEARCH_KEY = "SEARCH_KEY";
+
     public static final String FAB = "FAB";
     public static final String STORE = "st";
     public static final String NO_ST = "nost";
