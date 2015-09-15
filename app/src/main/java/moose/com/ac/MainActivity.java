@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private Toolbar toolbar;
     private TextView userName;
     private CircleImageView logo;
     private Adapter adapter;
@@ -89,8 +88,40 @@ public class MainActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+        initView();
+        initData();
+    }
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+    private void initData() {
+        adapter = new Adapter(getSupportFragmentManager());
+        //noinspection ConstantConditions
+        getSupportActionBar().setTitle(getToolBarTitle());
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        if (viewPager != null) {
+            setupViewPager(viewPager);
+        }
+        fab.setOnClickListener(view ->
+                adapter.getFragment(viewPager.getCurrentItem()).getmRecyclerView().smoothScrollToPosition(0));
+        tabLayout.setupWithViewPager(viewPager);
+        userName.setOnClickListener(view -> {
+                    if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
+                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                    } else {
+                        startActivity(new Intent(MainActivity.this, Login.class));
+                    }
+                }
+        );
+        userName.setText(CommonUtil.getUserName());
+        Glide.with(this)
+                .load(CommonUtil.getUserLogo())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(logo);
+    }
+
+    private void initView() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
@@ -109,43 +140,11 @@ public class MainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        adapter = new Adapter(getSupportFragmentManager());
-
-        getSupportActionBar().setTitle(getToolBarTitle());
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(3);
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-        }
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view ->
-                adapter.getFragment(viewPager.getCurrentItem()).getmRecyclerView().smoothScrollToPosition(0));
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
-        userName = (TextView) findViewById(R.id.login_username);
-
-        userName.setOnClickListener(view -> {
-                    if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
-                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                        startActivity(intent);
-                    } else {
-                        startActivity(new Intent(MainActivity.this, Login.class));
-                    }
-                }
-        );
         logo = (CircleImageView) findViewById(R.id.login_userimg);
-
-        userName.setText(CommonUtil.getUserName());
-        Glide.with(this)
-                .load(CommonUtil.getUserLogo())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(logo);
-
+        userName = (TextView) findViewById(R.id.login_username);
     }
 
     @Override
