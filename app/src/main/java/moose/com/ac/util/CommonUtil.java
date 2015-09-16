@@ -1,6 +1,8 @@
 package moose.com.ac.util;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -260,5 +262,14 @@ public class CommonUtil {
             return true;
         }
         return false;
+    }
+    public static boolean isPackageInstalled(String packagename, Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 }

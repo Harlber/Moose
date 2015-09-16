@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -41,6 +42,8 @@ import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ScrollFABBehavior;
+import moose.com.ac.util.chrome.CustomTabActivityHelper;
+import moose.com.ac.util.chrome.WebviewFallback;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -171,11 +174,15 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 ArticleViewActivity.this.finish();
                 return true;
             case R.id.action_module_wap:
-                Intent intent = new Intent();
+                /*Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse(Config.WEB_URL + contendid + "/");
                 intent.setData(content_url);
-                startActivity(intent);
+                startActivity(intent);*/
+                String url = Config.WEB_URL + contendid + "/";
+                CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+                CustomTabActivityHelper.openCustomTab(
+                        this, customTabsIntent, Uri.parse(url), new WebviewFallback());
                 return true;
             case R.id.action_front_view:
                 createTextSizeDialog().show();
@@ -413,6 +420,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         });
         snackBar.show();
     }
+
     private void snackStore(String msg) {
         final Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction(R.string.snackbar_action, v -> {

@@ -61,6 +61,11 @@
         <activity android:name=".Search"
             android:exported="false"
             android:screenOrientation="portrait"/>
+        <activity android:name=".util.chrome.WebviewActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <service android:name=".util.chrome.KeepAliveService"
+            android:exported="true"/>
     </application>
 
 </manifest>
