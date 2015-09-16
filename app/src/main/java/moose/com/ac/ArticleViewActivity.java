@@ -189,9 +189,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     menFav.setTitle(deleteSuc ? getString(R.string.cancel_store) : getString(R.string.store_it));
                     isFav = !deleteSuc;
                     if (deleteSuc) {
-                        snack(getString(R.string.cancel_success));
+                        snackStore(getString(R.string.cancel_success));
                     } else {
-                        snack(getString(R.string.cancel_fal));
+                        snackStore(getString(R.string.cancel_fal));
                     }
                 } else {//store it
                     article.setIsfav(Config.STORE);//set not fav
@@ -200,9 +200,9 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     menFav.setTitle(insertSuc ? getString(R.string.store_it) : getString(R.string.cancel_store));
                     isFav = insertSuc;
                     if (isFav) {
-                        snack(getString(R.string.store_success));
+                        snackStore(getString(R.string.store_success));
                     } else {
-                        snack(getString(R.string.store_fal));
+                        snackStore(getString(R.string.store_fal));
                     }
                 }
                 return true;
@@ -410,6 +410,13 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         snackBar.setAction(R.string.reload_action, v -> {
             snackBar.dismiss();
             initData();
+        });
+        snackBar.show();
+    }
+    private void snackStore(String msg) {
+        final Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.snackbar_action, v -> {
+            snackBar.dismiss();
         });
         snackBar.show();
     }
