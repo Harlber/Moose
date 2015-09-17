@@ -179,7 +179,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 Uri content_url = Uri.parse(Config.WEB_URL + contendid + "/");
                 intent.setData(content_url);
                 startActivity(intent);*/
-                String url = Config.WEB_URL + contendid + "/";
+                String url = Config.WAP_URL+"v#ac=" + contendid + ";type=article";
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                 CustomTabActivityHelper.openCustomTab(
                         this, customTabsIntent, Uri.parse(url), new WebviewFallback());

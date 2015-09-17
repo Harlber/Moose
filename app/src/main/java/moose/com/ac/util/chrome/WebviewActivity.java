@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -63,6 +64,28 @@ public class WebviewActivity extends AppCompatActivity {
             final ActionBar ab = getSupportActionBar();
             ab.setDisplayHomeAsUpEnabled(true);
         }
+        //Map<String, String> abc = null;
+        /*if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
+            CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(webView.getContext());
+
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeSessionCookie();
+            String cookieString = "param=value";
+            cookieManager.setCookie(Config.WAP_URL, cookieString);
+            CookieSyncManager.getInstance().sync();
+
+            DbHelper dbHelper = new DbHelper(App.getmContext());
+            List<LocalCookie> cookies = new ArrayList<>();
+            cookies = dbHelper.getDbCookies();
+            abc = new HashMap<String, String>();
+            for (LocalCookie cookie : cookies) {
+                abc.put("Cookie", cookie.getCookie());
+                Log.e(TAG,"set-cookie:"+cookie.getCookie());
+            }
+            cookieSyncManager.sync();
+        }else {
+            Log.e(TAG,"not login already");
+        }*/
         webView.loadUrl(url);
     }
 
@@ -75,5 +98,17 @@ public class WebviewActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        CookieSyncManager.getInstance().stopSync();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        CookieSyncManager.getInstance().sync();
+        super.onPause();
     }
 }
