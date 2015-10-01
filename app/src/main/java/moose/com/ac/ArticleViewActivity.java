@@ -155,8 +155,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         menFav = menu.findItem(R.id.action_store);
         menuShare = menu.findItem(R.id.action_share);
         actionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuShare);
-        //http://stackoverflow.com/questions/13395601/android-shareactionprovider-with-no-history
-        getApplicationContext().deleteFile(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);//no history while enter next time
+        getApplicationContext().deleteFile(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
         actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
         String shareurl = article.getTitle() + " " + Config.WEB_URL + contendid;
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -543,6 +542,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     @Override
     public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
         ArticleViewActivity.this.startActivity(intent);
+        invalidateOptionsMenu();
         return true;
     }
 
