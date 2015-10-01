@@ -56,7 +56,7 @@ import rx.subscriptions.CompositeSubscription;
  * <li>LARGER</li>
  * <li>LARGEST</li>
  */
-public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
+public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback, ShareActionProvider.OnShareTargetSelectedListener {
     private static final String TAG = "ArticleViewActivity";
     private static final int FAB_SHOW = 0x0000aa;
     private static final int FAB_HIDE = 0x0000bb;
@@ -155,6 +155,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         menFav = menu.findItem(R.id.action_store);
         menuShare = menu.findItem(R.id.action_share);
         actionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuShare);
+        //http://stackoverflow.com/questions/13395601/android-shareactionprovider-with-no-history
+        getApplicationContext().deleteFile(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);//no history while enter next time
         actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
         String shareurl = article.getTitle() + " " + Config.WEB_URL + contendid;
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -163,6 +165,8 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share));
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareurl);
         actionProvider.setShareIntent(shareIntent);
+        actionProvider.setOnShareTargetSelectedListener(this);
+        invalidateOptionsMenu();
         return true;
     }
 
@@ -534,6 +538,12 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 fabStatus = FAB_SHOW;
             }
         }
+    }
+
+    @Override
+    public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
+        ArticleViewActivity.this.startActivity(intent);
+        return true;
     }
 
 
