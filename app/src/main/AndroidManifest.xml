@@ -28,44 +28,66 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BigNewsActivity"
+        <activity
+            android:name=".BigNewsActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ArticleViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ArticleViewActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".About"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".About"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Collects"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Collects"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".History"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".History"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".BehaviorChart"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BehaviorChart"
             android:exported="false"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".Reset"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Reset"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Login"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Settings"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProfileActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Search"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Search"
             android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".util.chrome.WebviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".util.chrome.WebviewActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
-        <service android:name=".util.chrome.KeepAliveService"
-            android:exported="true"/>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="m.acfun.tv"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".util.chrome.KeepAliveService"
+            android:exported="true" />
     </application>
 
 </manifest>
