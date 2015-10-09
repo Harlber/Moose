@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 /**
  * Created by Farble on 2015/8/15 11.
+ * SearchBody
  */
 public class SearchBody implements Serializable {
+    private static final long serialVersionUID = -2397909702873252048L;
     private Integer status;
     private String msg;
     private boolean success;

@@ -4,4 +4,5 @@
     <string name="reload_action">重新加载</string>
     <string name="serach">搜索...</string>
     <string name="search">搜索</string>
+    <string name="set_all">全部设置</string>
 </resources>

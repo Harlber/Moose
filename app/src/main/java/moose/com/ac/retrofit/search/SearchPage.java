@@ -5,8 +5,10 @@ import java.util.List;
 
 /**
  * Created by Farble on 2015/8/15 11.
+ * SearchPage
  */
 public class SearchPage implements Serializable {
+    private static final long serialVersionUID = -7414923773080533249L;
     private Integer pageNo;
     private Integer pageSize;
     private Integer totalCount;

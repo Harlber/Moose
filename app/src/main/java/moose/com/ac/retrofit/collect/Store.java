@@ -7,6 +7,7 @@ import java.io.Serializable;
  * {"result":true,"success":true}
  */
 public class Store implements Serializable {
+    private static final long serialVersionUID = 2712123235294316424L;
     private boolean result;
     private boolean success;
 

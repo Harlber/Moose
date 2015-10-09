@@ -8,6 +8,7 @@ import java.io.Serializable;
  * {"result":"您今天已签到过","success":false}
  */
 public class CheckIn implements Serializable {
+    private static final long serialVersionUID = -2346184601048001301L;
     private String result;
     private boolean success;
     private int status;

@@ -60,7 +60,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private static final String TAG = "ArticleViewActivity";
     private static final int FAB_SHOW = 0x0000aa;
     private static final int FAB_HIDE = 0x0000bb;
-    private String TAB_NAME = ArticleCollects.ArticleEntry.TABLE_NAME;
+    private final String TAB_NAME = ArticleCollects.ArticleEntry.TABLE_NAME;
     private ObservableWebView mWeb;
     private FloatingActionButton fab;
     private MenuItem menFav;
@@ -88,6 +88,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     private boolean isRequest = false;
     private DbHelper dbHelper;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,12 +158,12 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         actionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuShare);
         getApplicationContext().deleteFile(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
         actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
-        String shareurl = article.getTitle() + " " + Config.WEB_URL + contendid;
+        String shareUrl = article.getTitle() + " " + Config.WEB_URL + contendid;
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareurl += getString(R.string.share_content);
+        shareUrl += getString(R.string.share_content);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share));
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareurl);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareUrl);
         actionProvider.setShareIntent(shareIntent);
         actionProvider.setOnShareTargetSelectedListener(this);
         invalidateOptionsMenu();
@@ -182,7 +183,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                 Uri content_url = Uri.parse(Config.WEB_URL + contendid + "/");
                 intent.setData(content_url);
                 startActivity(intent);*/
-                String url = Config.WAP_URL+"v#ac=" + contendid + ";type=article";
+                String url = Config.WAP_URL + "v#ac=" + contendid + ";type=article";
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                 CustomTabActivityHelper.openCustomTab(
                         this, customTabsIntent, Uri.parse(url), new WebviewFallback());
@@ -297,7 +298,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     }
 
     private void addHead() {
-        StringBuffer head = new StringBuffer();
+        StringBuilder head = new StringBuilder();
         head.append("<html>");
         head.append("<head>");
         head.append("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=gb2312\">");
@@ -357,13 +358,14 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         head.append(title);
         head.append("</h2>\n");
         head.append("<p class=\"name\"><span>");
+        //noinspection StringConcatenationInsideStringBufferAppend
         head.append(getString(R.string.upuser) + user);
         head.append("</span></p>\n");
         head.append("</div>\n");
 
         head.append("<div>");
 
-        StringBuffer body = new StringBuffer();
+        StringBuilder body = new StringBuilder();
         body.append("</div>");
         body.append("</body>");
         body.append("</html>");
@@ -380,6 +382,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
      * <li>other </li>
      */
     private void dealBody(String html) {
+        //noinspection ResultOfMethodCallIgnored
         html.replace("\\n", "").replace("\\r", "").replace("\\", "").replace(title, "");
     }
 
@@ -432,6 +435,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         snackBar.show();
     }
 
+    @SuppressWarnings("RedundantCast")
     private Dialog createTextSizeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ArticleViewActivity.this);
         builder.setTitle(R.string.text_size)
@@ -450,6 +454,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         return builder.create();
     }
 
+    @SuppressWarnings("RedundantCast")
     private Dialog createModeDialog() {
         int oldMode = CommonUtil.getMode();
         AlertDialog.Builder builder = new AlertDialog.Builder(ArticleViewActivity.this);
@@ -476,9 +481,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         }
                     }
                 })
-                .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> {
-                    CommonUtil.setMode(oldMode);
-                });
+                .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> CommonUtil.setMode(oldMode));
 
         return builder.create();
     }
@@ -517,6 +520,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
             mWeb.getSettings().setTextZoom(100 + level * 25);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onScroll(int l, int t, int oldl, int oldt) {
         if (t > toolbarHeight) {
@@ -547,7 +551,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
     }
 
 
-    class Client extends WebViewClient {
+    private class Client extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);

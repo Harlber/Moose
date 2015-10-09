@@ -10,6 +10,7 @@ import java.io.Serializable;
  * username: "*****"
  */
 public class LoginEntry implements Serializable{
+    private static final long serialVersionUID = 9094698838135949639L;
     private boolean success;
     private String result;
     private String img;

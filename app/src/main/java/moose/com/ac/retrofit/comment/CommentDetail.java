@@ -29,6 +29,7 @@ import java.io.Serializable;
  */
 public class CommentDetail implements Serializable {
     private static final String TAG = "CommentDetail";
+    private static final long serialVersionUID = -2941613424575567707L;
     private Long cid;//评论id
     private Long quoteId;//引用的评论id  -1：用户不存在或已删除
     private String content;//评论内容  [emot\u003dac,17/]  [at]领袖斯大林[/at]  [size\u003d48px][color\u003d#ff0000]接龙大成功！！！！！[size\u003d18px][color\u003d#ff0000]看到这么多人我就安心了。

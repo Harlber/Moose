@@ -7,6 +7,7 @@ import java.io.Serializable;
  * 点赞
  */
 public class Like implements Serializable{
+    private static final long serialVersionUID = -4347372171257210719L;
     private boolean success;
     private int upds;
 

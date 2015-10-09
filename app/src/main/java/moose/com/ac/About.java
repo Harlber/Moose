@@ -13,6 +13,7 @@ import moose.com.ac.util.AppUtils;
 
 /**
  * Created by dell on 2015/8/24.
+ * About
  */
 public final class About extends AppCompatActivity {
     private static final String TAG = "About";
@@ -22,7 +23,7 @@ public final class About extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.about_toolbar);
-        toolbar.setTitle("About");
+        toolbar.setTitle(R.string.about);
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();

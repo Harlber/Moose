@@ -123,7 +123,7 @@
     <string name="logout_success">退出登陆成功</string>
     <string name="menu_share">分享</string>
     <string name="share">分享</string>
-    <string name="share_content">" ——【测试】来自#Acfun#文章区开源客户端  https://github.com/Harlber/Moose"</string>
+    <string name="share_content">" ——【测试】来自#Acfun文章区#开源客户端  https://github.com/Harlber/Moose"</string>
     <string name="pwd">密码</string>
     <string name="default_article_item_text">......</string>
     <string name="default_article_item_number">0</string>
@@ -131,4 +131,5 @@
     <string name="reload_action">重新加载</string>
     <string name="serach">搜索...</string>
     <string name="search">搜索</string>
+    <string name="set_all">全部设置</string>
 </resources>

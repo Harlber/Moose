@@ -7,8 +7,10 @@ import java.util.List;
 
 /**
  * Created by Farble on 2015/8/15 11.
+ * SearchList
  */
 public class SearchList implements Serializable{
+    private static final long serialVersionUID = 6370566346557771240L;
     private String contentId;
     private String title;
     private String description;

@@ -7,6 +7,7 @@ import java.io.Serializable;
  * user info in ArticleList
  */
 public class ArticleUser implements Serializable {
+    private static final long serialVersionUID = 6249573211851758282L;
     private String username;
     private Integer userId;
     private String userImg;

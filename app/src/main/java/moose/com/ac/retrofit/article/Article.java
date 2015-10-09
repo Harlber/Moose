@@ -38,6 +38,7 @@ import java.util.List;
  * },
  */
 public class Article implements Serializable {
+    private static final long serialVersionUID = 920177008898972172L;
     private ArticleUser user;
     private List<String> tags;
     private String description;

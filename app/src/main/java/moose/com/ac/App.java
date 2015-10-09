@@ -5,8 +5,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.squareup.leakcanary.LeakCanary;
-
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.PreferenceUtil;
@@ -28,7 +26,7 @@ public class App extends Application {
         new PreferenceUtil(mContext);
         dbHelper = new DbHelper(this);
         isVistor = CommonUtil.isVisistor();
-        LeakCanary.install(this);
+        //LeakCanary.install(this); useless at this time
     }
 
     @Override

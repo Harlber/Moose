@@ -5,8 +5,10 @@ import java.util.List;
 
 /**
  * Created by Farble on 2015/8/15 11.
+ * ArticleInfo
  */
 public class ArticleInfo implements Serializable {
+    private static final long serialVersionUID = -7611454799113987909L;
     private ArticleUser user;
     private List<String> tags;
     private String txt;
