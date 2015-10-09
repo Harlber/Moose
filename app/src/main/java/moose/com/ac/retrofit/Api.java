@@ -22,40 +22,112 @@ import rx.Observable;
  * ac request
  */
 public interface Api {
+    /**
+     * get Article List
+     *
+     * @param orderBy   channel type
+     * @param channelId channel id
+     * @param pageNo    page number
+     * @param pageSize  number of page size
+     */
     @GET(Config.API_CHANNEL)
     Observable<ArticleList> getArticleList(@Query("orderBy") int orderBy, @Query("channelId") int channelId
             , @Query("pageNo") int pageNo, @Query("pageSize") int pageSize);
 
+    /**
+     * get comment list
+     *
+     * @param contentId   article id
+     * @param currentPage page number
+     */
     @GET(Config.API_COMMENT_LIST)
     Observable<JsonObject> getCommentList(@Query("contentId") int contentId, @Query("currentPage") int currentPage);
 
+    /**
+     * get article body
+     *
+     * @param contentId article id
+     */
     @GET(Config.API_ARTICLE)
     Observable<ArticleBody> getArticleBody(@Query("contentId") int contentId);
 
+    /**
+     * search by key word
+     *
+     * @param q        key
+     * @param pageNo   page number
+     * @param pageSize number in one page
+     */
     @GET(Config.API_SEARCH)
     Observable<SearchBody> getSearch(@Query("q") String q, @Query("pageNo") int pageNo, @Query("pageSize") int pageSize);
 
+    /**
+     * search by key word
+     * <b>attention</b>
+     *
+     * @see #getSearch(String q, int pageNo, int pageSize)
+     */
+    @GET(Config.API_SEARCH)
+    Observable<SearchBody> getSearch(@Query("q") String q);
+
+    /**
+     * get article list after sorting
+     *
+     * @param channelIds channel ids
+     * @param pageSize   page size
+     */
     @GET(Config.API_SORT)/*?channelIds=110,73,74,75*/
     Observable<ArticleList> getSortList(@Query("channelIds") String channelIds, @Query("pageSize") int pageSize);
 
+    /**
+     * login action
+     *
+     * @param username username
+     * @param password password
+     */
     @POST(Config.API_LOGIN)
     Observable<LoginEntry> login(@Query("username") String username, @Query("password") String password);
 
+    /**
+     * check in action
+     */
     @POST(Config.API_CHENK_IN)
     Observable<CheckIn> chenkin();
 
+    /**
+     * collect article
+     *
+     * @param cId     article id
+     * @param operate operate
+     */
     @POST(Config.API_COLLECT)
     Observable<Store> collectArticle(@Query("cId") int cId, @Query("operate") int operate);
+
     //operate = 1 收藏 0：取消收藏
     //http://www.acfun.tv/member/collect.aspx?cId=2147867&operate=1
+
+    /**
+     * give a thumb
+     *
+     * @param contentId article id
+     */
     @Deprecated
     @POST(Config.API_LIKE)
     Observable<Like> likeArticle(@Query("contentId") int contentId);
     //http://www.acfun.tv/content_up.aspx?contentId=2147685
 
+    /**
+     * get user information
+     *
+     * @param time the current system timestamp
+     */
     @GET(Config.API_USERINFO)
-    Observable<Response> getUserInfo(@Query("time")String time);
+    Observable<Response> getUserInfo(@Query("time") String time);
 
+    /**
+     * get user profile
+     * need cookies
+     */
     @GET(Config.API_PROFILE)
     Observable<Profile> getUserProfile();
 }

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,8 @@ import moose.com.ac.util.AppUtils;
 
 /**
  * Created by Farble on 2015/8/15 16.
+ * ArticleListAdapter was used for ArticleFragment
+ * @see moose.com.ac.ui.ArticleFragment
  */
 public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> implements ArticleListVH.ArticleItemClickListener {
     private static final String TAG = "ArticleListAdapter";

@@ -28,7 +28,7 @@ public class SearchList implements Serializable{
     private boolean recommend;
     private Integer status;
     private String url;
-    List<Integer>channelIds;
+    private List<Integer>channelIds;
     private String sourceType;
     private Integer time;
 

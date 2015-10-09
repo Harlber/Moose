@@ -46,6 +46,7 @@ public class ArticleFragment extends ArticleListFragment {
         rootView = inflater.inflate(
                 R.layout.fragment_article_list, container, false);
         mChannelId = getArguments().getInt(Config.CHANNEL_ID);
+        //noinspection ConstantConditions
         type = Integer.valueOf(getArguments().getString(Config.CHANNEL_TYPE));
         initRecyclerView();
         initRefreshLayout();
