@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<moose.com.ac.ui.widget.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swiperefresh"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/magin_8">
+    android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <TextView
+        android:id="@+id/search_result"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical" />
-</moose.com.ac.ui.widget.MultiSwipeRefreshLayout>
+        android:layout_height="32dp"
+        android:layout_below="@id/appbarlayout"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/magin_8"
+        android:text="无相关结果" />
+
+    <moose.com.ac.ui.widget.MultiSwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+    </moose.com.ac.ui.widget.MultiSwipeRefreshLayout>
+</LinearLayout>

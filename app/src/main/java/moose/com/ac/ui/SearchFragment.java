@@ -7,16 +7,20 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.search.SearchBody;
+import moose.com.ac.retrofit.search.SearchList;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
@@ -37,7 +41,10 @@ public class SearchFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private FlipInTopXAnimator animator;
+    private TextView result;
 
+    private List<SearchList> lists = new ArrayList<>();
+    private SearchListAdapter adapter;
     private boolean isRequest = false;//request data status
     private String key;
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -50,14 +57,15 @@ public class SearchFragment extends Fragment {
         rootView = inflater.inflate(
                 R.layout.fragment_search, container, false);
         key = getArguments().getString(Config.SEARCH_KEY);
+        result = (TextView) rootView.findViewById(R.id.search_result);
         initRecyclerView();
         initRefreshLayout();
-        new Handler().postDelayed(this::initData, Config.TIME_LATE);
+        new Handler().postDelayed(() -> loadData(1), Config.TIME_LATE);
         return rootView;
     }
 
-    private void initData() {
-        api = RxUtils.createApi(Api.class,Config.SEARCH_URL);
+    private void loadData(int flag) {
+        api = RxUtils.createApi(Api.class, Config.SEARCH_URL);
         mSwipeRefreshLayout.setRefreshing(true);
         subscription.add(api.getSearch(key, page, Config.PAGESIZE)
                 .subscribeOn(Schedulers.io())
@@ -70,7 +78,7 @@ public class SearchFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Snackbar.make(mRecyclerView,e.getMessage(),Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(mRecyclerView, e.getMessage(), Snackbar.LENGTH_SHORT).show();
                         mSwipeRefreshLayout.setRefreshing(false);
                         e.printStackTrace();
                     }
@@ -78,7 +86,15 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onNext(SearchBody searchBody) {
                         mSwipeRefreshLayout.setRefreshing(false);
-                        Log.i(TAG,"getTotalCount:"+searchBody.getData().getPage().getTotalCount());
+                        if (searchBody.getData().getPage() != null && searchBody.getData().getPage().getList().size() != 0) {
+                            result.setText("共" + searchBody.getData().getPage().getTotalCount().toString() + "个相关结果");
+                            if (flag != 1) {
+                                lists.clear();
+                            }
+                            lists.addAll(searchBody.getData().getPage().getList());
+                            adapter.notifyDataSetChanged();
+                            ++page;
+                        }
                     }
                 }));
     }
@@ -94,7 +110,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void doSwapeRefresh() {
-        mSwipeRefreshLayout.setRefreshing(false);
+        loadData(0);
     }
 
 
@@ -108,6 +124,8 @@ public class SearchFragment extends Fragment {
         animator.setAddDuration(ANIMATION_DURATION);
         animator.setRemoveDuration(ANIMATION_DURATION);
         mRecyclerView.setItemAnimator(animator);
+        adapter = new SearchListAdapter(lists, getActivity());
+        mRecyclerView.setAdapter(adapter);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -124,7 +142,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void loadMore() {
-
+        loadData(1);
     }
 
     @Override

@@ -26,6 +26,7 @@ import moose.com.ac.util.AppUtils;
 /**
  * Created by Farble on 2015/8/15 16.
  * ArticleListAdapter was used for ArticleFragment
+ *
  * @see moose.com.ac.ui.ArticleFragment
  */
 public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> implements ArticleListVH.ArticleItemClickListener {
@@ -49,7 +50,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     }
 
     public ArticleListAdapter(List<Article> lists, Activity mActivity, int channnel) {
-        this(lists,mActivity);
+        this(lists, mActivity);
         dbHelper = new DbHelper(mActivity);
         this.channnel = channnel;
         setListener(this);
@@ -58,7 +59,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     @Override
     public ArticleListVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+                .inflate(R.layout.item_article_list, parent, false);
         ArticleListVH vh = new ArticleListVH(v, listener);
         vh.num = (TextView) v.findViewById(R.id.rank);
         vh.title = (TextView) v.findViewById(R.id.title);
@@ -98,7 +99,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         Article article = lists.get(position);
         article.setSavedate(String.valueOf(System.currentTimeMillis()));
         if (!App.isVistor()) {
-            App.getDbHelper().insertArticle(article,ArticleCollects.ArticleHistoryEntry.TABLE_NAME,article.getChannelId());
+            App.getDbHelper().insertArticle(article, ArticleCollects.ArticleHistoryEntry.TABLE_NAME, article.getChannelId());
         }
         Intent intent = new Intent(mActivity, ArticleViewActivity.class);
         Bundle mBundle = new Bundle();
@@ -116,7 +117,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         } else {
             article.setIsfav(Config.STORE);//set not fav
             article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
-            dbHelper.insertArticle(article, TAB_NAME,channnel);//remove from db
+            dbHelper.insertArticle(article, TAB_NAME, channnel);//remove from db
         }
         notifyDataSetChanged();
     }

@@ -3,6 +3,8 @@
     <string name="snackbar_action">知道了</string>
     <string name="reload_action">重新加载</string>
     <string name="serach">搜索...</string>
-    <string name="search">搜索</string>
+    <string name="search">搜索结果</string>
     <string name="set_all">全部设置</string>
+    <string name="total">综合</string>
+    <string name="up_name">"UP主: "</string>
 </resources>

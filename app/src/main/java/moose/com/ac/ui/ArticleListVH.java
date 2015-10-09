@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 /**
  * Created by Farble on 2015/8/15 17.
+ * ArticleListVH
  */
 public class ArticleListVH extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
     private static final String TAG = "ArticleListVH";
@@ -37,7 +38,7 @@ public class ArticleListVH extends RecyclerView.ViewHolder implements View.OnCli
         listener.onItemLongClick(view, getLayoutPosition());
         return true;
     }
-    public interface ArticleItemClickListener {
+    public static interface ArticleItemClickListener {
          void onItemClick(View view,int postion);
          void onItemLongClick(View view,int postion);
     }

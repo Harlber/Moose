@@ -39,6 +39,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
+
         <FrameLayout
             android:id="@+id/search_framelayout"
             android:layout_width="match_parent"

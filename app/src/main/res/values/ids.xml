@@ -11,4 +11,12 @@
     <item type="id" name="header_card_view" />
     <item type="id" name="item_view" />
     <item type="id" name="sub_item_view" />
+    <!--search-->
+    <item type="id" name="sbookmarked" />
+    <item type="id" name="srank" />
+    <item type="id" name="stitle" />
+    <item type="id" name="smeta_container" />
+    <item type="id" name="ssource" />
+    <item type="id" name="scomment" />
+    <item type="id" name="sposted" />
 </resources>
