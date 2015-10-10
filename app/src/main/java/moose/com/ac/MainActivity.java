@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new Adapter(getSupportFragmentManager());
         //noinspection ConstantConditions
         getSupportActionBar().setTitle(getToolBarTitle());
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         if (viewPager != null) {
             setupViewPager(viewPager);

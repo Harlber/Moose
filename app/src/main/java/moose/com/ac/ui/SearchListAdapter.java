@@ -58,10 +58,10 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListVH> implem
         final SearchList searchList = lists.get(position);
         holder.num.setText(R.string.total);
         holder.title.setText(searchList.getTitle());
-        holder.user.setText("UP主:"+searchList.getUsername()+"  "+
-                AppUtils.formatDateByLongTime(String.valueOf(searchList.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
+        holder.user.setText("UP主:"+searchList.getUsername()+"       "+
+                AppUtils.formatDateByLongTime(String.valueOf(searchList.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5,16));
         holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(searchList.getContentId())) ? View.VISIBLE : View.INVISIBLE);
-        holder.time.setText("围观:"+searchList.getViews()+"评论:"+searchList.getComments());
+        holder.time.setText("围观:"+searchList.getViews()+"       评论:"+searchList.getComments());
     }
 
     @Override

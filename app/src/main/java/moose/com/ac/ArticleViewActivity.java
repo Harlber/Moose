@@ -56,7 +56,7 @@ import rx.subscriptions.CompositeSubscription;
  * <li>LARGER</li>
  * <li>LARGEST</li>
  */
-public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback, ShareActionProvider.OnShareTargetSelectedListener {
+public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback{
     private static final String TAG = "ArticleViewActivity";
     private static final int FAB_SHOW = 0x0000aa;
     private static final int FAB_HIDE = 0x0000bb;
@@ -132,7 +132,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         settings.setBuiltInZoomControls(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             mWeb.getSettings().setDisplayZoomControls(false);
-        //setTextZoom(AcApp.getConfig().getInt("text_size", 0));
         mWeb.setWebViewClient(new Client());
         if (Build.VERSION.SDK_INT >= 11)
             mWeb.setBackgroundColor(Color.argb(1, 0, 0, 0));
@@ -165,9 +164,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share));
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareUrl);
         actionProvider.setShareIntent(shareIntent);
-        actionProvider.setOnShareTargetSelectedListener(this);
-        invalidateOptionsMenu();
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
 
@@ -199,22 +196,14 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     boolean deleteSuc = App.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME, String.valueOf(contendid));
                     menFav.setTitle(deleteSuc ? getString(R.string.cancel_store) : getString(R.string.store_it));
                     isFav = !deleteSuc;
-                    if (deleteSuc) {
-                        snackStore(getString(R.string.cancel_success));
-                    } else {
-                        snackStore(getString(R.string.cancel_fal));
-                    }
+                    snackStore(deleteSuc?getString(R.string.cancel_success):getString(R.string.cancel_fal));
                 } else {//store it
                     article.setIsfav(Config.STORE);//set not fav
                     article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
                     boolean insertSuc = dbHelper.insertArticle(article, TAB_NAME, article.getChannelId());
                     menFav.setTitle(insertSuc ? getString(R.string.store_it) : getString(R.string.cancel_store));
                     isFav = insertSuc;
-                    if (isFav) {
-                        snackStore(getString(R.string.store_success));
-                    } else {
-                        snackStore(getString(R.string.store_fal));
-                    }
+                    snackStore(isFav ? getString(R.string.store_success):getString(R.string.store_fal));
                 }
                 return true;
         }
@@ -543,12 +532,12 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         }
     }
 
-    @Override
+/*    @Override
     public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
         ArticleViewActivity.this.startActivity(intent);
         invalidateOptionsMenu();
         return true;
-    }
+    }*/
 
 
     private class Client extends WebViewClient {
