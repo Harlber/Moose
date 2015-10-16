@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.retrofit.article.ArticleList;
+import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.Like;
 import moose.com.ac.retrofit.collect.Store;
 import moose.com.ac.retrofit.login.CheckIn;
@@ -130,4 +131,16 @@ public interface Api {
      */
     @GET(Config.API_PROFILE)
     Observable<Profile> getUserProfile();
+
+    /**
+     * get Article List from net which user stored before
+     *
+     * @param count     size of List in this query
+     * @param channelId channel no
+     * @param pageNo    current no
+     *                  http://www.acfun.tv/member/collection.aspx?count=10&pageNo=1&channelId=63
+     */
+    @GET(Config.API_COLLECT_LIST)
+    Observable<ArticleCloud> getArticleCloudList(@Query("count") int count, @Query("pageNo") int pageNo, @Query("channelId") String channelId);
+
 }

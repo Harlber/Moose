@@ -13,6 +13,7 @@ public class Config {
 
     public static final String API_CHANNEL = "/apiserver/content/channel";
     public static final String API_COMMENT_LIST = "/comment_list_json.aspx";
+    public static final String API_COLLECT_LIST = "/member/collection.aspx";
     public static final String API_ARTICLE = "/apiserver/content/article";
     public static final String API_SEARCH = "/search?type=2&field=title&sortField=releaseDate&parentChannelId=63";
     public static final String API_SORT = "/apiserver/content/rank";
