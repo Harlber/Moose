@@ -23,6 +23,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by dell on 2015/8/25.
+ * local collection
  */
 public final class Collects extends ArticleListActivity {
     private static final String TAG = "Collects";

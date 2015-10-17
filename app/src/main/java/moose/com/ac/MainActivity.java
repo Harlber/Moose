@@ -277,6 +277,12 @@ public class MainActivity extends AppCompatActivity {
                             new Intent(MainActivity.this, ProfileActivity.class) :
                             new Intent(MainActivity.this, Login.class);
                     startActivity(intentIn);
+                    break;
+                case R.id.nav_sync:
+                    navigationView.setCheckedItem(R.id.nav_sync);
+                    Intent intentS = new Intent(MainActivity.this,SynchronizeActivity.class);
+                    startActivity(intentS);
+                    break;
                 default:
                     break;
             }

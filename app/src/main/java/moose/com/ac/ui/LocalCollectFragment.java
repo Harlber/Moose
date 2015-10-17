@@ -3,6 +3,7 @@ package moose.com.ac.ui;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,36 +16,33 @@ import java.util.List;
 
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
-import moose.com.ac.retrofit.Api;
-import moose.com.ac.retrofit.collect.ArticleCloud;
-import moose.com.ac.retrofit.collect.ArticleContent;
+import moose.com.ac.data.ArticleCollects;
+import moose.com.ac.data.DbHelper;
+import moose.com.ac.data.RxDataBase;
+import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
-import moose.com.ac.util.RxUtils;
-import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by dell on 2015/10/16.
- * CloudCollectFragment
+ * Created by dell on 2015/10/17.
  */
-public class CloudCollectFragment extends Fragment {
-    private static final String TAG = "CloudCollectFragment";
-
-    private CompositeSubscription subscription = new CompositeSubscription();
-    private Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
-    private List<ArticleContent> list = new ArrayList<>();
-
+public class LocalCollectFragment extends Fragment {
+    private static final String TAG = "LocalCollectFragment";
     private View rootView;
+    private DbHelper dbHelper;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private CloudArticleAdapter adapter;
 
+    private List<Article> lists = new ArrayList<>();
+    private ArticleListAdapter adapter;
     private boolean isRequest = false;//request data status
     private boolean isScroll = false;//is RecyclerView scrolling
-    private int page = 1;//default
+
+    protected RxDataBase rxDataBase;
+    private Subscriber<List<Article>> listSubscriber;
 
     @Nullable
     @Override
@@ -53,11 +51,23 @@ public class CloudCollectFragment extends Fragment {
                 R.layout.fragment_article_list, container, false);
         initRecyclerView();
         initRefreshLayout();
+        dbHelper = new DbHelper(getActivity());
         new Handler().postDelayed(this::init, Config.TIME_LATE);
         return rootView;
     }
 
-    protected void initRefreshLayout() {
+    private void init() {
+        rxDataBase = new RxDataBase(ArticleCollects.ArticleEntry.TABLE_NAME);
+        listSubscriber = newInstance();
+        mSwipeRefreshLayout.setRefreshing(true);
+        rxDataBase.favLists
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(listSubscriber);
+
+    }
+
+    private void initRefreshLayout() {
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
 
         mSwipeRefreshLayout.setColorSchemeResources(
@@ -68,8 +78,8 @@ public class CloudCollectFragment extends Fragment {
     }
 
 
-    protected void initRecyclerView() {
-        adapter = new CloudArticleAdapter(getActivity(), list);
+    private void initRecyclerView() {
+        adapter = new ArticleListAdapter(lists, getActivity());
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
@@ -100,52 +110,48 @@ public class CloudCollectFragment extends Fragment {
 
     }
 
-    private void init() {
-        load();
-    }
+    private Subscriber<List<Article>> newInstance() {
+        return new Subscriber<List<Article>>() {
+            @Override
+            public void onCompleted() {
 
-    private void load() {
-        mSwipeRefreshLayout.setEnabled(true);
-        mSwipeRefreshLayout.setRefreshing(true);//show progressbar
-        isRequest = true;
-        subscription.add(api.getArticleCloudList(10, page, "63")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ArticleCloud>() {
-                    @Override
-                    public void onCompleted() {
+            }
 
-                    }
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setEnabled(false);
+                Snack(getString(R.string.db_error));
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        isRequest = false;//refresh request status
-                        //snack(e.getMessage());
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(ArticleCloud articleCloud) {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        isRequest = false;//refresh request status
-                        if (articleCloud.isSuccess()) {
-                            list.addAll(articleCloud.getContents());
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                }));
+            @Override
+            public void onNext(List<Article> articles) {
+                lists.addAll(articles);
+                adapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setEnabled(false);
+            }
+        };
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
+        if (listSubscriber == null || listSubscriber.isUnsubscribed()) {
+            listSubscriber = newInstance();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        RxUtils.unsubscribeIfNotNull(subscription);
+        if (listSubscriber != null) {
+            listSubscriber.unsubscribe();
+        }
+    }
+
+    private void Snack(String msg) {
+        Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
     }
 }

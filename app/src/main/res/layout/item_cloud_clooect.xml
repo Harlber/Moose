@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin"
+    android:layout_marginLeft="@dimen/margin_4dp"
+    android:layout_marginRight="@dimen/margin_4dp"
+    android:elevation="50dp"
+    tools:ignore="UnusedAttribute">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/magin_8">
+
+    <ImageView
+        android:id="@+id/cloud_thumb"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/magin_8"
+        android:background="@color/colorContents" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/cloud_thumb"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/cloud_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/magin_8"
+                android:background="@drawable/article_tag"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_4dp"
+                android:paddingRight="@dimen/margin_4dp"
+                android:layout_centerVertical="true"
+                android:text="文章"
+                android:textColor="@color/md_white" />
+
+            <TextView
+                android:id="@+id/cloud_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_4dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_4dp"
+                android:layout_toRightOf="@id/cloud_type"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="......" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/cloud_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/magin_8"
+                android:background="@drawable/article_user"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:maxLength="20"
+                android:paddingRight="@dimen/margin_4dp"
+                android:paddingLeft="@dimen/margin_4dp"
+                android:singleLine="true"
+                android:text="by ..."
+                android:textColor="@color/md_white" />
+
+            <TextView
+                android:id="@+id/cloud_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_4dp"
+                android:layout_marginLeft="@dimen/magin_8"
+                android:layout_toRightOf="@id/cloud_user"
+                android:gravity="center_vertical" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/cloud_tag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_4dp"
+            android:layout_marginLeft="@dimen/magin_8"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="..." />
+    </LinearLayout>
+</RelativeLayout>
+</android.support.v7.widget.CardView>
