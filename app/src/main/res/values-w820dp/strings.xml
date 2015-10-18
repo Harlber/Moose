@@ -11,4 +11,6 @@
     <string name="sync_ac">同步</string>
     <string name="cloud_store">云端收藏</string>
     <string name="local_store">本地收藏</string>
+    <string name="no_local_data">没有本地收藏数据</string>
+    <string name="persional">个性化</string>
 </resources>

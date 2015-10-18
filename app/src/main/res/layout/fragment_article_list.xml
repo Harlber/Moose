@@ -5,9 +5,23 @@
     android:layout_height="match_parent"
     android:paddingTop="@dimen/magin_8">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/tv_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/margin_4dp"
+            android:text="@string/no_local_data"
+            android:visibility="gone" />
+    </RelativeLayout>
 </moose.com.ac.ui.widget.MultiSwipeRefreshLayout>

@@ -8,7 +8,7 @@
     <string name="animation">动漫文化</string>
     <string name="cartoon">漫画小说</string>
     <string name="main_page">主页</string>
-    <string name="store">收藏夹</string>
+    <string name="store">本地收藏</string>
     <string name="set">设置</string>
     <string name="history">历史记录</string>
     <string name="about">关于</string>
@@ -87,7 +87,7 @@
     <string name="empty_story">清空历史记录</string>
     <string name="locus">轨迹图</string>
     <string name="no_data_to_clear">没有数据可以清除</string>
-    <string name="sync">同步</string>
+    <string name="sync">数据同步</string>
     <string name="store_it">取消收藏</string>
     <string name="cancel_store">收藏</string>
     <string name="cancel_success">取消收藏成功</string>
@@ -137,4 +137,6 @@
     <string name="sync_ac">同步</string>
     <string name="cloud_store">云端收藏</string>
     <string name="local_store">本地收藏</string>
+    <string name="no_local_data">没有本地收藏数据</string>
+    <string name="persional">个性化</string>
 </resources>

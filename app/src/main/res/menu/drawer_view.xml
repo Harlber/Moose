@@ -35,8 +35,12 @@
             android:title="@string/main_check_in" />
     </group>
 
-    <item android:title="About">
+    <item android:title="@string/persional">
         <menu>
+            <item
+                android:id="@+id/nav_sync"
+                android:icon="@drawable/ic_sync_blacy24px"
+                android:title="@string/sync" />
             <item
                 android:id="@+id/nav_setting"
                 android:icon="@drawable/ic_settings_black600_24dp"
@@ -45,10 +49,6 @@
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_info_black600_24dp"
                 android:title="@string/about" />
-            <item
-                android:id="@+id/nav_sync"
-                android:icon="@drawable/ic_sync_blacy24px"
-                android:title="@string/sync" />
         </menu>
     </item>
 

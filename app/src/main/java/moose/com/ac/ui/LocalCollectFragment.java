@@ -5,11 +5,13 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class LocalCollectFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
+    private TextView textView;
 
     private List<Article> lists = new ArrayList<>();
     private ArticleListAdapter adapter;
@@ -51,6 +54,7 @@ public class LocalCollectFragment extends Fragment {
                 R.layout.fragment_article_list, container, false);
         initRecyclerView();
         initRefreshLayout();
+        textView = (TextView)rootView.findViewById(R.id.tv_no);
         dbHelper = new DbHelper(getActivity());
         new Handler().postDelayed(this::init, Config.TIME_LATE);
         return rootView;
@@ -59,12 +63,14 @@ public class LocalCollectFragment extends Fragment {
     private void init() {
         rxDataBase = new RxDataBase(ArticleCollects.ArticleEntry.TABLE_NAME);
         listSubscriber = newInstance();
+        load();
+    }
+    private void load(){
         mSwipeRefreshLayout.setRefreshing(true);
         rxDataBase.favLists
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listSubscriber);
-
     }
 
     private void initRefreshLayout() {
@@ -74,7 +80,7 @@ public class LocalCollectFragment extends Fragment {
                 R.color.md_orange_700, R.color.md_red_500,
                 R.color.md_indigo_900, R.color.md_green_700);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mSwipeRefreshLayout.setRefreshing(false));
+        mSwipeRefreshLayout.setOnRefreshListener(this::load);
     }
 
 
@@ -99,15 +105,8 @@ public class LocalCollectFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 mSwipeRefreshLayout.setEnabled(mLayoutManager
                         .findFirstCompletelyVisibleItemPosition() == 0);//fix bug while scroll RecyclerView & SwipeRefreshLayout shows also
-                if (isScroll && !recyclerView.canScrollVertically(1) && !isRequest) {
-                    loadMore();
-                }
             }
         });
-    }
-
-    private void loadMore() {
-
     }
 
     private Subscriber<List<Article>> newInstance() {
@@ -127,10 +126,15 @@ public class LocalCollectFragment extends Fragment {
 
             @Override
             public void onNext(List<Article> articles) {
-                lists.addAll(articles);
-                adapter.notifyDataSetChanged();
                 mSwipeRefreshLayout.setRefreshing(false);
                 mSwipeRefreshLayout.setEnabled(false);
+                if (articles.size()==0) {
+                    textView.setVisibility(View.VISIBLE);
+                } else {
+                    textView.setVisibility(View.GONE);
+                    lists.addAll(articles);
+                    adapter.notifyDataSetChanged();
+                }
             }
         };
     }
