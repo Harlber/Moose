@@ -1,6 +1,7 @@
 package moose.com.ac.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.ArticleViewActivity;
 import moose.com.ac.R;
+import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
+import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.search.SearchList;
 import moose.com.ac.util.AppUtils;
 
@@ -61,7 +65,15 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListVH> implem
         holder.user.setText("UP主:"+searchList.getUsername()+"       "+
                 AppUtils.formatDateByLongTime(String.valueOf(searchList.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5,16));
         holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(searchList.getContentId())) ? View.VISIBLE : View.INVISIBLE);
-        holder.time.setText("围观:"+searchList.getViews()+"       评论:"+searchList.getComments());
+        holder.time.setText("围观:" + searchList.getViews() + "       评论:" + searchList.getComments());
+        holder.rootView.setOnClickListener(v -> {
+            Article article = new Article();
+            article.setContentId(Integer.valueOf(searchList.getContentId().replace("ac","")));
+            Intent intent = new Intent(mActivity,ArticleViewActivity.class);
+            intent.putExtra(Config.ARTICLE,article);
+            mActivity.startActivity(intent);
+            mActivity.finish();
+        });
     }
 
     @Override

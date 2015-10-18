@@ -2,6 +2,7 @@ package moose.com.ac;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +31,23 @@ public class SynchronizeActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private TabLayout tabLayout;
     private Adapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.include_list_viewpager);
         initView();
         initData();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                SynchronizeActivity.this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initData() {
@@ -47,7 +60,7 @@ public class SynchronizeActivity extends AppCompatActivity {
             setupViewPager(viewPager);
         }
         tabLayout.setupWithViewPager(viewPager);
-        fab.setImageResource(R.drawable.ic_sync_blacy24px);
+        fab.setImageResource(R.drawable.ic_sync_white24px);
     }
 
     private void initView() {
@@ -104,5 +117,13 @@ public class SynchronizeActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitles.get(position);
         }
+    }
+
+    public void snack(String msg) {
+        final Snackbar snackBar = Snackbar.make(viewPager, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.snackbar_action, v -> {
+            snackBar.dismiss();
+        });
+        snackBar.show();
     }
 }

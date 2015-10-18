@@ -1,9 +1,12 @@
 package moose.com.ac.ui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import moose.com.ac.R;
+import moose.com.ac.SynchronizeActivity;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.collect.ArticleCloud;
@@ -42,6 +46,8 @@ public class CloudCollectFragment extends Fragment {
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CloudArticleAdapter adapter;
 
+    private SynchronizeActivity activity;
+
     private boolean isRequest = false;//request data status
     private boolean isScroll = false;//is RecyclerView scrolling
     private int page = 1;//default
@@ -64,7 +70,10 @@ public class CloudCollectFragment extends Fragment {
                 R.color.md_orange_700, R.color.md_red_500,
                 R.color.md_indigo_900, R.color.md_green_700);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mSwipeRefreshLayout.setRefreshing(false));
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            page = 1;
+            load();
+        });
     }
 
 
@@ -97,7 +106,7 @@ public class CloudCollectFragment extends Fragment {
     }
 
     private void loadMore() {
-
+        load();
     }
 
     private void init() {
@@ -121,7 +130,7 @@ public class CloudCollectFragment extends Fragment {
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;//refresh request status
-                        //snack(e.getMessage());
+                        activity.snack(e.getMessage());
                         e.printStackTrace();
                     }
 
@@ -132,6 +141,8 @@ public class CloudCollectFragment extends Fragment {
                         if (articleCloud.isSuccess()) {
                             list.addAll(articleCloud.getContents());
                             adapter.notifyDataSetChanged();
+                        }else {
+                            activity.snack(articleCloud.isSuccess()+"");
                         }
                     }
                 }));
@@ -147,5 +158,17 @@ public class CloudCollectFragment extends Fragment {
     public void onPause() {
         super.onPause();
         RxUtils.unsubscribeIfNotNull(subscription);
+    }
+
+    @Override
+    public void onAttach(Activity a) {
+        super.onAttach(a);
+        activity = (SynchronizeActivity) a;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activity = null;
     }
 }

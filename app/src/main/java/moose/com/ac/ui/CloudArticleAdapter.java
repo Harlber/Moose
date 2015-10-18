@@ -1,6 +1,7 @@
 package moose.com.ac.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.ArticleViewActivity;
 import moose.com.ac.R;
+import moose.com.ac.common.Config;
+import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.collect.ArticleContent;
 import moose.com.ac.util.AppUtils;
 
@@ -41,7 +45,7 @@ public class CloudArticleAdapter extends RecyclerView.Adapter<CloudArticleVH> {
         vh.date = (TextView) v.findViewById(R.id.cloud_date);
         vh.tag = (TextView) v.findViewById(R.id.cloud_tag);
         vh.imageView = (ImageView) v.findViewById(R.id.cloud_thumb);
-        vh.user = (TextView)v.findViewById(R.id.cloud_user);
+        vh.user = (TextView) v.findViewById(R.id.cloud_user);
         return vh;
     }
 
@@ -54,8 +58,15 @@ public class CloudArticleAdapter extends RecyclerView.Adapter<CloudArticleVH> {
                 .into(holder.imageView);
         holder.title.setText(content.getTitle());
         holder.tag.setText(content.getTags());
-        holder.user.setText("up主 "+content.getAuthor());
+        holder.user.setText("up主 " + content.getAuthor());
         holder.date.setText(AppUtils.formatDateByLongTime(String.valueOf(content.getReleaseDate()), context.getString(R.string.format_date)).substring(5));
+        holder.rootView.setOnClickListener(v -> {
+            Article article = new Article();
+            article.setContentId(Integer.valueOf(content.getUrl().replace("/a/ac", "")));
+            Intent intent = new Intent(context, ArticleViewActivity.class);
+            intent.putExtra(Config.ARTICLE, article);
+            context.startActivity(intent);
+        });
     }
 
     @Override
