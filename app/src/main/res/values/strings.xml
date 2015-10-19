@@ -15,7 +15,7 @@
     <string name="me">联系我</string>
     <string name="night_style">夜间模式</string>
     <string name="front_set">字体设置</string>
-    <string name="filter">筛选</string>
+    <string name="filter">节点筛选</string>
     <string name="loading_text">0</string>
     <string name="network_exception">网络异常</string>
     <string name="article_select">文章筛选</string>
