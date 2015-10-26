@@ -13,6 +13,7 @@ import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.retrofit.login.LoginEntry;
 import moose.com.ac.retrofit.search.SearchBody;
 import retrofit.Response;
+import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
@@ -87,7 +88,7 @@ public interface Api {
      * @param password password
      */
     @POST(Config.API_LOGIN)
-    Observable<LoginEntry> login(@Query("username") String username, @Query("password") String password);
+    Observable<LoginEntry> login(@Field("username") String username, @Field("password") String password);
 
     /**
      * check in action
@@ -102,7 +103,7 @@ public interface Api {
      * @param operate operate
      */
     @POST(Config.API_COLLECT)
-    Observable<Store> collectArticle(@Query("cId") int cId, @Query("operate") int operate);
+    Observable<Store> collectArticle(@Field("cId") int cId, @Field("operate") int operate);
 
     //operate = 1 收藏 0：取消收藏
     //http://www.acfun.tv/member/collect.aspx?cId=2147867&operate=1
@@ -114,7 +115,7 @@ public interface Api {
      */
     @Deprecated
     @POST(Config.API_LIKE)
-    Observable<Like> likeArticle(@Query("contentId") int contentId);
+    Observable<Like> likeArticle(@Field("contentId") int contentId);
     //http://www.acfun.tv/content_up.aspx?contentId=2147685
 
     /**
