@@ -46,6 +46,7 @@ import moose.com.ac.util.chrome.CustomTabActivityHelper;
 import moose.com.ac.util.chrome.WebviewFallback;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -274,12 +275,20 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                             HtmlBody = articleBody.getData().getFullArticle().getTxt();
                             title = articleBody.getData().getFullArticle().getTitle();
                             user = articleBody.getData().getFullArticle().getUser().getUsername();
-                            dealBody(HtmlBody);
-                            addHead();
-                            if (CommonUtil.getMode() == 1) {
-                                filterImg(HtmlBody);
-                            }
-                            mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
+
+                            //fix this issues https://github.com/Harlber/Moose/issues/8
+                            rx.Observable.create(subscriber -> {
+                                dealBody(HtmlBody);
+                                addHead();
+                                if (CommonUtil.getMode() == 1) {
+                                    filterImg(HtmlBody);
+                                }
+                                subscriber.onNext(HtmlBody);
+                            }).subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(s -> {
+                                        mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
+                                    });
                         }
                     }
 
