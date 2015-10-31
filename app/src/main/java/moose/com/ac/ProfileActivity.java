@@ -115,10 +115,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 CommonUtil.setRegistDate();//签到
                                 registButton.setText(getString(R.string.already_regi));
 
-                                Glide.with(ProfileActivity.this)
-                                        .load(profile.getUserImg())
-                                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                        .into(logo);
                                 uid.setText(profile.getUsername());
                                 signature.setText(getString(R.string.user_sign) + profile.getSign());
                                 date.setText(CommonUtil.toDate(profile.getRegTime()));
