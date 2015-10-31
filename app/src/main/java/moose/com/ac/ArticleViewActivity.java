@@ -267,8 +267,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     @Override
                     public void onNext(ArticleBody articleBody) {
                         isRequest = true;
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        mSwipeRefreshLayout.setEnabled(false);
                         if (!articleBody.isSuccess()) {
                             snack(articleBody.getMsg());
                         } else {
@@ -466,9 +464,15 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         mWeb.stopLoading();
                     if (oldMode != CommonUtil.getMode()) {
                         if (HtmlBody != null && !HtmlBody.equals("")) {
-                            filterImg(HtmlBody);//whenever mode what,do this
-                            mWeb.stopLoading();//maybe load image then ANR comes
-                            mWeb.loadData(CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html; charset=UTF-8", null);
+                            rx.Observable.create(subscriber -> {
+                                filterImg(HtmlBody);//whenever mode what,do this
+                                subscriber.onNext(HtmlBody);
+                            }).subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(s -> {
+                                        mWeb.stopLoading();//maybe load image then ANR comes
+                                        mWeb.loadData(CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html; charset=UTF-8", null);
+                                    });
                         } else {
                             if (isRequest) {
                                 RxUtils.unsubscribeIfNotNull(subscription);
@@ -560,8 +564,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             isWebViewLoading = true;
-            mSwipeRefreshLayout.setEnabled(true);
-            mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         }
 
         @Override

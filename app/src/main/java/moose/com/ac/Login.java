@@ -89,7 +89,7 @@ public class Login extends AppCompatActivity {
                 mSwipeRefreshLayout.setEnabled(true);
                 mSwipeRefreshLayout.setRefreshing(true);
                 subscription.add(api.login(name.getText().toString(), pwd.getText().toString())
-                        .subscribeOn(Schedulers.io())
+                        .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<LoginEntry>() {
                             @Override
@@ -105,19 +105,11 @@ public class Login extends AppCompatActivity {
                                 isRequest = false;//refresh request status
                                 e.printStackTrace();
                                 Snack(getString(R.string.no_network));
-                               /* if (e instanceof RetrofitError) {
-                                    if (((RetrofitError) e).getResponse() != null) {
-                                        snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
-                                    } else {
-                                        snack(getString(R.string.no_network));
-                                    }
-
-                                }*/
                             }
 
                             @Override
                             public void onNext(LoginEntry response) {
-                                isRequest = true;
+                                isRequest = false;//fix button of Login enable after login-request
                                 mSwipeRefreshLayout.setRefreshing(false);
                                 mSwipeRefreshLayout.setEnabled(false);
                                 if (response.isSuccess()) {
