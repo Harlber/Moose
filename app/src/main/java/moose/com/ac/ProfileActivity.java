@@ -33,10 +33,11 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by dell on 2015/9/1.
+ * ProfileActivity
  */
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "ProfileActivity";
-    private Api api;
+    private Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
     private CompositeSubscription subscription = new CompositeSubscription();
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private ImageView logo;
@@ -59,7 +60,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         final ActionBar ab = getSupportActionBar();
         //noinspection ConstantConditions
         ab.setDisplayHomeAsUpEnabled(true);
-
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.profile_swipe);
 
         mSwipeRefreshLayout.setColorSchemeResources(
@@ -113,7 +113,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 CommonUtil.setRegDate(profile.getRegTime());
                                 CommonUtil.setGender(profile.getGender());
                                 CommonUtil.setRegistDate();//签到
-                                Snack(getString(R.string.reg_success));
                                 registButton.setText(getString(R.string.already_regi));
 
                                 Glide.with(ProfileActivity.this)
@@ -132,7 +131,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     }));
 
         }
-        api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
 
         Glide.with(ProfileActivity.this)
                 .load(CommonUtil.getUserLogo())
