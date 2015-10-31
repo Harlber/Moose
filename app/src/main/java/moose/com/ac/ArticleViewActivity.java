@@ -253,15 +253,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                         mSwipeRefreshLayout.setRefreshing(false);//show progressbar
                         mSwipeRefreshLayout.setEnabled(true);
                         snack(e.getMessage());
-                        //snack(getString(R.string.no_network));
-                        /*if (e instanceof RetrofitError) {
-                            if (((RetrofitError) e).getResponse() != null) {
-                                snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
-                            } else {
-                                snack(getString(R.string.no_network));
-                            }
-
-                        }*/
                     }
 
                     @Override
@@ -278,7 +269,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                             rx.Observable.create(subscriber -> {
                                 dealBody(HtmlBody);
                                 addHead();
-                                if (CommonUtil.getMode() == 1) {
+                                if (CommonUtil.getMode() == 1&&!App.isWifi()) {//add wifi support
                                     filterImg(HtmlBody);
                                 }
                                 subscriber.onNext(HtmlBody);

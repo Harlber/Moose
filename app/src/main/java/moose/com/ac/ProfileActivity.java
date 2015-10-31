@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.Profile;
+import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.PreferenceUtil;
@@ -76,10 +78,59 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         gender = (AppCompatTextView) findViewById(R.id.profile_sex);
         snakView = (View) findViewById(R.id.snak_view);
         if (CommonUtil.hasRegis()) {
+            if (App.isApkDebugable(this))
+                Log.e(TAG, "already");
             registButton.setText(R.string.already_regi);
             signature.setText(getString(R.string.user_sign) + CommonUtil.getSignatrue());
             date.setText(CommonUtil.toDate(CommonUtil.getRegDate()));
             gender.setText(getString(R.string.gender) + CommonUtil.getGender(CommonUtil.getGender()));
+        } else {
+            mSwipeRefreshLayout.setRefreshing(true);
+            subscription.add(api.getUserProfile()
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Profile>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            mSwipeRefreshLayout.setEnabled(false);
+                            e.printStackTrace();
+                            Snack(getString(R.string.no_network));
+                        }
+
+                        @Override
+                        public void onNext(Profile profile) {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            mSwipeRefreshLayout.setEnabled(false);
+                            if (profile.isSuccess()) {
+                                CommonUtil.setSignatrue(profile.getSign());
+                                CommonUtil.setRegDate(profile.getRegTime());
+                                CommonUtil.setGender(profile.getGender());
+                                CommonUtil.setRegistDate();//签到
+                                Snack(getString(R.string.reg_success));
+                                registButton.setText(getString(R.string.already_regi));
+
+                                Glide.with(ProfileActivity.this)
+                                        .load(profile.getUserImg())
+                                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                        .into(logo);
+                                uid.setText(profile.getUsername());
+                                signature.setText(getString(R.string.user_sign) + profile.getSign());
+                                date.setText(CommonUtil.toDate(profile.getRegTime()));
+                                gender.setText(getString(R.string.gender) + CommonUtil.getGender(profile.getGender()));
+
+                            } else {
+                                Snack(profile.getInfo());
+                            }
+                        }
+                    }));
+
         }
         api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
 
@@ -120,63 +171,36 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.profile_chenkin:
-                if (!CommonUtil.hasRegis()) {//jkk
-                    mSwipeRefreshLayout.setRefreshing(true);
-                    subscription.add(api.getUserProfile()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<Profile>() {
-                                @Override
-                                public void onCompleted() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                subscription.add(api.chenkin()
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<CheckIn>() {
+                            @Override
+                            public void onCompleted() {
 
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                mSwipeRefreshLayout.setRefreshing(false);
+                                mSwipeRefreshLayout.setEnabled(false);
+                                e.printStackTrace();
+                                Snack(getString(R.string.no_network));
+                            }
+
+                            @Override
+                            public void onNext(CheckIn checkIn) {
+                                mSwipeRefreshLayout.setRefreshing(false);
+                                mSwipeRefreshLayout.setEnabled(false);
+                                if (checkIn.isSuccess()) {
+                                    Snack(getString(R.string.reg_success));
+                                } else {
+                                    Snack(checkIn.getInfo());
                                 }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    e.printStackTrace();
-                                    mSwipeRefreshLayout.setRefreshing(false);
-                                    mSwipeRefreshLayout.setEnabled(false);
-                                    e.printStackTrace();
-                                    Snack(getString(R.string.no_network));
-                                    /*if (e instanceof RetrofitError) {
-                                        if (((RetrofitError) e).getResponse() != null) {
-                                            snack(getString(R.string.net_work) + ((RetrofitError) e).getResponse().getStatus());
-                                        } else {
-                                            snack(getString(R.string.no_network));
-                                        }
-
-                                    }*/
-                                }
-
-                                @Override
-                                public void onNext(Profile profile) {
-                                    mSwipeRefreshLayout.setRefreshing(false);
-                                    mSwipeRefreshLayout.setEnabled(false);
-                                    if (profile.isSuccess()) {
-                                        CommonUtil.setSignatrue(profile.getSign());
-                                        CommonUtil.setRegDate(profile.getRegTime());
-                                        CommonUtil.setGender(profile.getGender());
-                                        CommonUtil.setRegistDate();//签到
-                                        Snack(getString(R.string.reg_success));
-                                        registButton.setText(getString(R.string.already_regi));
-
-                                        Glide.with(ProfileActivity.this)
-                                                .load(profile.getUserImg())
-                                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                                .into(logo);
-                                        uid.setText(profile.getUsername());
-                                        signature.setText(getString(R.string.user_sign) + profile.getSign());
-                                        date.setText(CommonUtil.toDate(profile.getRegTime()));
-                                        gender.setText(getString(R.string.gender) + CommonUtil.getGender(profile.getGender()));
-
-                                    } else {
-                                        Snack(profile.getInfo());
-                                    }
-                                }
-                            }));
-                } else {
-                    Snack(getString(R.string.reg_today_yet));
-                }
+                            }
+                        }));
                 break;
             case R.id.profile_logout:
                 CommonUtil.setLoginStatus(Config.LOGIN_OUT);
@@ -184,7 +208,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 dbHelper.dropSql(ArticleCollects.ArticleCookies.TABLE_NAME);//clear cookies
                 dbHelper.createTab(ArticleCollects.SQL_CREATE_COOKIES);//cookie
                 PreferenceUtil.setStringValue(Config.USERNAME, getString(R.string.un_login));
-                PreferenceUtil.setStringValue(Config.USER_LOG,getString(R.string.default_user_logo));
+                PreferenceUtil.setStringValue(Config.USER_LOG, getString(R.string.default_user_logo));
                 Snack(getString(R.string.logout_success));
                 new Handler().postDelayed(ProfileActivity.this::finish, Config.TIME_LATE);
                 break;

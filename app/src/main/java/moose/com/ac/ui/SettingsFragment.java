@@ -2,7 +2,6 @@ package moose.com.ac.ui;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-
 import moose.com.ac.R;
 
 /**
