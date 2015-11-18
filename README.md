@@ -1,11 +1,17 @@
-﻿##Moose
+##Moose
+[![Build Status](https://travis-ci.org/Harlber/Moose.svg?branch=master)](https://travis-ci.org/Harlber/Moose)
+
 About acfun , class begins.
 
-##Next Target
 
-mvvm / 评论页面 / 搜索模块 / 历史轨迹图 / 崩溃日志收集,处理
+**Build**
 
-##Dependencies
+    ./gradlew assembleDebug
+
+Supply your own release signing config to build release. Release signing config is left out on purpose.
+
+
+**Dependencies**
 
 - [appcompat-v7](https://developer.android.com/tools/support-library/features.html#v7-appcompat) / [recyclerview-v7](https://developer.android.com/tools/support-library/features.html#v7-recyclerview) / [cardview-v7](https://developer.android.com/tools/support-library/features.html#v7-cardview) / [design](https://developer.android.com/intl/zh-cn/tools/support-library/features.html#designw)
 - Square [Retrofit](https://github.com/square/retrofit) / [OkHttp](https://github.com/square/okhttp)
@@ -18,10 +24,12 @@ mvvm / 评论页面 / 搜索模块 / 历史轨迹图 / 崩溃日志收集,处理
 - [chrome custom tabs](https://github.com/GoogleChrome/custom-tabs-client)
 
 
-##Thanks to
+**Thanks to**
 - [materialistic](https://github.com/hidroh/materialistic)
 
+**Next Target**
 
+mvvm / 评论页面 / 历史轨迹图 / 崩溃日志收集,处理
 
 ####License
     
