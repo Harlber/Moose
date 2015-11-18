@@ -5,10 +5,6 @@ About acfun , class begins.
 
 mvvm / 评论页面 / 搜索模块 / 历史轨迹图 / 崩溃日志收集,处理
 
-
-##路漫漫其修远兮
-<img src="http://i2.tietuku.com/fab789d233a175af.gif"  alt="demo3" align=center />
-
 ##Dependencies
 
 - [appcompat-v7](https://developer.android.com/tools/support-library/features.html#v7-appcompat) / [recyclerview-v7](https://developer.android.com/tools/support-library/features.html#v7-recyclerview) / [cardview-v7](https://developer.android.com/tools/support-library/features.html#v7-cardview) / [design](https://developer.android.com/intl/zh-cn/tools/support-library/features.html#designw)
