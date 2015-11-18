@@ -18,6 +18,7 @@ notifications:
 
   gradle build connectedCheck
 
+  ./bash gradlew compileDebug --stacktrace
   ./gradlew build connectedCheck
 
   before_cache:
