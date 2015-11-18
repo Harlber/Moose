@@ -5,10 +5,27 @@ android:
     - build-tools-23.0.1
     - android-22
     - extra-android-m2repository
-
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 jdk:
   - oraclejdk8
 
 notifications:
+
   email: false
+
+  gradle build connectedCheck
+
+  ./gradlew build connectedCheck
+
+  before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+  cache:
+    directories:
+      - $HOME/.gradle/caches/
+      - $HOME/.gradle/wrapper/
+
 
