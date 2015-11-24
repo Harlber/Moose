@@ -370,7 +370,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
      */
     private void dealBody(String html) {
         //noinspection ResultOfMethodCallIgnored
-        html.replace("\\n", "").replace("\\r", "").replace("\\", "").replace(title, "");
+        html.replaceAll(Config.IMAGE_REG,"");
     }
 
     private void filterImg(String str) {
