@@ -40,15 +40,23 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.okhttp.ResponseBody;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import moose.com.ac.common.Config;
+import moose.com.ac.retrofit.Api;
 import moose.com.ac.ui.ArticleFragment;
 import moose.com.ac.ui.widget.CircleImageView;
 import moose.com.ac.util.CommonUtil;
+import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ZoomOutPageTransformer;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * when intent another activity,need cancel network request
@@ -70,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean searchShow = false;
 
+    private CompositeSubscription cscription = new CompositeSubscription();
+    private Api api = RxUtils.createApi(Api.class, Config.GITHUB_URL);
+
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +99,45 @@ public class MainActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+        //new Handler().postDelayed(this::checkVersion, Config.TIME_LATE);
         initView();
         initData();
+    }
+
+    private void checkVersion() {
+        cscription.add(api.receiveVeision()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "--onError--");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody response) {
+                        Log.e(TAG, "--onNext--");
+                        rx.Observable.create(subscriber -> {
+                            try {
+                                String result = CommonUtil.slurp(response.byteStream(), 256);
+                                Log.e(TAG, "result:" + result);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            subscriber.onNext("0");
+                        }).subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(s -> {
+                                    Log.e(TAG, "--complete--");
+                                });
+                    }
+                }));
     }
 
     private void initData() {
@@ -164,8 +212,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (!CommonUtil.isEmpty(query)) {
-                    Intent intent = new Intent(MainActivity.this,Search.class);
-                    intent.putExtra(Config.SEARCH_KEY,query);
+                    Intent intent = new Intent(MainActivity.this, Search.class);
+                    intent.putExtra(Config.SEARCH_KEY, query);
                     startActivity(intent);
                     searchView.onActionViewCollapsed();
                     searchShow = false;
@@ -214,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        cscription = RxUtils.getNewCompositeSubIfUnsubscribed(cscription);
         navigationView.setCheckedItem(R.id.nav_home);
         if (!userName.getText().equals(CommonUtil.getUserName())) {
             userName.setText(CommonUtil.getUserName());
@@ -222,6 +271,12 @@ public class MainActivity extends AppCompatActivity {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(logo);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        RxUtils.unsubscribeIfNotNull(cscription);
     }
 
     @Override
@@ -280,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_sync:
                     navigationView.setCheckedItem(R.id.nav_sync);
-                    Intent intentS = new Intent(MainActivity.this,SynchronizeActivity.class);
+                    Intent intentS = new Intent(MainActivity.this, SynchronizeActivity.class);
                     startActivity(intentS);
                     break;
                 default:

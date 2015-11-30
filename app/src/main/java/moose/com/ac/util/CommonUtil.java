@@ -1,9 +1,17 @@
 package moose.com.ac.util;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -271,5 +279,43 @@ public class CommonUtil {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    /**
+     * <p>通过Uri获取android的资源文件</p>
+     * <p>类型	   Scheme     示例</p>
+     * <p>远程图片	http://, https://	HttpURLConnection 或者参考 使用其他网络加载方案</p>
+     * <p>本地文件	file://	FileInputStream</p>
+     * <p>Content provider	content://	ContentResolver</p>
+     * <p>asset目录下的资源	asset://	AssetManager</p>
+     * <p>res目录下的资源	res://	Resources.openRawResource</p>
+     *
+     * @return
+     */
+    public static Uri getUriFromResource(Context context, String scheme, int rid) {
+        StringBuffer sb = new StringBuffer(scheme + "://" + context.getPackageName() + "/" + rid);
+        return Uri.parse(sb + "");
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static String slurp(final InputStream is, final int bufferSize) {
+        final char[] buffer = new char[bufferSize];
+        final StringBuilder out = new StringBuilder();
+        try (Reader in = new InputStreamReader(is, "UTF-8")) {
+            for (;;) {
+                int rsz = in.read(buffer, 0, buffer.length);
+                if (rsz < 0)
+                    break;
+                out.append(buffer, 0, rsz);
+            }
+        }
+        catch (UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return out.toString()==null?"":out.toString();
     }
 }

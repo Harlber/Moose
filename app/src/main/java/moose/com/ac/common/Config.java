@@ -25,7 +25,7 @@ public class Config {
     public static final String API_LIKE = "/content_up.aspx";
     public static final String API_USERINFO = "/splash.aspx";
     public static final String API_PROFILE = "/member/profile.aspx";
-    public static final String API_VERSION = "Harlber/Moose/blob/master/app/version.json";
+    public static final String API_VERSION = "/Harlber/Moose/blob/master/app/version.json";
 
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
