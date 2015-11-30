@@ -2,6 +2,7 @@ package moose.com.ac.retrofit;
 
 
 import com.google.gson.JsonObject;
+import com.squareup.okhttp.ResponseBody;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
@@ -18,6 +19,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
+import retrofit.http.Streaming;
 import rx.Observable;
 
 /**
@@ -149,4 +151,12 @@ public interface Api {
     @GET(Config.API_COLLECT_LIST)
     Observable<ArticleCloud> getArticleCloudList(@Query("count") int count, @Query("pageNo") int pageNo, @Query("channelId") String channelId);
 
+    /**
+     * get App Version dynamically
+     *
+     * @return #ResponseBody file body
+     */
+    @GET(Config.API_VERSION)
+    @Streaming
+    Observable<ResponseBody> receiveVeision();
 }
