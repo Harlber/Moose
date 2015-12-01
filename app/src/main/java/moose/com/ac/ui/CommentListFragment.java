@@ -128,10 +128,6 @@ public class CommentListFragment extends Fragment {
         });
     }
 
-    private void init() {
-        fab = (FloatingActionButton) rootView.findViewById(R.id.news_fab);
-    }
-
     private void doSwapeRefresh() {
         loadData(page);
     }
@@ -153,15 +149,6 @@ public class CommentListFragment extends Fragment {
                         mSwipeRefreshLayout.setRefreshing(false);
                         e.printStackTrace();
                         snack(e.getMessage());
-                        //snack(getString(R.string.no_network));
-                        /*if (e instanceof RetrofitError) {
-                            if (((RetrofitError) e).getResponse() != null) {
-                                snack(getString(R.string.net_work)+((RetrofitError) e).getResponse().getStatus());
-                            }else {
-                                snack(getString(R.string.no_network));
-                            }
-
-                        }*/
                     }
 
                     @Override
