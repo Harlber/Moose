@@ -4,7 +4,6 @@ package moose.com.ac.ui;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,7 +44,6 @@ public class CommentListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private FloatingActionButton fab;
     private boolean isRequest = false;//request data status
     private boolean isScroll = false;//is RecyclerView scrolling
     private int page = 1;//default

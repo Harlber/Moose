@@ -47,7 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/user_name"
         android:layout_toRightOf="@id/user_name"
-        android:src="@drawable/forward" />
+        android:src="@drawable/forward"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/comments_content"
@@ -57,6 +58,7 @@
         android:textColor="@color/md_grey_900"
         android:text="hit"
         android:layout_marginTop="5dip"
+        android:visibility="gone"
         android:focusable="false" />
 
 </RelativeLayout>
