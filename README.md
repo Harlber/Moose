@@ -13,7 +13,11 @@ Supply your own release signing config to build release.
 
 **Dependencies**
 
-- [appcompat-v7](https://developer.android.com/tools/support-library/features.html#v7-appcompat) / [recyclerview-v7](https://developer.android.com/tools/support-library/features.html#v7-recyclerview) / [cardview-v7](https://developer.android.com/tools/support-library/features.html#v7-cardview) / [design](https://developer.android.com/intl/zh-cn/tools/support-library/features.html#designw)
+- AOSP [appcompat-v7](https://developer.android.com/tools/support-library/features.html#v7-appcompat)
+/ [recyclerview-v7](https://developer.android.com/tools/support-library/features.html#v7-recyclerview)
+/ [cardview-v7](https://developer.android.com/tools/support-library/features.html#v7-cardview) 
+/ [design](https://developer.android.com/intl/zh-cn/tools/support-library/features.html#designw)
+/ [chrome custom tabs](https://github.com/GoogleChrome/custom-tabs-client)
 - Square [Retrofit](https://github.com/square/retrofit) / [OkHttp](https://github.com/square/okhttp)
 - [RxJava](https://github.com/ReactiveX/RxJava) / [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 - [retrolambda](https://github.com/orfjackal/retrolambda)
@@ -21,7 +25,7 @@ Supply your own release signing config to build release.
 - [williamchart](https://github.com/diogobernardino/WilliamChart)
 - [glide](https://github.com/bumptech/glide)
 - [leakcanary](https://github.com/square/leakcanary)
-- [chrome custom tabs](https://github.com/GoogleChrome/custom-tabs-client)
+- [Robolectric](https://github.com/robolectric/robolectric)
 
 
 **Thanks to**
