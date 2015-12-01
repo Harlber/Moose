@@ -1,4 +1,4 @@
-##Moose
+﻿##Moose
 [![Build Status](https://travis-ci.org/Harlber/Moose.svg?branch=master)](https://travis-ci.org/Harlber/Moose)
 
 About acfun , class begins.
@@ -8,7 +8,7 @@ About acfun , class begins.
 
     ./gradlew assembleDebug
 
-Supply your own release signing config to build release. Release signing config is left out on purpose.
+Supply your own release signing config to build release. 
 
 
 **Dependencies**
@@ -29,7 +29,11 @@ Supply your own release signing config to build release. Release signing config 
 
 **Next Target**
 
-mvvm / 评论页面 / 历史轨迹图 / 崩溃日志收集,处理
+- Test 
+- Comment Action
+- Behavior Trace 
+- Crash Log
+- MVVM
 
 ####License
     
@@ -37,7 +41,7 @@ mvvm / 评论页面 / 历史轨迹图 / 崩溃日志收集,处理
         Licensed under the Apache License, Version 2.0 (the "License");
         you may not use this file except in compliance with the License.
         You may obtain a copy of the License at
-	
+    
 	       http://www.apache.org/licenses/LICENSE-2.0
 	
 	    Unless required by applicable law or agreed to in writing, software
