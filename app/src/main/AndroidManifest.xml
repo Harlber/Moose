@@ -16,7 +16,7 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/acfun"
+        android:icon="@mipmap/login"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
