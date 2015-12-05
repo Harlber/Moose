@@ -32,12 +32,22 @@
         <activity
             android:name=".BigNewsActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ArticleViewActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="www.acfun.tv"
+                    android:pathPattern="/a/ac.*"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".About"
             android:exported="false"
@@ -77,8 +87,8 @@
         <activity
             android:name=".util.chrome.WebviewActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -87,9 +97,10 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".SynchronizeActivity"
+        <activity
+            android:name=".SynchronizeActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".util.chrome.KeepAliveService"

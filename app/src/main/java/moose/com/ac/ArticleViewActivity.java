@@ -57,7 +57,7 @@ import rx.subscriptions.CompositeSubscription;
  * <li>LARGER</li>
  * <li>LARGEST</li>
  */
-public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback{
+public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
     private static final String TAG = "ArticleViewActivity";
     private static final int FAB_SHOW = 0x0000aa;
     private static final int FAB_HIDE = 0x0000bb;
@@ -98,6 +98,32 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         dbHelper = new DbHelper(this);
 
         article = (Article) getIntent().getSerializableExtra(Config.ARTICLE);
+        /*
+        * Uri data = getIntent().getData();
+        if(Intent.ACTION_VIEW.equalsIgnoreCase(getIntent().getAction()) && data!=null){
+            String scheme = data.getScheme();
+            if(scheme.equals("ac")){
+                // ac://ac000000
+                aid = Integer.parseInt(getIntent().getDataString().substring(7));
+            }else if(scheme.equals("http")){
+                // http://www.acfun.tv/v/ac123456
+                Matcher matcher;
+                String path = data.getPath();
+                if(path==null){
+                    finish();
+                    return;
+                }
+                if((matcher = sVreg.matcher(path)).find()
+                        || (matcher = sAreg.matcher(path)).find()){
+                    aid = Integer.parseInt(matcher.group(1));
+                }
+            }
+            if(aid != 0) title = "ac"+aid;
+            isWebMode = getIntent().getBooleanExtra("webmode", false) && aid == 0;
+        }else{
+            aid = getIntent().getIntExtra("aid", 0);
+            title = getIntent().getStringExtra("title");
+        }*/
         isFav = dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId()));
         contendid = article.getContentId();
         toolbarHeight = DisplayUtil.dip2px(this, 56f);
@@ -197,14 +223,14 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     boolean deleteSuc = App.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME, String.valueOf(contendid));
                     menFav.setTitle(deleteSuc ? getString(R.string.cancel_store) : getString(R.string.store_it));
                     isFav = !deleteSuc;
-                    snackStore(deleteSuc?getString(R.string.cancel_success):getString(R.string.cancel_fal));
+                    snackStore(deleteSuc ? getString(R.string.cancel_success) : getString(R.string.cancel_fal));
                 } else {//store it
                     article.setIsfav(Config.STORE);//set not fav
                     article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
                     boolean insertSuc = dbHelper.insertArticle(article, TAB_NAME, article.getChannelId());
                     menFav.setTitle(insertSuc ? getString(R.string.store_it) : getString(R.string.cancel_store));
                     isFav = insertSuc;
-                    snackStore(isFav ? getString(R.string.store_success):getString(R.string.store_fal));
+                    snackStore(isFav ? getString(R.string.store_success) : getString(R.string.store_fal));
                 }
                 return true;
         }
@@ -269,7 +295,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                             rx.Observable.create(subscriber -> {
                                 dealBody(HtmlBody);
                                 addHead();
-                                if (CommonUtil.getMode() == 1&&!App.isWifi()) {//add wifi support
+                                if (CommonUtil.getMode() == 1 && !App.isWifi()) {//add wifi support
                                     filterImg(HtmlBody);
                                 }
                                 subscriber.onNext(HtmlBody);
@@ -286,70 +312,15 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
     private void addHead() {
         StringBuilder head = new StringBuilder();
-        head.append("<html>");
-        head.append("<head>");
-        head.append("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=gb2312\">");
-
-        head.append("<style type=\"text/css\">\n");
-        head.append("* {\n" +
-                "\t\t\tpadding: 0;\n" +
-                "\t\t\tmargin: 0;\n" +
-                "\t\t}\n" +
-                "\t\thtml,\n" +
-                "\t\tbody { height: 100%;}\n" +
-                "\t\thtml {\n" +
-                "\t\t\tfont-size: 100%;\n" +
-                "\t\t\tfont-size: 1rem;\n" +
-                "\t\t}\n" +
-                "\t\tbody {\n" +
-                "\t\t\twidth: 100%;\n" +
-                "\t\t\tfont-size: 12px;\n" +
-                "\t\t\tfont-family: SimHei, '黑体', '宋体';\n" +
-                "\t\t\tcolor: #949393;\n" +
-                "\t\t}\n" +
-                "\t\t.block-title {\n" +
-                "\t\t  margin: 0 8px 8px 0;\n" +
-                "\t\t  padding: 8px 0;\n" +
-                "\t\t  border-bottom: 1px dashed #eee;\n" +
-                "\t\t}\n" +
-                "\t\t.block-title .title {\n" +
-                "\t\t  font-size: 1.125rem;\n" +
-                "\t\t  font-weight: normal;\n" +
-                "\t\t  border-left: 6px solid #ff851b;\n" +
-                "\t\t  padding: 2px 0 4px 8px;\n" +
-                "\t\t  text-shadow: 0 1px 4px rgba(0,0,0,0.1);\n" +
-                "\t\t  color: #333;\n" +
-                "\t\t}\n" +
-                "\t\t.block-title .name {\n" +
-                "\t\t\tfont-size: 14px;\n" +
-                "\t\t  border-left: 6px solid #ff851b;\n" +
-                "\t\t  text-align: right;\n" +
-                "\t\t  padding-right: 8px;\n" +
-                "\t\t  padding-top: 4px;\n" +
-                "\t\t}\n" +
-                "\t\t.block-title .name span {\n" +
-                "\t\t  color: #ff851b;\n" +
-                "\t\t}\n" +
-                "\t\t.icon {\n" +
-                "\t\t\tmargin-right: 5px;\n" +
-                "\t\t\tfont-size: .875rem;\n" +
-                "  \t\tcolor: #666;\n" +
-                "\t\t}");
-        head.append("</style>\n");
-
-        head.append("</head>");
-        head.append("<body>");
-
-        head.append("<div class=\"block-title\">\n");
-        head.append("<h2 class=\"title\">");
+        head.append(getResources().getString(R.string.article_head));
         head.append(title);
         head.append("</h2>\n");
         head.append("<p class=\"name\"><span>");
         //noinspection StringConcatenationInsideStringBufferAppend
         head.append(getString(R.string.upuser) + user);
+
         head.append("</span></p>\n");
         head.append("</div>\n");
-
         head.append("<div>");
 
         StringBuilder body = new StringBuilder();
@@ -370,7 +341,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
      */
     private void dealBody(String html) {
         //noinspection ResultOfMethodCallIgnored
-        html.replaceAll(Config.IMAGE_REG,"");
+        html.replaceAll(Config.IMAGE_REG, "");
     }
 
     private void filterImg(String str) {

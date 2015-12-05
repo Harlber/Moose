@@ -35,7 +35,7 @@
             android:title="@string/main_check_in" />
     </group>
 
-    <item android:title="@string/persional">
+    <item android:title="@string/personal">
         <menu>
             <item
                 android:id="@+id/nav_sync"
