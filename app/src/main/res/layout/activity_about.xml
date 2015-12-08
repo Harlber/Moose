@@ -43,7 +43,17 @@
                     style="@style/textContentStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/md_teal_800"/>
+                    android:textColor="@color/md_teal_800" />
+
+                <TextView
+                    style="@style/HeadlineTextStyle"
+                    android:text="@string/libraries_title" />
+
+                <TextView
+                    android:id="@+id/text_libraries"
+                    style="@style/textContentStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     style="@style/HeadlineTextStyle"
@@ -51,6 +61,16 @@
 
                 <TextView
                     android:id="@+id/text_license"
+                    style="@style/textContentStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/HeadlineTextStyle"
+                    android:text="@string/third_party_licenses_title" />
+
+                <TextView
+                    android:id="@+id/text_3rd_party_licenses"
                     style="@style/textContentStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
