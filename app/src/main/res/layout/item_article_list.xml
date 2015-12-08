@@ -6,12 +6,13 @@
     android:layout_marginBottom="@dimen/margin"
     android:layout_marginLeft="@dimen/margin_4dp"
     android:layout_marginRight="@dimen/margin_4dp"
-    android:elevation="50dp"
     tools:ignore="UnusedAttribute">
 
     <RelativeLayout
+        android:id="@+id/rl_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        style="@style/AppCardView">
 
         <View
             android:layout_width="@dimen/min_cardview_height"

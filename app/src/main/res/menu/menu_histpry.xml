@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".ArticleViewActivity">
     <item android:id="@+id/action_his_delete_all" android:title="@string/empty_story"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_his_locus" android:title="@string/locus"
-        android:orderInCategory="100" app:showAsAction="never" />
+   <!-- <item android:id="@+id/action_his_locus" android:title="@string/locus"
+        android:orderInCategory="100" app:showAsAction="never" />-->
 </menu>

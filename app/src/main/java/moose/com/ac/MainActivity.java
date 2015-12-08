@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         initData();
     }
 
+    @Deprecated
     private void checkVersion() {
         cscription.add(api.receiveVeision()
                 .subscribeOn(Schedulers.newThread())

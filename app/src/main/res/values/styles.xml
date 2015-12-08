@@ -89,6 +89,7 @@
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardElevation">@dimen/cardview_default_elevation</item>
         <item name="cardCornerRadius">@dimen/cardview_default_radius</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
     <!--about-->
     <style name="layoutPadding">
