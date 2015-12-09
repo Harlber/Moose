@@ -19,8 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
-    android:duplicateParentState="true"
-    android:background="?attr/selectableItemBackgroundBorderless">
+    android:duplicateParentState="true">
 
     <TextView
         android:id="@+id/requote"
@@ -59,6 +58,7 @@
         android:textColor="@color/md_grey_900"
         android:layout_marginTop="5dip"
         android:visibility="visible"
-        android:focusable="false" />
+        android:focusable="false"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
 
 </RelativeLayout>
