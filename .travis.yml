@@ -1,3 +1,4 @@
+sudo: false
 language: android
 
 android:
@@ -10,12 +11,10 @@ jdk:
   - oraclejdk8
 
 script:
-  - ./gradlew clean check -Dpre-dex-libraries=false -Dabort-on-error=false
+    - TERM=dumb ./gradlew -i test
 
 notifications:
   email: false
-
-sudo: false
 
 cache:
   directories:

@@ -22,7 +22,6 @@ Supply your own release signing config to build release.
 - [RxJava](https://github.com/ReactiveX/RxJava) / [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 - [retrolambda](https://github.com/orfjackal/retrolambda)
 - [jsoup](https://github.com/jhy/jsoup)
-- [williamchart](https://github.com/diogobernardino/WilliamChart)
 - [glide](https://github.com/bumptech/glide)
 - [leakcanary](https://github.com/square/leakcanary)
 - [Robolectric](https://github.com/robolectric/robolectric)
@@ -35,7 +34,6 @@ Supply your own release signing config to build release.
 
 - Test 
 - Comment Action
-- Behavior Trace 
 - Crash Log
 - MVVM
 
@@ -46,7 +44,7 @@ Supply your own release signing config to build release.
         you may not use this file except in compliance with the License.
         You may obtain a copy of the License at
     
-	       http://www.apache.org/licenses/LICENSE-2.0
+           http://www.apache.org/licenses/LICENSE-2.0
 	
 	    Unless required by applicable law or agreed to in writing, software
 	    distributed under the License is distributed on an "AS IS" BASIS,
