@@ -5,9 +5,11 @@ import android.widget.TextView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
 import moose.com.ac.About;
+import moose.com.ac.BuildConfig;
 import moose.com.ac.R;
 
 import static org.assertj.android.api.Assertions.assertThat;
@@ -16,7 +18,9 @@ import static org.assertj.android.api.Assertions.assertThat;
  * Created by dell on 2015/12/9.
  * Unit Test for {@link About}
  */
-@RunWith(RobolectricTestRunner.class)
+
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class,sdk = 21)
 public class AboutTest {
     @Test
     public void test() {

@@ -20,14 +20,19 @@ android {
     sourceSets {
         androidTest.setRoot('tests')
         androidTest.java.srcDirs = ['tests/src']
+        test {
+            manifest.srcFile 'AndroidManifest.xml'
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     lintOptions {
-          abortOnError false
-      }
+        abortOnError false
+    }
 }
 buildscript {
     repositories {
@@ -48,9 +53,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/abcl.jar')
 
-    ext{
+    ext {
         supportVersion = "23.0.1"
         retrofitVersion = "2.0.0-beta1"
+        assertjVersion = '1.1.1'
+        robolectricVersion = '3.0'
     }
 
     compile "com.android.support:appcompat-v7:$supportVersion"
@@ -72,6 +79,11 @@ dependencies {
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
+    testCompile "org.robolectric:robolectric:$robolectricVersion",
+            'junit:junit:4.12'
+    testCompile("com.squareup.assertj:assertj-android:$assertjVersion") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
-    apply from: "${rootProject.getRootDir()}/robolectric.gradle"
+    /*apply from: "${rootProject.getRootDir()}/robolectric.gradle"*/
 }
