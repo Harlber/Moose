@@ -23,12 +23,17 @@ import moose.com.ac.common.Config;
 
 /**
  * Created by Farble on 2015/8/15 17.
+ * CommonUtil
  */
 public class CommonUtil {
     private static final String TAG = "CommonUtil";
 
     private CommonUtil() {
 
+    }
+
+    public static String groupTitle(int title) {
+        return Config.AC + title;
     }
 
     public static StringBuffer getTags(List<String> list) {
@@ -252,13 +257,14 @@ public class CommonUtil {
         String localToDate = localDate.substring(0, 10);
         return nowDate.equals(localToDate);
     }
-    public static String sqliteEscape(String keyWord){
+
+    public static String sqliteEscape(String keyWord) {
         keyWord = keyWord.replace("/", "//");
         keyWord = keyWord.replace("'", "''");
         keyWord = keyWord.replace("[", "/[");
         keyWord = keyWord.replace("]", "/]");
         keyWord = keyWord.replace("%", "/%");
-        keyWord = keyWord.replace("&","/&");
+        keyWord = keyWord.replace("&", "/&");
         keyWord = keyWord.replace("_", "/_");
         keyWord = keyWord.replace("(", "/(");
         keyWord = keyWord.replace(")", "/)");
@@ -266,11 +272,12 @@ public class CommonUtil {
     }
 
     public static boolean isEmpty(String str) {
-        if (str==null||str.equals("")) {
+        if (str == null || str.equals("")) {
             return true;
         }
         return false;
     }
+
     public static boolean isPackageInstalled(String packagename, Context context) {
         PackageManager pm = context.getPackageManager();
         try {
@@ -303,19 +310,17 @@ public class CommonUtil {
         final char[] buffer = new char[bufferSize];
         final StringBuilder out = new StringBuilder();
         try (Reader in = new InputStreamReader(is, "UTF-8")) {
-            for (;;) {
+            for (; ; ) {
                 int rsz = in.read(buffer, 0, buffer.length);
                 if (rsz < 0)
                     break;
                 out.append(buffer, 0, rsz);
             }
-        }
-        catch (UnsupportedEncodingException ex) {
+        } catch (UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return out.toString()==null?"":out.toString();
+        return out.toString() == null ? "" : out.toString();
     }
 }

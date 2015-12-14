@@ -13,6 +13,7 @@ import moose.com.ac.common.Config;
 import moose.com.ac.ui.CommentListFragment;
 import moose.com.ac.ui.SubmitCommentFragment;
 import moose.com.ac.ui.ViewPageAdapter;
+import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 
@@ -20,34 +21,31 @@ import moose.com.ac.util.ZoomOutPageTransformer;
  * Created by Farble on 2015/8/16 13.
  * 整天搞个大新闻
  */
+@SuppressWarnings("unused")
 public class BigNewsActivity extends AppCompatActivity {
     private static final String TAG = "BigNewsActivity";
-    private ViewPager viewPager;
-    private ViewPageAdapter adapter;
-    private int contendid;
-    private String title;
-    private CommentListFragment commentListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_big_news);
-        contendid = getIntent().getIntExtra(Config.CONTENTID, 1);
-        title = getIntent().getStringExtra(Config.TITLE);
-        commentListFragment = new CommentListFragment();
+        int contendid = getIntent().getIntExtra(Config.CONTENTID, 1);
+        String title = getIntent().getStringExtra(Config.TITLE);
+        CommentListFragment commentListFragment = new CommentListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Config.CHANNEL_ID,contendid);
+        bundle.putInt(Config.CHANNEL_ID, contendid);
         commentListFragment.setArguments(bundle);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("ac" + contendid);
+        //noinspection ConstantConditions
+        getSupportActionBar().setTitle(CommonUtil.groupTitle(contendid));
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.news_viewpager);
-        adapter = new ViewPageAdapter(getSupportFragmentManager());
+        ViewPager viewPager = (ViewPager) findViewById(R.id.news_viewpager);
+        ViewPageAdapter adapter = new ViewPageAdapter(getSupportFragmentManager());
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         if (viewPager != null) {
             adapter.addFragment(commentListFragment);

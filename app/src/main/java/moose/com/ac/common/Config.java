@@ -45,6 +45,7 @@ public class Config {
     public static final String USER_GENDER = "USER_GENDER";
 
     public static final String SEARCH_KEY = "SEARCH_KEY";
+    public static final String AC = "ac";
 
     public static final String FAB = "FAB";
     public static final String STORE = "st";
