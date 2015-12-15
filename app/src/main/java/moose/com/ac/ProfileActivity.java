@@ -1,5 +1,6 @@
 package moose.com.ac;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -37,18 +38,17 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "ProfileActivity";
-    private Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
+    private final Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
     private CompositeSubscription subscription = new CompositeSubscription();
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private ImageView logo;
     private AppCompatButton registButton;
-    private AppCompatButton logoutButton;
     private AppCompatTextView uid;
     private AppCompatTextView signature;
     private AppCompatTextView date;
     private AppCompatTextView gender;
     private View snakView;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,16 +67,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 R.color.md_indigo_900, R.color.md_green_700);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.profile_swipe_child);
 
-        logo = (ImageView) findViewById(R.id.profile_logo);
+        ImageView logo = (ImageView) findViewById(R.id.profile_logo);
         registButton = (AppCompatButton) findViewById(R.id.profile_chenkin);
-        logoutButton = (AppCompatButton) findViewById(R.id.profile_logout);
+        AppCompatButton logoutButton = (AppCompatButton) findViewById(R.id.profile_logout);
         registButton.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
         uid = (AppCompatTextView) findViewById(R.id.profile_uid);
         signature = (AppCompatTextView) findViewById(R.id.profile_qian);
         date = (AppCompatTextView) findViewById(R.id.profile_date);
         gender = (AppCompatTextView) findViewById(R.id.profile_sex);
-        snakView = (View) findViewById(R.id.snak_view);
+        snakView = findViewById(R.id.snak_view);
         if (CommonUtil.hasRegis()) {
             if (App.isApkDebugable(this))
                 Log.e(TAG, "already");
