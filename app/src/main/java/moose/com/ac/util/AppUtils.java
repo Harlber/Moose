@@ -15,7 +15,11 @@ import java.util.Date;
  * Created by Farble on 2015/8/24 15.
  * https://github.com/hidroh
  */
-public class AppUtils {
+public final class AppUtils {
+
+    private AppUtils(){
+        throw new AssertionError("No instances");
+    }
     public static void setTextWithLinks(TextView textView, String htmlText) {
         setHtmlText(textView, htmlText);
         textView.setOnTouchListener((v, event) -> {

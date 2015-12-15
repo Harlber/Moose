@@ -45,8 +45,12 @@ import moose.com.ac.retrofit.comment.CommentDetail;
  * limitations under the License.
  */
 
-public class TextViewUtils {
+public final class TextViewUtils {
     private static final String TAG = "TextViewUtils";
+
+    private TextViewUtils(){
+        throw new AssertionError("No instances");
+    }
 
     public static void setCommentContent(final TextView comment, CommentDetail c) {
         if (comment.getMovementMethod() != null) // reset focus

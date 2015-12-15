@@ -25,11 +25,11 @@ import moose.com.ac.common.Config;
  * Created by Farble on 2015/8/15 17.
  * CommonUtil
  */
-public class CommonUtil {
+public final class CommonUtil {
     private static final String TAG = "CommonUtil";
 
     private CommonUtil() {
-
+        throw new AssertionError("No instances");
     }
 
     public static String groupTitle(int title) {
