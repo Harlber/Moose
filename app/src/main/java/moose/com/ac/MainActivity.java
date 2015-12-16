@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -36,7 +37,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -62,7 +62,7 @@ import rx.subscriptions.CompositeSubscription;
  * when intent another activity,need cancel network request
  * SearchView see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private TextView userName;
+    private AppCompatTextView userName;
     private CircleImageView logo;
     private Adapter adapter;
     private int type = 0; /*orderBy 0：最近 1：人气最旺 3：评论最多*/
@@ -150,18 +150,9 @@ public class MainActivity extends AppCompatActivity {
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
-        fab.setOnClickListener(view ->
-                adapter.getFragment(viewPager.getCurrentItem()).getmRecyclerView().smoothScrollToPosition(0));
+        fab.setOnClickListener(this);
         tabLayout.setupWithViewPager(viewPager);
-        userName.setOnClickListener(view -> {
-                    if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
-                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                        startActivity(intent);
-                    } else {
-                        startActivity(new Intent(MainActivity.this, Login.class));
-                    }
-                }
-        );
+        userName.setOnClickListener(this);
         userName.setText(CommonUtil.getUserName());
         Glide.with(this)
                 .load(CommonUtil.getUserLogo())
@@ -185,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View drawerHeader = navigationView.inflateHeaderView(R.layout.nav_header);
+
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
@@ -192,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        logo = (CircleImageView) findViewById(R.id.login_userimg);
-        userName = (TextView) findViewById(R.id.login_username);
+        logo = (CircleImageView) drawerHeader.findViewById(R.id.login_userimg);
+        userName = (AppCompatTextView) drawerHeader.findViewById(R.id.login_username);
     }
 
     @Override
@@ -359,6 +352,25 @@ public class MainActivity extends AppCompatActivity {
         ArticleFragment fragment = new ArticleFragment();
         fragment.setArguments(setBundle(key, type));
         return fragment;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.login_username:
+                if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(MainActivity.this, Login.class));
+                }
+                break;
+            case R.id.fab:
+                adapter.getFragment(viewPager.getCurrentItem()).getmRecyclerView().smoothScrollToPosition(0);
+                break;
+            default:
+                break;
+        }
     }
 
     public class Adapter extends FragmentPagerAdapter {

@@ -22,7 +22,7 @@
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/login_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
