@@ -15,7 +15,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -24,6 +23,9 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.trello.rxlifecycle.ActivityEvent;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -57,7 +59,7 @@ import rx.subscriptions.CompositeSubscription;
  * <li>LARGER</li>
  * <li>LARGEST</li>
  */
-public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
+public class ArticleViewActivity extends RxAppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
     private static final String TAG = "ArticleViewActivity";
     private static final int FAB_SHOW = 0x0000aa;
     private static final int FAB_HIDE = 0x0000bb;
@@ -237,18 +239,6 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RxUtils.unsubscribeIfNotNull(subscription);
-    }
-
     private DialogInterface.OnClickListener mErrorDialogListener = (dialog, which) -> {
         dialog.dismiss();
         if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -266,6 +256,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         subscription.add(api.getArticleBody(contendid)
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(1)
+                .compose(this.<ArticleBody>bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(new Observer<ArticleBody>() {
                     @Override
                     public void onCompleted() {

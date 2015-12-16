@@ -5,11 +5,13 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.trello.rxlifecycle.ActivityEvent;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
@@ -27,7 +29,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/8/31.
  * Date: Mon, 31 Aug 2015 09:04:43 GMT
  */
-public class Login extends AppCompatActivity {
+public class Login extends RxAppCompatActivity {
     private static final String TAG = "Login";
     private Api api;
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -58,8 +60,8 @@ public class Login extends AppCompatActivity {
         //noinspection ConstantConditions
         ab.setDisplayHomeAsUpEnabled(true);
 
-        tname = (TextInputLayout)findViewById(R.id.input_layout_name);
-        tpwd = (TextInputLayout)findViewById(R.id.input_layout_pwd);
+        tname = (TextInputLayout) findViewById(R.id.input_layout_name);
+        tpwd = (TextInputLayout) findViewById(R.id.input_layout_pwd);
         tname.setHintAnimationEnabled(true);
         tpwd.setHintAnimationEnabled(true);
 
@@ -78,13 +80,14 @@ public class Login extends AppCompatActivity {
         if (!CommonUtil.getLoginEmail().equals(""))
             name.setText(CommonUtil.getLoginEmail());
         login.setOnClickListener(view -> {
-            if (check()&&!isRequest){
+            if (check() && !isRequest) {
                 isRequest = true;
                 mSwipeRefreshLayout.setEnabled(true);
                 mSwipeRefreshLayout.setRefreshing(true);
                 subscription.add(api.login(name.getText().toString(), pwd.getText().toString())
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .compose(this.<LoginEntry>bindUntilEvent(ActivityEvent.DESTROY))
                         .subscribe(new Observer<LoginEntry>() {
                             @Override
                             public void onCompleted() {
@@ -113,14 +116,15 @@ public class Login extends AppCompatActivity {
                                     CommonUtil.setLoginEmail(name.getText().toString());
                                     Snack(getString(R.string.login_success));
                                     new Handler().postDelayed(Login.this::finish, Config.TIME_LOGIN);
-                                }else {
+                                } else {
                                     Snack(response.getResult());
                                 }
                             }
                         }));
-        }
+            }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -130,20 +134,6 @@ public class Login extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RxUtils.unsubscribeIfNotNull(subscription);
-    }
-
 
     private boolean check() {
         if (name.getText().toString().equals("")) {

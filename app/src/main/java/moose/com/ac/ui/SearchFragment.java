@@ -4,13 +4,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/9/15.
  * SearchFragment
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends RxFragment {
     private static final String TAG = "SearchFragment";
     private static final int ANIMATION_DURATION = 2000;
     private View rootView;
@@ -70,6 +72,7 @@ public class SearchFragment extends Fragment {
         subscription.add(api.getSearch(key, page, Config.PAGESIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<SearchBody>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(new Observer<SearchBody>() {
                     @Override
                     public void onCompleted() {
@@ -146,15 +149,8 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
-        RxUtils.unsubscribeIfNotNull(subscription);
         mSwipeRefreshLayout.setRefreshing(false);
     }
 }
