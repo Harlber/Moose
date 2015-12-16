@@ -10,8 +10,7 @@ android:
 jdk:
   - oraclejdk8
 
-script:
-    - TERM=dumb ./gradlew -i test
+script: "./gradlew assembleDebug;./gradlew testDebug"
 
 notifications:
   email: false
