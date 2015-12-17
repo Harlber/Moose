@@ -72,6 +72,7 @@ public abstract class ArticleListFragment extends Fragment {
 
     protected abstract void doSwapeRefresh();
 
+    @Deprecated
     public RecyclerView getmRecyclerView() {
         return mRecyclerView;
     }
