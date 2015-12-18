@@ -2,6 +2,7 @@ package moose.com.ac.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import moose.com.ac.util.AppUtils;
 public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> implements ArticleListVH.ArticleItemClickListener {
     private static final String TAG = "ArticleListAdapter";
     private String TAB_NAME = ArticleCollects.ArticleEntry.TABLE_NAME;
+    private String TAB_HISTORY = ArticleCollects.ArticleHistoryEntry.TABLE_NAME;
     private List<Article> lists = new ArrayList<>();
     private Activity mActivity;
     private ArticleListVH.ArticleItemClickListener listener;
@@ -67,6 +69,13 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         final Article article = lists.get(position);
         holder.num.setText(String.valueOf(position + 1));
         holder.title.setText(article.getTitle());
+        if (dbHelper.isExits(TAB_HISTORY,String.valueOf(article.getContentId()))) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.title.setTextAppearance(R.style.textTitleGrayStyle);
+            }else {
+                holder.title.setTextAppearance(mActivity,R.style.textTitleGrayStyle);
+            }
+        }
         holder.views.setText(String.valueOf(article.getViews()));
         holder.user.setText(String.format(mActivity.getString(R.string.ups), article.getUser().getUsername()));
         holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
@@ -115,10 +124,11 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         notifyDataSetChanged();
     }
 
+    @Deprecated
     public int getChannnel() {
         return channnel;
     }
-
+    @Deprecated
     public void setChannnel(int channnel) {
         this.channnel = channnel;
     }

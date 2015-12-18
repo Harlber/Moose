@@ -88,6 +88,15 @@
         <item name="android:paddingRight">@dimen/padding</item>
     </style>
 
+    <style name="textTitleGrayStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/md_grey_600</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minLines">2</item>
+        <item name="android:paddingLeft">@dimen/padding</item>
+        <item name="android:paddingRight">@dimen/padding</item>
+    </style>
+
     <style name="textRankStyle">
         <item name="android:paddingTop">@dimen/textview_padding</item>
         <item name="android:paddingBottom">@dimen/textview_padding</item>

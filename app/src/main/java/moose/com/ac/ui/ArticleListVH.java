@@ -52,7 +52,7 @@ public class ArticleListVH extends RecyclerView.ViewHolder implements View.OnCli
         return true;
     }
 
-    public static interface ArticleItemClickListener {
+    public interface ArticleItemClickListener {
         void onItemClick(View view, int postion);
 
         void onItemLongClick(View view, int postion);
