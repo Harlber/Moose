@@ -65,11 +65,12 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     @Override
     public void onBindViewHolder(ArticleListVH holder, int position) {
         final Article article = lists.get(position);
-        holder.num.setText(String.valueOf(position));
+        holder.num.setText(String.valueOf(position + 1));
         holder.title.setText(article.getTitle());
-        holder.user.setText(String.valueOf(article.getViews()) + " views  " + "by " + article.getUser().getUsername());
+        holder.views.setText(String.valueOf(article.getViews()));
+        holder.user.setText(String.format(mActivity.getString(R.string.ups), article.getUser().getUsername()));
         holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
-        holder.comment.setText(article.getComments().toString() + mActivity.getString(R.string.comment));
+        holder.comment.setText(String.format(mActivity.getString(R.string.comment), article.getComments().toString()));
         holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId())) ? View.VISIBLE : View.INVISIBLE);
     }
 

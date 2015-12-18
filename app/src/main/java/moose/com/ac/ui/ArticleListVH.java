@@ -20,6 +20,7 @@ public class ArticleListVH extends RecyclerView.ViewHolder implements View.OnCli
     public TextView user;
     public TextView time;
     public TextView comment;
+    public TextView views;
     public ImageView mark;
     public RelativeLayout root;
     public ArticleItemClickListener listener;
@@ -33,6 +34,7 @@ public class ArticleListVH extends RecyclerView.ViewHolder implements View.OnCli
         this.user = (TextView) v.findViewById(R.id.source);
         this.time = (TextView) v.findViewById(R.id.posted);
         this.comment = (TextView) v.findViewById(R.id.text);
+        this.views = (TextView) v.findViewById(R.id.view_number);
         this.mark = (ImageView) v.findViewById(R.id.bookmarked);
         this.root = (RelativeLayout) v.findViewById(R.id.rl_root);
         this.root.setOnClickListener(this);

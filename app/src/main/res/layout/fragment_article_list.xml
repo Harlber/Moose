@@ -2,8 +2,7 @@
 <moose.com.ac.ui.widget.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swiperefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/magin_8">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"

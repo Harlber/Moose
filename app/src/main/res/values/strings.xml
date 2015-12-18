@@ -3,7 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">设置</string>
-    <string name="complex">综合</string>
+    <string name="complex">文章综合</string>
     <string name="work">工作/情感</string>
     <string name="animation">动漫文化</string>
     <string name="cartoon">漫画小说</string>
@@ -37,6 +37,8 @@
     <string name="nw_404">NetWork 404</string>
     <string name="net_work">"NetWork "</string>
     <string name="upuser">"UP主: "</string>
+    <string name="views">views</string>
+    <string name="ups">up: %s</string>
 
     <!--about-->
     <string name="application_info_title">App Info</string>
@@ -184,5 +186,5 @@
     </string>
     <string name="third_party_licenses_title">3rd Party Licenses</string>
     <string name="libraries_title"><![CDATA[Libraries & Resources]]></string>
-    <string name="comment">" Comments"</string>
+    <string name="comment">"%s Comments"</string>
 </resources>

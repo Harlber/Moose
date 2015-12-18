@@ -13,9 +13,10 @@
     <TextView
         android:id="@id/text"
         android:text="@string/loading_text"
-        android:textColor="@color/md_red_a200"
+        android:textColor="@color/md_red_a400"
         android:layout_centerInParent="true"
         android:gravity="center|center_vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textStyle="bold"/>
 </RelativeLayout>
