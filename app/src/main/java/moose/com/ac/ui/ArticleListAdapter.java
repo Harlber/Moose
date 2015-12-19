@@ -69,11 +69,17 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         final Article article = lists.get(position);
         holder.num.setText(String.valueOf(position + 1));
         holder.title.setText(article.getTitle());
-        if (dbHelper.isExits(TAB_HISTORY,String.valueOf(article.getContentId()))) {
+        if (dbHelper.isExits(TAB_HISTORY, String.valueOf(article.getContentId()))) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.title.setTextAppearance(R.style.textTitleGrayStyle);
-            }else {
-                holder.title.setTextAppearance(mActivity,R.style.textTitleGrayStyle);
+            } else {
+                holder.title.setTextAppearance(mActivity, R.style.textTitleGrayStyle);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.title.setTextAppearance(R.style.textTitleStyle);
+            } else {
+                holder.title.setTextAppearance(mActivity, R.style.textTitleStyle);
             }
         }
         holder.views.setText(String.valueOf(article.getViews()));
@@ -128,6 +134,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     public int getChannnel() {
         return channnel;
     }
+
     @Deprecated
     public void setChannnel(int channnel) {
         this.channnel = channnel;
