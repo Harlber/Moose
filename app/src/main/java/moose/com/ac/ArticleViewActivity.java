@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -46,6 +47,7 @@ import moose.com.ac.util.chrome.CustomTabActivityHelper;
 import moose.com.ac.util.chrome.WebviewFallback;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -57,7 +59,7 @@ import rx.subscriptions.CompositeSubscription;
  * <li>LARGER</li>
  * <li>LARGEST</li>
  */
-public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback{
+public class ArticleViewActivity extends AppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
     private static final String TAG = "ArticleViewActivity";
     private static final int FAB_SHOW = 0x0000aa;
     private static final int FAB_HIDE = 0x0000bb;
@@ -197,14 +199,14 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
                     boolean deleteSuc = App.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME, String.valueOf(contendid));
                     menFav.setTitle(deleteSuc ? getString(R.string.cancel_store) : getString(R.string.store_it));
                     isFav = !deleteSuc;
-                    snackStore(deleteSuc?getString(R.string.cancel_success):getString(R.string.cancel_fal));
+                    snackStore(deleteSuc ? getString(R.string.cancel_success) : getString(R.string.cancel_fal));
                 } else {//store it
                     article.setIsfav(Config.STORE);//set not fav
                     article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
                     boolean insertSuc = dbHelper.insertArticle(article, TAB_NAME, article.getChannelId());
                     menFav.setTitle(insertSuc ? getString(R.string.store_it) : getString(R.string.cancel_store));
                     isFav = insertSuc;
-                    snackStore(isFav ? getString(R.string.store_success):getString(R.string.store_fal));
+                    snackStore(isFav ? getString(R.string.store_success) : getString(R.string.store_fal));
                 }
                 return true;
         }
@@ -238,8 +240,33 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         HtmlBodyClone = "";//maybe reset by getting data again
         api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
         subscription.add(api.getArticleBody(contendid)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .retry(1)
+                .map(new Func1<ArticleBody, ArticleBody>() {
+                    @Override
+                    public ArticleBody call(ArticleBody articleBody) {
+                        Log.i("TAG", "线程1=" + Thread.currentThread().getName());
+                        isRequest = true;
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mSwipeRefreshLayout.setEnabled(false);
+                        if (!articleBody.isSuccess()) {
+                            runOnUiThread(() -> snack(articleBody.getMsg()));
+                        } else {
+                            HtmlBody = articleBody.getData().getFullArticle().getTxt();
+                            title = articleBody.getData().getFullArticle().getTitle();
+                            user = articleBody.getData().getFullArticle().getUser().getUsername();
+
+                            //fix this issues https://github.com/Harlber/Moose/issues/8
+                            dealBody(HtmlBody);
+                            addHead();
+                            if (CommonUtil.getMode() == 1) {
+                                filterImg(HtmlBody);
+                            }
+                        }
+                        return articleBody;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArticleBody>() {
                     @Override
                     public void onCompleted() {
@@ -266,30 +293,32 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
 
                     @Override
                     public void onNext(ArticleBody articleBody) {
-                        isRequest = true;
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        mSwipeRefreshLayout.setEnabled(false);
-                        if (!articleBody.isSuccess()) {
-                            snack(articleBody.getMsg());
-                        } else {
-                            HtmlBody = articleBody.getData().getFullArticle().getTxt();
-                            title = articleBody.getData().getFullArticle().getTitle();
-                            user = articleBody.getData().getFullArticle().getUser().getUsername();
-
-                            //fix this issues https://github.com/Harlber/Moose/issues/8
-                            rx.Observable.create(subscriber -> {
-                                dealBody(HtmlBody);
-                                addHead();
-                                if (CommonUtil.getMode() == 1) {
-                                    filterImg(HtmlBody);
-                                }
-                                subscriber.onNext(HtmlBody);
-                            }).subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(s -> {
-                                        mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
-                                    });
-                        }
+                        mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
+                        Log.i("TAG", "线程2=" + Thread.currentThread().getName());
+//                        isRequest = true;
+//                        mSwipeRefreshLayout.setRefreshing(false);
+//                        mSwipeRefreshLayout.setEnabled(false);
+//                        if (!articleBody.isSuccess()) {
+//                            snack(articleBody.getMsg());
+//                        } else {
+//                            HtmlBody = articleBody.getData().getFullArticle().getTxt();
+//                            title = articleBody.getData().getFullArticle().getTitle();
+//                            user = articleBody.getData().getFullArticle().getUser().getUsername();
+//
+//                            //fix this issues https://github.com/Harlber/Moose/issues/8
+//                            rx.Observable.create(subscriber -> {
+//                                dealBody(HtmlBody);
+//                                addHead();
+//                                if (CommonUtil.getMode() == 1) {
+//                                    filterImg(HtmlBody);
+//                                }
+//                                subscriber.onNext(HtmlBody);
+//                            }).subscribeOn(Schedulers.io())
+//                                    .observeOn(AndroidSchedulers.mainThread())
+//                                    .subscribe(s -> {
+//                                        mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
+//                                    });
+//                        }
                     }
 
                 }));
