@@ -16,6 +16,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        //fix Robolectric mainfest error see {https://github.com/robolectric/robolectric/issues/2174}
+
+        /*debug {
+            applicationIdSuffix ".debug"
+        }*/
     }
 
     compileOptions {

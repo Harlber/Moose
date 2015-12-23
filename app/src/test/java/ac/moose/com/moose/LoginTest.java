@@ -8,7 +8,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import moose.com.ac.BuildConfig;
+import ac.moose.com.robolectric.CustomBuildConfig;
 import moose.com.ac.Login;
 import moose.com.ac.R;
 import moose.com.ac.ui.widget.EmailEditText;
@@ -21,7 +21,7 @@ import static org.assertj.android.api.Assertions.assertThat;
  * Unit Test for {@link Login}
  */
 @RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = CustomBuildConfig.class, sdk = 21)
 public class LoginTest {
     @Test
     public void clickingLogin_shouldGetLoginStatus() {
