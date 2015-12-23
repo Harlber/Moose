@@ -21,7 +21,7 @@ import static org.assertj.android.api.Assertions.assertThat;
  * Unit Test for {@link Login}
  */
 @RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class,sdk = 21)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class LoginTest {
     @Test
     public void clickingLogin_shouldGetLoginStatus() {
