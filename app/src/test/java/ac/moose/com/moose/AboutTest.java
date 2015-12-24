@@ -5,11 +5,11 @@ import android.widget.TextView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import ac.moose.com.robolectric.CustomBuildConfig;
+import ac.moose.com.robolectric.MooseCustomRobolectricGradleTestRunner;
 import moose.com.ac.About;
-import moose.com.ac.BuildConfig;
 import moose.com.ac.R;
 
 import static org.assertj.android.api.Assertions.assertThat;
@@ -19,8 +19,8 @@ import static org.assertj.android.api.Assertions.assertThat;
  * Unit Test for {@link About}
  */
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@RunWith(MooseCustomRobolectricGradleTestRunner.class)
+@Config(constants = CustomBuildConfig.class, sdk = 21,packageName = "moose.com.ac")
 public class AboutTest {
     @Test
     public void test() {
