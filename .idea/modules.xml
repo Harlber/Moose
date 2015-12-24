@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Moose.iml" filepath="$PROJECT_DIR$/Moose.iml" />
+      <module fileurl="file://$PROJECT_DIR$/acrun.iml" filepath="$PROJECT_DIR$/acrun.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

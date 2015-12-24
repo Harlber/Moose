@@ -1,41 +1,50 @@
 ﻿##Moose
-About acfun , class begins.
+[![Build Status](https://travis-ci.org/Harlber/Moose.svg?branch=master)](https://travis-ci.org/Harlber/Moose)
 
-##Next Target
-
-mvvm / 评论页面 / 搜索模块 / 历史轨迹图 / 崩溃日志收集,处理
+A material-design of [Acfun](http://acfun.tudou.com/) Article area.
 
 
-##路漫漫其修远兮
-<img src="http://i2.tietuku.com/fab789d233a175af.gif"  alt="demo3" align=center />
+**Build**
 
-##Dependencies
+    ./gradlew assembleDebug
 
-- [appcompat-v7](https://developer.android.com/tools/support-library/features.html#v7-appcompat) / [recyclerview-v7](https://developer.android.com/tools/support-library/features.html#v7-recyclerview) / [cardview-v7](https://developer.android.com/tools/support-library/features.html#v7-cardview) / [design](https://developer.android.com/intl/zh-cn/tools/support-library/features.html#designw)
+Supply your own release signing config to build release.
+
+
+**Dependencies**
+
+- AOSP [appcompat-v7](https://developer.android.com/tools/support-library/features.html#v7-appcompat)
+/ [recyclerview-v7](https://developer.android.com/tools/support-library/features.html#v7-recyclerview)
+/ [cardview-v7](https://developer.android.com/tools/support-library/features.html#v7-cardview)
+/ [design](https://developer.android.com/intl/zh-cn/tools/support-library/features.html#designw)
+/ [chrome custom tabs](https://github.com/GoogleChrome/custom-tabs-client)
 - Square [Retrofit](https://github.com/square/retrofit) / [OkHttp](https://github.com/square/okhttp)
-- [RxJava](https://github.com/ReactiveX/RxJava) / [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+- [RxJava](https://github.com/ReactiveX/RxJava) / [RxAndroid](https://github.com/ReactiveX/RxAndroid) / [RxLifecycle](https://github.com/trello/RxLifecycle)
 - [retrolambda](https://github.com/orfjackal/retrolambda)
 - [jsoup](https://github.com/jhy/jsoup)
-- [williamchart](https://github.com/diogobernardino/WilliamChart)
 - [glide](https://github.com/bumptech/glide)
 - [leakcanary](https://github.com/square/leakcanary)
-- [chrome custom tabs](https://github.com/GoogleChrome/custom-tabs-client)
+- [Robolectric](https://github.com/robolectric/robolectric)
 
 
-##Thanks to
+**Thanks to**
 - [materialistic](https://github.com/hidroh/materialistic)
 
+**Next Target**
 
+- Comment Action
+- Crash Log
+- MVVM
 
 ####License
-    
-    
+
+
         Licensed under the Apache License, Version 2.0 (the "License");
         you may not use this file except in compliance with the License.
         You may obtain a copy of the License at
-	
-	       http://www.apache.org/licenses/LICENSE-2.0
-	
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
 	    Unless required by applicable law or agreed to in writing, software
 	    distributed under the License is distributed on an "AS IS" BASIS,
 	    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

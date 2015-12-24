@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -36,25 +37,32 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.okhttp.ResponseBody;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import moose.com.ac.common.Config;
+import moose.com.ac.retrofit.Api;
 import moose.com.ac.ui.ArticleFragment;
 import moose.com.ac.ui.widget.CircleImageView;
 import moose.com.ac.util.CommonUtil;
+import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ZoomOutPageTransformer;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * when intent another activity,need cancel network request
  * SearchView see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -63,12 +71,15 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private TextView userName;
+    private AppCompatTextView userName;
     private CircleImageView logo;
     private Adapter adapter;
     private int type = 0; /*orderBy 0：最近 1：人气最旺 3：评论最多*/
 
     private boolean searchShow = false;
+
+    private CompositeSubscription cscription = new CompositeSubscription();
+    private Api api = RxUtils.createApi(Api.class, Config.GITHUB_URL);
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -88,8 +99,46 @@ public class MainActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+        //new Handler().postDelayed(this::checkVersion, Config.TIME_LATE);
         initView();
         initData();
+    }
+
+    @Deprecated
+    private void checkVersion() {
+        cscription.add(api.receiveVeision()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "--onError--");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody response) {
+                        Log.e(TAG, "--onNext--");
+                        rx.Observable.create(subscriber -> {
+                            try {
+                                String result = CommonUtil.slurp(response.byteStream(), 256);
+                                Log.e(TAG, "result:" + result);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            subscriber.onNext("0");
+                        }).subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(s -> {
+                                    Log.e(TAG, "--complete--");
+                                });
+                    }
+                }));
     }
 
     private void initData() {
@@ -101,18 +150,9 @@ public class MainActivity extends AppCompatActivity {
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
-        fab.setOnClickListener(view ->
-                adapter.getFragment(viewPager.getCurrentItem()).getmRecyclerView().smoothScrollToPosition(0));
+        fab.setOnClickListener(this);
         tabLayout.setupWithViewPager(viewPager);
-        userName.setOnClickListener(view -> {
-                    if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
-                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                        startActivity(intent);
-                    } else {
-                        startActivity(new Intent(MainActivity.this, Login.class));
-                    }
-                }
-        );
+        userName.setOnClickListener(this);
         userName.setText(CommonUtil.getUserName());
         Glide.with(this)
                 .load(CommonUtil.getUserLogo())
@@ -136,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View drawerHeader = navigationView.inflateHeaderView(R.layout.nav_header);
+
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
@@ -143,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        logo = (CircleImageView) findViewById(R.id.login_userimg);
-        userName = (TextView) findViewById(R.id.login_username);
+        logo = (CircleImageView) drawerHeader.findViewById(R.id.login_userimg);
+        userName = (AppCompatTextView) drawerHeader.findViewById(R.id.login_username);
     }
 
     @Override
@@ -164,8 +206,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (!CommonUtil.isEmpty(query)) {
-                    Intent intent = new Intent(MainActivity.this,Search.class);
-                    intent.putExtra(Config.SEARCH_KEY,query);
+                    Intent intent = new Intent(MainActivity.this, Search.class);
+                    intent.putExtra(Config.SEARCH_KEY, query);
                     startActivity(intent);
                     searchView.onActionViewCollapsed();
                     searchShow = false;
@@ -214,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        cscription = RxUtils.getNewCompositeSubIfUnsubscribed(cscription);
         navigationView.setCheckedItem(R.id.nav_home);
         if (!userName.getText().equals(CommonUtil.getUserName())) {
             userName.setText(CommonUtil.getUserName());
@@ -222,6 +265,12 @@ public class MainActivity extends AppCompatActivity {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(logo);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        RxUtils.unsubscribeIfNotNull(cscription);
     }
 
     @Override
@@ -280,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_sync:
                     navigationView.setCheckedItem(R.id.nav_sync);
-                    Intent intentS = new Intent(MainActivity.this,SynchronizeActivity.class);
+                    Intent intentS = new Intent(MainActivity.this, SynchronizeActivity.class);
                     startActivity(intentS);
                     break;
                 default:
@@ -303,6 +352,25 @@ public class MainActivity extends AppCompatActivity {
         ArticleFragment fragment = new ArticleFragment();
         fragment.setArguments(setBundle(key, type));
         return fragment;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.login_username:
+                if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(MainActivity.this, Login.class));
+                }
+                break;
+            case R.id.fab:
+                adapter.getFragment(viewPager.getCurrentItem()).scrollToTop();
+                break;
+            default:
+                break;
+        }
     }
 
     public class Adapter extends FragmentPagerAdapter {

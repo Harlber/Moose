@@ -2,6 +2,7 @@ package moose.com.ac.retrofit;
 
 
 import com.google.gson.JsonObject;
+import com.squareup.okhttp.ResponseBody;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
@@ -14,9 +15,11 @@ import moose.com.ac.retrofit.login.LoginEntry;
 import moose.com.ac.retrofit.search.SearchBody;
 import retrofit.Response;
 import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
+import retrofit.http.Streaming;
 import rx.Observable;
 
 /**
@@ -87,13 +90,14 @@ public interface Api {
      * @param username username
      * @param password password
      */
+    @FormUrlEncoded
     @POST(Config.API_LOGIN)
     Observable<LoginEntry> login(@Field("username") String username, @Field("password") String password);
 
     /**
      * check in action
      */
-    @POST(Config.API_CHENK_IN)
+    @GET(Config.API_CHENK_IN)
     Observable<CheckIn> chenkin();
 
     /**
@@ -102,6 +106,7 @@ public interface Api {
      * @param cId     article id
      * @param operate operate
      */
+    @FormUrlEncoded
     @POST(Config.API_COLLECT)
     Observable<Store> collectArticle(@Field("cId") int cId, @Field("operate") int operate);
 
@@ -114,6 +119,7 @@ public interface Api {
      * @param contentId article id
      */
     @Deprecated
+    @FormUrlEncoded
     @POST(Config.API_LIKE)
     Observable<Like> likeArticle(@Field("contentId") int contentId);
     //http://www.acfun.tv/content_up.aspx?contentId=2147685
@@ -144,4 +150,12 @@ public interface Api {
     @GET(Config.API_COLLECT_LIST)
     Observable<ArticleCloud> getArticleCloudList(@Query("count") int count, @Query("pageNo") int pageNo, @Query("channelId") String channelId);
 
+    /**
+     * get App Version dynamically
+     *
+     * @return #ResponseBody file body
+     */
+    @GET(Config.API_VERSION)
+    @Streaming
+    Observable<ResponseBody> receiveVeision();
 }

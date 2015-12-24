@@ -24,6 +24,7 @@ import moose.com.ac.util.CommonUtil;
  * Created by dell on 2015/8/27.
  * BehaviorChart
  */
+@Deprecated
 public class BehaviorChart extends AppCompatActivity {
     private static final String TAG = "BehaviorChart";
 

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * Created by dell on 2015/8/28.
  */
+@Deprecated
 public class Reset extends AppCompatActivity {
     private static final String TAG = "Reset";
 

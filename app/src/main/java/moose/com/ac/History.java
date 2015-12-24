@@ -2,7 +2,6 @@ package moose.com.ac;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -48,7 +47,7 @@ public class History extends ArticleListActivity {
 
     @Override
     protected void initToolBar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.news_toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.step_history));
         setSupportActionBar(toolbar);
 
@@ -71,9 +70,9 @@ public class History extends ArticleListActivity {
             case R.id.action_his_delete_all:
                 clearDialog(R.string.clear_his_all).show();
                 break;
-            case R.id.action_his_locus:
+            /*case R.id.action_his_locus:
                 Intent intent = new Intent(this,BehaviorChart.class);
-                startActivity(intent);
+                startActivity(intent);*/
         }
         return super.onOptionsItemSelected(item);
     }

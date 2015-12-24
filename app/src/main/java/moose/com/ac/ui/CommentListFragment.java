@@ -4,7 +4,6 @@ package moose.com.ac.ui;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,7 +44,6 @@ public class CommentListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private FloatingActionButton fab;
     private boolean isRequest = false;//request data status
     private boolean isScroll = false;//is RecyclerView scrolling
     private int page = 1;//default
@@ -128,10 +126,6 @@ public class CommentListFragment extends Fragment {
         });
     }
 
-    private void init() {
-        fab = (FloatingActionButton) rootView.findViewById(R.id.news_fab);
-    }
-
     private void doSwapeRefresh() {
         loadData(page);
     }
@@ -153,15 +147,6 @@ public class CommentListFragment extends Fragment {
                         mSwipeRefreshLayout.setRefreshing(false);
                         e.printStackTrace();
                         snack(e.getMessage());
-                        //snack(getString(R.string.no_network));
-                        /*if (e instanceof RetrofitError) {
-                            if (((RetrofitError) e).getResponse() != null) {
-                                snack(getString(R.string.net_work)+((RetrofitError) e).getResponse().getStatus());
-                            }else {
-                                snack(getString(R.string.no_network));
-                            }
-
-                        }*/
                     }
 
                     @Override

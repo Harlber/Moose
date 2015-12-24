@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <moose.com.ac.ui.widget.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/profile_swipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,21 +14,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/profile_appbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/profile_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-            </android.support.design.widget.AppBarLayout>
+            <include layout="@layout/toolbar" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -48,10 +33,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_margin="16dp"
+                        android:background="@color/colorAccentLight"
                         android:gravity="center"
                         android:text="@string/main_check_in"
                         android:textColor="@color/textColorButton"
-                        android:background="@color/colorAccentLight"
                         android:textSize="18sp" />
 
                     <ImageView
@@ -69,10 +54,10 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="16dp"
+                        android:background="@color/colorAccentLight"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="@string/log_out"
-                        android:background="@color/colorAccentLight"
                         android:textColor="@color/textColorButton" />
 
                     <android.support.v7.widget.AppCompatTextView

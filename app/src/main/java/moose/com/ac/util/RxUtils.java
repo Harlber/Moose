@@ -1,6 +1,5 @@
 package moose.com.ac.util;
 
-import android.os.Build;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -15,8 +14,6 @@ import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-
 import moose.com.ac.App;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.LocalCookie;
@@ -31,15 +28,16 @@ import rx.subscriptions.CompositeSubscription;
  * see http://mattlogan.me/notes-on-updating-to-retrofit-2.html
  * see https://github.com/square/retrofit/blob/master/CHANGELOG.md
  */
-public class RxUtils {
+public final class RxUtils {
     private static final String TAG = "RxUtils";
-    public static String UA = "acfun/1.0 (Linux; U; Android " + Build.VERSION.RELEASE + "; " +
+    /*public static String UA = "acfun/1.0 (Linux; U; Android " + Build.VERSION.RELEASE + "; " +
             Build.MODEL + "; " + Locale.getDefault().getLanguage() + "-" +
             Locale.getDefault().getCountry().toLowerCase() +
-            ") AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 ";
+            ") AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 ";*/
+    public static String UA = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36";
 
     private RxUtils() {
-
+        throw new AssertionError("No instances");
     }
 
     public static void unsubscribeIfNotNull(Subscription subscription) {
@@ -178,6 +176,9 @@ public class RxUtils {
         Response originalResponse = chain.proceed(chain.request());
         return originalResponse.newBuilder()
                 .header("User-Agent", UA)
+                .header("Accept-Language", "zh-CN,zh;q=0.8")
+                .header("Cache-Control", "max-age=0")
+                .header("Connection", "keep-alive")
                 .header("Accept", "application/json; q=0.5")
                 .build();
     };

@@ -5,8 +5,12 @@ import android.content.Context;
 /**
  * Created by dell on 2015/8/18.
  */
-public class DisplayUtil {
+public final class DisplayUtil {
     private static final String TAG = "DisplayUtil";
+
+    private DisplayUtil(){
+        throw new AssertionError("No instances");
+    }
 
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;

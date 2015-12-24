@@ -182,4 +182,10 @@ public class ArticleFragment extends ArticleListFragment {
         loadData(type, mPage, false);
     }
 
+    public void scrollToTop(){
+        if (mRecyclerView!=null) {
+            mRecyclerView.smoothScrollToPosition(0);
+        }
+    }
+
 }

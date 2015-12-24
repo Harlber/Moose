@@ -3,7 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">设置</string>
-    <string name="complex">综合</string>
+    <string name="complex">文章综合</string>
     <string name="work">工作/情感</string>
     <string name="animation">动漫文化</string>
     <string name="cartoon">漫画小说</string>
@@ -37,6 +37,8 @@
     <string name="nw_404">NetWork 404</string>
     <string name="net_work">"NetWork "</string>
     <string name="upuser">"UP主: "</string>
+    <string name="views">views</string>
+    <string name="ups">up: %s</string>
 
     <!--about-->
     <string name="application_info_title">App Info</string>
@@ -45,20 +47,6 @@
         <![CDATA[
             <p>Version: %s</p>
             <p>This application is open source at <a href="https://github.com/Harlber/Moose">github.com/Harlber/Moose</a></p>
-        ]]>
-    </string>
-     <string name="license_text">
-        <![CDATA[
-            <p>Copyright 2015 Moose</p>
-            <p>Licensed under the Apache License, Version 2.0 (the "License");
-            you may not use this file except in compliance with the License.
-            You may obtain a copy of the License at</p>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
-            <p>Unless required by applicable law or agreed to in writing, software
-            distributed under the License is distributed on an "AS IS" BASIS,
-            WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-            See the License for the specific language governing permissions and
-            limitations under the License.</p>
         ]]>
     </string>
     <string name="developer_info_title">Special Contribution</string>
@@ -123,7 +111,7 @@
     <string name="logout_success">退出登陆成功</string>
     <string name="menu_share">分享</string>
     <string name="share">分享</string>
-    <string name="share_content">" ——【测试】来自#Acfun文章区#开源客户端  https://github.com/Harlber/Moose"</string>
+    <string name="share_content">" ——我从#Acfun文章区#开源客户端  https://github.com/Harlber/Moose 分享"</string>
     <string name="pwd">密码</string>
     <string name="default_article_item_text">......</string>
     <string name="default_article_item_number">0</string>
@@ -138,5 +126,65 @@
     <string name="cloud_store">云端收藏</string>
     <string name="local_store">本地收藏</string>
     <string name="no_local_data">没有本地收藏数据</string>
-    <string name="persional">个性化</string>
+    <string name="personal">个性化</string>
+    <string name="article_head" formatted="false">
+        <![CDATA[
+        <html>
+            <head>
+               <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+                <style type="text/css">
+                * {
+                			padding: 0;
+                			margin: 0;
+                			}
+                		html,
+                			body { height: 100%;}
+                			html {
+                			font-size: 100%;
+                			font-size: 1rem;
+                			}
+                			body {
+                			width: 100%;
+                			font-size: 12px;
+                			font-family: SimHei, 黑体, 宋体;
+                			color: #949393;
+                			}
+                			.block-title {
+                			margin: 0 8px 8px 0;
+                			padding: 8px 0;
+                			border-bottom: 1px dashed #eee;
+                			}
+                			.block-title .title {
+                			font-size: 1.125rem;
+                			font-weight: normal;
+                			border-left: 6px solid #ff851b;
+                			padding: 2px 0 4px 8px;
+                			text-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                			color: #333;
+                			}
+                			.block-title .name {
+                			font-size: 14px;
+                			border-left: 6px solid #ff851b;
+                			text-align: right;
+                			padding-right: 8px;
+                			padding-top: 4px;
+                			}
+                			.block-title .name span {
+                			color: #ff851b;
+                			}
+                			.icon {
+                			margin-right: 5px;
+                			font-size: .875rem;
+                			color: #666;
+                			}
+                			</style>
+            </head>
+            <body>
+            <div class="block-title">
+            <h2 class="title">
+        ]]>
+    </string>
+    <string name="third_party_licenses_title">3rd Party Licenses</string>
+    <string name="libraries_title"><![CDATA[Libraries & Resources]]></string>
+    <string name="comment">"%s Comments"</string>
 </resources>

@@ -2,6 +2,9 @@
 <resources>
     <!-- item views -->
     <item type="id" name="rank" />
+    <item type="id" name="layout" />
+    <item type="id" name="view_number" />
+    <item type="id" name="views" />
     <item type="id" name="title" />
     <item type="id" name="text" />
     <item type="id" name="posted" />

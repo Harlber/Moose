@@ -3,22 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin"
     android:layout_marginLeft="@dimen/margin_4dp"
     android:layout_marginRight="@dimen/margin_4dp"
-    android:elevation="50dp"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
     tools:ignore="UnusedAttribute">
 
     <RelativeLayout
+        android:id="@+id/rl_root"
+        style="@style/AppCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <View
-            android:layout_width="@dimen/min_cardview_height"
+            android:layout_width="@dimen/article_flag_width"
             android:layout_height="match_parent"
             android:layout_alignBottom="@+id/meta_container"
             android:layout_alignTop="@id/title"
-            android:background="#58bee4" />
+            android:background="@color/colorLight" />
 
         <ImageView
             android:id="@id/bookmarked"
@@ -29,21 +30,53 @@
             android:tint="@color/md_yellow_800"
             android:visibility="invisible" />
 
-        <TextView
-            android:id="@id/rank"
-            style="@style/textRankStyle"
-            android:layout_width="@dimen/min_cardview_height"
+        <RelativeLayout
+            android:id="@id/layout"
+            android:layout_width="@dimen/article_flag_width"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:text="@string/default_article_item_number" />
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@id/rank"
+                style="@style/textRankStyle"
+                android:layout_width="@dimen/article_flag_width"
+                android:layout_height="wrap_content"
+                android:text="@string/default_article_item_number" />
+
+            <TextView
+                android:id="@id/view_number"
+                style="@style/textViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rank"
+                android:drawableLeft="@drawable/views"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="@dimen/drawable_padding"
+                android:gravity="center"
+                android:singleLine="true"
+                android:ellipsize="middle"
+                android:text="" />
+
+            <ImageView
+                android:id="@id/views"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view_number"
+                android:gravity="center"
+                android:src="@drawable/views"
+                android:background="@color/colorContents"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@id/title"
             style="@style/textTitleStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/rank"
+            android:layout_toRightOf="@id/layout"
+            android:gravity="center_vertical"
             android:text="@string/default_article_item_text" />
 
         <RelativeLayout
@@ -51,14 +84,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
-            android:layout_toRightOf="@id/rank">
+            android:layout_toRightOf="@id/layout">
 
             <TextView
                 android:id="@id/source"
                 style="@style/textSubtitleStyle.Italic"
                 android:layout_toLeftOf="@id/comment"
-                android:text="@string/default_article_item_text"
-                android:ellipsize="end"/>
+                android:ellipsize="end"
+                android:text="@string/default_article_item_text" />
 
             <TextView
                 android:id="@id/posted"

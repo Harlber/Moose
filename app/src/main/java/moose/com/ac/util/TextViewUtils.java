@@ -2,18 +2,25 @@ package moose.com.ac.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.StrikethroughSpan;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import org.xml.sax.XMLReader;
+
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,8 +45,12 @@ import moose.com.ac.retrofit.comment.CommentDetail;
  * limitations under the License.
  */
 
-public class TextViewUtils {
+public final class TextViewUtils {
     private static final String TAG = "TextViewUtils";
+
+    private TextViewUtils(){
+        throw new AssertionError("No instances");
+    }
 
     public static void setCommentContent(final TextView comment, CommentDetail c) {
         if (comment.getMovementMethod() != null) // reset focus
@@ -49,10 +60,54 @@ public class TextViewUtils {
             comment.setText("");
             return;
         }
-        comment.setTextColor(Color.BLACK);
-        comment.setText(text);
-        //comment.setTextSize(AcApp.getPreferenceFontSize());
-        comment.setTextSize(16f);
+        text = replace(text);
+        try {
+            comment.setText(Html.fromHtml(text, new Html.ImageGetter() {
+
+                @Override
+                public Drawable getDrawable(String source) {
+                    try {
+                        Bitmap bm = BitmapFactory.decodeStream(comment.getContext().getAssets()
+                                .open(source));
+                        Drawable drawable = new BitmapDrawable(comment.getResources(), bm);
+                        if (drawable != null) {
+                            int w = comment.getResources().getDimensionPixelSize(
+                                    R.dimen.emotions_column_width);
+                            drawable.setBounds(0, 0, w, drawable.getIntrinsicHeight() * w
+                                    / drawable.getIntrinsicWidth());
+                        }
+
+                        return drawable;
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+
+                }
+            }, new Html.TagHandler() {
+
+                @Override
+                public void handleTag(boolean opening, String tag, Editable output,
+                                      XMLReader xmlReader) {
+                    int len = output.length();
+                    if (opening) {
+                        if (tag.equalsIgnoreCase("strike")) {
+                            output.setSpan(new StrikethroughSpan(), len, len,
+                                    Spannable.SPAN_MARK_MARK);
+                        }
+                    } else {
+                        if (tag.equalsIgnoreCase("strike")) {
+                            end((SpannableStringBuilder) output, StrikethroughSpan.class,
+                                    new StrikethroughSpan());
+                        }
+                    }
+                }
+            }));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            comment.setText(text);
+            Log.e("wtf", "set comment", e);
+        }
         Pattern http = Pattern.compile("http://[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]",
                 Pattern.CASE_INSENSITIVE);
         Linkify.addLinks(comment, http, "http://");
@@ -71,6 +126,7 @@ public class TextViewUtils {
             text.setSpan(repl, where < 0 ? 0 : where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
+        return;
     }
 
     public static <T> T getLast(Spanned text, Class<T> kind) {

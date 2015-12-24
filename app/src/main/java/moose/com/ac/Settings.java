@@ -20,7 +20,7 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Display the fragment as the main content.
         setContentView(R.layout.activity_setting);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.setting_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();

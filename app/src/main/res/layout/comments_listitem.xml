@@ -19,7 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
-    android:duplicateParentState="true" >
+    android:duplicateParentState="true">
 
     <TextView
         android:id="@+id/requote"
@@ -32,7 +32,7 @@
         android:gravity="center"
         android:text="@string/hide_requote"
         android:textSize="12sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/user_name"
@@ -47,7 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/user_name"
         android:layout_toRightOf="@id/user_name"
-        android:src="@drawable/forward" />
+        android:src="@drawable/forward"
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/comments_content"
@@ -55,8 +56,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/user_name"
         android:textColor="@color/md_grey_900"
-        android:text="hit"
         android:layout_marginTop="5dip"
-        android:focusable="false" />
+        android:visibility="visible"
+        android:focusable="false"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
 
 </RelativeLayout>

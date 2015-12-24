@@ -26,7 +26,7 @@
         android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ABABAB" />
+        android:textColor="@color/md_teal_a400"/>
 
  	<TextView 
 	    android:id="@+id/floor"

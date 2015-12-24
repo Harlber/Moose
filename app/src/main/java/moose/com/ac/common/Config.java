@@ -11,6 +11,8 @@ public class Config {
     public static final String MEMBER_URL = "http://www.acfun.tv/member";
     public static final String WAP_URL = "http://m.acfun.tv/";
 
+    public static final String GITHUB_URL = "https://github.com";
+
     public static final String API_CHANNEL = "/apiserver/content/channel";
     public static final String API_COMMENT_LIST = "/comment_list_json.aspx";
     public static final String API_COLLECT_LIST = "/member/collection.aspx";
@@ -23,6 +25,7 @@ public class Config {
     public static final String API_LIKE = "/content_up.aspx";
     public static final String API_USERINFO = "/splash.aspx";
     public static final String API_PROFILE = "/member/profile.aspx";
+    public static final String API_VERSION = "/Harlber/Moose/blob/master/app/version.json";
 
     public static final String CHANNEL_ID = "CHANNEL_ID";
     public static final String CHANNEL_TYPE = "CHANNEL_TYPE";
@@ -42,6 +45,7 @@ public class Config {
     public static final String USER_GENDER = "USER_GENDER";
 
     public static final String SEARCH_KEY = "SEARCH_KEY";
+    public static final String AC = "ac";
 
     public static final String FAB = "FAB";
     public static final String STORE = "st";
@@ -77,4 +81,6 @@ public class Config {
     public static final String USERNAME = "USERNAME";
     public static final String USER_LOG = "USER_LOG";
     public static final String USER_LOGIN_EMAIL = "USER_LOGIN_EMAIL";
+
+    public static final String IMAGE_REG = "\\[nr\\]";
 }

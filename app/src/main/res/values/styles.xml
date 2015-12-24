@@ -8,13 +8,21 @@
         <item name="android:navigationBarColor" tools:targetApi="lollipop">#ababab</item>
         <item name="android:windowBackground">@color/window_background</item>
     </style>
+    <!--========-->
+    <!--toolbar style-->
+    <style name="AppToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorSecondary">?android:attr/textColorPrimary</item>
+    </style>
+    <!--========-->
 
-    <style name="DayTheme" parent="Theme.AppCompat.Light">
+    <style name="DayTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimaryDark" tools:ignore="NewApi">@color/colorPrimary</item>
         <item name="statusBarColor">@color/colorPrimary</item>
         <item name="appBarColor">@color/colorPrimary</item>
         <item name="backgroundColor">@color/colorPrimary</item>
         <item name="cardColor">@color/md_white</item>
+        <item name="android:textColorPrimary">@color/md_grey_900</item>
+        <item name="android:textColorSecondary">@color/md_grey_500</item>
     </style>
 
     <style name="NightTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -50,8 +58,8 @@
     </style>
 
     <style name="textSubtitleStyle">
-        <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/md_grey_900</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/md_grey_600</item>
         <item name="android:singleLine">true</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">@dimen/padding</item>
@@ -60,8 +68,19 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="textViewStyle">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/md_grey_600</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/textview_padding</item>
+        <item name="android:paddingRight">@dimen/textview_padding</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="textTitleStyle">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/md_grey_900</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:minLines">2</item>
@@ -69,9 +88,18 @@
         <item name="android:paddingRight">@dimen/padding</item>
     </style>
 
+    <style name="textTitleGrayStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/md_grey_600</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minLines">2</item>
+        <item name="android:paddingLeft">@dimen/padding</item>
+        <item name="android:paddingRight">@dimen/padding</item>
+    </style>
+
     <style name="textRankStyle">
-        <item name="android:paddingTop">@dimen/padding</item>
-        <item name="android:paddingBottom">@dimen/padding</item>
+        <item name="android:paddingTop">@dimen/textview_padding</item>
+        <item name="android:paddingBottom">@dimen/textview_padding</item>
         <item name="android:gravity">center|center_vertical</item>
         <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
         <item name="android:textColor">@color/textColorButton</item>
@@ -89,6 +117,7 @@
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardElevation">@dimen/cardview_default_elevation</item>
         <item name="cardCornerRadius">@dimen/cardview_default_radius</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
     <!--about-->
     <style name="layoutPadding">

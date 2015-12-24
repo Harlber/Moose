@@ -1,0 +1,20 @@
+sudo: false
+language: android
+
+android:
+  components:
+    - build-tools-23.0.1
+    - android-23
+    - extra-android-m2repository
+
+jdk:
+  - oraclejdk8
+
+script: "./gradlew assembleDebug;./gradlew testDebug"
+
+notifications:
+  email: false
+
+cache:
+  directories:
+    - $HOME/.gradle

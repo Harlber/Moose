@@ -3,17 +3,20 @@
     android:layout_gravity="center|center_vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+<!--
     <ImageView
         android:src="@drawable/ic_mode_comment_grey600_48dp"
         android:tint="@color/colorAccent"
         android:layout_width="@dimen/comment_button_default_size"
         android:layout_height="@dimen/comment_button_default_size" />
+-->
     <TextView
         android:id="@id/text"
         android:text="@string/loading_text"
-        android:textColor="@color/textColorButton"
+        android:textColor="@color/md_red_a400"
         android:layout_centerInParent="true"
         android:gravity="center|center_vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textStyle="bold"/>
 </RelativeLayout>

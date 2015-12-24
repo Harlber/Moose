@@ -62,4 +62,7 @@ public class PreferenceUtil {
         return preferences.contains(key);
     }
 
+    public static SharedPreferences getPreferences() {
+        return preferences;
+    }
 }
