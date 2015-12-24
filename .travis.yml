@@ -14,7 +14,7 @@ script: "./gradlew assembleDebug;./gradlew testDebug"
 
 
 after_success:
-- ./gradlew jacocoTestReport coveralls
+- ./gradlew jacocoTestReport coveralls -DrepoToken=5LUFEzNDC92cup9v2mpPtxErwIzIOjbgH
 
 notifications:
   email: false
