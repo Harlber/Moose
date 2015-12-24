@@ -1,5 +1,6 @@
 ﻿##Moose
 [![Build Status](https://travis-ci.org/Harlber/Moose.svg?branch=master)](https://travis-ci.org/Harlber/Moose)
+[![Coverage Status](https://coveralls.io/repos/Harlber/Moose/badge.svg?branch=master&service=github)](https://coveralls.io/github/Harlber/Moose?branch=master)
 
 A material-design of [Acfun](http://acfun.tudou.com/) Article area.
 
