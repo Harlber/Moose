@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Moose</string>
+    <string name="app_name">驯鹿</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">设置</string>
@@ -37,19 +37,19 @@
     <string name="nw_404">NetWork 404</string>
     <string name="net_work">"NetWork "</string>
     <string name="upuser">"UP主: "</string>
-    <string name="views">views</string>
+    <string name="views">围观</string>
     <string name="ups">up: %s</string>
 
     <!--about-->
-    <string name="application_info_title">App Info</string>
-    <string name="license_title">License</string>
+    <string name="application_info_title">应用详情</string>
+    <string name="license_title">许可</string>
     <string name="application_info_text" formatted="false">
         <![CDATA[
             <p>Version: %s</p>
             <p>This application is open source at <a href="https://github.com/Harlber/Moose">github.com/Harlber/Moose</a></p>
         ]]>
     </string>
-    <string name="developer_info_title">Special Contribution</string>
+    <string name="developer_info_title">特别贡献</string>
         <string name="developer_info_text">
         <![CDATA[
             <p>咲くやこの花❤</p>
@@ -88,17 +88,17 @@
     <string name="pref_title_clear_collect">清空本地收藏</string>
     <string name="collect_type">文章收藏在</string>
     <string name="store_local">本地</string>
-    <string name="login">登陆</string>
+    <string name="login">登录</string>
     <string name="login_user_name">用户名</string>
     <string name="empty_username">用户名不能为空哦</string>
     <string name="empty_pwd">密码不能为空哦</string>
-    <string name="login_success">登陆成功</string>
-    <string name="un_login">未登陆</string>
+    <string name="login_success">登录成功</string>
+    <string name="un_login">未登录</string>
     <string name="user_info">个人中心</string>
     <string name="main_check_in">签到</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="log_out">退出登陆</string>
+    <string name="log_out">退出登录</string>
     <string name="user_sign">个性签名: </string>
     <string name="fem">女</string>
     <string name="mal">男</string>
@@ -108,7 +108,7 @@
     <string name="already_regi">已签到</string>
     <string name="reg_today_yet">今日已签到</string>
     <string name="default_user_logo">http://cdn.aixifan.com/dotnet/20120923/style/image/avatar.jpg</string>
-    <string name="logout_success">退出登陆成功</string>
+    <string name="logout_success">退出登录成功</string>
     <string name="menu_share">分享</string>
     <string name="share">分享</string>
     <string name="share_content">" ——我从#Acfun文章区#开源客户端  https://github.com/Harlber/Moose 分享"</string>
@@ -184,7 +184,7 @@
             <h2 class="title">
         ]]>
     </string>
-    <string name="third_party_licenses_title">3rd Party Licenses</string>
-    <string name="libraries_title"><![CDATA[Libraries & Resources]]></string>
-    <string name="comment">"%s Comments"</string>
+    <string name="third_party_licenses_title">三方许可</string>
+    <string name="libraries_title"><![CDATA[依赖库 和 资源]]></string>
+    <string name="comment">"%s 评论"</string>
 </resources>

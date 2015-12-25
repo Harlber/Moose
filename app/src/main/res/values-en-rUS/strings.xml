@@ -1,0 +1,190 @@
+<resources>
+    <string name="app_name">Reindeer</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Setting</string>
+    <string name="complex">Complex</string>
+    <string name="work">Work/Emotion</string>
+    <string name="animation">Animation-Culture</string>
+    <string name="cartoon">Comic-Fiction</string>
+    <string name="main_page">Home</string>
+    <string name="store">Local favorites</string>
+    <string name="set">Setting</string>
+    <string name="history">History record</string>
+    <string name="about">About</string>
+    <string name="me">Contact me</string>
+    <string name="night_style">Night mode</string>
+    <string name="front_set">Font settings</string>
+    <string name="filter">Node selection</string>
+    <string name="loading_text">0</string>
+    <string name="network_exception">Network anomaly</string>
+    <string name="article_select">Base Filtering</string>
+    <string name="text_size">Font size</string>
+    <string name="text_mode">Please select browse mode</string>
+    <string name="ok">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="web_store">Collect</string>
+    <string name="web_fornt">Font settings</string>
+    <string name="web_mode">Graphic mode</string>
+    <string name="web_access_url">Visit by web</string>
+    <string name="hide_requote">Repeated references hidden</string>
+    <string name="last_comment">Last reply</string>
+    <string name="most_views">Most popular</string>
+    <string name="most_coment">Most Commented</string>
+    <string name="no_network">Abnormal network requests</string>
+    <string name="nw_503">NetWork 503</string>
+    <string name="nw_500">NetWork 500</string>
+    <string name="nw_404">NetWork 404</string>
+    <string name="net_work">"NetWork "</string>
+    <string name="upuser">"Author: "</string>
+    <string name="views">views</string>
+    <string name="ups">up: %s</string>
+
+    <!--about-->
+    <string name="application_info_title">App Info</string>
+    <string name="license_title">License</string>
+    <string name="application_info_text" formatted="false">
+        <![CDATA[
+            <p>Version: %s</p>
+            <p>This application is open source at <a href="https://github.com/Harlber/Moose">github.com/Harlber/Moose</a></p>
+        ]]>
+    </string>
+    <string name="developer_info_title">Special Contribution</string>
+        <string name="developer_info_text">
+        <![CDATA[
+            <p>咲くやこの花❤</p>
+        ]]>
+    </string>
+    <string name="get_data_again">Being re-obtain data</string>
+    <string name="no_comment_here">There are no comments</string>
+    <string name="my_store">My collection</string>
+    <string name="db_error">Get database data anomalies</string>
+    <string name="step_history">History record</string>
+    <string name="no_collects_now">No Favorites</string>
+    <string name="format_date">yyyy/MM/dd HH:mm:ss</string>
+    <string name="time_store">Sort by collection-date </string>
+    <string name="time_push">Sort by published-date</string>
+    <string name="clear_local">Delete local favorites</string>
+    <string name="positive">Accept</string>
+    <string name="clear_store_all">Are you sure to delete all favorites?</string>
+    <string name="clear_his_all">Are you sure to delete all history?</string>
+    <string name="remove_data_error">Delete data anomalies</string>
+    <string name="data_clear_already">Data has been cleared</string>
+    <string name="delete_data_dalse">Empty data failed</string>
+    <string name="no_history">There is no history</string>
+    <string name="empty_story">Clear history</string>
+    <string name="locus">Locus</string>
+    <string name="no_data_to_clear">No data can be cleared</string>
+    <string name="sync">Data synchronization</string>
+    <string name="store_it">Unsubscribe</string>
+    <string name="cancel_store">Subscribe</string>
+    <string name="cancel_success">Cancel bookmarked</string>
+    <string name="store_success">Bookmarked</string>
+    <string name="store_fal">Favorite failure</string>
+    <string name="cancel_fal">To unsubscribe from Failure</string>
+    <string name="pref_title_clear_cache">Clear cache</string>
+    <string name="pref_title_wifi_load">Under WIFI network Load images automatically</string>
+    <string name="pref_title_clear_his">Clear history</string>
+    <string name="pref_title_clear_collect">Empty local favorites</string>
+    <string name="collect_type">Articles Collection in</string>
+    <string name="store_local">Local</string>
+    <string name="login">Login</string>
+    <string name="login_user_name">Username</string>
+    <string name="empty_username">The user name can not be empty oh</string>
+    <string name="empty_pwd">The password can not be empty oh</string>
+    <string name="login_success">Login successful</string>
+    <string name="un_login">Not logged in</string>
+    <string name="user_info">Personal Center</string>
+    <string name="main_check_in">Registration</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="log_out">Sign out</string>
+    <string name="user_sign">Signature: </string>
+    <string name="fem">Female</string>
+    <string name="mal">Male</string>
+    <string name="unknown">Private</string>
+    <string name="gender">"Gender: "</string>
+    <string name="reg_success">Registration Success</string>
+    <string name="already_regi">Checked in</string>
+    <string name="reg_today_yet">Checked in already</string>
+    <string name="default_user_logo">http://cdn.aixifan.com/dotnet/20120923/style/image/avatar.jpg</string>
+    <string name="logout_success">Sign out success</string>
+    <string name="menu_share">Share</string>
+    <string name="share">Share</string>
+    <string name="share_content">" ——我从#Acfun文章区#开源客户端  https://github.com/Harlber/Moose 分享"</string>
+    <string name="pwd">Password</string>
+    <string name="default_article_item_text">......</string>
+    <string name="default_article_item_number">0</string>
+    <string name="snackbar_action">I got it</string>
+    <string name="reload_action">Reloading</string>
+    <string name="serach">Searching...</string>
+    <string name="search">Search result</string>
+    <string name="set_all">All settings</string>
+    <string name="total">Complex</string>
+    <string name="up_name">"Author: "</string>
+    <string name="sync_ac">Synchronize</string>
+    <string name="cloud_store">Cloud Collection</string>
+    <string name="local_store">Local Favorites</string>
+    <string name="no_local_data">No local favorites data</string>
+    <string name="personal">Personalise</string>
+    <string name="article_head" formatted="false">
+        <![CDATA[
+        <html>
+            <head>
+               <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+                <style type="text/css">
+                * {
+                			padding: 0;
+                			margin: 0;
+                			}
+                		html,
+                			body { height: 100%;}
+                			html {
+                			font-size: 100%;
+                			font-size: 1rem;
+                			}
+                			body {
+                			width: 100%;
+                			font-size: 12px;
+                			font-family: SimHei, 黑体, 宋体;
+                			color: #949393;
+                			}
+                			.block-title {
+                			margin: 0 8px 8px 0;
+                			padding: 8px 0;
+                			border-bottom: 1px dashed #eee;
+                			}
+                			.block-title .title {
+                			font-size: 1.125rem;
+                			font-weight: normal;
+                			border-left: 6px solid #ff851b;
+                			padding: 2px 0 4px 8px;
+                			text-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                			color: #333;
+                			}
+                			.block-title .name {
+                			font-size: 14px;
+                			border-left: 6px solid #ff851b;
+                			text-align: right;
+                			padding-right: 8px;
+                			padding-top: 4px;
+                			}
+                			.block-title .name span {
+                			color: #ff851b;
+                			}
+                			.icon {
+                			margin-right: 5px;
+                			font-size: .875rem;
+                			color: #666;
+                			}
+                			</style>
+            </head>
+            <body>
+            <div class="block-title">
+            <h2 class="title">
+        ]]>
+    </string>
+    <string name="third_party_licenses_title">3rd Party Licenses</string>
+    <string name="libraries_title"><![CDATA[Libraries & Resources]]></string>
+    <string name="comment">"%s Comments"</string>
+</resources>

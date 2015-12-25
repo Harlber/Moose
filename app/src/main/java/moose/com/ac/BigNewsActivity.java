@@ -1,5 +1,6 @@
 package moose.com.ac;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -65,6 +66,9 @@ public class BigNewsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 BigNewsActivity.this.finish();
+                return true;
+            case R.id.action_set:
+                startActivity(new Intent(BigNewsActivity.this,Settings.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
