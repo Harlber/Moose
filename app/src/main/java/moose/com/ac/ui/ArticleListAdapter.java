@@ -69,7 +69,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         holder.title.setText(article.getTitle());
         holder.user.setText(String.valueOf(article.getViews()) + " views  " + "by " + article.getUser().getUsername());
         holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
-        holder.comment.setText(article.getComments().toString());
+        holder.comment.setText(article.getComments().toString() + mActivity.getString(R.string.comment));
         holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId())) ? View.VISIBLE : View.INVISIBLE);
     }
 

@@ -77,16 +77,8 @@
             </LinearLayout>
         </ScrollView>
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/about_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#58bee4"
-            android:elevation="4dp"
-            android:fitsSystemWindows="true"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            tools:ignore="UnusedAttribute" />
+        <include
+            layout="@layout/toolbar"/>
 
     </FrameLayout>
 </RelativeLayout>

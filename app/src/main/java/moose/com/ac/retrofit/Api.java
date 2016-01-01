@@ -97,8 +97,7 @@ public interface Api {
     /**
      * check in action
      */
-    @FormUrlEncoded
-    @POST(Config.API_CHENK_IN)
+    @GET(Config.API_CHENK_IN)
     Observable<CheckIn> chenkin();
 
     /**

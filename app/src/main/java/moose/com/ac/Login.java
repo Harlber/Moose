@@ -1,6 +1,5 @@
 package moose.com.ac;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -44,19 +43,14 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTheme(R.style.DayTheme);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.getWindow().setStatusBarColor(getResources().getColor(R.color.md_black));
-        } else {
-            // Implement this feature without material design
-        }
+        //this.setTheme(R.style.DayTheme);
         setContentView(R.layout.activity_login);
         api = RxUtils.createLoginApi(Api.class, Config.BASE_URL);
         initView();
     }
 
     private void initView() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.login));
         setSupportActionBar(toolbar);
 

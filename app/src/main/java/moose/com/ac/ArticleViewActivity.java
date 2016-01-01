@@ -127,7 +127,7 @@ public class ArticleViewActivity extends AppCompatActivity implements Observable
         isFav = dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId()));
         contendid = article.getContentId();
         toolbarHeight = DisplayUtil.dip2px(this, 56f);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();

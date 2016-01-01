@@ -47,7 +47,7 @@ public class History extends ArticleListActivity {
 
     @Override
     protected void initToolBar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.news_toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.step_history));
         setSupportActionBar(toolbar);
 

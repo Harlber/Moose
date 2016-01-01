@@ -22,7 +22,7 @@ public final class About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.about_toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.about);
         setSupportActionBar(toolbar);
 

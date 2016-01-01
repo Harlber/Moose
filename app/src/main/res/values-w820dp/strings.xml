@@ -15,4 +15,5 @@
     <string name="persional">个性化</string>
     <string name="third_party_licenses_title">3rd Party Licenses</string>
     <string name="libraries_title"><![CDATA[Libraries & Resources]]></string>
+    <string name="comment">" Comments"</string>
 </resources>

@@ -8,7 +8,6 @@
         android:id="@+id/search_result"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:layout_below="@id/appbarlayout"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/magin_8"
         android:text="无相关结果" />

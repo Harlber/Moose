@@ -1,17 +1,16 @@
 package moose.com.ac.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,7 @@ import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.ArticleContent;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
+import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -42,6 +42,7 @@ public class CloudCollectFragment extends Fragment {
 
     private View rootView;
     private RecyclerView mRecyclerView;
+    private TextView showStatus;
     private LinearLayoutManager mLayoutManager;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CloudArticleAdapter adapter;
@@ -59,8 +60,13 @@ public class CloudCollectFragment extends Fragment {
                 R.layout.fragment_article_list, container, false);
         initRecyclerView();
         initRefreshLayout();
+        initView();
         new Handler().postDelayed(this::init, Config.TIME_LATE);
         return rootView;
+    }
+
+    private void initView() {
+        showStatus = (TextView)rootView.findViewById(R.id.tv_no);
     }
 
     protected void initRefreshLayout() {
@@ -110,7 +116,12 @@ public class CloudCollectFragment extends Fragment {
     }
 
     private void init() {
-        load();
+        if (!CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {//not login
+            showStatus.setText("未登录,请先登录");
+            showStatus.setVisibility(View.VISIBLE);
+        }else {
+            load();
+        }
     }
 
     private void load() {
@@ -140,6 +151,9 @@ public class CloudCollectFragment extends Fragment {
                         isRequest = false;//refresh request status
                         if (articleCloud.isSuccess()) {
                             list.addAll(articleCloud.getContents());
+                            if (articleCloud.getContents().size()==0) {
+                                showStatus.setText(getString(R.string.no_local_data));
+                            }
                             adapter.notifyDataSetChanged();
                         }else {
                             activity.snack(articleCloud.isSuccess()+"");

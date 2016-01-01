@@ -39,7 +39,7 @@ public class BigNewsActivity extends AppCompatActivity {
         bundle.putInt(Config.CHANNEL_ID,contendid);
         commentListFragment.setArguments(bundle);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.news_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setTitle("ac" + contendid);

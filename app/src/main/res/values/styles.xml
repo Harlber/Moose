@@ -8,13 +8,21 @@
         <item name="android:navigationBarColor" tools:targetApi="lollipop">#ababab</item>
         <item name="android:windowBackground">@color/window_background</item>
     </style>
+    <!--========-->
+    <!--toolbar style-->
+    <style name="AppToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorSecondary">?android:attr/textColorPrimary</item>
+    </style>
+    <!--========-->
 
-    <style name="DayTheme" parent="Theme.AppCompat.Light">
+    <style name="DayTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimaryDark" tools:ignore="NewApi">@color/colorPrimary</item>
         <item name="statusBarColor">@color/colorPrimary</item>
         <item name="appBarColor">@color/colorPrimary</item>
         <item name="backgroundColor">@color/colorPrimary</item>
         <item name="cardColor">@color/md_white</item>
+        <item name="android:textColorPrimary">@color/md_grey_900</item>
+        <item name="android:textColorSecondary">@color/md_grey_500</item>
     </style>
 
     <style name="NightTheme" parent="Theme.AppCompat.Light.NoActionBar">

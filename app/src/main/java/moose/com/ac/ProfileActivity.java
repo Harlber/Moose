@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.user_info));
         setSupportActionBar(toolbar);
 
@@ -65,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.md_orange_700, R.color.md_red_500,
                 R.color.md_indigo_900, R.color.md_green_700);
-        mSwipeRefreshLayout.setSwipeableChildren(R.id.profile_toolbar);
+        mSwipeRefreshLayout.setSwipeableChildren(R.id.profile_swipe_child);
 
         logo = (ImageView) findViewById(R.id.profile_logo);
         registButton = (AppCompatButton) findViewById(R.id.profile_chenkin);
