@@ -36,7 +36,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/9/1.
  * ProfileActivity
  */
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
     private final Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -47,6 +47,58 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private AppCompatTextView date;
     private AppCompatTextView gender;
     private View snakView;
+
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.profile_chenkin:
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    subscription.add(api.chenkin()
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Observer<CheckIn>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    e.printStackTrace();
+                                    mSwipeRefreshLayout.setRefreshing(false);
+                                    mSwipeRefreshLayout.setEnabled(false);
+                                    e.printStackTrace();
+                                    Snack(getString(R.string.no_network));
+                                }
+
+                                @Override
+                                public void onNext(CheckIn checkIn) {
+                                    mSwipeRefreshLayout.setRefreshing(false);
+                                    mSwipeRefreshLayout.setEnabled(false);
+                                    if (checkIn.isSuccess()) {
+                                        Snack(getString(R.string.reg_success));
+                                    } else {
+                                        Snack(checkIn.getInfo());
+                                    }
+                                }
+                            }));
+                    break;
+                case R.id.profile_logout:
+                    CommonUtil.setLoginStatus(Config.LOGIN_OUT);
+                    DbHelper dbHelper = new DbHelper(ProfileActivity.this);
+                    dbHelper.dropSql(ArticleCollects.ArticleCookies.TABLE_NAME);//clear cookies
+                    dbHelper.createTab(ArticleCollects.SQL_CREATE_COOKIES);//cookie
+                    PreferenceUtil.setStringValue(Config.USERNAME, getString(R.string.un_login));
+                    PreferenceUtil.setStringValue(Config.USER_LOG, getString(R.string.default_user_logo));
+                    Snack(getString(R.string.logout_success));
+                    new Handler().postDelayed(ProfileActivity.this::finish, Config.TIME_LATE);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -70,8 +122,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         ImageView logo = (ImageView) findViewById(R.id.profile_logo);
         registButton = (AppCompatButton) findViewById(R.id.profile_chenkin);
         AppCompatButton logoutButton = (AppCompatButton) findViewById(R.id.profile_logout);
-        registButton.setOnClickListener(this);
-        logoutButton.setOnClickListener(this);
+        registButton.setOnClickListener(mOnClickListener);
+        logoutButton.setOnClickListener(mOnClickListener);
         uid = (AppCompatTextView) findViewById(R.id.profile_uid);
         signature = (AppCompatTextView) findViewById(R.id.profile_qian);
         date = (AppCompatTextView) findViewById(R.id.profile_date);
@@ -161,53 +213,4 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Snackbar.make(snakView, msg, Snackbar.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.profile_chenkin:
-                mSwipeRefreshLayout.setRefreshing(true);
-                subscription.add(api.chenkin()
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<CheckIn>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                e.printStackTrace();
-                                mSwipeRefreshLayout.setRefreshing(false);
-                                mSwipeRefreshLayout.setEnabled(false);
-                                e.printStackTrace();
-                                Snack(getString(R.string.no_network));
-                            }
-
-                            @Override
-                            public void onNext(CheckIn checkIn) {
-                                mSwipeRefreshLayout.setRefreshing(false);
-                                mSwipeRefreshLayout.setEnabled(false);
-                                if (checkIn.isSuccess()) {
-                                    Snack(getString(R.string.reg_success));
-                                } else {
-                                    Snack(checkIn.getInfo());
-                                }
-                            }
-                        }));
-                break;
-            case R.id.profile_logout:
-                CommonUtil.setLoginStatus(Config.LOGIN_OUT);
-                DbHelper dbHelper = new DbHelper(ProfileActivity.this);
-                dbHelper.dropSql(ArticleCollects.ArticleCookies.TABLE_NAME);//clear cookies
-                dbHelper.createTab(ArticleCollects.SQL_CREATE_COOKIES);//cookie
-                PreferenceUtil.setStringValue(Config.USERNAME, getString(R.string.un_login));
-                PreferenceUtil.setStringValue(Config.USER_LOG, getString(R.string.default_user_logo));
-                Snack(getString(R.string.logout_success));
-                new Handler().postDelayed(ProfileActivity.this::finish, Config.TIME_LATE);
-                break;
-            default:
-                break;
-        }
-    }
 }
