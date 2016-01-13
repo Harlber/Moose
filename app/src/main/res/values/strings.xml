@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">驯鹿</string>
+    <string description="这是个名叫驯鹿的Acfun文章区客户端" name="app_name">驯鹿</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">设置</string>
@@ -182,6 +182,13 @@
             <body>
             <div class="block-title">
             <h2 class="title">
+        ]]>
+    </string>
+    <string name="image_style" formatted="false">
+        <![CDATA[
+        <div>
+            <img src="%s" width="%d" height="%d" style="text-align: center;" 加载失败/>
+        </div>
         ]]>
     </string>
     <string name="third_party_licenses_title">三方许可</string>

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.DisplayMetrics;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -322,5 +323,14 @@ public final class CommonUtil {
             ex.printStackTrace();
         }
         return out.toString() == null ? "" : out.toString();
+    }
+
+    public static int getDisplayWidth(Context context) {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        return dm.widthPixels;
+    }
+
+    public static int getImageShouldDisplayWidth(Context context) {
+        return getDisplayWidth(context) - (int) context.getResources().getDimension(R.dimen.image_margin);
     }
 }

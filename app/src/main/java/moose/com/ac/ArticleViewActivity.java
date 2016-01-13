@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -154,13 +155,15 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
         mWeb = (ObservableWebView) findViewById(R.id.view_webview);
         settings = mWeb.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setUserAgentString(RxUtils.UA);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         settings.setDefaultTextEncodingName("UTF -8");
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             mWeb.getSettings().setDisplayZoomControls(false);
+        }
         mWeb.setWebViewClient(new Client());
         if (Build.VERSION.SDK_INT >= 11)
             mWeb.setBackgroundColor(Color.argb(1, 0, 0, 0));
@@ -286,9 +289,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
                             rx.Observable.create(subscriber -> {
                                 dealBody(HtmlBody);
                                 addHead();
-                                if (CommonUtil.getMode() == 1 && !App.isWifi()) {//add wifi support
-                                    filterImg(HtmlBody);
-                                }
+                                filterImg(HtmlBody);
                                 subscriber.onNext(HtmlBody);
                             }).subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -358,9 +359,19 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
             // url may have encoded path
             parsedUri = parsedUri.buildUpon().path(parsedUri.getPath()).build();
             src = parsedUri.toString();
+            Log.e(TAG,"image src:"+src);
             img.attr("org", src);
+            if (CommonUtil.getMode() == 1 && !App.isWifi()) {//add wifi support
+                img.after("<p >[图片]</p>");
+            }else {
+                String index = "<div style=\"width: 100%;text-align: center;\"><img src=\""+src+"\" width=\""+
+                        CommonUtil.getImageShouldDisplayWidth(getApplicationContext())
+                        +"px\""+" alt=\" 加载失败\"/>\n" +
+                        "</div>";
+                Log.e(TAG,"index image:"+index);
+                img.after(index);
+            }
 
-            img.after("<p >[图片]</p>");
             img.remove();
             img.removeAttr("style");
             HtmlBody = mDocument.toString();
