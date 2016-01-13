@@ -38,7 +38,7 @@
     <string name="net_work">"NetWork "</string>
     <string name="upuser">"Author: "</string>
     <string name="views">views</string>
-    <string name="ups">up: %s</string>
+    <string name="ups">Thomas: %s</string>
 
     <!--about-->
     <string name="application_info_title">App Info</string>
