@@ -57,12 +57,26 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-
+/*
+ * Copyright Farble Dast. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 /**
  * when intent another activity,need cancel network request
  * SearchView see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -80,6 +94,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CompositeSubscription cscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.GITHUB_URL);
+
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.login_username:
+                    if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
+                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                    } else {
+                        startActivity(new Intent(MainActivity.this, Login.class));
+                    }
+                    break;
+                case R.id.fab:
+                    adapter.getFragment(viewPager.getCurrentItem()).scrollToTop();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -150,9 +185,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
-        fab.setOnClickListener(this);
+        fab.setOnClickListener(mOnClickListener);
         tabLayout.setupWithViewPager(viewPager);
-        userName.setOnClickListener(this);
+        userName.setOnClickListener(mOnClickListener);
         userName.setText(CommonUtil.getUserName());
         Glide.with(this)
                 .load(CommonUtil.getUserLogo())
@@ -354,24 +389,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return fragment;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.login_username:
-                if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
-                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                    startActivity(intent);
-                } else {
-                    startActivity(new Intent(MainActivity.this, Login.class));
-                }
-                break;
-            case R.id.fab:
-                adapter.getFragment(viewPager.getCurrentItem()).scrollToTop();
-                break;
-            default:
-                break;
-        }
-    }
 
     public class Adapter extends FragmentPagerAdapter {
         private FragmentManager fragmentManager;
