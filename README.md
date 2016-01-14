@@ -1,16 +1,17 @@
 ﻿##Moose
-[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Build Status](https://travis-ci.org/Harlber/Moose.svg?branch=master)](https://travis-ci.org/Harlber/Moose)
-[![Coverage Status](https://coveralls.io/repos/Harlber/Moose/badge.svg?branch=master&service=github)](https://coveralls.io/github/Harlber/Moose?branch=master)
 
 A material-design of [Acfun](http://acfun.tudou.com/) Article area.
 
 
-**Build**
+**Build** [![Build Status](https://travis-ci.org/Harlber/Moose.svg?branch=master)](https://travis-ci.org/Harlber/Moose)
 
     ./gradlew assembleDebug
 
 Supply your own release signing config to build release.
+
+**Coverage** [![Coverage Status](https://coveralls.io/repos/Harlber/Moose/badge.svg?branch=master&service=github)](https://coveralls.io/github/Harlber/Moose?branch=master)
+
+    ./gradlew jacocoTestReport
 
 
 **Dependencies**
@@ -30,10 +31,9 @@ Supply your own release signing config to build release.
 
 
 **Thanks to**
+
 - [materialistic](https://github.com/hidroh/materialistic)
 
-**Next Target**
+**License**
 
-- Comment Action
-- Crash Log
-- MVVM
+[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
