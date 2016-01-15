@@ -1,0 +1,201 @@
+<resources>
+    <string description="这是个名叫驯鹿的Acfun文章区客户端" name="app_name">驯鹿</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">设置</string>
+    <string name="complex">文章综合</string>
+    <string name="work">工作/情感</string>
+    <string name="animation">动漫文化</string>
+    <string name="cartoon">漫画小说</string>
+    <string name="main_page">主页</string>
+    <string name="store">本地收藏</string>
+    <string name="set">设置</string>
+    <string name="history">历史记录</string>
+    <string name="about">关于</string>
+    <string name="me">联系我</string>
+    <string name="night_style">夜间模式</string>
+    <string name="front_set">字体设置</string>
+    <string name="filter">节点筛选</string>
+    <string name="loading_text">0</string>
+    <string name="network_exception">网络异常</string>
+    <string name="article_select">文章筛选</string>
+    <string name="text_size">字体大小</string>
+    <string name="text_mode">请选择浏览模式</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="web_store">收藏</string>
+    <string name="web_fornt">字体设置</string>
+    <string name="web_mode">图文模式</string>
+    <string name="web_access_url">访问网页</string>
+    <string name="hide_requote">重复引用已隐藏</string>
+    <string name="last_comment">最近回复</string>
+    <string name="most_views">人气最旺</string>
+    <string name="most_coment">评论最多</string>
+    <string name="no_network">网络请求异常</string>
+    <string name="nw_503">NetWork 503</string>
+    <string name="nw_500">NetWork 500</string>
+    <string name="nw_404">NetWork 404</string>
+    <string name="net_work">"NetWork "</string>
+    <string name="upuser">"UP主: "</string>
+    <string name="views">围观</string>
+    <string name="ups">up: %s</string>
+
+    <!--about-->
+    <string name="application_info_title">应用详情</string>
+    <string name="license_title">许可</string>
+    <string name="application_info_text" formatted="false">
+        <![CDATA[
+            <p>Version: %s</p>
+            <p>This application is open source at <a href="https://github.com/Harlber/Moose">github.com/Harlber/Moose</a></p>
+        ]]>
+    </string>
+    <string name="developer_info_title">特别贡献</string>
+        <string name="developer_info_text">
+        <![CDATA[
+            <p>咲くやこの花❤</p>
+        ]]>
+    </string>
+    <string name="get_data_again">正在重新获取数据</string>
+    <string name="no_comment_here">目前没有评论</string>
+    <string name="my_store">我的收藏</string>
+    <string name="db_error">获取数据库数据异常</string>
+    <string name="step_history">历史记录</string>
+    <string name="no_collects_now">暂时没有收藏</string>
+    <string name="format_date">yyyy/MM/dd HH:mm:ss</string>
+    <string name="time_store">收藏时间排序</string>
+    <string name="time_push">发布时间排序</string>
+    <string name="clear_local">清空本地收藏</string>
+    <string name="positive">确定</string>
+    <string name="clear_store_all">确定删除全部收藏?</string>
+    <string name="clear_his_all">确定清除历史记录?</string>
+    <string name="remove_data_error">删除数据异常</string>
+    <string name="data_clear_already">数据已清除</string>
+    <string name="delete_data_dalse">清空数据失败</string>
+    <string name="no_history">目前没有浏览记录</string>
+    <string name="empty_story">清空历史记录</string>
+    <string name="locus">轨迹图</string>
+    <string name="no_data_to_clear">没有数据可以清除</string>
+    <string name="sync">数据同步</string>
+    <string name="store_it">取消收藏</string>
+    <string name="cancel_store">收藏</string>
+    <string name="cancel_success">取消收藏成功</string>
+    <string name="store_success">收藏成功</string>
+    <string name="store_fal">收藏失败</string>
+    <string name="cancel_fal">取消收藏失败</string>
+    <string name="pref_title_clear_cache">清除缓存</string>
+    <string name="pref_title_wifi_load">WIFI网络下自动加载图片</string>
+    <string name="pref_title_clear_his">清空历史记录</string>
+    <string name="pref_title_clear_collect">清空本地收藏</string>
+    <string name="collect_type">文章收藏在</string>
+    <string name="store_local">本地</string>
+    <string name="login">登录</string>
+    <string name="login_user_name">用户名</string>
+    <string name="empty_username">用户名不能为空哦</string>
+    <string name="empty_pwd">密码不能为空哦</string>
+    <string name="login_success">登录成功</string>
+    <string name="un_login">未登录</string>
+    <string name="user_info">个人中心</string>
+    <string name="main_check_in">签到</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="log_out">退出登录</string>
+    <string name="user_sign">个性签名: </string>
+    <string name="fem">女</string>
+    <string name="mal">男</string>
+    <string name="unknown">不公开</string>
+    <string name="gender">"性别: "</string>
+    <string name="reg_success">签到成功</string>
+    <string name="already_regi">已签到</string>
+    <string name="reg_today_yet">今日已签到</string>
+    <string name="default_user_logo">http://cdn.aixifan.com/dotnet/20120923/style/image/avatar.jpg</string>
+    <string name="logout_success">退出登录成功</string>
+    <string name="menu_share">分享</string>
+    <string name="share">分享</string>
+    <string name="share_content">" ——我从#Acfun文章区#开源客户端  https://github.com/Harlber/Moose 分享"</string>
+    <string name="pwd">密码</string>
+    <string name="default_article_item_text">......</string>
+    <string name="default_article_item_number">0</string>
+    <string name="snackbar_action">知道了</string>
+    <string name="reload_action">重新加载</string>
+    <string name="serach">搜索...</string>
+    <string name="search">搜索结果</string>
+    <string name="set_all">全部设置</string>
+    <string name="total">综合</string>
+    <string name="up_name">"UP主: "</string>
+    <string name="sync_ac">同步</string>
+    <string name="cloud_store">云端收藏</string>
+    <string name="local_store">本地收藏</string>
+    <string name="no_local_data">没有本地收藏数据</string>
+    <string name="personal">个性化</string>
+    <string name="article_head" formatted="false">
+        <![CDATA[
+        <html>
+            <head>
+               <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+                <style type="text/css">
+                * {
+                			padding: 0;
+                			margin: 0;
+                			}
+                		html,
+                			body { height: 100%;}
+                			html {
+                			font-size: 100%;
+                			font-size: 1rem;
+                			}
+                			body {
+                			width: 100%;
+                			font-size: 12px;
+                			font-family: SimHei, 黑体, 宋体;
+                			color: #949393;
+                			}
+                			.block-title {
+                			margin: 0 8px 8px 0;
+                			padding: 8px 0;
+                			border-bottom: 1px dashed #eee;
+                			}
+                			.block-title .title {
+                			font-size: 1.125rem;
+                			font-weight: normal;
+                			border-left: 6px solid #ff851b;
+                			padding: 2px 0 4px 8px;
+                			text-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                			color: #333;
+                			}
+                			.block-title .name {
+                			font-size: 14px;
+                			border-left: 6px solid #ff851b;
+                			text-align: right;
+                			padding-right: 8px;
+                			padding-top: 4px;
+                			}
+                			.block-title .name span {
+                			color: #ff851b;
+                			}
+                			.icon {
+                			margin-right: 5px;
+                			font-size: .875rem;
+                			color: #666;
+                			}
+                			</style>
+            </head>
+            <body>
+            <div class="block-title">
+            <h2 class="title">
+        ]]>
+    </string>
+    <string name="image_style" formatted="false">
+        <![CDATA[
+        <div>
+            <img src="%s" width="%d" height="%d" style="text-align: center;" 加载失败/>
+        </div>
+        ]]>
+    </string>
+    <string name="third_party_licenses_title">三方许可</string>
+    <string name="libraries_title"><![CDATA[依赖库 和 资源]]></string>
+    <string name="comment">"%s 评论"</string>
+    <string name="default_string">...</string>
+    <string name="no_result">无相关结果</string>
+    <string name="article">文章</string>
+    <string name="up_s">up主: %s</string>
+</resources>
