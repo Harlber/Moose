@@ -15,17 +15,17 @@
       limitations under the License.
       -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_content"
+    android:id="@id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <moose.com.ac.ui.widget.MultiSwipeRefreshLayout
-        android:id="@+id/swiperefresh"
+        android:id="@id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="test!"
+            android:text="@string/default_string"
             android:textSize="19sp" />
     </moose.com.ac.ui.widget.MultiSwipeRefreshLayout>
 

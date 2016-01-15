@@ -187,4 +187,8 @@
     <string name="third_party_licenses_title">3rd Party Licenses</string>
     <string name="libraries_title"><![CDATA[Libraries & Resources]]></string>
     <string name="comment">"%s Comments"</string>
+    <string name="default_string">...</string>
+    <string name="no_result">No results</string>
+    <string name="article">Article</string>
+    <string name="up_s">Thomas: %s</string>
 </resources>

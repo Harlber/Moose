@@ -20,20 +20,20 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/search_result"
+        android:id="@id/search_result"
         android:layout_width="match_parent"
         android:layout_height="32dp"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/magin_8"
-        android:text="无相关结果" />
+        android:text="@string/no_result" />
 
     <moose.com.ac.ui.widget.MultiSwipeRefreshLayout
-        android:id="@+id/swiperefresh"
+        android:id="@id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />

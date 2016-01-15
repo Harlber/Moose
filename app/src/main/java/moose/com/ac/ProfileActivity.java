@@ -141,7 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
         uid = (AppCompatTextView) findViewById(R.id.profile_uid);
         signature = (AppCompatTextView) findViewById(R.id.profile_qian);
         date = (AppCompatTextView) findViewById(R.id.profile_date);
-        gender = (AppCompatTextView) findViewById(R.id.profile_sex);
+        gender = (AppCompatTextView) findViewById(R.id.profile_gender);
         snakView = findViewById(R.id.snak_view);
         if (CommonUtil.hasRegis()) {
             if (App.isApkDebugable(this))

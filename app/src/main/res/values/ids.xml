@@ -22,4 +22,89 @@
     <item type="id" name="ssource" />
     <item type="id" name="scomment" />
     <item type="id" name="sposted" />
+    <!--article list-->
+    <item type="id" name="news_content" />
+    <item type="id" name="swiperefresh" />
+    <item type="id" name="recycler_view" />
+    <!--activity about-->
+    <item type="id" name="content" />
+    <item type="id" name="text_application_info" />
+    <item type="id" name="text_developer_info" />
+    <item type="id" name="text_libraries" />
+    <item type="id" name="text_license" />
+    <item type="id" name="text_3rd_party_licenses" />
+    <!--activity article-->
+    <item type="id" name="webview" />
+    <item type="id" name="loading" />
+    <!--activity article view-->
+    <item type="id" name="view_content" />
+    <item type="id" name="web_swipe" />
+    <item type="id" name="view_webview" />
+    <item type="id" name="view_fab" />
+    <!--activity big news-->
+    <item type="id" name="news_viewpager" />
+    <!--activity info-->
+    <item type="id" name="profile_swipe" />
+    <item type="id" name="profile_swipe_child" />
+    <item type="id" name="profile_chenkin" />
+    <item type="id" name="profile_logo" />
+    <item type="id" name="profile_logout" />
+    <item type="id" name="profile_uid" />
+    <item type="id" name="profile_qian" />
+    <item type="id" name="profile_date" />
+    <item type="id" name="profile_gender" />
+    <item type="id" name="snak_view" />
+    <!--activity login-->
+    <item type="id" name="login_swipe" />
+    <item type="id" name="login_swipe_child" />
+    <item type="id" name="login_head" />
+    <item type="id" name="input_layout_name" />
+    <item type="id" name="login_name" />
+    <item type="id" name="input_layout_pwd" />
+    <item type="id" name="login_pwd" />
+    <item type="id" name="login_submit" />
+    <!--activity main-->
+    <item type="id" name="drawer_layout"/>
+    <item type="id" name="nav_view"/>
+    <!--activity search-->
+    <item type="id" name="main_content"/>
+    <item type="id" name="search_framelayout"/>
+    <!--activity setting-->
+    <item type="id" name="set_content"/>
+    <!--activity webview-->
+    <item type="id" name="view_appbar"/>
+    <item type="id" name="view_toolbar"/>
+    <!--auto complete item-->
+    <item type="id" name="auto_textview"/>
+    <!--comments list item-->
+    <item type="id" name="requote"/>
+    <item type="id" name="user_name"/>
+    <item type="id" name="quote_img"/>
+    <item type="id" name="comments_content"/>
+    <!--comments quote item-->
+    <item type="id" name="floor"/>
+    <!--fragment article list-->
+    <item type="id" name="tv_no"/>
+    <!--fragment search-->
+    <item type="id" name="search_result"/>
+    <!--include list viewpager-->
+    <item type="id" name="appbarlayout"/>
+    <item type="id" name="toolbar"/>
+    <item type="id" name="tabs"/>
+    <item type="id" name="viewpager"/>
+    <item type="id" name="fab"/>
+    <!--item article list-->
+    <item type="id" name="rl_root"/>
+    <!--item cloud clooect-->
+    <item type="id" name="cloud_thumb"/>
+    <item type="id" name="cloud_type"/>
+    <item type="id" name="cloud_title"/>
+    <item type="id" name="cloud_user"/>
+    <item type="id" name="cloud_date"/>
+    <item type="id" name="cloud_tag"/>
+    <!--item search-->
+    <item type="id" name="meta_container"/>
+    <!--nav header-->
+    <item type="id" name="login_userimg"/>
+    <item type="id" name="login_username"/>
 </resources>

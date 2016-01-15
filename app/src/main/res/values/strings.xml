@@ -194,4 +194,8 @@
     <string name="third_party_licenses_title">三方许可</string>
     <string name="libraries_title"><![CDATA[依赖库 和 资源]]></string>
     <string name="comment">"%s 评论"</string>
+    <string name="default_string">...</string>
+    <string name="no_result">无相关结果</string>
+    <string name="article">文章</string>
+    <string name="up_s">up主: %s</string>
 </resources>

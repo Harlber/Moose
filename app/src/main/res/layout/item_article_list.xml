@@ -24,7 +24,7 @@
     tools:ignore="UnusedAttribute">
 
     <RelativeLayout
-        android:id="@+id/rl_root"
+        android:id="@id/rl_root"
         style="@style/AppCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

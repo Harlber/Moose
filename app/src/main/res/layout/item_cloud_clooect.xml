@@ -31,7 +31,7 @@
         style="@style/AppCardView">
 
         <ImageView
-            android:id="@+id/cloud_thumb"
+            android:id="@id/cloud_thumb"
             android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
@@ -50,7 +50,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/cloud_type"
+                    android:id="@id/cloud_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -59,11 +59,11 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/margin_4dp"
                     android:paddingRight="@dimen/margin_4dp"
-                    android:text="文章"
+                    android:text="@string/article"
                     android:textColor="@color/md_white" />
 
                 <TextView
-                    android:id="@+id/cloud_title"
+                    android:id="@id/cloud_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -73,7 +73,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/margin_4dp"
                     android:singleLine="true"
-                    android:text="......" />
+                    android:text="@string/default_string" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -82,7 +82,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/cloud_user"
+                    android:id="@id/cloud_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -94,11 +94,11 @@
                     android:paddingLeft="@dimen/margin_4dp"
                     android:paddingRight="@dimen/margin_4dp"
                     android:singleLine="true"
-                    android:text="by ..."
+                    android:text="@string/up_s"
                     android:textColor="@color/md_white" />
 
                 <TextView
-                    android:id="@+id/cloud_date"
+                    android:id="@id/cloud_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/magin_8"
@@ -108,14 +108,14 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/cloud_tag"
+                android:id="@id/cloud_tag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/magin_8"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:padding="@dimen/margin_4dp"
-                android:text="..." />
+                android:text="@string/default_string" />
         </LinearLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

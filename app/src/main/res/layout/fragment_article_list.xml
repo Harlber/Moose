@@ -15,7 +15,7 @@
       limitations under the License.
       -->
 <moose.com.ac.ui.widget.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swiperefresh"
+    android:id="@id/swiperefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,13 +24,13 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
 
         <TextView
-            android:id="@+id/tv_no"
+            android:id="@id/tv_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

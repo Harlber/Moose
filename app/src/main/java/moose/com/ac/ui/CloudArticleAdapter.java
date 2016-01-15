@@ -58,7 +58,7 @@ public class CloudArticleAdapter extends RecyclerView.Adapter<CloudArticleVH> {
                 .into(holder.imageView);
         holder.title.setText(content.getTitle());
         holder.tag.setText(content.getTags());
-        holder.user.setText("up主 " + content.getAuthor());
+        holder.user.setText(context.getString(R.string.up_s,content.getAuthor()));
         holder.date.setText(AppUtils.formatDateByLongTime(String.valueOf(content.getReleaseDate()), context.getString(R.string.format_date)).substring(5));
         holder.rootView.setOnClickListener(v -> {
             Article article = new Article();

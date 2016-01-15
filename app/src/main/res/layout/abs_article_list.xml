@@ -15,7 +15,7 @@
       limitations under the License.
       -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/news_content"
+    android:id="@id/news_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -23,13 +23,13 @@
     <include layout="@layout/toolbar"/>
 
     <moose.com.ac.ui.widget.MultiSwipeRefreshLayout
-        android:id="@+id/swiperefresh"
+        android:id="@id/swiperefresh"
         android:layout_margin="@dimen/magin_8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />

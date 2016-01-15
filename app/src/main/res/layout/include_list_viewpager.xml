@@ -16,17 +16,17 @@
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
+    android:id="@id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbarlayout"
+        android:id="@id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@id/toolbar"
             android:theme="@style/AppToolbarTheme"
             android:layout_height="56dp"
             android:layout_width="match_parent"
@@ -35,20 +35,20 @@
             app:layout_scrollFlags="scroll|enterAlways"/>
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
+            android:id="@id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </android.support.design.widget.AppBarLayout>
 
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"

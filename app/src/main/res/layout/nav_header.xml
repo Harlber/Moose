@@ -23,7 +23,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/login_username"
+        android:id="@id/login_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/un_login"
@@ -31,7 +31,7 @@
         android:padding="@dimen/magin_8"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
     <moose.com.ac.ui.widget.CircleImageView
-        android:id="@+id/login_userimg"
+        android:id="@id/login_userimg"
         android:layout_above="@id/login_username"
         android:layout_marginBottom="8dp"
         android:background="@color/colorContents"
