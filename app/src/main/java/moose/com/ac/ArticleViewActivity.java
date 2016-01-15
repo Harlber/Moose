@@ -66,6 +66,7 @@ import rx.subscriptions.CompositeSubscription;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by Farble on 2015/8/16 20.
  * WebView TextSize:
@@ -373,17 +374,19 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
             // url may have encoded path
             parsedUri = parsedUri.buildUpon().path(parsedUri.getPath()).build();
             src = parsedUri.toString();
-            Log.e(TAG,"image src:"+src);
+            Log.i(TAG, "image src:" + src);
             img.attr("org", src);
             if (CommonUtil.getMode() == 1 && !App.isWifi()) {//add wifi support
                 img.after("<p >[图片]</p>");
-            }else {
-                String index = "<div style=\"width: 100%;text-align: center;\"><img src=\""+src+"\" width=\""+
+            } else if (!src.contains(Config.AC_EMOTION)) {
+                String index = "<div style=\"width: 100%;text-align: center;\"><img src=\"" + src + "\" width=\"" +
                         CommonUtil.getImageShouldDisplayWidth(getApplicationContext())
-                        +"px\""+" alt=\" 加载失败\"/>\n" +
+                        + "px\"" + " alt=\" 加载失败\"/>\n" +
                         "</div>";
-                Log.e(TAG,"index image:"+index);
+                Log.i(TAG, "index image:" + index);
                 img.after(index);
+            } else {
+                img.after("<img src=\"" + src + "\" alt=\" 加载失败\"/>\n");
             }
 
             img.remove();
