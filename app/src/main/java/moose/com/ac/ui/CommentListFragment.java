@@ -108,7 +108,7 @@ public class CommentListFragment extends Fragment {
         mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
-            doSwapeRefresh();
+            doSwipeRefresh();
         });
     }
 
@@ -140,11 +140,12 @@ public class CommentListFragment extends Fragment {
         });
     }
 
-    private void doSwapeRefresh() {
+    private void doSwipeRefresh() {
         loadData(page);
     }
 
     private void loadMore() {
+        loadData(page);
     }
 
     private void loadData(int pg) {
