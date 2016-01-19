@@ -13,6 +13,7 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
 import moose.com.ac.R;
 import moose.com.ac.retrofit.article.Article;
+import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -69,6 +70,7 @@ public abstract class ArticleListFragment extends Fragment {
         adapter = new ArticleListAdapter(lists, getActivity());
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);

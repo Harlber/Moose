@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +21,7 @@ import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.RxDataBase;
 import moose.com.ac.retrofit.article.Article;
+import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -102,6 +102,7 @@ public class LocalCollectFragment extends Fragment {
         adapter = new ArticleListAdapter(lists, getActivity());
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);

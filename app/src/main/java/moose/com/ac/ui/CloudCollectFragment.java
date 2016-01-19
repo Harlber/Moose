@@ -14,6 +14,7 @@ package moose.com.ac.ui;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,6 +36,7 @@ import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.ArticleContent;
+import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
@@ -101,6 +103,7 @@ public class CloudCollectFragment extends Fragment {
         adapter = new CloudArticleAdapter(getActivity(), list);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);

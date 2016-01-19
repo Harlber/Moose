@@ -24,6 +24,7 @@ import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.comment.CommentDetail;
+import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
@@ -121,6 +122,7 @@ public class CommentListFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(adapter);
 
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
