@@ -21,17 +21,17 @@
     android:descendantFocusability="blocksDescendants"
     android:duplicateParentState="true">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_quote"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"/>
+        android:layout_height="wrap_content" />
 
     <!--<TextView-->
-        <!--android:id="@id/requote"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal" />-->
+    <!--android:id="@id/requote"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal" />-->
 
     <!--<TextView-->
     <!--android:id="@+id/requote"-->

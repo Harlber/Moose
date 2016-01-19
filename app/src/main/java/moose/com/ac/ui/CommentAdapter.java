@@ -6,7 +6,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,7 +40,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.user = (TextView) v.findViewById(R.id.user_name);
         holder.content = (TextView) v.findViewById(R.id.comments_content);
         holder.quoteImage = v.findViewById(R.id.quote_img);
-        holder.ll_quote = (LinearLayout) v.findViewById(R.id.ll_quote);
+        holder.ll_quote = (RelativeLayout) v.findViewById(R.id.ll_quote);
         return holder;
     }
 
@@ -56,11 +55,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         handleQuoteList(position, holder.rootView, holder, quoteId, quoteList);
         holder.quoteFrame.setQuoteList(quoteList);
         if (!quoteList.isEmpty()) {
-            //RelativeLayout.LayoutParams floorsLayoutParams = new RelativeLayout.LayoutParams(-1, -2);
-            //int margin = DisplayUtil.dip2px(mContext, 4);
-            //floorsLayoutParams.setMargins(margin, 0, margin, margin);
+            RelativeLayout.LayoutParams floorsLayoutParams = new RelativeLayout.LayoutParams(-1, -2);
+            int margin = DisplayUtil.dip2px(mContext, 4);
+            floorsLayoutParams.setMargins(margin, 0, margin, margin);
             //floorsLayoutParams.addRule(RelativeLayout.BELOW, R.id.requote);
-            holder.ll_quote.addView(holder.quoteFrame);
+            holder.ll_quote.addView(holder.quoteFrame,floorsLayoutParams);
         }else{
             holder.ll_quote.removeAllViews();
         }
@@ -83,7 +82,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public View quoteImage;
         public boolean hasQuote;
         public FloorsView quoteFrame;
-        public LinearLayout ll_quote;
+        public RelativeLayout ll_quote;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
