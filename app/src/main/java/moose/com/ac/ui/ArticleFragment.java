@@ -43,14 +43,12 @@ public class ArticleFragment extends ArticleListFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,@Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(
-                R.layout.fragment_article_list, container, false);
+        rootView = inflater.inflate(R.layout.fragment_article_list, container, false);
         mChannelId = getArguments().getInt(Config.CHANNEL_ID);
         //noinspection ConstantConditions
         type = Integer.valueOf(getArguments().getString(Config.CHANNEL_TYPE));
         initRecyclerView();
         initRefreshLayout();
-
         mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));//show progressbar
         new Handler().postDelayed(this::init, Config.TIME_LATE);
         return rootView;

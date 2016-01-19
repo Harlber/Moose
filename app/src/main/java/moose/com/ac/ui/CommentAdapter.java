@@ -6,6 +6,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,13 +41,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.user = (TextView) v.findViewById(R.id.user_name);
         holder.content = (TextView) v.findViewById(R.id.comments_content);
         holder.quoteImage = v.findViewById(R.id.quote_img);
+        holder.ll_quote = (LinearLayout) v.findViewById(R.id.ll_quote);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         CommentDetail c = data.get(commentIdList.get(position));
-        holder.user.setText("#" + c.getCount() + " " + c.getUserName());
+        holder.user.setText(String.format("#%d %s", c.getCount(), c.getUserName()));
         TextViewUtils.setCommentContent(holder.content, c);
         int quoteId = Integer.valueOf(c.getQuoteId() + "");
         holder.hasQuote = quoteId > 0;
@@ -54,16 +56,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         handleQuoteList(position, holder.rootView, holder, quoteId, quoteList);
         holder.quoteFrame.setQuoteList(quoteList);
         if (!quoteList.isEmpty()) {
-            RelativeLayout.LayoutParams floorsLayoutParams = new RelativeLayout.LayoutParams(-1, -2);
-            int margin = DisplayUtil.dip2px(mContext, 4);
-            floorsLayoutParams.setMargins(margin, 0, margin, margin);
-            floorsLayoutParams.addRule(RelativeLayout.BELOW, R.id.requote);
-            ((ViewGroup) holder.rootView).addView(holder.quoteFrame, floorsLayoutParams);
+            //RelativeLayout.LayoutParams floorsLayoutParams = new RelativeLayout.LayoutParams(-1, -2);
+            //int margin = DisplayUtil.dip2px(mContext, 4);
+            //floorsLayoutParams.setMargins(margin, 0, margin, margin);
+            //floorsLayoutParams.addRule(RelativeLayout.BELOW, R.id.requote);
+            holder.ll_quote.addView(holder.quoteFrame);
+        }else{
+            holder.ll_quote.removeAllViews();
         }
-        RelativeLayout.LayoutParams userLayoutParams = (RelativeLayout.LayoutParams) holder.user.getLayoutParams();
-        userLayoutParams.addRule(RelativeLayout.BELOW, holder.quoteFrame.getChildCount() > 0 ? frameId : R.id.requote);
-        holder.user.setLayoutParams(userLayoutParams);
-        handlePadding(position, holder.rootView);
+//        RelativeLayout.LayoutParams userLayoutParams = (RelativeLayout.LayoutParams) holder.user.getLayoutParams();
+//        userLayoutParams.addRule(RelativeLayout.BELOW, holder.quoteFrame.getChildCount() > 0 ? frameId : R.id.requote);
+//        holder.user.setLayoutParams(userLayoutParams);
+//        handlePadding(position, holder.rootView);
     }
 
     @Override
@@ -79,6 +83,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public View quoteImage;
         public boolean hasQuote;
         public FloorsView quoteFrame;
+        public LinearLayout ll_quote;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
@@ -104,7 +109,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private RelativeLayout generateQuoteFrame(CommentDetail quote) {
         RelativeLayout quoteFrame = (RelativeLayout) mInflater.inflate(R.layout.comments_quote_item, null);
         TextView username = (TextView) quoteFrame.findViewById(R.id.user_name);
-        username.setText("#" + quote.getCount() + " " + quote.getUserName());
+        username.setText(String.format("#%d %s", quote.getCount(), quote.getUserName()));
         TextView content = (TextView) quoteFrame.findViewById(R.id.comments_content);
         TextViewUtils.setCommentContent(content, quote);
 
@@ -127,7 +132,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 if (quote.beQuotedPosition == position) {
                     quoteList.add(generateQuoteFrame(quote));
                 } else {
-                    convertView.findViewById(R.id.requote).setVisibility(View.VISIBLE);
+                    //convertView.findViewById(R.id.requote).setVisibility(View.VISIBLE);
                 }
             } else {
                 quote.isQuoted = true;
