@@ -3,6 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_set" android:title="@string/set"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_front" android:title="@string/front_set"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <!--<item android:id="@+id/action_front" android:title="@string/front_set"
+        android:orderInCategory="100" app:showAsAction="never" />-->
 </menu>

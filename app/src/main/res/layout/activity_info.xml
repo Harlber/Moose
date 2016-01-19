@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+      Copyright 2014 Farble Dast. All rights reserved.
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+      -->
 <moose.com.ac.ui.widget.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/profile_swipe"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/profile_swipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--moose.com.ac.ui.view.MultiSwipeRefreshLayout-->
@@ -9,7 +25,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/profile_swipe_child"
+            android:id="@id/profile_swipe_child"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -20,7 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="192dp"
                 android:layout_margin="@dimen/magin_8"
-                android:elevation="20dp">
+                android:elevation="20dp"
+                tools:targetApi="lollipop">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -28,7 +45,7 @@
                     android:background="?attr/colorPrimary">
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/profile_chenkin"
+                        android:id="@id/profile_chenkin"
                         android:layout_width="96dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
@@ -40,7 +57,7 @@
                         android:textSize="18sp" />
 
                     <ImageView
-                        android:id="@+id/profile_logo"
+                        android:id="@id/profile_logo"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
                         android:layout_above="@id/profile_chenkin"
@@ -48,7 +65,7 @@
                         android:background="@color/colorContents" />
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/profile_logout"
+                        android:id="@id/profile_logout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -61,14 +78,14 @@
                         android:textColor="@color/textColorButton" />
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/profile_uid"
+                        android:id="@id/profile_uid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:layout_margin="16dp"
                         android:padding="5dp"
-                        android:text="eterye"
+                        android:text="@string/default_string"
                         android:textColor="@color/textColorButton" />
 
                 </RelativeLayout>
@@ -80,12 +97,12 @@
                 android:layout_margin="@dimen/magin_8">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/profile_qian"
+                    android:id="@id/profile_qian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:padding="5dp"
-                    android:text="eterye" />
+                    android:text="@string/default_string" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -94,12 +111,12 @@
                 android:layout_margin="@dimen/magin_8">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/profile_date"
+                    android:id="@id/profile_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:padding="5dp"
-                    android:text="2014-12-01" />
+                    android:text="@string/default_string" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -108,17 +125,17 @@
                 android:layout_margin="@dimen/magin_8">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/profile_sex"
+                    android:id="@id/profile_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:padding="5dp"
-                    android:text="女" />
+                    android:text="@string/default_string" />
             </android.support.v7.widget.CardView>
         </LinearLayout>
 
         <View
-            android:id="@+id/snak_view"
+            android:id="@id/snak_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"

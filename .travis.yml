@@ -12,6 +12,10 @@ jdk:
 
 script: "./gradlew assembleDebug;./gradlew testDebug"
 
+
+after_success:
+- ./gradlew jacocoTestReport coveralls
+
 notifications:
   email: false
 

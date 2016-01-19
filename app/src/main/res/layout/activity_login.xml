@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+      Copyright 2014 Farble Dast. All rights reserved.
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+      -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,7 +21,7 @@
 
     <!--moose.com.ac.ui.view.MultiSwipeRefreshLayout-->
     <moose.com.ac.ui.widget.MultiSwipeRefreshLayout
-        android:id="@+id/login_swipe"
+        android:id="@id/login_swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -19,12 +34,12 @@
             <include layout="@layout/toolbar" />
 
             <RelativeLayout
-                android:id="@+id/login_swipe_child"
+                android:id="@id/login_swipe_child"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/login_head"
+                    android:id="@id/login_head"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_centerHorizontal="true"
@@ -33,13 +48,13 @@
                     android:src="@drawable/login" />
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_name"
+                    android:id="@id/input_layout_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/login_head">
 
                     <moose.com.ac.ui.widget.EmailEditText
-                        android:id="@+id/login_name"
+                        android:id="@id/login_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -53,13 +68,13 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_pwd"
+                    android:id="@id/input_layout_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/input_layout_name">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/login_pwd"
+                        android:id="@id/login_pwd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -76,7 +91,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/login_submit"
+                    android:id="@id/login_submit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/input_layout_pwd"

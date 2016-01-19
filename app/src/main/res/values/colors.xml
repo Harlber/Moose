@@ -21,7 +21,7 @@
     <color name="colorPrimaryDark">#03a9f4</color>
     <color name="colorLight">#b45cb2d2</color>
     <color name="colorPrimaryLight">#FFE0B2</color>
-    <color name="colorAccent">#ff87a0</color>
+    <color name="colorAccent">#fdd835</color>
     <color name="colorAccentLight">#FF8A80</color>
     <color name="textColorButton">#FFFFFF</color>
     <color name="backgroud_main">#ededed</color>
@@ -30,6 +30,7 @@
     <color name="colorContents">#00000000</color>
     <color name="colorEmailTextView">#ff424242</color>
     <color name="colorEmailText">#ff212121</color>
+    <color name="colorfab">#ff87a0</color><!--ff87a0-->
 
 
     <!-- red -->

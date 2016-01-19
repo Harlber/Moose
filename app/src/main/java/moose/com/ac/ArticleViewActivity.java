@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -50,6 +51,21 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+/*
+ * Copyright Farble Dast. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 /**
  * Created by Farble on 2015/8/16 20.
@@ -154,13 +170,15 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
         mWeb = (ObservableWebView) findViewById(R.id.view_webview);
         settings = mWeb.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setUserAgentString(RxUtils.UA);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         settings.setDefaultTextEncodingName("UTF -8");
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             mWeb.getSettings().setDisplayZoomControls(false);
+        }
         mWeb.setWebViewClient(new Client());
         if (Build.VERSION.SDK_INT >= 11)
             mWeb.setBackgroundColor(Color.argb(1, 0, 0, 0));
@@ -286,9 +304,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
                             rx.Observable.create(subscriber -> {
                                 dealBody(HtmlBody);
                                 addHead();
-                                if (CommonUtil.getMode() == 1 && !App.isWifi()) {//add wifi support
-                                    filterImg(HtmlBody);
-                                }
+                                filterImg(HtmlBody);
                                 subscriber.onNext(HtmlBody);
                             }).subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -358,9 +374,21 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
             // url may have encoded path
             parsedUri = parsedUri.buildUpon().path(parsedUri.getPath()).build();
             src = parsedUri.toString();
+            Log.i(TAG, "image src:" + src);
             img.attr("org", src);
+            if (CommonUtil.getMode() == 1 && !App.isWifi()) {//add wifi support
+                img.after("<p >[图片]</p>");
+            } else if (!src.contains(Config.AC_EMOTION)) {
+                String index = "<div style=\"width: 100%;text-align: center;\"><img src=\"" + src + "\" width=\"" +
+                        CommonUtil.getImageShouldDisplayWidth(getApplicationContext())
+                        + "px\"" + " alt=\" 加载失败\"/>\n" +
+                        "</div>";
+                Log.i(TAG, "index image:" + index);
+                img.after(index);
+            } else {
+                img.after("<img src=\"" + src + "\" alt=\" 加载失败\"/>\n");
+            }
 
-            img.after("<p >[图片]</p>");
             img.remove();
             img.removeAttr("style");
             HtmlBody = mDocument.toString();

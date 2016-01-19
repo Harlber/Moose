@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="image_margin">16dp</dimen>
     <dimen name="min_cardview_height">48dp</dimen>
     <dimen name="article_flag_width">56dp</dimen>
     <dimen name="cardview_header_margin">8dp</dimen>
@@ -17,6 +18,7 @@
     <dimen name="emotions_column_width">48dp</dimen>
     <dimen name="abc_action_bar_default_height">48dp</dimen>
     <dimen name="magin_8">8dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
     <dimen name="card_margin">8dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="margin_4dp">4dp</dimen>

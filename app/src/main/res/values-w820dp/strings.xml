@@ -16,4 +16,8 @@
     <string name="third_party_licenses_title">3rd Party Licenses</string>
     <string name="libraries_title"><![CDATA[Libraries & Resources]]></string>
     <string name="comment">"%s Comments"</string>
+    <string name="default_string">...</string>
+    <string name="no_result">无相关结果</string>
+    <string name="article">文章</string>
+    <string name="up_s">up主 %s</string>
 </resources>
