@@ -15,6 +15,7 @@ import java.util.List;
 
 import moose.com.ac.App;
 import moose.com.ac.ArticleViewActivity;
+import moose.com.ac.MainActivity;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
@@ -113,7 +114,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         Bundle mBundle = new Bundle();
         mBundle.putSerializable(Config.ARTICLE, article);
         intent.putExtras(mBundle);
-        new Handler().postDelayed(() -> mActivity.startActivity(intent), 50);//make sure db insert done before intent
+        new Handler().postDelayed(() -> {
+            ((MainActivity)mActivity).resume();
+            mActivity.startActivity(intent);
+        }, Config.TIME_LATE);//make sure db insert done before intent
     }
 
     @Override

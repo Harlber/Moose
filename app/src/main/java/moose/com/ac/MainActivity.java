@@ -72,6 +72,7 @@ import rx.subscriptions.CompositeSubscription;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * when intent another activity,need cancel network request
  * SearchView see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines
@@ -320,6 +321,9 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
+    public void resume() {
+        super.onResume();
+    }
 
     private void setupViewPager(ViewPager viewPager) {
         adapter.addFragment(getArticleFragment(Config.COMPLEX), getString(R.string.complex));
