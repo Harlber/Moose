@@ -61,7 +61,7 @@ public abstract class ArticleListFragment extends Fragment {
         mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
-            doSwapeRefresh();
+            doSwipeRefresh();
         });
     }
 
@@ -86,7 +86,7 @@ public abstract class ArticleListFragment extends Fragment {
 
     protected abstract void loadMore();
 
-    protected abstract void doSwapeRefresh();
+    protected abstract void doSwipeRefresh();
 
     @Deprecated
     public RecyclerView getmRecyclerView() {

@@ -111,7 +111,7 @@ public class ArticleFragment extends ArticleListFragment {
     }
 
     @Override
-    protected void doSwapeRefresh() {
+    protected void doSwipeRefresh() {
         loadData(type, 1, false);
     }
 
