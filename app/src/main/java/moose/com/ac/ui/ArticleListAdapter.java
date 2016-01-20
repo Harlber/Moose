@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import moose.com.ac.App;
+import moose.com.ac.AppApplication;
 import moose.com.ac.ArticleViewActivity;
 import moose.com.ac.MainActivity;
 import moose.com.ac.R;
@@ -107,8 +107,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     public void onItemClick(View view, int position) {
         Article article = lists.get(position);
         article.setSavedate(String.valueOf(System.currentTimeMillis()));
-        if (!App.isVistor()) {
-            App.getDbHelper().insertArticle(article, ArticleCollects.ArticleHistoryEntry.TABLE_NAME, article.getChannelId());
+        if (!AppApplication.isVistor()) {
+            AppApplication.getDbHelper().insertArticle(article, ArticleCollects.ArticleHistoryEntry.TABLE_NAME, article.getChannelId());
         }
         Intent intent = new Intent(mActivity, ArticleViewActivity.class);
         Bundle mBundle = new Bundle();

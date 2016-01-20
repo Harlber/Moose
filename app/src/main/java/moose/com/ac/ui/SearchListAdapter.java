@@ -93,8 +93,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListVH> implem
     public void onItemClick(View view, int postion) {
         /*Article article = lists.get(postion);
         article.setSavedate(String.valueOf(System.currentTimeMillis()));
-        if (!App.isVistor()) {
-            App.getDbHelper().insertArticle(article, ArticleCollects.ArticleHistoryEntry.TABLE_NAME, article.getChannelId());
+        if (!AppApplication.isVistor()) {
+            AppApplication.getDbHelper().insertArticle(article, ArticleCollects.ArticleHistoryEntry.TABLE_NAME, article.getChannelId());
         }
         Intent intent = new Intent(mActivity, ArticleViewActivity.class);
         Bundle mBundle = new Bundle();

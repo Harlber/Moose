@@ -74,7 +74,7 @@ public class WebviewActivity extends AppCompatActivity {
             cookieManager.setCookie(Config.WAP_URL, cookieString);
             CookieSyncManager.getInstance().sync();
 
-            DbHelper dbHelper = new DbHelper(App.getmContext());
+            DbHelper dbHelper = new DbHelper(AppApplication.getmContext());
             List<LocalCookie> cookies = new ArrayList<>();
             cookies = dbHelper.getDbCookies();
             abc = new HashMap<String, String>();

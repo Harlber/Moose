@@ -14,7 +14,7 @@ import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import moose.com.ac.App;
+import moose.com.ac.AppApplication;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.LocalCookie;
 import retrofit.GsonConverterFactory;
@@ -129,7 +129,7 @@ public final class RxUtils {
             Response originalResponse = chain.proceed(chain.request());
 
             if (!originalResponse.headers("Set-Cookie").isEmpty()) {
-                DbHelper dbHelper = App.getDbHelper();
+                DbHelper dbHelper = AppApplication.getDbHelper();
                 HashSet<String> cookies = new HashSet<>();
 
                 for (String header : originalResponse.headers("Set-Cookie")) {
@@ -157,7 +157,7 @@ public final class RxUtils {
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
             //HashSet<String> preferences = (HashSet) Preferences.getDefaultPreferences().getStringSet(Preferences.PREF_COOKIES, new HashSet<>());
-            DbHelper dbHelper = new DbHelper(App.getmContext());
+            DbHelper dbHelper = new DbHelper(AppApplication.getmContext());
             List<LocalCookie> cookies = new ArrayList<>();
             cookies = dbHelper.getDbCookies();
             builder.addHeader("User-Agent", UA);

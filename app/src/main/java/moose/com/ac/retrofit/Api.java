@@ -151,7 +151,7 @@ public interface Api {
     Observable<ArticleCloud> getArticleCloudList(@Query("count") int count, @Query("pageNo") int pageNo, @Query("channelId") String channelId);
 
     /**
-     * get App Version dynamically
+     * get AppApplication Version dynamically
      *
      * @return #ResponseBody file body
      */

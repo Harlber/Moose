@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import moose.com.ac.App;
+import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 
@@ -84,7 +84,7 @@ public final class CommonUtil {
     }
 
     public static String getUserName() {
-        return PreferenceUtil.getString(Config.USERNAME, App.getmContext().getString(R.string.un_login));
+        return PreferenceUtil.getString(Config.USERNAME, AppApplication.getmContext().getString(R.string.un_login));
     }
 
     public static void setUserName(String name) {
@@ -92,7 +92,7 @@ public final class CommonUtil {
     }
 
     public static String getUserLogo() {
-        return PreferenceUtil.getString(Config.USER_LOG, App.getmContext().getString(R.string.default_user_logo));
+        return PreferenceUtil.getString(Config.USER_LOG, AppApplication.getmContext().getString(R.string.default_user_logo));
     }
 
     public static void setUserLogo(String str) {
@@ -120,7 +120,7 @@ public final class CommonUtil {
     }
 
     public static String getSignatrue() {
-        return PreferenceUtil.getString(Config.USER_SIGNATRUE, App.getmContext().getString(R.string.un_login));
+        return PreferenceUtil.getString(Config.USER_SIGNATRUE, AppApplication.getmContext().getString(R.string.un_login));
     }
 
     public static void setRegDate(Long date) {
@@ -237,13 +237,13 @@ public final class CommonUtil {
     public static String getGender(Integer gender) {
         switch (gender) {
             case 0:
-                return App.getmContext().getString(R.string.fem);
+                return AppApplication.getmContext().getString(R.string.fem);
             case 1:
-                return App.getmContext().getString(R.string.mal);
+                return AppApplication.getmContext().getString(R.string.mal);
             case -1:
-                return App.getmContext().getString(R.string.unknown);
+                return AppApplication.getmContext().getString(R.string.unknown);
             default:
-                return App.getmContext().getString(R.string.unknown);
+                return AppApplication.getmContext().getString(R.string.unknown);
         }
     }
 

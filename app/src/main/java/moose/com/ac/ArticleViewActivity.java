@@ -240,7 +240,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
                 return true;
             case R.id.action_store:
                 if (isFav) {//cancel store
-                    boolean deleteSuc = App.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME, String.valueOf(contendid));
+                    boolean deleteSuc = AppApplication.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME, String.valueOf(contendid));
                     menFav.setTitle(deleteSuc ? getString(R.string.cancel_store) : getString(R.string.store_it));
                     isFav = !deleteSuc;
                     snackStore(deleteSuc ? getString(R.string.cancel_success) : getString(R.string.cancel_fal));
@@ -376,7 +376,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
             src = parsedUri.toString();
             Log.i(TAG, "image src:" + src);
             img.attr("org", src);
-            if (CommonUtil.getMode() == 1 && !App.isWifi()) {//add wifi support
+            if (CommonUtil.getMode() == 1 && !AppApplication.isWifi()) {//add wifi support
                 img.after("<p >[图片]</p>");
             } else if (!src.contains(Config.AC_EMOTION)) {
                 String index = "<div style=\"width: 100%;text-align: center;\"><img src=\"" + src + "\" width=\"" +

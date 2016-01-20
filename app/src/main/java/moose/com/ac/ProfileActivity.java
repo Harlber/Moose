@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -144,8 +143,6 @@ public class ProfileActivity extends AppCompatActivity {
         gender = (AppCompatTextView) findViewById(R.id.profile_gender);
         snakView = findViewById(R.id.snak_view);
         if (CommonUtil.hasRegis()) {
-            if (App.isApkDebugable(this))
-                Log.e(TAG, "already");
             registButton.setText(R.string.already_regi);
             signature.setText(getString(R.string.user_sign) + CommonUtil.getSignatrue());
             date.setText(CommonUtil.toDate(CommonUtil.getRegDate()));

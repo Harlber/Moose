@@ -7,7 +7,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import moose.com.ac.App;
+import moose.com.ac.AppApplication;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleUser;
 import rx.Observable;
@@ -27,7 +27,7 @@ public class RxDataBase {
     public Observable<List<Article>> favLists = Observable.create(new Observable.OnSubscribe<List<Article>>() {
         @Override
         public void call(Subscriber<? super List<Article>> subscriber) {
-            DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
+            DBCustomHelper mDbHelper = new DBCustomHelper(AppApplication.getmContext());
             SQLiteDatabase db = mDbHelper.getReadableDatabase();
             List<Article> lists = new ArrayList<>();
             Cursor c = db.rawQuery("SELECT * FROM " + tabName, null);
@@ -63,7 +63,7 @@ public class RxDataBase {
     });
 
     public Observable<List<LocalCookie>> cookieCollect = Observable.create(subscriber -> {
-        DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
+        DBCustomHelper mDbHelper = new DBCustomHelper(AppApplication.getmContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         List<LocalCookie> lists = new ArrayList<>();
         Cursor c = db.rawQuery("SELECT * FROM " + tabName, null);
@@ -90,7 +90,7 @@ public class RxDataBase {
     //get cookies from database
 
     public Observable<Integer> dropTable = Observable.create(subscriber -> {
-        DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
+        DBCustomHelper mDbHelper = new DBCustomHelper(AppApplication.getmContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         int result = db.delete(tabName, null, null);
         db.close();
@@ -99,7 +99,7 @@ public class RxDataBase {
     });
 
     public Observable<Integer> ReSetInstance = Observable.create(subscriber -> {
-        DBCustomHelper mDbHelper = new DBCustomHelper(App.getmContext());
+        DBCustomHelper mDbHelper = new DBCustomHelper(AppApplication.getmContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         //create table after dropping
         db.execSQL(ArticleCollects.SQL_DELETE_ARTICLESTORY);//
