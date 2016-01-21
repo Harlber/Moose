@@ -221,7 +221,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void Snack(String msg) {
-        Snackbar.make(snakView, msg, Snackbar.LENGTH_SHORT).show();
+        Snackbar snackBar = Snackbar.make(snakView, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.snackbar_action, v -> {
+            snackBar.dismiss();
+        });
+        snackBar.getView().setBackgroundResource(R.color.colorPrimary);
+        snackBar.show();
     }
 
 }

@@ -162,6 +162,11 @@ public class Login extends RxAppCompatActivity {
     }
 
     private void Snack(String msg) {
-        Snackbar.make(login, msg, Snackbar.LENGTH_SHORT).show();
+        Snackbar snackBar = Snackbar.make(login, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.snackbar_action, v -> {
+            snackBar.dismiss();
+        });
+        snackBar.getView().setBackgroundResource(R.color.colorPrimary);
+        snackBar.show();
     }
 }

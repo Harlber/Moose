@@ -396,19 +396,21 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
     }
 
     private void snack(String msg) {
-        final Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
+        Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction(R.string.reload_action, v -> {
             snackBar.dismiss();
             initData();
         });
+        snackBar.getView().setBackgroundResource(R.color.colorPrimary);
         snackBar.show();
     }
 
     private void snackStore(String msg) {
-        final Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
+        Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction(R.string.snackbar_action, v -> {
             snackBar.dismiss();
         });
+        snackBar.getView().setBackgroundResource(R.color.colorPrimary);
         snackBar.show();
     }
 
