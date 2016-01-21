@@ -45,7 +45,13 @@ public class AppApplication extends Application {
         new PreferenceUtil(mContext);
         dbHelper = new DbHelper(this);
         isVistor = CommonUtil.isVisistor();
-        LeakCanary.install(this);
+        if (!isInUnitTests()) {
+            LeakCanary.install(this);
+        }
+    }
+
+    protected boolean isInUnitTests() {
+        return false;
     }
 
     @Override

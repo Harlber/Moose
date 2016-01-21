@@ -1,6 +1,6 @@
-package ac.moose.com.moose;
+package moose.com.ac;
 
-import android.widget.TextView;
+import android.support.v7.widget.AppCompatEditText;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,10 +9,7 @@ import org.robolectric.annotation.Config;
 
 import ac.moose.com.robolectric.CustomBuildConfig;
 import ac.moose.com.robolectric.MooseCustomRobolectricGradleTestRunner;
-import moose.com.ac.About;
-import moose.com.ac.R;
-
-import static org.assertj.android.api.Assertions.assertThat;
+import moose.com.ac.ui.widget.EmailEditText;
 /*
  * Copyright Farble Dast. All rights reserved.
  *
@@ -30,19 +27,20 @@ import static org.assertj.android.api.Assertions.assertThat;
  */
 /**
  * Created by dell on 2015/12/9.
- * Unit Test for {@link About}
+ * Unit Test for {@link Login}
  */
-
 @RunWith(MooseCustomRobolectricGradleTestRunner.class)
 @Config(constants = CustomBuildConfig.class, sdk = 21,packageName = "moose.com.ac")
-public class AboutTest {
+public class LoginTest {
     @Test
-    public void test() {
-        About activity = Robolectric.setupActivity(About.class);
-        assertThat((TextView) activity.findViewById(R.id.text_application_info)).containsText("Version");
-        assertThat((TextView) activity.findViewById(R.id.text_developer_info)).containsText("咲くやこの花");
-        assertThat((TextView) activity.findViewById(R.id.text_libraries)).isNotEmpty();
-        assertThat((TextView) activity.findViewById(R.id.text_libraries)).containsText("Square");
-        assertThat((TextView) activity.findViewById(R.id.text_3rd_party_licenses)).containsText("License");
+    public void clickingLogin_shouldGetLoginStatus() {
+        Login activity = Robolectric.setupActivity(Login.class);
+        EmailEditText emailEditText = (EmailEditText) activity.findViewById(R.id.login_name);
+        emailEditText.setText("username");
+        AppCompatEditText appCompatEditText = (AppCompatEditText) activity.findViewById(R.id.login_pwd);
+        appCompatEditText.setText("123456");
+        activity.findViewById(R.id.login_submit).performClick();
+
+        //assertThat(PreferenceUtil.getPreferences()).contains("LOGIN_STATUS", "LOGIN_IN");
     }
 }

@@ -1,4 +1,4 @@
-package ac.moose.com.moose;
+package moose.com.ac;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
