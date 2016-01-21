@@ -134,10 +134,11 @@ public class SynchronizeActivity extends AppCompatActivity {
     }
 
     public void snack(String msg) {
-        final Snackbar snackBar = Snackbar.make(viewPager, msg, Snackbar.LENGTH_SHORT);
+        Snackbar snackBar = Snackbar.make(viewPager, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction(R.string.snackbar_action, v -> {
             snackBar.dismiss();
         });
+        snackBar.getView().setBackgroundResource(R.color.colorPrimary);
         snackBar.show();
     }
 }
