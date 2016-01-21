@@ -24,19 +24,19 @@
     <string name="ok">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="web_store">Collect</string>
-    <string name="web_fornt">Font settings</string>
+    <string name="web_font">Font settings</string>
     <string name="web_mode">Graphic mode</string>
     <string name="web_access_url">Visit by web</string>
-    <string name="hide_requote">Repeated references hidden</string>
+    <string name="hide_quoted">Repeated references hidden</string>
     <string name="last_comment">Last reply</string>
     <string name="most_views">Most popular</string>
-    <string name="most_coment">Most Commented</string>
+    <string name="most_comment">Most Commented</string>
     <string name="no_network">Abnormal network requests</string>
     <string name="nw_503">NetWork 503</string>
     <string name="nw_500">NetWork 500</string>
     <string name="nw_404">NetWork 404</string>
     <string name="net_work">"NetWork "</string>
-    <string name="upuser">"Author: "</string>
+    <string name="up_author">"Author: "</string>
     <string name="views">views</string>
     <string name="ups">Thomas: %s</string>
 
@@ -52,7 +52,7 @@
     <string name="developer_info_title">Special Contribution</string>
         <string name="developer_info_text">
         <![CDATA[
-            <p>咲くやこの花❤</p>
+            <p><a href="https://github.com/cunzhezhouhua">咲くやこの花❤</a></p>
         ]]>
     </string>
     <string name="get_data_again">Being re-obtain data</string>
@@ -64,24 +64,24 @@
     <string name="format_date">yyyy/MM/dd HH:mm:ss</string>
     <string name="time_store">Sort by collection-date </string>
     <string name="time_push">Sort by published-date</string>
-    <string name="clear_local">Delete local favorites</string>
+    <string name="clear_local">Clear local saved story</string>
     <string name="positive">Accept</string>
-    <string name="clear_store_all">Are you sure to delete all favorites?</string>
-    <string name="clear_his_all">Are you sure to delete all history?</string>
-    <string name="remove_data_error">Delete data anomalies</string>
+    <string name="clear_store_all">Are you sure to clear all saved?</string>
+    <string name="clear_his_all">Are you sure to clear all history?</string>
+    <string name="remove_data_error">Clear data anomalies</string>
     <string name="data_clear_already">Data has been cleared</string>
-    <string name="delete_data_dalse">Empty data failed</string>
+    <string name="delete_data_failed">Empty data failed</string>
     <string name="no_history">There is no history</string>
     <string name="empty_story">Clear history</string>
     <string name="locus">Locus</string>
     <string name="no_data_to_clear">No data can be cleared</string>
     <string name="sync">Data synchronization</string>
-    <string name="store_it">Unsubscribe</string>
-    <string name="cancel_store">Subscribe</string>
-    <string name="cancel_success">Cancel bookmarked</string>
-    <string name="store_success">Bookmarked</string>
-    <string name="store_fal">Favorite failure</string>
-    <string name="cancel_fal">To unsubscribe from Failure</string>
+    <string name="store_it">UnSave</string>
+    <string name="cancel_store">Save</string>
+    <string name="cancel_success">UnSave</string>
+    <string name="store_success">Saved</string>
+    <string name="store_fal">Save failed</string>
+    <string name="cancel_fal">UnSave failed</string>
     <string name="pref_title_clear_cache">Clear cache</string>
     <string name="pref_title_wifi_load">Under WIFI network Load images automatically</string>
     <string name="pref_title_clear_his">Clear history</string>
@@ -100,12 +100,12 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="log_out">Sign out</string>
     <string name="user_sign">Signature: </string>
-    <string name="fem">Female</string>
-    <string name="mal">Male</string>
-    <string name="unknown">Private</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="private_info">Private</string>
     <string name="gender">"Gender: "</string>
     <string name="reg_success">Registration Success</string>
-    <string name="already_regi">Checked in</string>
+    <string name="checked_in">Checked in</string>
     <string name="reg_today_yet">Checked in already</string>
     <string name="default_user_logo">http://cdn.aixifan.com/dotnet/20120923/style/image/avatar.jpg</string>
     <string name="logout_success">Sign out success</string>
@@ -117,8 +117,8 @@
     <string name="default_article_item_number">0</string>
     <string name="snackbar_action">I got it</string>
     <string name="reload_action">Reloading</string>
-    <string name="serach">Searching...</string>
-    <string name="search">Search result</string>
+    <string name="search">Searching...</string>
+    <string name="search_result">Search result</string>
     <string name="set_all">All settings</string>
     <string name="total">Complex</string>
     <string name="up_name">"Author: "</string>
@@ -184,9 +184,22 @@
             <h2 class="title">
         ]]>
     </string>
+        <string name="image_style" formatted="false">
+        <![CDATA[
+        <div>
+            <img src="%s" width="%d" height="%d" style="text-align: center;" Load failed/>
+        </div>
+        ]]>
+    </string>
     <string name="third_party_licenses_title">3rd Party Licenses</string>
     <string name="libraries_title"><![CDATA[Libraries & Resources]]></string>
-    <string name="comment">"%s Comments"</string>
+    <!--see http://stackoverflow.com/questions/3715014/android-pluralization-not-working-need-help-->
+    <string name="comment">{0,choice,0#No comment|1#One comment|1&lt;{0} comments}</string>
+    <plurals name="comment" >
+        <item quantity="zero"> %d comment</item>
+        <item quantity="one"> %d comment</item>
+        <item quantity="other"> %d comments</item>
+    </plurals>
     <string name="default_string">...</string>
     <string name="no_result">No results</string>
     <string name="article">Article</string>

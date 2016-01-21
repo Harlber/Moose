@@ -324,7 +324,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
         head.append("</h2>\n");
         head.append("<p class=\"name\"><span>");
         //noinspection StringConcatenationInsideStringBufferAppend
-        head.append(getString(R.string.upuser) + user);
+        head.append(getString(R.string.up_author) + user);
 
         head.append("</span></p>\n");
         head.append("</div>\n");

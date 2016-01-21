@@ -130,7 +130,7 @@ public abstract class ArticleListActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     Snack(getString(R.string.data_clear_already));
                 }else {
-                    Snack(getString(R.string.delete_data_dalse));
+                    Snack(getString(R.string.delete_data_failed));
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
                 mSwipeRefreshLayout.setEnabled(false);

@@ -143,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
         gender = (AppCompatTextView) findViewById(R.id.profile_gender);
         snakView = findViewById(R.id.snak_view);
         if (CommonUtil.hasRegis()) {
-            registButton.setText(R.string.already_regi);
+            registButton.setText(R.string.checked_in);
             signature.setText(getString(R.string.user_sign) + CommonUtil.getSignatrue());
             date.setText(CommonUtil.toDate(CommonUtil.getRegDate()));
             gender.setText(getString(R.string.gender) + CommonUtil.getGender(CommonUtil.getGender()));
@@ -176,7 +176,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 CommonUtil.setRegDate(profile.getRegTime());
                                 CommonUtil.setGender(profile.getGender());
                                 CommonUtil.setRegistDate();//签到
-                                registButton.setText(getString(R.string.already_regi));
+                                registButton.setText(getString(R.string.checked_in));
 
                                 uid.setText(profile.getUsername());
                                 signature.setText(getString(R.string.user_sign) + profile.getSign());

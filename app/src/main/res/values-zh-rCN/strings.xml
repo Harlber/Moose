@@ -24,19 +24,19 @@
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="web_store">收藏</string>
-    <string name="web_fornt">字体设置</string>
+    <string name="web_font">字体设置</string>
     <string name="web_mode">图文模式</string>
     <string name="web_access_url">访问网页</string>
-    <string name="hide_requote">重复引用已隐藏</string>
+    <string name="hide_quoted">重复引用已隐藏</string>
     <string name="last_comment">最近回复</string>
     <string name="most_views">人气最旺</string>
-    <string name="most_coment">评论最多</string>
+    <string name="most_comment">评论最多</string>
     <string name="no_network">网络请求异常</string>
     <string name="nw_503">NetWork 503</string>
     <string name="nw_500">NetWork 500</string>
     <string name="nw_404">NetWork 404</string>
     <string name="net_work">"NetWork "</string>
-    <string name="upuser">"UP主: "</string>
+    <string name="up_author">"UP主: "</string>
     <string name="views">围观</string>
     <string name="ups">up: %s</string>
 
@@ -70,7 +70,7 @@
     <string name="clear_his_all">确定清除历史记录?</string>
     <string name="remove_data_error">删除数据异常</string>
     <string name="data_clear_already">数据已清除</string>
-    <string name="delete_data_dalse">清空数据失败</string>
+    <string name="delete_data_failed">清空数据失败</string>
     <string name="no_history">目前没有浏览记录</string>
     <string name="empty_story">清空历史记录</string>
     <string name="locus">轨迹图</string>
@@ -100,12 +100,12 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="log_out">退出登录</string>
     <string name="user_sign">个性签名: </string>
-    <string name="fem">女</string>
-    <string name="mal">男</string>
-    <string name="unknown">不公开</string>
+    <string name="female">女</string>
+    <string name="male">男</string>
+    <string name="private_info">不公开</string>
     <string name="gender">"性别: "</string>
     <string name="reg_success">签到成功</string>
-    <string name="already_regi">已签到</string>
+    <string name="checked_in">已签到</string>
     <string name="reg_today_yet">今日已签到</string>
     <string name="default_user_logo">http://cdn.aixifan.com/dotnet/20120923/style/image/avatar.jpg</string>
     <string name="logout_success">退出登录成功</string>
@@ -117,8 +117,8 @@
     <string name="default_article_item_number">0</string>
     <string name="snackbar_action">知道了</string>
     <string name="reload_action">重新加载</string>
-    <string name="serach">搜索...</string>
-    <string name="search">搜索结果</string>
+    <string name="search">搜索...</string>
+    <string name="search_result">搜索结果</string>
     <string name="set_all">全部设置</string>
     <string name="total">综合</string>
     <string name="up_name">"UP主: "</string>
@@ -193,7 +193,12 @@
     </string>
     <string name="third_party_licenses_title">三方许可</string>
     <string name="libraries_title"><![CDATA[依赖库 和 资源]]></string>
-    <string name="comment">"%s 评论"</string>
+    <string name="comment">{0,number,integer} 评论</string>
+    <plurals name="comment">
+        <item quantity="zero"> %d 评论</item>
+        <item quantity="one"> %d 评论</item>
+        <item quantity="other">%d 评论</item>
+    </plurals>
     <string name="default_string">...</string>
     <string name="no_result">无相关结果</string>
     <string name="article">文章</string>

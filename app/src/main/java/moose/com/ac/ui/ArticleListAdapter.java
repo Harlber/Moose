@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         holder.views.setText(String.valueOf(article.getViews()));
         holder.user.setText(String.format(mActivity.getString(R.string.ups), article.getUser().getUsername()));
         holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
-        holder.comment.setText(String.format(mActivity.getString(R.string.comment), article.getComments().toString()));
+        holder.comment.setText(MessageFormat.format(mActivity.getResources().getText(R.string.comment).toString(), article.getComments()));
         holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId())) ? View.VISIBLE : View.INVISIBLE);
     }
 

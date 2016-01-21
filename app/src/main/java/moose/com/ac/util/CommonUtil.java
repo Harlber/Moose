@@ -237,13 +237,13 @@ public final class CommonUtil {
     public static String getGender(Integer gender) {
         switch (gender) {
             case 0:
-                return AppApplication.getmContext().getString(R.string.fem);
+                return AppApplication.getmContext().getString(R.string.female);
             case 1:
-                return AppApplication.getmContext().getString(R.string.mal);
+                return AppApplication.getmContext().getString(R.string.male);
             case -1:
-                return AppApplication.getmContext().getString(R.string.unknown);
+                return AppApplication.getmContext().getString(R.string.private_info);
             default:
-                return AppApplication.getmContext().getString(R.string.unknown);
+                return AppApplication.getmContext().getString(R.string.private_info);
         }
     }
 

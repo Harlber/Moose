@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (type == 1) {
             return getString(R.string.most_views);
         } else {
-            return getString(R.string.most_coment);
+            return getString(R.string.most_comment);
         }
     }
 

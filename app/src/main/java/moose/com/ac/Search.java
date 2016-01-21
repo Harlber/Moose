@@ -44,7 +44,7 @@ public class Search extends AppCompatActivity {
         ab.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         ab.setDisplayHomeAsUpEnabled(true);
         //noinspection ConstantConditions
-        getSupportActionBar().setTitle(R.string.search);
+        getSupportActionBar().setTitle(R.string.search_result);
         initData();
     }
 
