@@ -149,7 +149,7 @@ public class LoginActivity extends RxAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean check() {
+    public boolean check() {
         if (name.getText().toString().equals("")) {
             name.setError(getString(R.string.empty_username));
             return false;
