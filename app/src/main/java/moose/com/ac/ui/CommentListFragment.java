@@ -16,10 +16,12 @@ import android.view.ViewGroup;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
@@ -45,6 +47,7 @@ import rx.subscriptions.CompositeSubscription;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by Farble on 2015/8/16 15.
  * Comment-List-Fragment
@@ -98,6 +101,12 @@ public class CommentListFragment extends Fragment {
         RxUtils.unsubscribeIfNotNull(subscription);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
 
     private void initRefreshLayout() {
 
@@ -175,7 +184,7 @@ public class CommentListFragment extends Fragment {
                             commentIdList.add(listid);
                             data.put(listid, convertToObject(comlists.getAsJsonObject("c" + listid)));
                         }
-                        if (data.size()==0) {
+                        if (data.size() == 0) {
                             snack(getString(R.string.no_comment_here));
                         }
                         adapter.notifyDataSetChanged();

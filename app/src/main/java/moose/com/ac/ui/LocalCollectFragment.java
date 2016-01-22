@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
@@ -41,6 +44,7 @@ import rx.schedulers.Schedulers;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by dell on 2015/10/17.
  */
@@ -68,7 +72,7 @@ public class LocalCollectFragment extends Fragment {
                 R.layout.fragment_article_list, container, false);
         initRecyclerView();
         initRefreshLayout();
-        textView = (TextView)rootView.findViewById(R.id.tv_no);
+        textView = (TextView) rootView.findViewById(R.id.tv_no);
         dbHelper = new DbHelper(getActivity());
         new Handler().postDelayed(this::init, Config.TIME_LATE);
         return rootView;
@@ -79,7 +83,8 @@ public class LocalCollectFragment extends Fragment {
         listSubscriber = newInstance();
         load();
     }
-    private void load(){
+
+    private void load() {
         mSwipeRefreshLayout.setRefreshing(true);
         rxDataBase.favLists
                 .subscribeOn(Schedulers.io())
@@ -143,7 +148,7 @@ public class LocalCollectFragment extends Fragment {
             public void onNext(List<Article> articles) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 mSwipeRefreshLayout.setEnabled(false);
-                if (articles.size()==0) {
+                if (articles.size() == 0) {
                     textView.setVisibility(View.VISIBLE);
                 } else {
                     textView.setVisibility(View.GONE);
@@ -168,6 +173,13 @@ public class LocalCollectFragment extends Fragment {
         if (listSubscriber != null) {
             listSubscriber.unsubscribe();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 
     private void Snack(String msg) {

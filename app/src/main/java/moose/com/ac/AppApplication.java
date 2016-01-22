@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.util.CommonUtil;
@@ -38,6 +39,8 @@ public class AppApplication extends Application {
     private static DbHelper dbHelper;
     private static boolean isVistor;
 
+    private RefWatcher refWatcher;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,8 +49,13 @@ public class AppApplication extends Application {
         dbHelper = new DbHelper(this);
         isVistor = CommonUtil.isVisistor();
         if (!isInUnitTests()) {
-            LeakCanary.install(this);
+            refWatcher = LeakCanary.install(this);
         }
+    }
+
+    public static RefWatcher getRefWatcher(Context context) {
+        AppApplication application = (AppApplication) context.getApplicationContext();
+        return application.refWatcher;
     }
 
     protected boolean isInUnitTests() {

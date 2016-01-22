@@ -57,6 +57,7 @@ dependencies {
         retrofitVersion = "2.0.0-beta1"
         assertjVersion = '1.1.1'
         robolectricVersion = '3.0'
+        leakcanaryVersion = '1.4-beta1'
     }
 
     compile "com.android.support:appcompat-v7:$supportVersion"
@@ -81,8 +82,8 @@ dependencies {
     compile 'com.trello:rxlifecycle:0.4.0'
     compile 'com.trello:rxlifecycle-components:0.4.0'
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
 
     apply from: "${rootProject.getRootDir()}/robolectric.gradle"
     apply from: "${rootProject.getRootDir()}/jacoco.gradle"

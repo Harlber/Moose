@@ -7,10 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
+import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.widget.DividerItemDecoration;
@@ -30,6 +33,7 @@ import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by Farble on 2015/8/13 23.
  */
@@ -87,6 +91,13 @@ public abstract class ArticleListFragment extends Fragment {
     protected abstract void loadMore();
 
     protected abstract void doSwipeRefresh();
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
 
     @Deprecated
     public RecyclerView getmRecyclerView() {

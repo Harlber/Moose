@@ -27,9 +27,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 import moose.com.ac.SynchronizeActivity;
 import moose.com.ac.common.Config;
@@ -82,7 +85,7 @@ public class CloudCollectFragment extends Fragment {
     }
 
     private void initView() {
-        showStatus = (TextView)rootView.findViewById(R.id.tv_no);
+        showStatus = (TextView) rootView.findViewById(R.id.tv_no);
     }
 
     protected void initRefreshLayout() {
@@ -136,7 +139,7 @@ public class CloudCollectFragment extends Fragment {
         if (!CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {//not login
             showStatus.setText("未登录,请先登录");
             showStatus.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             load();
         }
     }
@@ -168,12 +171,12 @@ public class CloudCollectFragment extends Fragment {
                         isRequest = false;//refresh request status
                         if (articleCloud.isSuccess()) {
                             list.addAll(articleCloud.getContents());
-                            if (articleCloud.getContents().size()==0) {
+                            if (articleCloud.getContents().size() == 0) {
                                 showStatus.setText(getString(R.string.no_local_data));
                             }
                             adapter.notifyDataSetChanged();
-                        }else {
-                            activity.snack(articleCloud.isSuccess()+"");
+                        } else {
+                            activity.snack(articleCloud.isSuccess() + "");
                         }
                     }
                 }));
@@ -201,5 +204,12 @@ public class CloudCollectFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         activity = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

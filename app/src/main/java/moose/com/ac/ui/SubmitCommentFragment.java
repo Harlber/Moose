@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.leakcanary.RefWatcher;
+
+import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -24,6 +27,7 @@ import moose.com.ac.R;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by Farble on 2015/8/16 16.
  */
@@ -39,5 +43,12 @@ public class SubmitCommentFragment extends Fragment {
                 R.layout.fragment_submit_comment, container, false);
         Log.e(TAG, "start");
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }
