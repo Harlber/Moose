@@ -443,7 +443,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         //noinspection RedundantCast
         builder.setTitle(getString(R.string.article_select))
-                .setItems(R.array.selest_array, (DialogInterface.OnClickListener) (dialog, which) -> {
+                .setItems(R.array.select_channel_array, (DialogInterface.OnClickListener) (dialog, which) -> {
                     type = which;
                     getSupportActionBar().setTitle(getToolBarTitle());
                     //refresh request

@@ -45,14 +45,14 @@
     <string name="license_title">许可</string>
     <string name="application_info_text" formatted="false">
         <![CDATA[
-            <p>Version: %s</p>
-            <p>This application is open source at <a href="https://github.com/Harlber/Moose">github.com/Harlber/Moose</a></p>
+            <p>版本: %s</p>
+            <p>本应用开源，项目托管在 <a href="https://github.com/Harlber/Moose">github.com/Harlber/Moose</a></p>
         ]]>
     </string>
     <string name="developer_info_title">特别贡献</string>
         <string name="developer_info_text">
         <![CDATA[
-            <p>咲くやこの花❤</p>
+            <p><a href="https://github.com/cunzhezhouhua">咲くやこの花❤</a></p>
         ]]>
     </string>
     <string name="get_data_again">正在重新获取数据</string>
@@ -113,11 +113,11 @@
     <string name="share">分享</string>
     <string name="share_content">" ——我从#Acfun文章区#开源客户端  https://github.com/Harlber/Moose 分享"</string>
     <string name="pwd">密码</string>
-    <string name="default_article_item_text">......</string>
+    <string name="default_article_item_text">&#8230;&#8230;</string>
     <string name="default_article_item_number">0</string>
     <string name="snackbar_action">知道了</string>
     <string name="reload_action">重新加载</string>
-    <string name="search">搜索...</string>
+    <string name="search">搜索&#8230;</string>
     <string name="search_result">搜索结果</string>
     <string name="set_all">全部设置</string>
     <string name="total">综合</string>
@@ -199,7 +199,7 @@
         <item quantity="one"> %d 评论</item>
         <item quantity="other">%d 评论</item>
     </plurals>
-    <string name="default_string">...</string>
+    <string name="default_string">&#8230;</string>
     <string name="no_result">无相关结果</string>
     <string name="article">文章</string>
     <string name="up_s">up主: %s</string>

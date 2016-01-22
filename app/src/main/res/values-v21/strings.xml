@@ -2,7 +2,7 @@
 <resources>
     <string name="snackbar_action">知道了</string>
     <string name="reload_action">重新加载</string>
-    <string name="search">搜索...</string>
+    <string name="search">搜索&#8230;</string>
     <string name="search_result">搜索结果</string>
     <string name="set_all">全部设置</string>
     <string name="total">综合</string>
@@ -15,7 +15,7 @@
     <string name="third_party_licenses_title">3rd Party Licenses</string>
     <string name="libraries_title"><![CDATA[Libraries & Resources]]></string>
     <string name="comment">"%s Comments"</string>
-    <string name="default_string">...</string>
+    <string name="default_string">&#8230;</string>
     <string name="no_result">无相关结果</string>
     <string name="article">文章</string>
     <string name="up_s">up主 %s</string>

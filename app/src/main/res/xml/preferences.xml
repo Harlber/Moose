@@ -19,7 +19,7 @@
             android:key="pref_key_collect_type"
             android:title="@string/collect_type"
             android:entryValues="@array/value_collect"
-            android:entries="@array/value_collect_arr"
+            android:entries="@array/value_collect_array"
             android:defaultValue="本地"
             android:dialogTitle="@string/collect_type"
             android:summary="@string/store_local"

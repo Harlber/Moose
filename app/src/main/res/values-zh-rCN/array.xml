@@ -18,8 +18,8 @@
         <item>无图模式</item>
     </string-array>
     <string-array name="value_collect">
-        <item>local</item>
-        <item>net</item>
+        <item>本地</item>
+        <item>网络</item>
     </string-array>
     <string-array name="value_collect_array">
         <item>本地</item>

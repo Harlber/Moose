@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="select_channel_array">
-        <item>最近回复</item>
-        <item>人气最旺</item>
-        <item>评论最多</item>
+        <item>Last Stories</item>
+        <item>Top Stories</item>
+        <item>What\'s Hot</item>
     </string-array>
     <string-array name="font_text_size">
-        <item>特小</item>
-        <item>小</item>
-        <item>中</item>
-        <item>大</item>
-        <item>特大</item>
+        <item>Extra small</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Extra large</item>
     </string-array>
 
     <string-array name="mode">
-        <item>图文模式</item>
-        <item>无图模式</item>
+        <item>Graphic mode</item>
+        <item>Text only</item>
     </string-array>
     <string-array name="value_collect">
         <item>local</item>
         <item>net</item>
     </string-array>
     <string-array name="value_collect_array">
-        <item>本地</item>
-        <item>网站</item>
+        <item>Local</item>
+        <item>Website</item>
     </string-array>
 </resources>

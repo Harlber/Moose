@@ -113,11 +113,11 @@
     <string name="share">Share</string>
     <string name="share_content">" ——我从#Acfun文章区#开源客户端  https://github.com/Harlber/Moose 分享"</string>
     <string name="pwd">Password</string>
-    <string name="default_article_item_text">......</string>
+    <string name="default_article_item_text">&#8230;&#8230;</string>
     <string name="default_article_item_number">0</string>
     <string name="snackbar_action">I got it</string>
     <string name="reload_action">Reloading</string>
-    <string name="search">Searching...</string>
+    <string name="search">Searching&#8230;</string>
     <string name="search_result">Search result</string>
     <string name="set_all">All settings</string>
     <string name="total">Complex</string>
@@ -200,7 +200,7 @@
         <item quantity="one"> %d comment</item>
         <item quantity="other"> %d comments</item>
     </plurals>
-    <string name="default_string">...</string>
+    <string name="default_string">&#8230;</string>
     <string name="no_result">No results</string>
     <string name="article">Article</string>
     <string name="up_s">Thomas: %s</string>

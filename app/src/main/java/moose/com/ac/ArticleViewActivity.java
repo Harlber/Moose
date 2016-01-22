@@ -418,7 +418,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
     private Dialog createTextSizeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ArticleViewActivity.this);
         builder.setTitle(R.string.text_size)
-                .setSingleChoiceItems(R.array.textsize, CommonUtil.getTextSize(), (dialog, which) -> {
+                .setSingleChoiceItems(R.array.font_text_size, CommonUtil.getTextSize(), (dialog, which) -> {
                     //zoom text
                     level = settings.getTextZoom();
                     setZoom(which);

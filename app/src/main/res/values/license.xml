@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <string name="license_text">
+        <string name="license_text" translatable="false">
         <![CDATA[
             <p>Copyright 2015 Farble Dast</p>
             <p>Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
             limitations under the License.</p>
         ]]>
     </string>
-<string name="libraries_text">
+<string name="libraries_text" translatable="false">
         <![CDATA[
             <p><a href="https://github.com/square/retrofit">Square Retrofit</a> - Apache License v2.0</p>
             <p><a href="https://github.com/square/okhttp">Square OkHttp</a> - Apache License v2.0</p>
@@ -25,7 +25,7 @@
             <p><a href="https://github.com/jhy/jsoup">jsoup</a> - MIT license</p>
         ]]>
     </string>
-    <string name="third_party_licenses_text">
+    <string name="third_party_licenses_text" translatable="false">
         <![CDATA[
 <p>
 <b>The MIT License (MIT)</b>
