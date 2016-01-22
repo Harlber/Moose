@@ -23,6 +23,7 @@ import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.util.AppUtils;
+import moose.com.ac.util.CommonUtil;
 
 /**
  * Created by Farble on 2015/8/15 16.
@@ -108,7 +109,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     public void onItemClick(View view, int position) {
         Article article = lists.get(position);
         article.setSavedate(String.valueOf(System.currentTimeMillis()));
-        if (!AppApplication.isVistor()) {
+        if (!CommonUtil.isVisistor()) {
             AppApplication.getDbHelper().insertArticle(article, ArticleCollects.ArticleHistoryEntry.TABLE_NAME, article.getChannelId());
         }
         Intent intent = new Intent(mActivity, ArticleViewActivity.class);

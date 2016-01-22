@@ -2,16 +2,11 @@ package moose.com.ac;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.preference.PreferenceManager;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import moose.com.ac.data.DbHelper;
-import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.PreferenceUtil;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -35,19 +30,17 @@ import moose.com.ac.util.PreferenceUtil;
  */
 public class AppApplication extends Application {
     private static final String TAG = "AppApplication";
-    private static Context mContext;
+    private static Context context;
     private static DbHelper dbHelper;
-    private static boolean isVistor;
 
     private RefWatcher refWatcher;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = this;
-        new PreferenceUtil(mContext);
+        context = this;
+        new PreferenceUtil(this);
         dbHelper = new DbHelper(this);
-        isVistor = CommonUtil.isVisistor();
         if (!isInUnitTests()) {
             refWatcher = LeakCanary.install(this);
         }
@@ -67,32 +60,12 @@ public class AppApplication extends Application {
         super.onLowMemory();
     }
 
-    public static Context getmContext() {
-        return mContext;
+    public static Context getContext() {
+        return context;
     }
 
     public static DbHelper getDbHelper() {
-        return dbHelper;
+        return dbHelper == null ? new DbHelper(context) : dbHelper;
     }
 
-    public static boolean isVistor() {
-        return isVistor;
-    }
-
-    public static void setIsVistor(boolean isVistor) {
-        AppApplication.isVistor = isVistor;
-    }
-
-    public static boolean isWifi() {
-        SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(AppApplication.getmContext());
-        boolean isSupport = shp.getBoolean("pref_key_wifi_load", false);
-        ConnectivityManager connectivityManager = (ConnectivityManager) mContext
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetInfo != null
-                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-            return isSupport;
-        }
-        return false;
-    }
 }

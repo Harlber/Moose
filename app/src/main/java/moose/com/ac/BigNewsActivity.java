@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import moose.com.ac.common.Config;
+import moose.com.ac.settings.SettingsActivity;
 import moose.com.ac.ui.CommentListFragment;
 import moose.com.ac.ui.SubmitCommentFragment;
 import moose.com.ac.ui.ViewPageAdapter;
@@ -82,7 +83,7 @@ public class BigNewsActivity extends AppCompatActivity {
                 BigNewsActivity.this.finish();
                 return true;
             case R.id.action_set:
-                startActivity(new Intent(BigNewsActivity.this,Settings.class));
+                startActivity(new Intent(BigNewsActivity.this,SettingsActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

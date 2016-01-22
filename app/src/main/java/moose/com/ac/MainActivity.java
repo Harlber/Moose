@@ -46,8 +46,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.about.AboutActivity;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
+import moose.com.ac.settings.SettingsActivity;
+import moose.com.ac.sync.SynchronizeActivity;
 import moose.com.ac.ui.ArticleFragment;
 import moose.com.ac.ui.widget.CircleImageView;
 import moose.com.ac.util.CommonUtil;
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                         startActivity(intent);
                     } else {
-                        startActivity(new Intent(MainActivity.this, Login.class));
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }
                     break;
                 case R.id.fab:
@@ -242,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (!CommonUtil.isEmpty(query)) {
-                    Intent intent = new Intent(MainActivity.this, Search.class);
+                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                     intent.putExtra(Config.SEARCH_KEY, query);
                     startActivity(intent);
                     searchView.onActionViewCollapsed();
@@ -341,29 +344,29 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_about:
                     navigationView.setCheckedItem(R.id.nav_about);
-                    Intent intent = new Intent(MainActivity.this, About.class);
+                    Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.nav_store:
                     navigationView.setCheckedItem(R.id.nav_store);
-                    Intent intents = new Intent(MainActivity.this, Collects.class);
+                    Intent intents = new Intent(MainActivity.this, CollectsActivity.class);
                     startActivity(intents);
                     break;
                 case R.id.nav_history:
                     navigationView.setCheckedItem(R.id.nav_history);
-                    Intent intenth = new Intent(MainActivity.this, History.class);
+                    Intent intenth = new Intent(MainActivity.this, HistoryActivity.class);
                     startActivity(intenth);
                     break;
                 case R.id.nav_setting:
                     navigationView.setCheckedItem(R.id.nav_setting);
-                    Intent intent1s = new Intent(MainActivity.this, Settings.class);
+                    Intent intent1s = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivity(intent1s);
                     break;
                 case R.id.nav_checkin:
                     navigationView.setCheckedItem(R.id.nav_checkin);
                     Intent intentIn = CommonUtil.getLoginStatus().equals(Config.LOGIN_IN) ?
                             new Intent(MainActivity.this, ProfileActivity.class) :
-                            new Intent(MainActivity.this, Login.class);
+                            new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intentIn);
                     break;
                 case R.id.nav_sync:

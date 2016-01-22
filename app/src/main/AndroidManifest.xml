@@ -49,15 +49,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".About"
+            android:name=".about.AboutActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Collects"
+            android:name=".CollectsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".History"
+            android:name=".HistoryActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -69,11 +69,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Login"
+            android:name=".LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Settings"
+            android:name=".settings.SettingsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -81,7 +81,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Search"
+            android:name=".SearchActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -98,7 +98,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SynchronizeActivity"
+            android:name=".sync.SynchronizeActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

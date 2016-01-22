@@ -39,8 +39,8 @@ import rx.schedulers.Schedulers;
  * Created by dell on 2015/8/25.
  * local collection
  */
-public final class Collects extends ArticleListActivity {
-    private static final String TAG = "Collects";
+public final class CollectsActivity extends ArticleListActivity {
+    private static final String TAG = "CollectsActivity";
     private Subscriber<List<Article>> listSubscriber;
     private Subscriber<Integer> deleteSubscriber;
 
@@ -82,7 +82,7 @@ public final class Collects extends ArticleListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Collects.this.finish();
+                CollectsActivity.this.finish();
                 return true;
             case R.id.action_time_store://sort by store date
                 SortUtil.StoreComparator comparator = new SortUtil.StoreComparator();
@@ -148,7 +148,7 @@ public final class Collects extends ArticleListActivity {
                 mSwipeRefreshLayout.setEnabled(false);
                 if (lists.size() == 0) {
                     Snack(getString(R.string.no_collects_now));
-                    new Handler().postDelayed(Collects.this::finish, 2000);
+                    new Handler().postDelayed(CollectsActivity.this::finish, 2000);
                 }
             }
         };
@@ -156,7 +156,7 @@ public final class Collects extends ArticleListActivity {
 
     private Dialog clearDialog(@StringRes int str) {
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(Collects.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(CollectsActivity.this);
         builder.setMessage(str)
                 .setPositiveButton(R.string.positive, (dialog, id) -> {
                     if (lists.size()==0) {

@@ -1,4 +1,4 @@
-package moose.com.ac;
+package moose.com.ac.about;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import moose.com.ac.R;
 import moose.com.ac.util.AppUtils;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -27,10 +28,10 @@ import moose.com.ac.util.AppUtils;
  */
 /**
  * Created by dell on 2015/8/24.
- * About
+ * AboutActivity
  */
-public final class About extends AppCompatActivity {
-    private static final String TAG = "About";
+public final class AboutActivity extends AppCompatActivity {
+    private static final String TAG = "AboutActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public final class About extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                About.this.finish();
+                AboutActivity.this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

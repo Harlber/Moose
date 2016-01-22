@@ -43,8 +43,8 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/8/31.
  * Date: Mon, 31 Aug 2015 09:04:43 GMT
  */
-public class Login extends RxAppCompatActivity {
-    private static final String TAG = "Login";
+public class LoginActivity extends RxAppCompatActivity {
+    private static final String TAG = "LoginActivity";
     private Api api;
     private CompositeSubscription subscription = new CompositeSubscription();
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
@@ -120,7 +120,7 @@ public class Login extends RxAppCompatActivity {
 
                             @Override
                             public void onNext(LoginEntry response) {
-                                isRequest = false;//fix button of Login enable after login-request
+                                isRequest = false;//fix button of LoginActivity enable after login-request
                                 mSwipeRefreshLayout.setRefreshing(false);
                                 mSwipeRefreshLayout.setEnabled(false);
                                 if (response.isSuccess()) {
@@ -129,7 +129,7 @@ public class Login extends RxAppCompatActivity {
                                     CommonUtil.setLoginStatus(Config.LOGIN_IN);
                                     CommonUtil.setLoginEmail(name.getText().toString());
                                     Snack(getString(R.string.login_success));
-                                    new Handler().postDelayed(Login.this::finish, Config.TIME_LOGIN);
+                                    new Handler().postDelayed(LoginActivity.this::finish, Config.TIME_LOGIN);
                                 } else {
                                     Snack(response.getResult());
                                 }
@@ -143,7 +143,7 @@ public class Login extends RxAppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Login.this.finish();
+                LoginActivity.this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -34,7 +34,7 @@ import java.util.List;
 
 import moose.com.ac.AppApplication;
 import moose.com.ac.R;
-import moose.com.ac.SynchronizeActivity;
+import moose.com.ac.sync.SynchronizeActivity;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.collect.ArticleCloud;

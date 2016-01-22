@@ -1,4 +1,4 @@
-package moose.com.ac;
+package moose.com.ac.sync;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.R;
 import moose.com.ac.ui.CloudCollectFragment;
 import moose.com.ac.ui.LocalCollectFragment;
 import moose.com.ac.util.ZoomOutPageTransformer;

@@ -2,6 +2,7 @@ package moose.com.ac;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -69,11 +70,6 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Farble on 2015/8/16 20.
- * WebView TextSize:
- * <li>SMALLER</li>
- * <li>NORMAL</li>
- * <li>LARGER</li>
- * <li>LARGEST</li>
  */
 public class ArticleViewActivity extends RxAppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
     private static final String TAG = "ArticleViewActivity";
@@ -87,13 +83,14 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
     private ShareActionProvider actionProvider;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CompositeSubscription subscription = new CompositeSubscription();
-    private Api api;
+    private Api api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
+    private DbHelper dbHelper = AppApplication.getDbHelper();
     private Document mDocument;
 
     private String HtmlBody;//get body from network
     private String HtmlBodyClone;//get body from network
     private WebSettings settings;
-    private int contendid;//article id
+    private int articleId;//article id
     private int fabStatus = FAB_SHOW;
 
     private String title = "";//default
@@ -105,16 +102,14 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
     private boolean isWebViewLoading = false;
     private Article article;
     private boolean isRequest = false;
-    private DbHelper dbHelper;
+    private Context context;
 
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_view);
-
-        dbHelper = new DbHelper(this);
-
+        context = this;
         article = (Article) getIntent().getSerializableExtra(Config.ARTICLE);
         /*
         * Uri data = getIntent().getData();
@@ -143,20 +138,20 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
             title = getIntent().getStringExtra("title");
         }*/
         isFav = dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId()));
-        contendid = article.getContentId();
+        articleId = article.getContentId();
         toolbarHeight = DisplayUtil.dip2px(this, 56f);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        contend = "ac" + contendid;
+        contend = "ac" + articleId;
         getSupportActionBar().setTitle(contend);
 
         fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(this, BigNewsActivity.class);
-            intent.putExtra(Config.CONTENTID, contendid);
+            intent.putExtra(Config.CONTENTID, articleId);
             intent.putExtra(Config.TITLE, title);
             startActivity(intent);
         });
@@ -204,7 +199,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
         actionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuShare);
         getApplicationContext().deleteFile(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
         actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
-        String shareUrl = article.getTitle() + " " + Config.WEB_URL + contendid;
+        String shareUrl = article.getTitle() + " " + Config.WEB_URL + articleId;
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareUrl += getString(R.string.share_content);
         shareIntent.setType("text/plain");
@@ -224,10 +219,10 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
             case R.id.action_module_wap:
                 /*Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse(Config.WEB_URL + contendid + "/");
+                Uri content_url = Uri.parse(Config.WEB_URL + articleId + "/");
                 intent.setData(content_url);
                 startActivity(intent);*/
-                String url = Config.WAP_URL + "v#ac=" + contendid + ";type=article";
+                String url = Config.WAP_URL + "v#ac=" + articleId + ";type=article";
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                 CustomTabActivityHelper.openCustomTab(
                         this, customTabsIntent, Uri.parse(url), new WebviewFallback());
@@ -240,7 +235,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
                 return true;
             case R.id.action_store:
                 if (isFav) {//cancel store
-                    boolean deleteSuc = AppApplication.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME, String.valueOf(contendid));
+                    boolean deleteSuc = AppApplication.getDbHelper().deleteArticle(ArticleCollects.ArticleEntry.TABLE_NAME, String.valueOf(articleId));
                     menFav.setTitle(deleteSuc ? getString(R.string.cancel_store) : getString(R.string.store_it));
                     isFav = !deleteSuc;
                     snackStore(deleteSuc ? getString(R.string.cancel_success) : getString(R.string.cancel_fal));
@@ -269,9 +264,8 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
     private void initData() {
         isRequest = true;
         HtmlBody = "";
-        HtmlBodyClone = "";//maybe reset by getting data again
-        api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
-        subscription.add(api.getArticleBody(contendid)
+        HtmlBodyClone = "";
+        subscription.add(api.getArticleBody(articleId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(1)
                 .compose(this.<ArticleBody>bindUntilEvent(ActivityEvent.DESTROY))
@@ -376,7 +370,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
             src = parsedUri.toString();
             Log.i(TAG, "image src:" + src);
             img.attr("org", src);
-            if (CommonUtil.getMode() == 1 && !AppApplication.isWifi()) {//add wifi support
+            if (CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(context)) {
                 img.after("<p >[图片]</p>");
             } else if (!src.contains(Config.AC_EMOTION)) {
                 String index = "<div style=\"width: 100%;text-align: center;\"><img src=\"" + src + "\" width=\"" +

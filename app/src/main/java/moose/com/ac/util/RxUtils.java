@@ -157,7 +157,7 @@ public final class RxUtils {
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
             //HashSet<String> preferences = (HashSet) Preferences.getDefaultPreferences().getStringSet(Preferences.PREF_COOKIES, new HashSet<>());
-            DbHelper dbHelper = new DbHelper(AppApplication.getmContext());
+            DbHelper dbHelper = new DbHelper(AppApplication.getContext());
             List<LocalCookie> cookies = new ArrayList<>();
             cookies = dbHelper.getDbCookies();
             builder.addHeader("User-Agent", UA);

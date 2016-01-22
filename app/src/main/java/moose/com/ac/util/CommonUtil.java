@@ -3,9 +3,13 @@ package moose.com.ac.util;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 
 import java.io.IOException;
@@ -84,7 +88,7 @@ public final class CommonUtil {
     }
 
     public static String getUserName() {
-        return PreferenceUtil.getString(Config.USERNAME, AppApplication.getmContext().getString(R.string.un_login));
+        return PreferenceUtil.getString(Config.USERNAME, AppApplication.getContext().getString(R.string.un_login));
     }
 
     public static void setUserName(String name) {
@@ -92,7 +96,7 @@ public final class CommonUtil {
     }
 
     public static String getUserLogo() {
-        return PreferenceUtil.getString(Config.USER_LOG, AppApplication.getmContext().getString(R.string.default_user_logo));
+        return PreferenceUtil.getString(Config.USER_LOG, AppApplication.getContext().getString(R.string.default_user_logo));
     }
 
     public static void setUserLogo(String str) {
@@ -120,7 +124,7 @@ public final class CommonUtil {
     }
 
     public static String getSignatrue() {
-        return PreferenceUtil.getString(Config.USER_SIGNATRUE, AppApplication.getmContext().getString(R.string.un_login));
+        return PreferenceUtil.getString(Config.USER_SIGNATRUE, AppApplication.getContext().getString(R.string.un_login));
     }
 
     public static void setRegDate(Long date) {
@@ -237,13 +241,13 @@ public final class CommonUtil {
     public static String getGender(Integer gender) {
         switch (gender) {
             case 0:
-                return AppApplication.getmContext().getString(R.string.female);
+                return AppApplication.getContext().getString(R.string.female);
             case 1:
-                return AppApplication.getmContext().getString(R.string.male);
+                return AppApplication.getContext().getString(R.string.male);
             case -1:
-                return AppApplication.getmContext().getString(R.string.private_info);
+                return AppApplication.getContext().getString(R.string.private_info);
             default:
-                return AppApplication.getmContext().getString(R.string.private_info);
+                return AppApplication.getContext().getString(R.string.private_info);
         }
     }
 
@@ -332,5 +336,18 @@ public final class CommonUtil {
 
     public static int getImageShouldDisplayWidth(Context context) {
         return getDisplayWidth(context) - (int) context.getResources().getDimension(R.dimen.image_margin);
+    }
+
+    public static boolean isWifiConnected(Context context) {
+        SharedPreferences shp = PreferenceManager.getDefaultSharedPreferences(AppApplication.getContext());
+        boolean isSupport = shp.getBoolean(context.getString(R.string.pref_wifi), false);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null
+                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return isSupport;
+        }
+        return false;
     }
 }

@@ -38,8 +38,8 @@ import rx.schedulers.Schedulers;
  * Created by Farble on 2015/8/25 21.
  * history steps
  */
-public class History extends ArticleListActivity {
-    private static final String TAG = "History";
+public class HistoryActivity extends ArticleListActivity {
+    private static final String TAG = "HistoryActivity";
     private Subscriber<List<Article>> listSubscriber;
     private Subscriber<Integer> deleteSubscriber;
 
@@ -79,7 +79,7 @@ public class History extends ArticleListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                History.this.finish();
+                HistoryActivity.this.finish();
                 return true;
             case R.id.action_his_delete_all:
                 clearDialog(R.string.clear_his_all).show();
@@ -144,7 +144,7 @@ public class History extends ArticleListActivity {
 
     private Dialog clearDialog(@StringRes int str) {
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(History.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(HistoryActivity.this);
         builder.setMessage(str)
                 .setPositiveButton(R.string.positive, (dialog, id) -> {
                     if (lists.size()==0) {
