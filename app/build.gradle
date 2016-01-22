@@ -84,6 +84,7 @@ dependencies {
 
     debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
 
     apply from: "${rootProject.getRootDir()}/robolectric.gradle"
     apply from: "${rootProject.getRootDir()}/jacoco.gradle"
