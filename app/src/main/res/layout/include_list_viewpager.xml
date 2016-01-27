@@ -39,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="fixed"
-            app:tabGravity="center"
             app:tabSelectedTextColor="@color/colorAccent"/>
     </android.support.design.widget.AppBarLayout>
 
