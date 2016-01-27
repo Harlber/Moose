@@ -112,9 +112,8 @@ public class CommentListFragment extends Fragment {
 
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
 
-        mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.md_orange_700, R.color.md_red_500,
-                R.color.md_indigo_900, R.color.md_green_700);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
