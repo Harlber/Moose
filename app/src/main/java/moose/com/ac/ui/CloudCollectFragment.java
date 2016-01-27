@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,17 +27,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.squareup.leakcanary.RefWatcher;
+import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import moose.com.ac.AppApplication;
 import moose.com.ac.R;
-import moose.com.ac.sync.SynchronizeActivity;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.ArticleContent;
+import moose.com.ac.sync.SynchronizeActivity;
 import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
@@ -52,7 +53,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/10/16.
  * CloudCollectFragment
  */
-public class CloudCollectFragment extends Fragment {
+public class CloudCollectFragment extends RxFragment {
     private static final String TAG = "CloudCollectFragment";
 
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -150,6 +151,7 @@ public class CloudCollectFragment extends Fragment {
         subscription.add(api.getArticleCloudList(10, page, "63")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<ArticleCloud>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(new Observer<ArticleCloud>() {
                     @Override
                     public void onCompleted() {
@@ -179,18 +181,6 @@ public class CloudCollectFragment extends Fragment {
                         }
                     }
                 }));
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RxUtils.unsubscribeIfNotNull(subscription);
     }
 
     @Override

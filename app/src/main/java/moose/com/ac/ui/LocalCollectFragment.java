@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.squareup.leakcanary.RefWatcher;
+import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by dell on 2015/10/17.
  */
-public class LocalCollectFragment extends Fragment {
+public class LocalCollectFragment extends RxFragment {
     private static final String TAG = "LocalCollectFragment";
     private View rootView;
     private DbHelper dbHelper;
@@ -89,6 +90,7 @@ public class LocalCollectFragment extends Fragment {
         rxDataBase.favLists
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<List<Article>>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(listSubscriber);
     }
 

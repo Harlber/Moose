@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.trello.rxlifecycle.FragmentEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,15 +118,8 @@ public class ArticleFragment extends ArticleListFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
-        RxUtils.unsubscribeIfNotNull(subscription);
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
@@ -152,6 +147,7 @@ public class ArticleFragment extends ArticleListFragment {
         subscription.add(api.getArticleList(tp, mChannelId, pg, Config.PAGESIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<ArticleList>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(new Observer<ArticleList>() {
                     @Override
                     public void onCompleted() {

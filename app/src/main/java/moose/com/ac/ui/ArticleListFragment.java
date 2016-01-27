@@ -1,13 +1,13 @@
 package moose.com.ac.ui;
 
 
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
 import com.squareup.leakcanary.RefWatcher;
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 /**
  * Created by Farble on 2015/8/13 23.
  */
-public abstract class ArticleListFragment extends Fragment {
+public abstract class ArticleListFragment extends RxFragment {
     private static final String TAG = "ArticleListFragment";
     private static final int ANIMATION_DURATION = 2000;
     protected View rootView;

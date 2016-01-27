@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +16,8 @@ import android.view.ViewGroup;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.leakcanary.RefWatcher;
+import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Farble on 2015/8/16 15.
  * Comment-List-Fragment
  */
-public class CommentListFragment extends Fragment {
+public class CommentListFragment extends RxFragment {
     private static final String TAG = "CommentListFragment";
     private View rootView;
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -86,19 +87,6 @@ public class CommentListFragment extends Fragment {
             loadData(page);
         }, Config.TIME_LATE);
         return rootView;
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RxUtils.unsubscribeIfNotNull(subscription);
     }
 
     @Override
@@ -161,6 +149,7 @@ public class CommentListFragment extends Fragment {
     private void loadData(int pg) {
         subscription.add(api.getCommentList(contentId, pg)
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<JsonObject>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(new Observer<JsonObject>() {
                     @Override
                     public void onCompleted() {
@@ -196,7 +185,7 @@ public class CommentListFragment extends Fragment {
     }
 
     private void snack(String msg) {
-        Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
+        Snackbar snackBar = Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT);
     }
 
     private CommentDetail convertToObject(JsonObject object) {
