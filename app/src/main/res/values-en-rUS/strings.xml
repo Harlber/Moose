@@ -118,7 +118,7 @@
     <string name="snackbar_action">I got it</string>
     <string name="reload_action">Reloading</string>
     <string name="search">Searching&#8230;</string>
-    <string name="search_result">Search result</string>
+    <string name="search_result">Search %s </string>
     <string name="set_all">All settings</string>
     <string name="total">Complex</string>
     <string name="up_name">"Author: "</string>

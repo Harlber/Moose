@@ -44,12 +44,12 @@ public class SearchActivity extends AppCompatActivity {
         ab.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         ab.setDisplayHomeAsUpEnabled(true);
         //noinspection ConstantConditions
-        getSupportActionBar().setTitle(R.string.search_result);
         initData();
     }
 
     private void initData() {
         String key = getIntent().getStringExtra(Config.SEARCH_KEY);
+        getSupportActionBar().setTitle(String.format(getString(R.string.search_result),key));
         Bundle bundle = new Bundle();
         bundle.putString(Config.SEARCH_KEY, key);
         searchFragment = new SearchFragment();
