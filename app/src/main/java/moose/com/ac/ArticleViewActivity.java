@@ -158,9 +158,8 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
 
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.web_swipe);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.view_fab);
-        mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.md_orange_700, R.color.md_red_500,
-                R.color.md_indigo_900, R.color.md_green_700);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
 
         mWeb = (ObservableWebView) findViewById(R.id.view_webview);
         settings = mWeb.getSettings();

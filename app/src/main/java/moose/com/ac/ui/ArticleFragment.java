@@ -10,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.AppApplication;
 import moose.com.ac.MainActivity;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
@@ -41,6 +43,7 @@ import rx.subscriptions.CompositeSubscription;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by Farble on 2015/8/15 17.
  * 网络请求超时
@@ -58,7 +61,7 @@ public class ArticleFragment extends ArticleListFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,@Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_article_list, container, false);
         mChannelId = getArguments().getInt(Config.CHANNEL_ID);
         //noinspection ConstantConditions
@@ -115,6 +118,13 @@ public class ArticleFragment extends ArticleListFragment {
     @Override
     protected void doSwipeRefresh() {
         loadData(type, 1, false);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 
     @Override
@@ -190,8 +200,8 @@ public class ArticleFragment extends ArticleListFragment {
         loadData(type, mPage, false);
     }
 
-    public void scrollToTop(){
-        if (mRecyclerView!=null) {
+    public void scrollToTop() {
+        if (mRecyclerView != null) {
             mRecyclerView.smoothScrollToPosition(0);
         }
     }

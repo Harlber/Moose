@@ -22,4 +22,5 @@
     <dimen name="card_margin">8dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="pad_2dp">2dp</dimen>
 </resources>

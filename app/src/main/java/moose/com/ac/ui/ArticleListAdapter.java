@@ -16,6 +16,7 @@ import java.util.List;
 
 import moose.com.ac.AppApplication;
 import moose.com.ac.ArticleViewActivity;
+import moose.com.ac.BigNewsActivity;
 import moose.com.ac.MainActivity;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
@@ -89,6 +90,15 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         holder.user.setText(String.format(mActivity.getString(R.string.ups), article.getUser().getUsername()));
         holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
         holder.comment.setText(MessageFormat.format(mActivity.getResources().getText(R.string.comment).toString(), article.getComments()));
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, BigNewsActivity.class);
+                intent.putExtra(Config.CONTENTID, article.getContentId());
+                intent.putExtra(Config.TITLE, article.getTitle());
+                mActivity.startActivity(intent);
+            }
+        });
         holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId())) ? View.VISIBLE : View.INVISIBLE);
     }
 

@@ -2,6 +2,10 @@ package moose.com.ac.ui;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+
+import com.squareup.leakcanary.RefWatcher;
+
+import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -18,6 +22,7 @@ import moose.com.ac.R;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by dell on 2015/9/1.
  * SettingsFragment
@@ -25,11 +30,19 @@ import moose.com.ac.R;
  */
 public class SettingsFragment extends PreferenceFragment {
     private static final String TAG = "SettingsFragment";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

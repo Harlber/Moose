@@ -33,5 +33,11 @@
         android:gravity="center|center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:paddingBottom="@dimen/pad_2dp"
+        android:paddingTop="@dimen/pad_2dp"
+        android:paddingLeft="@dimen/margin_4dp"
+        android:paddingRight="@dimen/margin_4dp"
+        android:clickable="true"
         android:textStyle="bold"/>
 </RelativeLayout>
