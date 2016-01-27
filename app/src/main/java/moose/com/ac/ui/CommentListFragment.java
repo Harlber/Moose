@@ -139,6 +139,10 @@ public class CommentListFragment extends RxFragment {
     }
 
     private void doSwipeRefresh() {
+        page = 1;
+        data.clear();
+        commentIdList.clear();
+        adapter.notifyDataSetChanged();
         loadData(page);
     }
 
@@ -186,6 +190,11 @@ public class CommentListFragment extends RxFragment {
 
     private void snack(String msg) {
         Snackbar snackBar = Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.snackbar_action, v -> {
+            snackBar.dismiss();
+        });
+        snackBar.getView().setBackgroundResource(R.color.colorPrimary);
+        snackBar.show();
     }
 
     private CommentDetail convertToObject(JsonObject object) {
