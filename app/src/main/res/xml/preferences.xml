@@ -23,6 +23,5 @@
         android:entries="@array/value_collect_array"
         android:entryValues="@array/value_collect"
         android:key="@string/pref_key_collect_type"
-        android:summary="@string/store_local"
         android:title="@string/collect_type" />
 </android.support.v7.preference.PreferenceScreen>
