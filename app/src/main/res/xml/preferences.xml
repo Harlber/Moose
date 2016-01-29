@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/action_settings">
-    <PreferenceCategory android:title="@string/action_settings">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="pref_key_wifi_load"
-            android:title="@string/pref_title_wifi_load" />
-        <Preference
-            android:key="pref_key_auto_delete"
-            android:title="@string/pref_title_clear_cache" />
-        <Preference
-            android:key="pref_key_auto_delete_his"
-            android:title="@string/pref_title_clear_his" />
-        <Preference
-            android:key="pref_key_local_collect"
-            android:title="@string/pref_title_clear_collect" />
-        <ListPreference
-            android:key="pref_key_collect_type"
-            android:title="@string/collect_type"
-            android:entryValues="@array/value_collect"
-            android:entries="@array/value_collect_array"
-            android:defaultValue="本地"
-            android:dialogTitle="@string/collect_type"
-            android:summary="@string/store_local"
-            />
-    </PreferenceCategory>
-</PreferenceScreen>
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.preference.SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="@string/pref_key_wifi_load"
+        android:title="@string/pref_title_wifi_load" />
+
+    <android.support.v7.preference.SwitchPreferenceCompat
+        android:key="@string/pref_key_auto_delete"
+        android:title="@string/pref_title_clear_cache" />
+
+    <android.support.v7.preference.SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="@string/pref_custom_tab"
+        android:summary="@string/pref_custom_tab_summary"
+        android:title="@string/pref_custom_tab_title" />
+
+    <android.support.v7.preference.ListPreference
+        android:defaultValue="@string/pref_save_story_in"
+        android:entries="@array/value_collect_array"
+        android:entryValues="@array/value_collect"
+        android:key="@string/pref_key_collect_type"
+        android:summary="@string/store_local"
+        android:title="@string/collect_type" />
+</android.support.v7.preference.PreferenceScreen>

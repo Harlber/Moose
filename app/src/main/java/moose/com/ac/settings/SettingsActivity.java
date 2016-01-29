@@ -23,6 +23,7 @@ import moose.com.ac.ui.SettingsFragment;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by dell on 2015/9/1.
  * Setting
@@ -33,18 +34,18 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Display the fragment as the main content.
         setContentView(R.layout.activity_setting);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.set_all);
-        getFragmentManager().beginTransaction()
+
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.set_content, new SettingsFragment())/*android.R.id.content*/
                 .commit();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

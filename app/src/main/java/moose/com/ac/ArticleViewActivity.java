@@ -46,6 +46,7 @@ import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ScrollFABBehavior;
+import moose.com.ac.util.SettingPreferences;
 import moose.com.ac.util.chrome.CustomTabActivityHelper;
 import moose.com.ac.util.chrome.WebviewFallback;
 import rx.Observer;
@@ -216,15 +217,18 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
                 ArticleViewActivity.this.finish();
                 return true;
             case R.id.action_module_wap:
-                /*Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse(Config.WEB_URL + articleId + "/");
-                intent.setData(content_url);
-                startActivity(intent);*/
-                String url = Config.WAP_URL + "v#ac=" + articleId + ";type=article";
-                CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
-                CustomTabActivityHelper.openCustomTab(
-                        this, customTabsIntent, Uri.parse(url), new WebviewFallback());
+                if (!SettingPreferences.externalBrowserEnabled(context)) {
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri content_url = Uri.parse(Config.WEB_URL + articleId + "/");
+                    intent.setData(content_url);
+                    startActivity(intent);
+                } else {
+                    String url = Config.WAP_URL + "v#ac=" + articleId + ";type=article";
+                    CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+                    CustomTabActivityHelper.openCustomTab(
+                            this, customTabsIntent, Uri.parse(url), new WebviewFallback());
+                }
                 return true;
             case R.id.action_front_view:
                 createTextSizeDialog().show();

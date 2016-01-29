@@ -1,12 +1,10 @@
 package moose.com.ac.ui;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
-import com.squareup.leakcanary.RefWatcher;
-
-import moose.com.ac.AppApplication;
 import moose.com.ac.R;
+import moose.com.ac.util.SettingPreferences;
 /*
  * Copyright Farble Dast. All rights reserved.
  *
@@ -28,21 +26,18 @@ import moose.com.ac.R;
  * SettingsFragment
  * see {http://developer.android.com/guide/topics/ui/settings.html#Fragment}
  */
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragmentCompat {
     private static final String TAG = "SettingsFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);
+        SettingPreferences.sync(getPreferenceManager());
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+    public void onCreatePreferences(Bundle bundle, String s) {
+        addPreferencesFromResource(R.xml.preferences);
     }
+
 }

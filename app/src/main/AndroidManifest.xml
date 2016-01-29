@@ -75,7 +75,8 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/SettingsTheme"/>
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
