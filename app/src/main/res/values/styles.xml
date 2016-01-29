@@ -135,7 +135,7 @@
     </style>
 
     <style name="textContentStyle">
-        <item name="android:textSize">15dp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textAppearance">@style/textAppearanceContentNormal</item>
     </style>
 

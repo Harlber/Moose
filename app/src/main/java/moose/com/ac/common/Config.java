@@ -79,6 +79,7 @@ public class Config {
 
     public static final String MAX_LINE = "MAX_LINE";
     public static final String VISISTOR_MODE = "VISISTOR_MODE";
+    public static final String TEXT_ENCODING = "UTF -8";
     /*user-info*/
     public static final String USERNAME = "USERNAME";
     public static final String USER_LOG = "USER_LOG";

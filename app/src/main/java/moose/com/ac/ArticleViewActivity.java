@@ -168,7 +168,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setUserAgentString(RxUtils.UA);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        settings.setDefaultTextEncodingName("UTF -8");
+        settings.setDefaultTextEncodingName(Config.TEXT_ENCODING);
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
