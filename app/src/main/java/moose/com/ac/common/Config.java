@@ -86,4 +86,7 @@ public class Config {
     public static final String USER_LOGIN_EMAIL = "USER_LOGIN_EMAIL";
 
     public static final String IMAGE_REG = "\\[nr\\]";
+    /*database*/
+    public static final String TABLE_NAME_STORY = "story";
+    public static final String TABLE_NAME_HISTORY = "histroy";
 }

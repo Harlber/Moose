@@ -59,7 +59,7 @@ public class LocalCollectFragment extends RxFragment {
     private TextView textView;
 
     private List<Article> lists = new ArrayList<>();
-    private ArticleListAdapter adapter;
+    private CacheListAdapter adapter;
     private boolean isRequest = false;//request data status
     private boolean isScroll = false;//is RecyclerView scrolling
 
@@ -105,7 +105,7 @@ public class LocalCollectFragment extends RxFragment {
 
 
     private void initRecyclerView() {
-        adapter = new ArticleListAdapter(lists, getActivity());
+        adapter = new CacheListAdapter(lists, getActivity());
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));

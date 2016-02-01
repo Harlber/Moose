@@ -41,7 +41,7 @@ public abstract class ArticleListActivity extends AppCompatActivity {
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
 
     protected List<Article> lists = new ArrayList<>();
-    protected ArticleListAdapter adapter;
+    protected CacheListAdapter adapter;
     protected boolean isRequest = false;//request data status
     protected boolean isScroll = false;//is RecyclerView scrolling
 
@@ -70,7 +70,7 @@ public abstract class ArticleListActivity extends AppCompatActivity {
 
 
     protected void initRecyclerView() {
-        adapter = new ArticleListAdapter(lists, this);
+        adapter = new CacheListAdapter(lists, this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
