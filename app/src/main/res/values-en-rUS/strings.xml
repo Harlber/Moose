@@ -207,4 +207,7 @@
     <string name="pref_custom_tab_summary">Open Chrome tab instead of browser</string>
     <string name="pref_custom_tab_title">Open Chrome tab instead of browser</string>
     <string name="pref_save_story_in">Local</string>
+
+    <string name="local_story_number">Total: %s</string>
+    <string name="local_story_history">Total: %s</string>
 </resources>

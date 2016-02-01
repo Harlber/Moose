@@ -129,6 +129,8 @@ public class HistoryActivity extends ArticleListActivity {
 
             @Override
             public void onNext(List<Article> articles) {
+                final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                toolbar.setSubtitle(getResources().getString(R.string.local_story_history,articles.size()));
                 lists.addAll(articles);
                 SortUtil.HisComparator comparator = new SortUtil.HisComparator();
                 Collections.sort(lists, comparator);

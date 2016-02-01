@@ -214,4 +214,7 @@
     <string name="pref_custom_tab_summary">使用谷歌浏览器扩展功能</string>
     <string name="pref_custom_tab_title">一律使用谷歌浏览器的扩展功能</string>
     <string name="pref_save_story_in">本地</string>
+
+    <string name="local_story_number">共有%s条本地收藏</string>
+    <string name="local_story_history">共有%s条历史记录</string>
 </resources>
