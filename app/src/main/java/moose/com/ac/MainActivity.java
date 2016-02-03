@@ -362,8 +362,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent1s = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivity(intent1s);
                     break;
-                case R.id.nav_checkin:
-                    navigationView.setCheckedItem(R.id.nav_checkin);
+                case R.id.nav_check_in:
+                    navigationView.setCheckedItem(R.id.nav_check_in);
                     Intent intentIn = CommonUtil.getLoginStatus().equals(Config.LOGIN_IN) ?
                             new Intent(MainActivity.this, ProfileActivity.class) :
                             new Intent(MainActivity.this, LoginActivity.class);

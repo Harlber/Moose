@@ -93,7 +93,7 @@
     <string name="empty_username">The user name can not be empty oh</string>
     <string name="empty_pwd">The password can not be empty oh</string>
     <string name="login_success">Login successful</string>
-    <string name="un_login">Not logged in</string>
+    <string name="un_login">Sign in</string>
     <string name="user_info">Personal Center</string>
     <string name="main_check_in">Registration</string>
     <string name="drawer_open">Open navigation drawer</string>
@@ -111,7 +111,7 @@
     <string name="logout_success">Sign out success</string>
     <string name="menu_share">Share</string>
     <string name="share">Share</string>
-    <string name="share_content">" ——我从#Acfun文章区#开源客户端  https://github.com/Harlber/Moose 分享"</string>
+    <string name="share_content">" ——Shared from #Acfun# https://github.com/Harlber/Moose"</string>
     <string name="pwd">Password</string>
     <string name="default_article_item_text">&#8230;&#8230;</string>
     <string name="default_article_item_number">0</string>
