@@ -19,7 +19,8 @@ Supply your own release signing config to build release.
 - AOSP [appcompat-v7](https://developer.android.com/tools/support-library/features.html#v7-appcompat)
 / [recyclerview-v7](https://developer.android.com/tools/support-library/features.html#v7-recyclerview)
 / [cardview-v7](https://developer.android.com/tools/support-library/features.html#v7-cardview)
-/ [design](https://developer.android.com/intl/zh-cn/tools/support-library/features.html#designw)
+/ [design](https://developer.android.com/intl/zh-cn/tools/support-library/features.html#design)
+/ [preference](https://developer.android.com/tools/support-library/features.html#v7-preference)
 / [chrome custom tabs](https://github.com/GoogleChrome/custom-tabs-client)
 - Square [Retrofit](https://github.com/square/retrofit) / [OkHttp](https://github.com/square/okhttp)
 - [RxJava](https://github.com/ReactiveX/RxJava) / [RxAndroid](https://github.com/ReactiveX/RxAndroid) / [RxLifecycle](https://github.com/trello/RxLifecycle)
@@ -34,6 +35,17 @@ Supply your own release signing config to build release.
 
 - [materialistic](https://github.com/hidroh/materialistic)
 
-**License**
+### License
+    Copyright 2015 Farble Dast
 
-[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
