@@ -15,10 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPropertyAnimatorListener;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,9 +31,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -462,58 +456,6 @@ public class MainActivity extends AppCompatActivity {
             return getString(R.string.most_views);
         } else {
             return getString(R.string.most_comment);
-        }
-    }
-
-    // Same animation that FloatingActionButton.Behavior uses to hide the FAB when the AppBarLayout exits
-    public void animateOut() {
-        Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
-        if (Build.VERSION.SDK_INT >= 14) {
-            ViewCompat.animate(fab).scaleX(0.0F).scaleY(0.0F).alpha(0.0F).setInterpolator(INTERPOLATOR).withLayer()
-                    .setListener(new ViewPropertyAnimatorListener() {
-                        public void onAnimationStart(View view) {
-                        }
-
-                        public void onAnimationCancel(View view) {
-                        }
-
-                        public void onAnimationEnd(View view) {
-                            view.setVisibility(View.GONE);
-                        }
-                    }).start();
-        } else {
-            Animation anim = AnimationUtils.loadAnimation(fab.getContext(), R.anim.fab_out);
-            anim.setInterpolator(INTERPOLATOR);
-            anim.setDuration(200L);
-            anim.setAnimationListener(new Animation.AnimationListener() {
-                public void onAnimationStart(Animation animation) {
-                }
-
-                public void onAnimationEnd(Animation animation) {
-                    fab.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationRepeat(final Animation animation) {
-                }
-            });
-            fab.startAnimation(anim);
-        }
-    }
-
-    // Same animation that FloatingActionButton.Behavior uses to show the FAB when the AppBarLayout enters
-    public void animateIn() {
-        Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
-        fab.setVisibility(View.VISIBLE);
-        if (Build.VERSION.SDK_INT >= 14) {
-            ViewCompat.animate(fab).scaleX(1.0F).scaleY(1.0F).alpha(1.0F)
-                    .setInterpolator(INTERPOLATOR).withLayer().setListener(null)
-                    .start();
-        } else {
-            Animation anim = AnimationUtils.loadAnimation(fab.getContext(), R.anim.fab_in);
-            anim.setDuration(200L);
-            anim.setInterpolator(INTERPOLATOR);
-            fab.startAnimation(anim);
         }
     }
 

@@ -90,19 +90,6 @@ public class ArticleFragment extends ArticleListFragment {
                 if (!recyclerView.canScrollVertically(1) && !isRequest) {
                     loadMore();
                 }
-                if (dy > 0) {
-                    accummulatedDy = accummulatedDy > 0 ? accummulatedDy + dy : dy;
-                    if (accummulatedDy > MIN_SCROLL_TO_HIDE && !isHide) {
-                        mainActivity.animateOut();
-                        isHide = true;
-                    }
-                } else if (dy < 0) {
-                    accummulatedDy = accummulatedDy < 0 ? accummulatedDy + dy : dy;
-                    if (accummulatedDy < (0 - MIN_SCROLL_TO_HIDE) && isHide) {
-                        mainActivity.animateIn();
-                        isHide = false;
-                    }
-                }
             }
         });
         //refactor recyclerview scroll

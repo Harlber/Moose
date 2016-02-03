@@ -56,6 +56,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/back_to_top"
-        android:background="@color/colorfab"/>
+        android:background="@color/colorfab"
+        app:layout_behavior="moose.com.ac.util.ScrollAwareFABBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>
