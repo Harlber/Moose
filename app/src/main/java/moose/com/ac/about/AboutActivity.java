@@ -12,7 +12,8 @@ import android.widget.TextView;
 import moose.com.ac.R;
 import moose.com.ac.util.AppUtils;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright (c) 2016 Farble Dast
+ * Copyright (c) 2015 Ha Duy Trung
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +27,7 @@ import moose.com.ac.util.AppUtils;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by dell on 2015/8/24.
  * AboutActivity
@@ -61,6 +63,7 @@ public final class AboutActivity extends AppCompatActivity {
     private void setTextWithLinks(@IdRes int textViewResId, String htmlText) {
         AppUtils.setTextWithLinks((TextView) findViewById(textViewResId), htmlText);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
