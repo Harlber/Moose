@@ -36,13 +36,13 @@ Supply your own release signing config to build release.
 - [materialistic](https://github.com/hidroh/materialistic)
 
 ### Screenshots
-<img src="art/image_drawer.png" width="250px" />
-<img src="art/image_main.png" width="250px" />
-<img src="art/image_search.png" width="250px" />
-<img src="art/image_article.png" width="250px" />
-<img src="art/image_comment.png" width="250px" />
-<img src="art/image_collect.png" width="250px" />
-<img src="art/image_history.png" width="250px" />
+<img src="art/image_drawer.jpg" width="250px" />
+<img src="art/image_main.jpg" width="250px" />
+<img src="art/image_search.jpg" width="250px" />
+<img src="art/image_article.jpg" width="250px" />
+<img src="art/image_comment.jpg" width="250px" />
+<img src="art/image_collect.jpg" width="250px" />
+<img src="art/image_history.jpg" width="250px" />
 <img src="art/image_sync.png" width="250px" />
 <img src="art/image_setting.png" width="250px" />
 
