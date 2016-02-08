@@ -13,7 +13,7 @@ import moose.com.ac.R;
  * Created by dell on 2016/1/29.
  */
 public class SettingPreferences {
-    private SettingPreferences(){
+    private SettingPreferences() {
 
     }
 
@@ -23,6 +23,7 @@ public class SettingPreferences {
             sync(preferenceManager, key);
         }
     }
+
     public static void sync(PreferenceManager preferenceManager, String key) {
         Preference pref = preferenceManager.findPreference(key);
         if (pref instanceof ListPreference) {
@@ -35,4 +36,15 @@ public class SettingPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(context.getString(R.string.pref_custom_tab), false);
     }
+
+    /**
+     * return story saved type
+     *
+     * @param context Context of environment
+     */
+    public static String saveStoryType(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(context.getString(R.string.pref_key_collect_type), context.getString(R.string.store_local));
+    }
+
 }
