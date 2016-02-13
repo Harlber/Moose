@@ -33,6 +33,7 @@ import moose.com.ac.util.ZoomOutPageTransformer;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by Farble on 2015/8/16 13.
  * 整天搞个大新闻
@@ -45,18 +46,18 @@ public class BigNewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_big_news);
-        int contendid = getIntent().getIntExtra(Config.CONTENTID, 1);
+        int contendId = getIntent().getIntExtra(Config.CONTENTID, 1);
         String title = getIntent().getStringExtra(Config.TITLE);
         CommentListFragment commentListFragment = new CommentListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Config.CHANNEL_ID, contendid);
+        bundle.putInt(Config.CHANNEL_ID, contendId);
         commentListFragment.setArguments(bundle);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //noinspection ConstantConditions
-        getSupportActionBar().setTitle(CommonUtil.groupTitle(contendid));
+        getSupportActionBar().setTitle(CommonUtil.groupTitle(contendId));
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
@@ -67,15 +68,17 @@ public class BigNewsActivity extends AppCompatActivity {
             adapter.addFragment(commentListFragment);
             //adapter.addFragment(new SubmitCommentFragment());
             viewPager.setAdapter(adapter);
-        }else {
-            Log.e(TAG,"adapter is null");
+        } else {
+            Log.i(TAG, "adapter is null");
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.big_news, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -83,7 +86,7 @@ public class BigNewsActivity extends AppCompatActivity {
                 BigNewsActivity.this.finish();
                 return true;
             case R.id.action_set:
-                startActivity(new Intent(BigNewsActivity.this,SettingsActivity.class));
+                startActivity(new Intent(BigNewsActivity.this, SettingsActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
