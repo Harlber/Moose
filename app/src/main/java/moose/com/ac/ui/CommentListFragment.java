@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.comment.CommentDetail;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
+import moose.com.ac.util.SparseArrayCompatSerializable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -56,7 +59,7 @@ public class CommentListFragment extends RxFragment {
     private static final String TAG = "CommentListFragment";
     private View rootView;
     private CompositeSubscription subscription = new CompositeSubscription();
-    private Api api;
+    private Api api = RxUtils.createApi(Api.class, Config.BASE_URL);
     private int contentId;
 
     private RecyclerView mRecyclerView;
@@ -67,25 +70,52 @@ public class CommentListFragment extends RxFragment {
     private int page = 1;//default
 
     private CommentAdapter adapter;
-    private SparseArray<CommentDetail> data = new SparseArray<>();
+    private SparseArrayCompatSerializable<CommentDetail> data = new SparseArrayCompatSerializable<>();
     private List<Integer> commentIdList = new ArrayList<>();
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.fragment_comment_list, container, false);
-        api = RxUtils.createApi(Api.class, Config.BASE_URL);
         contentId = getArguments().getInt(Config.CHANNEL_ID);
         adapter = new CommentAdapter(getActivity(), data, commentIdList);
         initRecyclerView();
         initRefreshLayout();
-        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
+        //mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
         new Handler().postDelayed(() -> {
             loadData(page);
         }, Config.TIME_LATE);
         return rootView;
+    }
+
+    /**
+     * see http://stackoverflow.com/questions/5412746/android-fragment-onrestoreinstancestate
+     */
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            SaveInstance saveInstance = (SaveInstance) savedInstanceState.getSerializable(TAG);
+            commentIdList.addAll(saveInstance != null ? saveInstance.getCommentIdList() : new ArrayList<Integer>());
+            page = saveInstance != null ? saveInstance.getPage() : 1;
+            data = saveInstance != null ? saveInstance.getData() : new SparseArrayCompatSerializable<>();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        SaveInstance saveInstance = new SaveInstance();
+        saveInstance.setCommentIdList(commentIdList);
+        saveInstance.setData(data);
+        saveInstance.setPage(page);
+        outState.putSerializable(TAG, saveInstance);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -149,13 +179,14 @@ public class CommentListFragment extends RxFragment {
     }
 
     private void loadData(int pg) {
+        mSwipeRefreshLayout.setRefreshing(true);
         subscription.add(api.getCommentList(contentId, pg)
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<JsonObject>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(new Observer<JsonObject>() {
                     @Override
                     public void onCompleted() {
-
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -214,5 +245,37 @@ public class CommentListFragment extends RxFragment {
         detail.setNameRed(object.get("nameRed").getAsLong());
         detail.setAvatarFrame(object.get("avatarFrame").getAsLong());
         return detail;
+    }
+
+    public static class SaveInstance implements Serializable {
+
+        private static final long serialVersionUID = -3563014084844531564L;
+        private SparseArrayCompatSerializable<CommentDetail> data = new SparseArrayCompatSerializable<>();
+        private List<Integer> commentIdList = new ArrayList<>();
+        private int page;
+
+        public int getPage() {
+            return page;
+        }
+
+        public void setPage(int page) {
+            this.page = page;
+        }
+
+        public SparseArrayCompatSerializable<CommentDetail> getData() {
+            return data;
+        }
+
+        public void setData(SparseArrayCompatSerializable<CommentDetail> data) {
+            this.data = data;
+        }
+
+        public List<Integer> getCommentIdList() {
+            return commentIdList;
+        }
+
+        public void setCommentIdList(List<Integer> commentIdList) {
+            this.commentIdList = commentIdList;
+        }
     }
 }

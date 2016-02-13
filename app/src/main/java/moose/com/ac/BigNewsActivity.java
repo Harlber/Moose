@@ -65,7 +65,7 @@ public class BigNewsActivity extends AppCompatActivity {
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         if (viewPager != null) {
             adapter.addFragment(commentListFragment);
-            adapter.addFragment(new SubmitCommentFragment());
+            //adapter.addFragment(new SubmitCommentFragment());
             viewPager.setAdapter(adapter);
         }else {
             Log.e(TAG,"adapter is null");
