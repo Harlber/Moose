@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Moose.iml" filepath="$PROJECT_DIR$/Moose.iml" />
-      <module fileurl="file://$PROJECT_DIR$/acfunTestTry.iml" filepath="$PROJECT_DIR$/acfunTestTry.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/githubprojectAcNew.iml" filepath="$PROJECT_DIR$/githubprojectAcNew.iml" />
     </modules>
   </component>
 </project>

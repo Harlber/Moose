@@ -65,7 +65,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$supportVersion"
     compile "com.android.support:design:$supportVersion"
     compile "com.android.support:preference-v7:$supportVersion"
-    compile 'com.android.support:customtabs:23.0.1'
+    compile "com.android.support:customtabs:$supportVersion"
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'io.reactivex:rxjava:1.0.10'
     compile "com.squareup.retrofit:retrofit:$retrofitVersion"
