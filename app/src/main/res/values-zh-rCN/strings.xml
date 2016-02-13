@@ -209,4 +209,6 @@
 
     <string name="local_story_number">共有%s条本地收藏</string>
     <string name="local_story_history">共有%s条历史记录</string>
+    <string name="fetch">电梯直达</string>
+    <string name="fetch_hit">输入ac号</string>
 </resources>

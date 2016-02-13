@@ -5,8 +5,10 @@ import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -21,10 +23,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,13 +48,17 @@ import java.util.List;
 import moose.com.ac.about.AboutActivity;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
+import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.settings.SettingsActivity;
 import moose.com.ac.sync.SynchronizeActivity;
 import moose.com.ac.ui.ArticleFragment;
 import moose.com.ac.ui.widget.CircleImageView;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
+import moose.com.ac.util.SettingPreferences;
 import moose.com.ac.util.ZoomOutPageTransformer;
+import moose.com.ac.util.chrome.CustomTabActivityHelper;
+import moose.com.ac.util.chrome.WebviewFallback;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -267,10 +276,13 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_filter:
-                bulidDialog().show();
+                buildDialog().show();
                 return true;
             case R.id.action_search:
                 mDrawerToggle.onDrawerSlide(mDrawerLayout, 1);
+                return true;
+            case R.id.action_fetch:
+                fetchDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -436,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("ConstantConditions")
-    private Dialog bulidDialog() {
+    private Dialog buildDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         //noinspection RedundantCast
         builder.setTitle(getString(R.string.article_select))
@@ -447,6 +459,36 @@ public class MainActivity extends AppCompatActivity {
                     adapter.changeChannel(type);
                 });
         return builder.create();
+    }
+
+    private void fetchDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View rootView = inflater.inflate(R.layout.dialog_fetch, null);
+        builder.setView(rootView)
+                // Add action buttons
+                .setTitle(R.string.fetch)
+                .setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        AppCompatEditText input = (AppCompatEditText) rootView.findViewById(R.id.dialog_fetch_input);
+                        if (!input.getText().toString().equals("")) {
+                            if (!SettingPreferences.externalBrowserEnabled(MainActivity.this)) {
+                                Intent intent = new Intent();
+                                intent.setAction("android.intent.action.VIEW");
+                                Uri content_url = Uri.parse(Config.WEB_URL + input.getText().toString() + "/");
+                                intent.setData(content_url);
+                                startActivity(intent);
+                            } else {
+                                String url = Config.WAP_URL + "v#ac=" + input.getText().toString() + ";type=article";
+                                CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+                                CustomTabActivityHelper.openCustomTab(
+                                        MainActivity.this, customTabsIntent, Uri.parse(url), new WebviewFallback());
+                            }
+                        }
+                    }
+                });
+        builder.show();
     }
 
     private String getToolBarTitle() {

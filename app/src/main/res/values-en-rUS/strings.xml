@@ -210,4 +210,6 @@
 
     <string name="local_story_number">Total: %s</string>
     <string name="local_story_history">Total: %s</string>
+    <string name="fetch">Visit by Id</string>
+    <string name="fetch_hit">Input Id</string>
 </resources>

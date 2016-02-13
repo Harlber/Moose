@@ -1,14 +1,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-   <!-- <item android:id="@+id/action_module" android:title="@string/night_style"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_front" android:title="@string/front_set"
-        android:orderInCategory="100" app:showAsAction="never" />-->
-    <item android:id="@+id/action_search" android:title="search"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <!-- <item android:id="@+id/action_module" android:title="@string/night_style"
+         android:orderInCategory="100" app:showAsAction="never" />
+     <item android:id="@+id/action_front" android:title="@string/front_set"
+         android:orderInCategory="100" app:showAsAction="never" />-->
+    <item
+        android:id="@+id/action_search"
         android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
-        android:orderInCategory="100" app:showAsAction="always"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
-    <item android:id="@+id/action_filter" android:title="@string/filter"
-        android:orderInCategory="100" app:showAsAction="never" />
+        android:orderInCategory="100"
+        android:title="@string/search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_filter"
+        android:orderInCategory="100"
+        android:title="@string/filter"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_fetch"
+        android:orderInCategory="100"
+        android:title="@string/fetch"
+        app:showAsAction="never" />
 </menu>

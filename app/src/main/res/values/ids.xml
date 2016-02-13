@@ -107,4 +107,7 @@
     <!--nav header-->
     <item type="id" name="login_userimg"/>
     <item type="id" name="login_username"/>
+    <!--dialog fetch-->
+    <item type="id" name="dialog_fetch_layout"/>
+    <item type="id" name="dialog_fetch_input"/>
 </resources>
