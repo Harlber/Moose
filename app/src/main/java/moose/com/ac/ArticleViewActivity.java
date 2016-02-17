@@ -270,7 +270,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
         isRequest = true;
         HtmlBody = "";
         HtmlBodyClone = "";
-        subscription.add(api.getArticleBody(articleId)
+        subscription.add(api.getNewUrlArticleBody(articleId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(1)
                 .compose(this.<ArticleBody>bindUntilEvent(ActivityEvent.DESTROY))

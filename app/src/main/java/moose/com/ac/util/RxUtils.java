@@ -14,6 +14,7 @@ import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 import moose.com.ac.AppApplication;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.LocalCookie;
@@ -60,6 +61,19 @@ public final class RxUtils {
         client.interceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        return retrofit.create(c);
+
+    }
+
+    public static <T> T createShadowApi(Class<T> c) {
+        OkHttpClient client = OkHttpClientProvider.get();
+        client.interceptors().add(SHADOW_PORTAL_INTERCEPTOR);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://api.aixifan.com")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -180,6 +194,24 @@ public final class RxUtils {
                 .header("Cache-Control", "max-age=0")
                 .header("Connection", "keep-alive")
                 .header("Accept", "application/json; q=0.5")
+                .build();
+    };
+
+    private static final Interceptor SHADOW_PORTAL_INTERCEPTOR = chain -> {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .header("appVersion", "4.1.2")
+                .header("user-agent", "acvideo core")
+                .header("market", "portal")
+                .header("productId", "2000")
+                .header("deviceType", "1")
+                .header("uid", "0")
+                .header("resolution", "720x1184")
+                .header("udid", "66987f52-1573-381f-b199-99f14f45e8bc")
+                .header("If-None-Match", "e80e4941-9f9b-4c47-aac3-05b02890d7f0")
+                .header("Host", "api.aixifan.com")
+                .header("Connection", "Keep-Alive")
+                .header("Accept-Encoding", "gzip")
                 .build();
     };
 

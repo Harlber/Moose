@@ -7,6 +7,7 @@ import com.squareup.okhttp.ResponseBody;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.retrofit.article.ArticleList;
+import moose.com.ac.retrofit.article.ShadowArticleBody;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.Like;
 import moose.com.ac.retrofit.collect.Store;
@@ -18,6 +19,7 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.http.Streaming;
 import rx.Observable;
@@ -55,6 +57,22 @@ public interface Api {
      */
     @GET(Config.API_ARTICLE)
     Observable<ArticleBody> getArticleBody(@Query("contentId") int contentId);
+
+    /**
+     * get article body
+     *
+     * @param contentId article id
+     */
+    @GET(Config.API_ARTICLE_NEW)
+    Observable<ArticleBody> getNewUrlArticleBody(@Query("contentId") int contentId);
+
+    /**
+     * get article body
+     *
+     * @param contentId article id
+     */
+    @GET("/articles/{contentId}")
+    Observable<ShadowArticleBody> getShadowArticleBody(@Path("contentId") String contentId);
 
     /**
      * search by key word
