@@ -54,6 +54,9 @@ public class Config {
     public static final String NO_ST = "nost";
     /*setting*/
     public static final String TEXTSIZE = "TEXTSIZE";
+
+    public static final String CRASH = "CRASH";
+
     public static final int SIZE_SMALL = 1;
     public static final int SIZE_MIDDLE = 2;
     public static final int SIZE_BIG = 3;

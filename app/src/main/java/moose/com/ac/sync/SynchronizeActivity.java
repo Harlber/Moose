@@ -19,6 +19,7 @@ import java.util.List;
 import moose.com.ac.R;
 import moose.com.ac.ui.CloudCollectFragment;
 import moose.com.ac.ui.LocalCollectFragment;
+import moose.com.ac.util.UncaughtHandler;
 import moose.com.ac.util.ZoomOutPageTransformer;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -50,6 +51,7 @@ public class SynchronizeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.include_list_viewpager);
         initView();
         initData();

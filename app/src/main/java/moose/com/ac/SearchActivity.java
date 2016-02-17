@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.ui.SearchFragment;
+import moose.com.ac.util.UncaughtHandler;
 /*
  * Copyright Farble Dast. All rights reserved.
  *
@@ -35,6 +36,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

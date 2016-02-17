@@ -47,6 +47,7 @@ import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ScrollFABBehavior;
 import moose.com.ac.util.SettingPreferences;
+import moose.com.ac.util.UncaughtHandler;
 import moose.com.ac.util.chrome.CustomTabActivityHelper;
 import moose.com.ac.util.chrome.WebviewFallback;
 import rx.Observer;
@@ -109,6 +110,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.activity_article_view);
         context = this;
         article = (Article) getIntent().getSerializableExtra(Config.ARTICLE);

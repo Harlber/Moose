@@ -26,6 +26,7 @@ import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.PreferenceUtil;
 import moose.com.ac.util.RxUtils;
+import moose.com.ac.util.UncaughtHandler;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -117,6 +118,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.activity_info);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.user_info));

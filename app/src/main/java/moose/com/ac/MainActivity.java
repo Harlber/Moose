@@ -56,6 +56,7 @@ import moose.com.ac.ui.widget.CircleImageView;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.SettingPreferences;
+import moose.com.ac.util.UncaughtHandler;
 import moose.com.ac.util.ZoomOutPageTransformer;
 import moose.com.ac.util.chrome.CustomTabActivityHelper;
 import moose.com.ac.util.chrome.WebviewFallback;
@@ -127,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             /**https://developer.android.com/intl/zh-cn/samples/ImmersiveMode/src/com.example.android.immersivemode/ImmersiveModeFragment.html

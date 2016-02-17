@@ -16,6 +16,7 @@ import moose.com.ac.ui.CommentListFragment;
 import moose.com.ac.ui.SubmitCommentFragment;
 import moose.com.ac.ui.ViewPageAdapter;
 import moose.com.ac.util.CommonUtil;
+import moose.com.ac.util.UncaughtHandler;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 /*
@@ -45,6 +46,7 @@ public class BigNewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.activity_big_news);
         int contendId = getIntent().getIntExtra(Config.CONTENTID, 1);
         String title = getIntent().getStringExtra(Config.TITLE);

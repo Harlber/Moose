@@ -14,6 +14,7 @@ import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.RxDataBase;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
+import moose.com.ac.util.UncaughtHandler;
 import rx.Subscriber;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -50,6 +51,7 @@ public abstract class ArticleListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.abs_article_list);
         initToolBar();
         dbHelper = new DbHelper(this);

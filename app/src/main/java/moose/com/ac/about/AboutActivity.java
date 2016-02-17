@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import moose.com.ac.R;
 import moose.com.ac.util.AppUtils;
+import moose.com.ac.util.UncaughtHandler;
 /*
  * Copyright (c) 2016 Farble Dast
  * Copyright (c) 2015 Ha Duy Trung
@@ -38,6 +39,7 @@ public final class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.activity_about);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.about);

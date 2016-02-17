@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import moose.com.ac.R;
 import moose.com.ac.ui.SettingsFragment;
+import moose.com.ac.util.UncaughtHandler;
 /*
  * Copyright Farble Dast. All rights reserved.
  *
@@ -34,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.activity_setting);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 

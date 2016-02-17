@@ -20,6 +20,7 @@ import moose.com.ac.ui.widget.EmailEditText;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
+import moose.com.ac.util.UncaughtHandler;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -60,6 +61,7 @@ public class LoginActivity extends RxAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //this.setTheme(R.style.DayTheme);
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
         setContentView(R.layout.activity_login);
         api = RxUtils.createLoginApi(Api.class, Config.BASE_URL);
         initView();
