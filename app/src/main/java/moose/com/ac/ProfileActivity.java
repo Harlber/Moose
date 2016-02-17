@@ -67,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.profile_chenkin:
                     mSwipeRefreshLayout.setRefreshing(true);
-                    subscription.add(api.chenkin()
+                    subscription.add(api.checkIn()
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Observer<CheckIn>() {

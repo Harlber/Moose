@@ -98,7 +98,7 @@ public interface Api {
      * check in action
      */
     @GET(Config.API_CHENK_IN)
-    Observable<CheckIn> chenkin();
+    Observable<CheckIn> checkIn();
 
     /**
      * collect article
