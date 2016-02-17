@@ -219,4 +219,5 @@
     <string name="local_story_history">共有%s条历史记录</string>
     <string name="fetch">电梯直达</string>
     <string name="fetch_hit">输入直达ac号</string>
+    <string name="toast_please_login">请先登录</string>
 </resources>

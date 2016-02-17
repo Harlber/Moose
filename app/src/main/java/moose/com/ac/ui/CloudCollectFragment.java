@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,8 +67,6 @@ public class CloudCollectFragment extends RxFragment {
     private LinearLayoutManager mLayoutManager;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CloudArticleAdapter adapter;
-
-    private SynchronizeActivity activity;
 
     private boolean isRequest = false;//request data status
     private boolean isScroll = false;//is RecyclerView scrolling
@@ -137,7 +136,7 @@ public class CloudCollectFragment extends RxFragment {
 
     private void init() {
         if (!CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {//not login
-            showStatus.setText("未登录,请先登录");
+            showStatus.setText(R.string.toast_please_login);
             showStatus.setVisibility(View.VISIBLE);
         } else {
             load();
@@ -162,7 +161,7 @@ public class CloudCollectFragment extends RxFragment {
                     public void onError(Throwable e) {
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;//refresh request status
-                        activity.snack(e.getMessage());
+                        snack(e.getMessage());
                         e.printStackTrace();
                     }
 
@@ -177,22 +176,15 @@ public class CloudCollectFragment extends RxFragment {
                             }
                             adapter.notifyDataSetChanged();
                         } else {
-                            activity.snack(articleCloud.isSuccess() + "");
+                            snack(articleCloud.isSuccess() + "");
                         }
                     }
                 }));
     }
 
     @Override
-    public void onAttach(Activity a) {
-        super.onAttach(a);
-        activity = (SynchronizeActivity) a;
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
-        activity = null;
     }
 
     @Override
@@ -200,5 +192,14 @@ public class CloudCollectFragment extends RxFragment {
         super.onDestroy();
         RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
         refWatcher.watch(this);
+    }
+
+    private void snack(String msg) {
+        Snackbar snackBar = Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.snackbar_action, v -> {
+            snackBar.dismiss();
+        });
+        snackBar.getView().setBackgroundResource(R.color.colorPrimary);
+        snackBar.show();
     }
 }

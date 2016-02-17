@@ -100,9 +100,13 @@ public class LocalCollectFragment extends RxFragment {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
-        mSwipeRefreshLayout.setOnRefreshListener(this::load);
+        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
     }
 
+    private void refresh() {
+        //todo refresh data from DB
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
     private void initRecyclerView() {
         adapter = new CacheListAdapter(lists, getActivity());
@@ -142,7 +146,7 @@ public class LocalCollectFragment extends RxFragment {
                 e.printStackTrace();
                 mSwipeRefreshLayout.setRefreshing(false);
                 mSwipeRefreshLayout.setEnabled(false);
-                Snack(getString(R.string.db_error));
+                snack(getString(R.string.db_error));
             }
 
             @Override
@@ -183,7 +187,12 @@ public class LocalCollectFragment extends RxFragment {
         refWatcher.watch(this);
     }
 
-    private void Snack(String msg) {
-        Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
+    private void snack(String msg) {
+        Snackbar snackBar = Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.snackbar_action, v -> {
+            snackBar.dismiss();
+        });
+        snackBar.getView().setBackgroundResource(R.color.colorPrimary);
+        snackBar.show();
     }
 }

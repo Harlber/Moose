@@ -212,4 +212,5 @@
     <string name="local_story_history">Total: %s</string>
     <string name="fetch">Visit by Id</string>
     <string name="fetch_hit">Input Id</string>
+    <string name="toast_please_login">Sign in</string>
 </resources>
