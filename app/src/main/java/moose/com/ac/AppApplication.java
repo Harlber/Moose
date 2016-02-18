@@ -33,7 +33,7 @@ public class AppApplication extends Application {
     private static Context context;
     private static DbHelper dbHelper;
 
-    private RefWatcher refWatcher;
+    private static RefWatcher refWatcher;
 
     @Override
     public void onCreate() {
@@ -46,13 +46,12 @@ public class AppApplication extends Application {
         }
     }
 
-    public static RefWatcher getRefWatcher(Context context) {
-        AppApplication application = (AppApplication) context.getApplicationContext();
-        return application.refWatcher;
+    public static RefWatcher getRefWatcher() {
+        return refWatcher;
     }
 
     protected boolean isInUnitTests() {
-        return true;
+        return false;
     }
 
     @Override

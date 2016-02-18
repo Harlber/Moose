@@ -183,8 +183,7 @@ public class LocalCollectFragment extends RxFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+        AppApplication.getRefWatcher().watch(this);;
     }
 
     private void snack(String msg) {

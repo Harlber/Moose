@@ -110,8 +110,7 @@ public class ArticleFragment extends ArticleListFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = AppApplication.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+        AppApplication.getRefWatcher().watch(this);
     }
 
     @Override
