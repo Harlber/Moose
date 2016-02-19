@@ -18,6 +18,7 @@ import java.util.List;
 import moose.com.ac.AppApplication;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.LocalCookie;
+import retrofit.Converter;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
@@ -35,7 +36,7 @@ public final class RxUtils {
             Build.MODEL + "; " + Locale.getDefault().getLanguage() + "-" +
             Locale.getDefault().getCountry().toLowerCase() +
             ") AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 ";*/
-    public static String UA = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36";
+    public static String UA = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36";
 
     private RxUtils() {
         throw new AssertionError("No instances");
@@ -176,6 +177,10 @@ public final class RxUtils {
             cookies = dbHelper.getDbCookies();
             builder.addHeader("User-Agent", UA);
             builder.addHeader("Accept", "application/json; q=0.5");
+            builder.addHeader("Accept-Encoding","gzip, deflate, sdch");
+            builder.addHeader("Accept-Language","zh-CN,zh;q=0.8");
+            builder.addHeader("Cache-Control","max-age=0");
+            builder.addHeader("Connection","keep-alive");
             for (LocalCookie cookie : cookies) {
                 builder.addHeader("Cookie", cookie.getCookie());
                 Log.i(TAG, "set cookies:" + cookie.getCookie());

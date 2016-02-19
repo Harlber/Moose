@@ -10,6 +10,7 @@ public class Config {
     public static final String WEB_URL = "http://www.acfun.tv/a/ac";
     public static final String MEMBER_URL = "http://www.acfun.tv/member";
     public static final String WAP_URL = "http://m.acfun.tv/";
+    public static final String WEB_API = "http://webapi.acfun.tv";
 
     public static final String GITHUB_URL = "https://github.com";
 
@@ -26,6 +27,7 @@ public class Config {
     public static final String API_LIKE = "/content_up.aspx";
     public static final String API_USERINFO = "/splash.aspx";
     public static final String API_PROFILE = "/member/profile.aspx";
+    public static final String API_SIGNIN = "/record/actions/signin";
     public static final String API_VERSION = "/Harlber/Moose/blob/master/app/version.json";
 
     public static final String AC_EMOTION = "emotion/images";

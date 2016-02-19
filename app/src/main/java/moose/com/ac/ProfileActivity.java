@@ -9,24 +9,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonObject;
+import com.squareup.okhttp.ResponseBody;
+import com.trello.rxlifecycle.ActivityEvent;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.Profile;
+import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.PreferenceUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.UncaughtHandler;
+import retrofit.Response;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -50,9 +57,10 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/9/1.
  * ProfileActivity
  */
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends RxAppCompatActivity {
     private static final String TAG = "ProfileActivity";
     private final Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
+    private final Api apiSign = RxUtils.createCookieApi(Api.class, Config.WEB_API);
     private CompositeSubscription subscription = new CompositeSubscription();
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private AppCompatButton registButton;
@@ -68,10 +76,10 @@ public class ProfileActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.profile_chenkin:
                     mSwipeRefreshLayout.setRefreshing(true);
-                    subscription.add(api.checkIn()
+                    subscription.add(apiSign.signIn("0",System.currentTimeMillis())
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<CheckIn>() {
+                            .subscribe(new Observer<JsonObject>() {
                                 @Override
                                 public void onCompleted() {
 
@@ -87,13 +95,15 @@ public class ProfileActivity extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onNext(CheckIn checkIn) {
+                                public void onNext(JsonObject body) {
                                     mSwipeRefreshLayout.setRefreshing(false);
                                     mSwipeRefreshLayout.setEnabled(false);
-                                    if (checkIn.isSuccess()) {
+                                    String message = body.getAsJsonPrimitive("message").getAsString();
+                                    if (message.equals("OK")) {
                                         Snack(getString(R.string.reg_success));
+                                        registButton.setText(getString(R.string.checked_in));
                                     } else {
-                                        Snack(checkIn.getInfo());
+                                        Snack(message);
                                     }
                                 }
                             }));
@@ -178,7 +188,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 CommonUtil.setRegDate(profile.getRegTime());
                                 CommonUtil.setGender(profile.getGender());
                                 CommonUtil.setRegistDate();//签到
-                                registButton.setText(getString(R.string.checked_in));
+                                //registButton.setText(getString(R.string.checked_in));
 
                                 uid.setText(profile.getUsername());
                                 signature.setText(getString(R.string.user_sign) + profile.getSign());

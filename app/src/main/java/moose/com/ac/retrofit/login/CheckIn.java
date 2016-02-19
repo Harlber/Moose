@@ -7,6 +7,7 @@ import java.io.Serializable;
  * {"result":"请先登录","success":false,"status":401,"info":"请先登录"}
  * {"result":"您今天已签到过","success":false}
  */
+@Deprecated
 public class CheckIn implements Serializable {
     private static final long serialVersionUID = -2346184601048001301L;
     private String result;

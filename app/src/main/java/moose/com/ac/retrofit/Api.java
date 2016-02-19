@@ -1,6 +1,7 @@
 package moose.com.ac.retrofit;
 
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.okhttp.ResponseBody;
 
@@ -114,9 +115,19 @@ public interface Api {
 
     /**
      * check in action
+     * see #signIn
      */
+    @Deprecated
     @GET(Config.API_CHENK_IN)
     Observable<CheckIn> checkIn();
+
+    /**
+     * http://webapi.acfun.tv/record/actions/signin?channel=0&date=1455873634311
+     * @param channel 0
+     * @param date timestamp
+     */
+    @POST(Config.API_SIGNIN)
+    Observable<JsonObject> signIn(@Query("channel") String channel, @Query("date") Long date);
 
     /**
      * collect article
