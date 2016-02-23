@@ -106,7 +106,7 @@ public class CommentDetail implements Serializable {
     }
 
     public Long getCount() {
-        return count;
+        return null==count?0L:count;
     }
 
     public void setCount(Long count) {
