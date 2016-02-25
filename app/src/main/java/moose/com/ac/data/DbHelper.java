@@ -28,7 +28,7 @@ public class DbHelper {
         return mDbHelper;
     }
 
-    public boolean insertArticle(Article article, String tabName,int channel) {
+    public boolean insertArticle(Article article, String tabName, int channel) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -38,7 +38,7 @@ public class DbHelper {
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_USERNAME, article.getUser().getUsername());
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_COMMENT, article.getComments() + "");
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE, article.getReleaseDate() + "");
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE,article.getSavedate() );
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE, article.getSavedate());
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ISFAV, article.getIsfav());
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_CHANNEL, channel);
 
@@ -49,11 +49,14 @@ public class DbHelper {
                 ArticleCollects.COLUMN_NAME_NULLABLE,
                 values);
         db.close();
-        Log.i(TAG,"insertArticle result:"+newRowId);
+        Log.i(TAG, "insertArticle result:" + newRowId);
         return newRowId > 0;
     }
 
-    public boolean insertCookies(String cookie){
+    /**
+     * @param cookie cookies information
+     */
+    public boolean insertCookies(String cookie) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -67,7 +70,14 @@ public class DbHelper {
         Log.i(TAG, "insert Cookies result:" + newRowId);
         return newRowId > 0;
     }
-    public boolean insertUserInfo(Profile profile){
+
+    public void clearCookies() {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        db.execSQL("DELETE FROM " + ArticleCollects.ArticleCookies.TABLE_NAME);
+        db.close();
+    }
+
+    public boolean insertUserInfo(Profile profile) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -83,12 +93,12 @@ public class DbHelper {
                 ArticleCollects.COLUMN_NAME_NULLABLE,
                 values);
         db.close();
-        Log.i(TAG,"insertArticle result:"+newRowId);
+        Log.i(TAG, "insertArticle result:" + newRowId);
         return newRowId > 0;
 
     }
 
-    public Profile getUserInfo(){
+    public Profile getUserInfo() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         Profile profile = new Profile();
         Cursor c = db.rawQuery("SELECT * FROM " + ArticleCollects.ArticleCookies.TABLE_NAME, null);
@@ -98,7 +108,7 @@ public class DbHelper {
             db.close();
             mDbHelper.close();
         } else {
-            if(c.moveToNext()){
+            if (c.moveToNext()) {
                 profile.setUsername(c.getString(c.getColumnIndex("nickname")));
                 profile.setSign(c.getString(c.getColumnIndex("signword")));
                 profile.setRegTime(Long.valueOf(c.getString(c.getColumnIndex("regdate"))));
@@ -112,7 +122,7 @@ public class DbHelper {
         return profile;
     }
 
-    public List<LocalCookie> getDbCookies(){
+    public List<LocalCookie> getDbCookies() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         List<LocalCookie> lists = new ArrayList<>();
         Cursor c = db.rawQuery("SELECT * FROM " + ArticleCollects.ArticleCookies.TABLE_NAME, null);
@@ -148,22 +158,24 @@ public class DbHelper {
         return status > 0;
     }
 
-    public boolean isExits(String tabName,String aid){
+    public boolean isExits(String tabName, String aid) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        Cursor query = db.rawQuery("SELECT contentId FROM "+tabName+" where contentId=?", new String[]{String.valueOf(aid)});
-        boolean isFav = query.getCount() >0;
+        Cursor query = db.rawQuery("SELECT contentId FROM " + tabName + " where contentId=?", new String[]{String.valueOf(aid)});
+        boolean isFav = query.getCount() > 0;
         query.close();
         db.close();
         Log.i(TAG, "isExits result:" + isFav);
         return isFav;
     }
-    public void dropSql(String tab){
+
+    public void dropSql(String tab) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String deleteSql = "drop table if exists " + tab;
         db.execSQL(deleteSql);
         db.close();
     }
-    public void createTab(String tab){
+
+    public void createTab(String tab) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         db.execSQL(tab);
         db.close();

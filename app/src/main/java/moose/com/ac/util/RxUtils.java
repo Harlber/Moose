@@ -145,6 +145,7 @@ public final class RxUtils {
 
             if (!originalResponse.headers("Set-Cookie").isEmpty()) {
                 DbHelper dbHelper = AppApplication.getDbHelper();
+                dbHelper.clearCookies();
                 HashSet<String> cookies = new HashSet<>();
 
                 for (String header : originalResponse.headers("Set-Cookie")) {

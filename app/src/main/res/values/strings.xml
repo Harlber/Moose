@@ -211,6 +211,7 @@
     <string name="pref_key_local_collect" translatable="false">pref_key_local_collect</string>
     <string name="pref_key_collect_type" translatable="false">pref_key_collect_type</string>
     <string name="pref_custom_tab" translatable="false">pref_custom_tab</string>
+    <string name="pref_username" translatable="false">pref_username</string>
     <string name="pref_custom_tab_summary">一律使用谷歌浏览器的扩展功能</string>
     <string name="pref_custom_tab_title">使用谷歌浏览器扩展功能</string>
     <string name="pref_save_story_in">本地</string>

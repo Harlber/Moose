@@ -60,7 +60,7 @@ public class SettingsFragment extends RxPreferenceFragmentCompat {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        AppApplication.getRefWatcher().watch(this);
+        //AppApplication.getRefWatcher().watch(this);
     }
 
     @Override

@@ -7,5 +7,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">#ababab</item>
         <item name="android:windowBackground">@color/window_background</item>
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 </resources>

@@ -51,7 +51,7 @@ public class AppApplication extends Application {
     }
 
     protected boolean isInUnitTests() {
-        return false;
+        return true;
     }
 
     @Override

@@ -17,15 +17,15 @@
 <resources>
     <color name="window_background">#FFF5F5F5</color>
 
-    <color name="colorPrimary">#039be5</color>
-    <color name="colorPrimaryDark">#03a9f4</color>
-    <color name="colorLight">#b45cb2d2</color>
+    <color name="colorPrimary">#78909c</color>
+    <color name="colorPrimaryDark">#78909c</color>
+    <color name="colorLight">#90a4ae</color>
     <color name="colorPrimaryLight">#FFE0B2</color>
     <color name="colorAccent">#fdd835</color>
     <color name="colorAccentLight">#FF8A80</color>
     <color name="textColorButton">#FFFFFF</color>
-    <color name="backgroud_main">#ededed</color>
-    <color name="main_color_dark">#0099cc</color>
+    <color name="background_main">#ededed</color>
+    <color name="main_color_dark">#78909c</color>
     <color name="colorBlack">#000000</color>
     <color name="colorContents">#00000000</color>
     <color name="colorEmailTextView">#ff424242</color>

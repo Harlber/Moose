@@ -47,4 +47,16 @@ public class SettingPreferences {
                 .getString(context.getString(R.string.pref_key_collect_type), context.getString(R.string.store_local));
     }
 
+    public static String getUsername(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(context.getString(R.string.pref_username), null);
+    }
+
+    public static void setUsername(Context context, String username) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(context.getString(R.string.pref_username), username)
+                .apply();
+    }
+
 }

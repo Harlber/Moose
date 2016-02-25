@@ -177,6 +177,6 @@ public class SearchFragment extends RxFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        AppApplication.getRefWatcher().watch(this);
+        //AppApplication.getRefWatcher().watch(this);
     }
 }

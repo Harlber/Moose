@@ -43,6 +43,7 @@ public class Config {
     public static final String LOGIN_IN = "LOGIN_IN";
     public static final String LOGIN_OUT = "LOGIN_OUT";
     public static final String LOGIN_REGIST = "LOGIN_REGIST";
+    public static final String EXTRA_ADD_ACCOUNT = "EXTRA_ADD_ACCOUNT";
 
     public static final String USER_UID = "USER_UID";
     public static final String USER_SIGNATRUE = "USER_SIGNATRUE";

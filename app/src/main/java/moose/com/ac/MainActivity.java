@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.login_username:
                     if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        intent.putExtra(Config.EXTRA_ADD_ACCOUNT,true);
                         startActivity(intent);
                     } else {
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));

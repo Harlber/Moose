@@ -99,12 +99,12 @@
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="32dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/main_color_dark"
+                    android:background="@color/colorAccent"
                     android:gravity="center"
                     android:padding="5dp"
                     android:singleLine="true"
                     android:text="@string/login"
-                    android:textColor="@color/backgroud_main" />
+                    android:textColor="@color/background_main" />
             </RelativeLayout>
         </LinearLayout>
     </moose.com.ac.ui.widget.MultiSwipeRefreshLayout>
