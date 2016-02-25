@@ -55,7 +55,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Farble on 2015/8/16 15.
  * Comment-List-Fragment
  */
-public class CommentListFragment extends RxFragment {
+public class CommentListFragment extends BaseFragment {
     private static final String TAG = "CommentListFragment";
     private View rootView;
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -78,14 +78,6 @@ public class CommentListFragment extends RxFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.fragment_comment_list, container, false);
-        contentId = getArguments().getInt(Config.CHANNEL_ID);
-        adapter = new CommentAdapter(getActivity(), data, commentIdList);
-        initRecyclerView();
-        initRefreshLayout();
-        //mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
-        new Handler().postDelayed(() -> {
-            loadData(page);
-        }, Config.TIME_LATE);
         return rootView;
     }
 
@@ -106,6 +98,19 @@ public class CommentListFragment extends RxFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void initView() {
+        contentId = getArguments().getInt(Config.CHANNEL_ID);
+        adapter = new CommentAdapter(getActivity(), data, commentIdList);
+        initRecyclerView();
+        initRefreshLayout();
+    }
+
+    @Override
+    public void initData() {
+        loadData(page);
     }
 
     @Override
@@ -198,11 +203,11 @@ public class CommentListFragment extends RxFragment {
                     @Override
                     public void onNext(JsonObject response) {
                         JsonArray jsonElements = response.getAsJsonObject("data").getAsJsonArray("commentList");
-                        JsonObject comlists = response.getAsJsonObject("data").getAsJsonObject("commentContentArr");
+                        JsonObject lists = response.getAsJsonObject("data").getAsJsonObject("commentContentArr");
                         for (int i = 0; i < jsonElements.size(); i++) {
-                            int listid = jsonElements.get(i).getAsInt();
-                            commentIdList.add(listid);
-                            data.put(listid, convertToObject(comlists.getAsJsonObject("c" + listid)));
+                            int listId = jsonElements.get(i).getAsInt();
+                            commentIdList.add(listId);
+                            data.put(listId, convertToObject(lists.getAsJsonObject("c" + listId)));
                         }
                         if (data.size() == 0) {
                             snack(getString(R.string.no_comment_here));

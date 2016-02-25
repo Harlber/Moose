@@ -1,17 +1,11 @@
 package moose.com.ac.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.squareup.leakcanary.RefWatcher;
-
-import moose.com.ac.AppApplication;
-import moose.com.ac.R;
+import com.trello.rxlifecycle.components.support.RxFragment;
 /*
  * Copyright Farble Dast. All rights reserved.
  *
@@ -27,47 +21,42 @@ import moose.com.ac.R;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /**
- * Created by Farble on 2015/8/16 16.
+ * Created by Farble on 2016/2/25 22.
  */
-public class SubmitCommentFragment extends BaseFragment {
-    private static final String TAG = "SubmitCommentFragment";
+public abstract class BaseFragment extends RxFragment{
+    protected boolean isAttach = false;
 
-    private View rootView;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(
-                R.layout.fragment_submit_comment, container, false);
-        Log.e(TAG, "start");
-        return rootView;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        isAttach = true;
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initData();
     }
 
     @Override
-    public void initView() {
-
+    public void onDetach() {
+        super.onDetach();
     }
 
     @Override
-    public void initData() {
-
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //AppApplication.getRefWatcher().watch(this);
-    }
+    public abstract void initView();
+
+    public abstract void initData();
 }

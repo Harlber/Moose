@@ -40,7 +40,6 @@ import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.ArticleContent;
-import moose.com.ac.sync.SynchronizeActivity;
 import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
@@ -54,7 +53,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/10/16.
  * CloudCollectFragment
  */
-public class CloudCollectFragment extends RxFragment {
+public class CloudCollectFragment extends BaseFragment {
     private static final String TAG = "CloudCollectFragment";
 
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -77,15 +76,19 @@ public class CloudCollectFragment extends RxFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.fragment_article_list, container, false);
-        initRecyclerView();
-        initRefreshLayout();
-        initView();
-        new Handler().postDelayed(this::init, Config.TIME_LATE);
         return rootView;
     }
 
-    private void initView() {
+    @Override
+    public void initData() {
+        init();
+    }
+
+    @Override
+    public void initView() {
         showStatus = (TextView) rootView.findViewById(R.id.tv_no);
+        initRecyclerView();
+        initRefreshLayout();
     }
 
     protected void initRefreshLayout() {
@@ -99,7 +102,6 @@ public class CloudCollectFragment extends RxFragment {
             load();
         });
     }
-
 
     protected void initRecyclerView() {
         adapter = new CloudArticleAdapter(getActivity(), list);

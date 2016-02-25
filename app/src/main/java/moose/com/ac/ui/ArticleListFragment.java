@@ -37,7 +37,7 @@ import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 /**
  * Created by Farble on 2015/8/13 23.
  */
-public abstract class ArticleListFragment extends RxFragment {
+public abstract class ArticleListFragment extends BaseFragment {
     private static final String TAG = "ArticleListFragment";
     private static final int ANIMATION_DURATION = 2000;
     protected View rootView;
@@ -50,6 +50,7 @@ public abstract class ArticleListFragment extends RxFragment {
     protected FlipInTopXAnimator animator;
 
     protected boolean isScroll = false;//is RecyclerView scrolling
+    protected boolean isRequest = false;//request data status
 
     protected int mChannelId = 74;
     protected int type = 3;//default
@@ -83,9 +84,31 @@ public abstract class ArticleListFragment extends RxFragment {
         animator.setRemoveDuration(ANIMATION_DURATION);
         mRecyclerView.setItemAnimator(animator);
 
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                isScroll = newState == RecyclerView.SCROLL_STATE_SETTLING;
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                mSwipeRefreshLayout.setEnabled(mLayoutManager
+                        .findFirstCompletelyVisibleItemPosition() == 0);//fix bug while scroll RecyclerView & SwipeRefreshLayout shows also
+                if (!recyclerView.canScrollVertically(1) && !isRequest) {
+                    loadMore();
+                }
+            }
+        });
+
     }
 
-    protected abstract void init();
+    @Override
+    public void initView() {
+        initRecyclerView();
+        initRefreshLayout();
+    }
 
     protected abstract void loadMore();
 

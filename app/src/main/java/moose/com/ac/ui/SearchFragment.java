@@ -3,6 +3,7 @@ package moose.com.ac.ui;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,7 +52,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/9/15.
  * SearchFragment
  */
-public class SearchFragment extends RxFragment {
+public class SearchFragment extends BaseFragment {
     private static final String TAG = "SearchFragment";
     private static final int ANIMATION_DURATION = 2000;
     private View rootView;
@@ -75,12 +76,20 @@ public class SearchFragment extends RxFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.fragment_search, container, false);
-        key = getArguments().getString(Config.SEARCH_KEY);
+        return rootView;
+    }
+
+    @Override
+    public void initView() {
         result = (TextView) rootView.findViewById(R.id.search_result);
         initRecyclerView();
         initRefreshLayout();
-        new Handler().postDelayed(() -> loadData(1), Config.TIME_LATE);
-        return rootView;
+    }
+
+    @Override
+    public void initData() {
+        key = getArguments().getString(Config.SEARCH_KEY);
+        loadData(1);
     }
 
     private void loadData(int flag) {
@@ -106,8 +115,10 @@ public class SearchFragment extends RxFragment {
                     @Override
                     public void onNext(SearchBody searchBody) {
                         mSwipeRefreshLayout.setRefreshing(false);
-                        if (searchBody.getData().getPage() != null && searchBody.getData().getPage().getList().size() != 0) {
-                            result.setText("共" + searchBody.getData().getPage().getTotalCount().toString() + "个相关结果");
+                        if (searchBody.getData().getPage() != null &&
+                                searchBody.getData().getPage().getList().size() != 0) {
+                            result.setText(String.format(getActivity().getString(R.string.total_result),
+                                    searchBody.getData().getPage().getTotalCount().toString()));
                             if (flag != 1) {
                                 lists.clear();
                             }

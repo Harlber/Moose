@@ -214,4 +214,5 @@
     <string name="toast_please_login">请先登录</string>
     <string name="title_activity_crash">应用崩溃详情</string>
     <string name="snackbar_report_to_github">请提交此次崩溃信息到github项目的issue中</string>
+    <string name="total_result">共 %s 个相关结果</string>
 </resources>

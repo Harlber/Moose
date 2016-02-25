@@ -49,7 +49,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by dell on 2015/10/17.
  */
-public class LocalCollectFragment extends RxFragment {
+public class LocalCollectFragment extends BaseFragment {
     private static final String TAG = "LocalCollectFragment";
     private View rootView;
     private DbHelper dbHelper;
@@ -71,12 +71,20 @@ public class LocalCollectFragment extends RxFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.fragment_article_list, container, false);
+        return rootView;
+    }
+
+    @Override
+    public void initView() {
         initRecyclerView();
         initRefreshLayout();
         textView = (TextView) rootView.findViewById(R.id.tv_no);
+    }
+
+    @Override
+    public void initData() {
         dbHelper = new DbHelper(getActivity());
-        new Handler().postDelayed(this::init, Config.TIME_LATE);
-        return rootView;
+        init();
     }
 
     private void init() {
