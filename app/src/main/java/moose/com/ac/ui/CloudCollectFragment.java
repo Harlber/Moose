@@ -53,12 +53,10 @@ public class CloudCollectFragment extends BaseListFragment {
 
     private TextView showStatus;
 
-    private int page = 1;//default
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return  inflater.inflate(
+        return inflater.inflate(
                 R.layout.abs_list_fragment, container, false);
     }
 
@@ -87,6 +85,9 @@ public class CloudCollectFragment extends BaseListFragment {
 
     @Override
     protected void doSwipeRefresh() {
+        mPage = 1;
+        list.clear();
+        adapter.notifyDataSetChanged();
         load();
     }
 
@@ -108,7 +109,7 @@ public class CloudCollectFragment extends BaseListFragment {
         mSwipeRefreshLayout.setEnabled(true);
         mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         isRequest = true;
-        subscription.add(api.getArticleCloudList(10, page, "63")
+        subscription.add(api.getArticleCloudList(10, mPage, "63")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<ArticleCloud>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
@@ -136,6 +137,7 @@ public class CloudCollectFragment extends BaseListFragment {
                                 showStatus.setText(getString(R.string.no_local_data));
                             }
                             adapter.notifyDataSetChanged();
+                            mPage++;
                         } else {
                             snack(articleCloud.isSuccess() + "");
                         }

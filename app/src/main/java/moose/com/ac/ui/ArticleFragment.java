@@ -65,7 +65,10 @@ public class ArticleFragment extends BaseListFragment {
 
     @Override
     protected void doSwipeRefresh() {
-        loadData(type, 1, false);
+        lists.clear();
+        adapter.notifyDataSetChanged();
+        mPage = 1;
+        loadData(type, mPage, false);
     }
 
     @Override

@@ -53,7 +53,6 @@ public class CommentListFragment extends BaseListFragment {
     private Api api = RxUtils.createApi(Api.class, Config.BASE_URL);
     private int contentId;
 
-    private int page = 1;//default
     private SparseArrayCompatSerializable<CommentDetail> data = new SparseArrayCompatSerializable<>();
     private List<Integer> commentIdList = new ArrayList<>();
 
@@ -73,7 +72,7 @@ public class CommentListFragment extends BaseListFragment {
         if (savedInstanceState != null) {
             SaveInstance saveInstance = (SaveInstance) savedInstanceState.getSerializable(TAG);
             commentIdList.addAll(saveInstance != null ? saveInstance.getCommentIdList() : new ArrayList<Integer>());
-            page = saveInstance != null ? saveInstance.getPage() : 1;
+            mPage = saveInstance != null ? saveInstance.getPage() : 1;
             data = saveInstance != null ? saveInstance.getData() : new SparseArrayCompatSerializable<>();
         }
     }
@@ -96,16 +95,16 @@ public class CommentListFragment extends BaseListFragment {
 
     @Override
     protected void loadMore() {
-        loadData(page);
+        loadData(mPage);
     }
 
     @Override
     protected void doSwipeRefresh() {
-        page = 1;
+        mPage = 1;
         data.clear();
         commentIdList.clear();
         adapter.notifyDataSetChanged();
-        loadData(page);
+        loadData(mPage);
     }
 
     @Override
@@ -119,7 +118,7 @@ public class CommentListFragment extends BaseListFragment {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                loadData(page);
+                loadData(mPage);
             }
         });
     }
@@ -129,7 +128,7 @@ public class CommentListFragment extends BaseListFragment {
         SaveInstance saveInstance = new SaveInstance();
         saveInstance.setCommentIdList(commentIdList);
         saveInstance.setData(data);
-        saveInstance.setPage(page);
+        saveInstance.setPage(mPage);
         outState.putSerializable(TAG, saveInstance);
         super.onSaveInstanceState(outState);
     }
@@ -168,7 +167,7 @@ public class CommentListFragment extends BaseListFragment {
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;
                         Log.i(TAG, "get comments response:" + response.toString());
-                        page++;
+                        mPage++;
                     }
                 }));
     }

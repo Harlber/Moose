@@ -50,8 +50,7 @@ public class SearchFragment extends BaseListFragment {
     private List<SearchList> lists = new ArrayList<>();
     private String key;
     private CompositeSubscription subscription = new CompositeSubscription();
-    private Api api;
-    private int page = 1;
+    private Api api = RxUtils.createApi(Api.class, Config.SEARCH_URL);
 
     @Nullable
     @Override
@@ -84,6 +83,8 @@ public class SearchFragment extends BaseListFragment {
 
     @Override
     protected void doSwipeRefresh() {
+        lists.clear();
+        adapter.notifyDataSetChanged();
         loadData(0);
     }
 
@@ -93,9 +94,8 @@ public class SearchFragment extends BaseListFragment {
     }
 
     private void loadData(int flag) {
-        api = RxUtils.createApi(Api.class, Config.SEARCH_URL);
         mSwipeRefreshLayout.setRefreshing(true);
-        subscription.add(api.getSearch(key, page, Config.PAGESIZE)
+        subscription.add(api.getSearch(key, mPage, Config.PAGESIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<SearchBody>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
@@ -124,7 +124,7 @@ public class SearchFragment extends BaseListFragment {
                             }
                             lists.addAll(searchBody.getData().getPage().getList());
                             adapter.notifyDataSetChanged();
-                            ++page;
+                            mPage++;
                         }
                     }
                 }));

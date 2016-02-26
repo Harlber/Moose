@@ -1,10 +1,10 @@
 package moose.com.ac.ui;
 
 
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
 import moose.com.ac.R;
 import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
@@ -28,17 +28,14 @@ import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
  * Created by Farble on 2015/8/13 23.
  */
 public abstract class BaseListFragment extends BaseFragment {
-    private static final String TAG = "BaseListFragment";
-    private static final int ANIMATION_DURATION = 2000;
     protected RecyclerView mRecyclerView;
     protected LinearLayoutManager mLayoutManager;
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
 
     protected RecyclerView.Adapter adapter;
-    protected FlipInTopXAnimator animator;
 
     protected boolean isScroll = false;//is RecyclerView scrolling
-    protected boolean isRequest = false;//request data status
+    protected boolean isRequest = false;//request status
 
     protected int mChannelId = 74;
     protected int type = 3;//default
@@ -64,10 +61,7 @@ public abstract class BaseListFragment extends BaseFragment {
             throw new NullPointerException("Must call #initRecyclerViewAdapter()!");
         }
         mRecyclerView.setAdapter(adapter);
-        animator = new FlipInTopXAnimator();
-        animator.setAddDuration(ANIMATION_DURATION);
-        animator.setRemoveDuration(ANIMATION_DURATION);
-        mRecyclerView.setItemAnimator(animator);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
