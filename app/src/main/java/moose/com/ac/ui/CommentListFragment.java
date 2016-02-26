@@ -2,29 +2,23 @@ package moose.com.ac.ui;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
@@ -57,7 +51,6 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class CommentListFragment extends BaseFragment {
     private static final String TAG = "CommentListFragment";
-    private View rootView;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.BASE_URL);
     private int contentId;
@@ -76,9 +69,8 @@ public class CommentListFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(
+        return inflater.inflate(
                 R.layout.fragment_comment_list, container, false);
-        return rootView;
     }
 
     /**
@@ -101,16 +93,26 @@ public class CommentListFragment extends BaseFragment {
     }
 
     @Override
-    public void initView() {
+    public void onReceiveData() {
         contentId = getArguments().getInt(Config.CHANNEL_ID);
+    }
+
+    @Override
+    public void onInitView() {
         adapter = new CommentAdapter(getActivity(), data, commentIdList);
         initRecyclerView();
         initRefreshLayout();
     }
 
     @Override
-    public void initData() {
-        loadData(page);
+    public void onInitData() {
+        //todo https://code.google.com/p/android/issues/detail?id=77712&can=1&q=SwipeRefreshLayout&sort=-stars&colspec=ID%20Status%20Priority%20Owner%20Summary%20Reporter%20Opened
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                loadData(page);
+            }
+        });
     }
 
     @Override
@@ -123,15 +125,8 @@ public class CommentListFragment extends BaseFragment {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //AppApplication.getRefWatcher().watch(this);
-    }
-
     private void initRefreshLayout() {
-
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) getRootView().findViewById(R.id.swiperefresh);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
@@ -144,7 +139,7 @@ public class CommentListFragment extends BaseFragment {
 
     private void initRecyclerView() {
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) getRootView().findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -214,9 +209,9 @@ public class CommentListFragment extends BaseFragment {
                         }
                         adapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
-                        isRequest = false;//refresh request status
+                        isRequest = false;
                         Log.i(TAG, "get comments response:" + response.toString());
-                        page++;//超出范围未做处理
+                        page++;
                     }
                 }));
     }

@@ -4,9 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 
-import com.squareup.leakcanary.RefWatcher;
-
-import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 import moose.com.ac.ui.widget.RxPreferenceFragmentCompat;
 import moose.com.ac.util.SettingPreferences;
@@ -55,12 +52,6 @@ public class SettingsFragment extends RxPreferenceFragmentCompat {
                 SettingPreferences.sync(getPreferenceManager(), key);
             }
         };
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //AppApplication.getRefWatcher().watch(this);
     }
 
     @Override

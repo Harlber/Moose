@@ -1,9 +1,7 @@
 package moose.com.ac.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,15 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
-import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
@@ -55,7 +50,6 @@ import rx.subscriptions.CompositeSubscription;
 public class SearchFragment extends BaseFragment {
     private static final String TAG = "SearchFragment";
     private static final int ANIMATION_DURATION = 2000;
-    private View rootView;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -74,21 +68,24 @@ public class SearchFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(
+        return inflater.inflate(
                 R.layout.fragment_search, container, false);
-        return rootView;
     }
 
     @Override
-    public void initView() {
-        result = (TextView) rootView.findViewById(R.id.search_result);
+    public void onReceiveData() {
+        key = getArguments().getString(Config.SEARCH_KEY);
+    }
+
+    @Override
+    public void onInitView() {
+        result = (TextView) getRootView().findViewById(R.id.search_result);
         initRecyclerView();
         initRefreshLayout();
     }
 
     @Override
-    public void initData() {
-        key = getArguments().getString(Config.SEARCH_KEY);
+    public void onInitData() {
         loadData(1);
     }
 
@@ -131,7 +128,7 @@ public class SearchFragment extends BaseFragment {
     }
 
     protected void initRefreshLayout() {
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) getRootView().findViewById(R.id.swiperefresh);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
@@ -145,7 +142,7 @@ public class SearchFragment extends BaseFragment {
 
 
     protected void initRecyclerView() {
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) getRootView().findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -185,9 +182,4 @@ public class SearchFragment extends BaseFragment {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //AppApplication.getRefWatcher().watch(this);
-    }
 }

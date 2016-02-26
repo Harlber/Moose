@@ -3,20 +3,16 @@ package moose.com.ac.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import moose.com.ac.AppApplication;
 import moose.com.ac.MainActivity;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
@@ -58,8 +54,7 @@ public class ArticleFragment extends ArticleListFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_article_list, container, false);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_article_list, container, false);
     }
 
     @Override
@@ -72,11 +67,6 @@ public class ArticleFragment extends ArticleListFragment {
         loadData(type, 1, false);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //AppApplication.getRefWatcher().watch(this);
-    }
 
     @Override
     public void onPause() {
@@ -97,16 +87,23 @@ public class ArticleFragment extends ArticleListFragment {
     }
 
     @Override
-    public void initData() {
+    public void onReceiveData() {
         mChannelId = getArguments().getInt(Config.CHANNEL_ID);
         //noinspection ConstantConditions
         type = Integer.valueOf(getArguments().getString(Config.CHANNEL_TYPE));
-        mSwipeRefreshLayout.setRefreshing(true);//show progressbar
-        loadData(type, mPage, true);
+    }
+
+    @Override
+    public void onInitData() {
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData(type, mPage, true);
+            }
+        },Config.TIME_LATE);
     }
 
     private void loadData(int tp, int pg, boolean isSave) {
-        mSwipeRefreshLayout.setEnabled(true);
         mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         isRequest = true;
         subscription.add(api.getArticleList(tp, mChannelId, pg, Config.PAGESIZE)

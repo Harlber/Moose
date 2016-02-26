@@ -2,15 +2,10 @@ package moose.com.ac.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.leakcanary.RefWatcher;
-
-import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -34,15 +29,11 @@ import moose.com.ac.R;
 public class SubmitCommentFragment extends BaseFragment {
     private static final String TAG = "SubmitCommentFragment";
 
-    private View rootView;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(
+        return inflater.inflate(
                 R.layout.fragment_submit_comment, container, false);
-        Log.e(TAG, "start");
-        return rootView;
     }
 
     @Override
@@ -56,18 +47,18 @@ public class SubmitCommentFragment extends BaseFragment {
     }
 
     @Override
-    public void initView() {
+    public void onReceiveData() {
 
     }
 
     @Override
-    public void initData() {
+    public void onInitView() {
 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //AppApplication.getRefWatcher().watch(this);
+    public void onInitData() {
+
     }
+
 }

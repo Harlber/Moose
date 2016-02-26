@@ -15,9 +15,7 @@ package moose.com.ac.ui;
  * limitations under the License.
  */
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,14 +25,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import moose.com.ac.AppApplication;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
@@ -60,7 +55,6 @@ public class CloudCollectFragment extends BaseFragment {
     private Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
     private List<ArticleContent> list = new ArrayList<>();
 
-    private View rootView;
     private RecyclerView mRecyclerView;
     private TextView showStatus;
     private LinearLayoutManager mLayoutManager;
@@ -74,25 +68,29 @@ public class CloudCollectFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(
+        return  inflater.inflate(
                 R.layout.fragment_article_list, container, false);
-        return rootView;
     }
 
     @Override
-    public void initData() {
+    public void onReceiveData() {
+
+    }
+
+    @Override
+    public void onInitData() {
         init();
     }
 
     @Override
-    public void initView() {
-        showStatus = (TextView) rootView.findViewById(R.id.tv_no);
+    public void onInitView() {
+        showStatus = (TextView) getRootView().findViewById(R.id.tv_no);
         initRecyclerView();
         initRefreshLayout();
     }
 
     protected void initRefreshLayout() {
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) getRootView().findViewById(R.id.swiperefresh);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
@@ -105,7 +103,7 @@ public class CloudCollectFragment extends BaseFragment {
 
     protected void initRecyclerView() {
         adapter = new CloudArticleAdapter(getActivity(), list);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) getRootView().findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
@@ -187,12 +185,6 @@ public class CloudCollectFragment extends BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //AppApplication.getRefWatcher().watch(this);
     }
 
     private void snack(String msg) {

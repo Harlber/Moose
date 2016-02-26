@@ -1,7 +1,6 @@
 package moose.com.ac.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,16 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.components.support.RxFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import moose.com.ac.AppApplication;
 import moose.com.ac.R;
-import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.RxDataBase;
@@ -51,7 +46,6 @@ import rx.schedulers.Schedulers;
  */
 public class LocalCollectFragment extends BaseFragment {
     private static final String TAG = "LocalCollectFragment";
-    private View rootView;
     private DbHelper dbHelper;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -69,20 +63,24 @@ public class LocalCollectFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(
+        return inflater.inflate(
                 R.layout.fragment_article_list, container, false);
-        return rootView;
     }
 
     @Override
-    public void initView() {
+    public void onReceiveData() {
+
+    }
+
+    @Override
+    public void onInitView() {
         initRecyclerView();
         initRefreshLayout();
-        textView = (TextView) rootView.findViewById(R.id.tv_no);
+        textView = (TextView) getRootView().findViewById(R.id.tv_no);
     }
 
     @Override
-    public void initData() {
+    public void onInitData() {
         dbHelper = new DbHelper(getActivity());
         init();
     }
@@ -103,7 +101,7 @@ public class LocalCollectFragment extends BaseFragment {
     }
 
     private void initRefreshLayout() {
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) rootView.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) getRootView().findViewById(R.id.swiperefresh);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
@@ -118,7 +116,7 @@ public class LocalCollectFragment extends BaseFragment {
 
     private void initRecyclerView() {
         adapter = new CacheListAdapter(lists, getActivity());
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) getRootView().findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
@@ -186,12 +184,6 @@ public class LocalCollectFragment extends BaseFragment {
         if (listSubscriber != null) {
             listSubscriber.unsubscribe();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //AppApplication.getRefWatcher().watch(this);;
     }
 
     private void snack(String msg) {

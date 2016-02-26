@@ -26,7 +26,7 @@ import com.trello.rxlifecycle.components.support.RxFragment;
  */
 public abstract class BaseFragment extends RxFragment{
     protected boolean isAttach = false;
-
+    protected boolean isViewCreated = false;
 
     @Override
     public void onAttach(Activity activity) {
@@ -35,15 +35,27 @@ public abstract class BaseFragment extends RxFragment{
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        onReceiveData();
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
+        isViewCreated = true;
+        onInitView();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initData();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        onInitData();
     }
 
     @Override
@@ -56,7 +68,19 @@ public abstract class BaseFragment extends RxFragment{
         super.onDestroyView();
     }
 
-    public abstract void initView();
+    public abstract void onReceiveData();
 
-    public abstract void initData();
+    public abstract void onInitView();
+
+    public abstract void onInitData();
+
+    public View getRootView(){
+        if (!isAttach) {
+            throw new NullPointerException("Fragment is not attached to its context!");
+        }
+        if (!isViewCreated) {
+            throw new NullPointerException("#onInitView() must be called after #onViewCreated(View view, Bundle savedInstanceState)!");
+        }
+        return getView();
+    }
 }
