@@ -45,16 +45,17 @@ import rx.subscriptions.CompositeSubscription;
  * 网络请求超时
  */
 @SuppressLint("ValidFragment")
-public class ArticleFragment extends ArticleListFragment {
+public class ArticleFragment extends BaseListFragment {
     private static final String TAG = "ArticleFragment";
     private CompositeSubscription subscription = new CompositeSubscription();
     private MainActivity mainActivity;
+    private List<Article> lists = new ArrayList<>();
     private Api api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_article_list, container, false);
+        return inflater.inflate(R.layout.abs_list_fragment, container, false);
     }
 
     @Override
@@ -65,6 +66,11 @@ public class ArticleFragment extends ArticleListFragment {
     @Override
     protected void doSwipeRefresh() {
         loadData(type, 1, false);
+    }
+
+    @Override
+    protected void initRecyclerViewAdapter() {
+        adapter = new ArticleListAdapter(lists, getActivity());
     }
 
 

@@ -18,8 +18,6 @@ package moose.com.ac.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +33,6 @@ import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.ArticleContent;
-import moose.com.ac.ui.widget.DividerItemDecoration;
-import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
@@ -48,28 +44,22 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/10/16.
  * CloudCollectFragment
  */
-public class CloudCollectFragment extends BaseFragment {
+public class CloudCollectFragment extends BaseListFragment {
     private static final String TAG = "CloudCollectFragment";
 
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
     private List<ArticleContent> list = new ArrayList<>();
 
-    private RecyclerView mRecyclerView;
     private TextView showStatus;
-    private LinearLayoutManager mLayoutManager;
-    private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private CloudArticleAdapter adapter;
 
-    private boolean isRequest = false;//request data status
-    private boolean isScroll = false;//is RecyclerView scrolling
     private int page = 1;//default
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         return  inflater.inflate(
-                R.layout.fragment_article_list, container, false);
+                R.layout.abs_list_fragment, container, false);
     }
 
     @Override
@@ -89,49 +79,20 @@ public class CloudCollectFragment extends BaseFragment {
         initRefreshLayout();
     }
 
-    protected void initRefreshLayout() {
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) getRootView().findViewById(R.id.swiperefresh);
-
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
-        mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            page = 1;
-            load();
-        });
-    }
-
-    protected void initRecyclerView() {
-        adapter = new CloudArticleAdapter(getActivity(), list);
-        mRecyclerView = (RecyclerView) getRootView().findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(adapter);
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                isScroll = newState == RecyclerView.SCROLL_STATE_SETTLING;
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                mSwipeRefreshLayout.setEnabled(mLayoutManager
-                        .findFirstCompletelyVisibleItemPosition() == 0);//fix bug while scroll RecyclerView & SwipeRefreshLayout shows also
-                if (isScroll && !recyclerView.canScrollVertically(1) && !isRequest) {
-                    loadMore();
-                }
-            }
-        });
-    }
-
-    private void loadMore() {
+    @Override
+    protected void loadMore() {
         load();
+    }
+
+
+    @Override
+    protected void doSwipeRefresh() {
+        load();
+    }
+
+    @Override
+    protected void initRecyclerViewAdapter() {
+        adapter = new CloudArticleAdapter(getActivity(), list);
     }
 
     private void init() {

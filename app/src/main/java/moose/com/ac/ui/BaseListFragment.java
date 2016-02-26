@@ -3,14 +3,9 @@ package moose.com.ac.ui;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
 import moose.com.ac.R;
-import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 /*
@@ -32,15 +27,14 @@ import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 /**
  * Created by Farble on 2015/8/13 23.
  */
-public abstract class ArticleListFragment extends BaseFragment {
-    private static final String TAG = "ArticleListFragment";
+public abstract class BaseListFragment extends BaseFragment {
+    private static final String TAG = "BaseListFragment";
     private static final int ANIMATION_DURATION = 2000;
     protected RecyclerView mRecyclerView;
     protected LinearLayoutManager mLayoutManager;
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
 
-    protected List<Article> lists = new ArrayList<>();
-    protected ArticleListAdapter adapter;
+    protected RecyclerView.Adapter adapter;
     protected FlipInTopXAnimator animator;
 
     protected boolean isScroll = false;//is RecyclerView scrolling
@@ -50,27 +44,25 @@ public abstract class ArticleListFragment extends BaseFragment {
     protected int type = 3;//default
     protected int mPage = 1;//default
 
-
-    protected void initRefreshLayout() {
+    public final void initRefreshLayout() {
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) getRootView().findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
         mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
-            doSwipeRefresh();
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this::doSwipeRefresh);
     }
 
-
-    protected void initRecyclerView() {
-        adapter = new ArticleListAdapter(lists, getActivity());
+    public final void initRecyclerView() {
         mRecyclerView = (RecyclerView) getRootView().findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        initRecyclerViewAdapter();
+        if (null == adapter) {
+            throw new NullPointerException("Must call #initRecyclerViewAdapter()!");
+        }
         mRecyclerView.setAdapter(adapter);
         animator = new FlipInTopXAnimator();
         animator.setAddDuration(ANIMATION_DURATION);
@@ -107,9 +99,6 @@ public abstract class ArticleListFragment extends BaseFragment {
 
     protected abstract void doSwipeRefresh();
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+    protected abstract void initRecyclerViewAdapter();
 
 }

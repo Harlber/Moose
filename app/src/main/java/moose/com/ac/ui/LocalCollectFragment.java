@@ -64,7 +64,7 @@ public class LocalCollectFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(
-                R.layout.fragment_article_list, container, false);
+                R.layout.abs_list_fragment, container, false);
     }
 
     @Override

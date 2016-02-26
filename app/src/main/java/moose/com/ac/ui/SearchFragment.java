@@ -3,8 +3,6 @@ package moose.com.ac.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +13,11 @@ import com.trello.rxlifecycle.FragmentEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.search.SearchBody;
 import moose.com.ac.retrofit.search.SearchList;
-import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -47,19 +43,11 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/9/15.
  * SearchFragment
  */
-public class SearchFragment extends BaseFragment {
+public class SearchFragment extends BaseListFragment {
     private static final String TAG = "SearchFragment";
-    private static final int ANIMATION_DURATION = 2000;
-
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private FlipInTopXAnimator animator;
     private TextView result;
 
     private List<SearchList> lists = new ArrayList<>();
-    private SearchListAdapter adapter;
-    private boolean isRequest = false;//request data status
     private String key;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api;
@@ -82,6 +70,21 @@ public class SearchFragment extends BaseFragment {
         result = (TextView) getRootView().findViewById(R.id.search_result);
         initRecyclerView();
         initRefreshLayout();
+    }
+
+    @Override
+    protected void loadMore() {
+        loadData(1);
+    }
+
+    @Override
+    protected void initRecyclerViewAdapter() {
+        adapter = new SearchListAdapter(lists, getActivity());
+    }
+
+    @Override
+    protected void doSwipeRefresh() {
+        loadData(0);
     }
 
     @Override
@@ -125,51 +128,6 @@ public class SearchFragment extends BaseFragment {
                         }
                     }
                 }));
-    }
-
-    protected void initRefreshLayout() {
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) getRootView().findViewById(R.id.swiperefresh);
-
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
-        mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
-        mSwipeRefreshLayout.setOnRefreshListener(this::doSwipeRefresh);
-    }
-
-    private void doSwipeRefresh() {
-        loadData(0);
-    }
-
-
-    protected void initRecyclerView() {
-        mRecyclerView = (RecyclerView) getRootView().findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        animator = new FlipInTopXAnimator();
-        animator.setAddDuration(ANIMATION_DURATION);
-        animator.setRemoveDuration(ANIMATION_DURATION);
-        mRecyclerView.setItemAnimator(animator);
-        adapter = new SearchListAdapter(lists, getActivity());
-        mRecyclerView.setAdapter(adapter);
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                mSwipeRefreshLayout.setEnabled(mLayoutManager
-                        .findFirstCompletelyVisibleItemPosition() == 0);//fix bug while scroll RecyclerView & SwipeRefreshLayout shows also
-                if (!recyclerView.canScrollVertically(1) && !isRequest) {
-                    loadMore();
-                }
-            }
-        });
-
-    }
-
-    private void loadMore() {
-        loadData(1);
     }
 
     public List<SearchList> getLists() {

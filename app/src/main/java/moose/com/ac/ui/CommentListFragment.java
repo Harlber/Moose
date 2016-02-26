@@ -4,8 +4,6 @@ package moose.com.ac.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,6 @@ import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.comment.CommentDetail;
-import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.SparseArrayCompatSerializable;
 import rx.Observer;
@@ -49,20 +46,14 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Farble on 2015/8/16 15.
  * Comment-List-Fragment
  */
-public class CommentListFragment extends BaseFragment {
+public class CommentListFragment extends BaseListFragment {
     private static final String TAG = "CommentListFragment";
+
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.BASE_URL);
     private int contentId;
 
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private boolean isRequest = false;//request data status
-    private boolean isScroll = false;//is RecyclerView scrolling
     private int page = 1;//default
-
-    private CommentAdapter adapter;
     private SparseArrayCompatSerializable<CommentDetail> data = new SparseArrayCompatSerializable<>();
     private List<Integer> commentIdList = new ArrayList<>();
 
@@ -70,7 +61,7 @@ public class CommentListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(
-                R.layout.fragment_comment_list, container, false);
+                R.layout.abs_list_fragment, container, false);
     }
 
     /**
@@ -99,9 +90,27 @@ public class CommentListFragment extends BaseFragment {
 
     @Override
     public void onInitView() {
-        adapter = new CommentAdapter(getActivity(), data, commentIdList);
         initRecyclerView();
         initRefreshLayout();
+    }
+
+    @Override
+    protected void loadMore() {
+        loadData(page);
+    }
+
+    @Override
+    protected void doSwipeRefresh() {
+        page = 1;
+        data.clear();
+        commentIdList.clear();
+        adapter.notifyDataSetChanged();
+        loadData(page);
+    }
+
+    @Override
+    protected void initRecyclerViewAdapter() {
+        adapter = new CommentAdapter(getActivity(), data, commentIdList);
     }
 
     @Override
@@ -123,58 +132,6 @@ public class CommentListFragment extends BaseFragment {
         saveInstance.setPage(page);
         outState.putSerializable(TAG, saveInstance);
         super.onSaveInstanceState(outState);
-    }
-
-    private void initRefreshLayout() {
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) getRootView().findViewById(R.id.swiperefresh);
-
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
-        mSwipeRefreshLayout.setSwipeableChildren(R.id.recycler_view);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
-            doSwipeRefresh();
-        });
-    }
-
-    private void initRecyclerView() {
-
-        mRecyclerView = (RecyclerView) getRootView().findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(adapter);
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                isScroll = newState == RecyclerView.SCROLL_STATE_SETTLING;
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                mSwipeRefreshLayout.setEnabled(mLayoutManager
-                        .findFirstCompletelyVisibleItemPosition() == 0);//fix bug while scroll RecyclerView & SwipeRefreshLayout shows also
-                if (isScroll && !recyclerView.canScrollVertically(1) && !isRequest) {
-                    loadMore();
-                }
-            }
-        });
-    }
-
-    private void doSwipeRefresh() {
-        page = 1;
-        data.clear();
-        commentIdList.clear();
-        adapter.notifyDataSetChanged();
-        loadData(page);
-    }
-
-    private void loadMore() {
-        loadData(page);
     }
 
     private void loadData(int pg) {
