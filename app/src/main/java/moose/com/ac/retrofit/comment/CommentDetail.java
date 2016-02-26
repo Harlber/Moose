@@ -58,7 +58,7 @@ public class CommentDetail implements Serializable {
     }
 
     public Long getQuoteId() {
-        return quoteId;
+        return null==quoteId?0L:quoteId;
     }
 
     public void setQuoteId(Long quoteId) {
