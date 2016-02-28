@@ -14,6 +14,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -52,7 +53,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     ext {
-        supportVersion = "23.2.0"
+        supportVersion = "23.1.1"
         retrofitVersion = "2.0.0-beta1"
         assertjVersion = '1.1.1'
         robolectricVersion = '3.0'
