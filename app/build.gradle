@@ -52,7 +52,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     ext {
-        supportVersion = "23.1.1"
+        supportVersion = "23.2.0"
         retrofitVersion = "2.0.0-beta1"
         assertjVersion = '1.1.1'
         robolectricVersion = '3.0'
@@ -65,7 +65,6 @@ dependencies {
     compile "com.android.support:design:$supportVersion"
     compile "com.android.support:preference-v7:$supportVersion"
     compile "com.android.support:customtabs:$supportVersion"
-    compile "com.android.support:support-annotations:$supportVersion"
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'io.reactivex:rxjava:1.0.10'
     compile "com.squareup.retrofit:retrofit:$retrofitVersion"
