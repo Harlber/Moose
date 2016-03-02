@@ -14,9 +14,7 @@ import android.os.Handler;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -82,7 +80,6 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
     private FloatingActionButton fab;
     private MenuItem menFav;
     private MenuItem menuShare;
-    private ShareActionProvider actionProvider;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
@@ -198,16 +195,6 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
         getMenuInflater().inflate(R.menu.menu_view_article, menu);
         menFav = menu.findItem(R.id.action_store);
         menuShare = menu.findItem(R.id.action_share);
-        actionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuShare);
-        getApplicationContext().deleteFile(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
-        actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
-        String shareUrl = article.getTitle() + " " + Config.WEB_URL + articleId;
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareUrl += getString(R.string.share_content);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share));
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareUrl);
-        actionProvider.setShareIntent(shareIntent);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -217,6 +204,14 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
         switch (item.getItemId()) {
             case android.R.id.home:
                 ArticleViewActivity.this.finish();
+                return true;
+            case R.id.action_share:
+                String shareUrl = article.getTitle() + " " + Config.WEB_URL + articleId + getString(R.string.share_content);
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareUrl);
+                shareIntent.setType("text/plain");
+                startActivity(Intent.createChooser(shareIntent, shareUrl));
                 return true;
             case R.id.action_module_wap:
                 if (!SettingPreferences.externalBrowserEnabled(context)) {

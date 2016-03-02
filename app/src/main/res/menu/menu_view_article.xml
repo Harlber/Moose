@@ -28,7 +28,6 @@
         android:icon="@drawable/ic_share_grey600_24dp"
         android:orderInCategory="100"
         android:title="@string/menu_share"
-        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:menuCategory="secondary"
         app:showAsAction="ifRoom" />
 </menu>
