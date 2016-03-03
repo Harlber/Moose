@@ -4,14 +4,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.R;
 import moose.com.ac.util.AppUtils;
-import moose.com.ac.util.UncaughtHandler;
 /*
  * Copyright (c) 2016 Farble Dast
  * Copyright (c) 2015 Ha Duy Trung
@@ -33,13 +32,11 @@ import moose.com.ac.util.UncaughtHandler;
  * Created by dell on 2015/8/24.
  * AboutActivity
  */
-public final class AboutActivity extends AppCompatActivity {
+public final class AboutActivity extends BaseActivity {
     private static final String TAG = "AboutActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
+    protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_about);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.about);
@@ -60,6 +57,7 @@ public final class AboutActivity extends AppCompatActivity {
         setTextWithLinks(R.id.text_license, getString(R.string.license_text));
         setTextWithLinks(R.id.text_libraries, getString(R.string.libraries_text));
         setTextWithLinks(R.id.text_3rd_party_licenses, getString(R.string.third_party_licenses_text));
+
     }
 
     private void setTextWithLinks(@IdRes int textViewResId, String htmlText) {

@@ -2,7 +2,6 @@ package moose.com.ac.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -14,7 +13,6 @@ import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.RxDataBase;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
-import moose.com.ac.util.UncaughtHandler;
 import rx.Subscriber;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -31,10 +29,11 @@ import rx.Subscriber;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by dell on 2015/8/25.
  */
-public abstract class ArticleListActivity extends AppCompatActivity {
+public abstract class ArticleListActivity extends BaseActivity {
     private static final String TAG = "ArticleListActivity";
     protected DbHelper dbHelper;
     protected RecyclerView mRecyclerView;
@@ -49,16 +48,13 @@ public abstract class ArticleListActivity extends AppCompatActivity {
     protected RxDataBase rxDataBase;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
+    protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.abs_article_list);
         initToolBar();
         dbHelper = new DbHelper(this);
         initRecyclerView();
         initRefreshLayout();
         init();
-
     }
 
     protected void initRefreshLayout() {
@@ -126,11 +122,11 @@ public abstract class ArticleListActivity extends AppCompatActivity {
 
             @Override
             public void onNext(Integer integer) {
-                if (integer>1) {
+                if (integer > 1) {
                     lists.clear();
                     adapter.notifyDataSetChanged();
                     Snack(getString(R.string.data_clear_already));
-                }else {
+                } else {
                     Snack(getString(R.string.delete_data_failed));
                 }
                 mSwipeRefreshLayout.setRefreshing(false);

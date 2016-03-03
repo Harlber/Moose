@@ -9,17 +9,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.R;
 import moose.com.ac.ui.CloudCollectFragment;
 import moose.com.ac.ui.LocalCollectFragment;
-import moose.com.ac.util.UncaughtHandler;
 import moose.com.ac.util.ZoomOutPageTransformer;
 /*
  * Copyright Farble Dast. All rights reserved.
@@ -36,11 +35,12 @@ import moose.com.ac.util.ZoomOutPageTransformer;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by dell on 2015/10/17.
  * sync data between cloud(server) and local
  */
-public class SynchronizeActivity extends AppCompatActivity {
+public class SynchronizeActivity extends BaseActivity {
     private static final String TAG = "SynchronizeActivity";
 
     private ViewPager viewPager;
@@ -49,9 +49,7 @@ public class SynchronizeActivity extends AppCompatActivity {
     private Adapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
+    protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.include_list_viewpager);
         initView();
         initData();

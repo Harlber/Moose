@@ -22,8 +22,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SearchView;
@@ -48,15 +46,14 @@ import java.util.List;
 import moose.com.ac.about.AboutActivity;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
-import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.settings.SettingsActivity;
 import moose.com.ac.sync.SynchronizeActivity;
 import moose.com.ac.ui.ArticleFragment;
 import moose.com.ac.ui.widget.CircleImageView;
+import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.SettingPreferences;
-import moose.com.ac.util.UncaughtHandler;
 import moose.com.ac.util.ZoomOutPageTransformer;
 import moose.com.ac.util.chrome.CustomTabActivityHelper;
 import moose.com.ac.util.chrome.WebviewFallback;
@@ -84,7 +81,7 @@ import rx.subscriptions.CompositeSubscription;
  * when intent another activity,need cancel network request
  * SearchView see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -110,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.login_username:
                     if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                        intent.putExtra(Config.EXTRA_ADD_ACCOUNT,true);
+                        intent.putExtra(Config.EXTRA_ADD_ACCOUNT, true);
                         startActivity(intent);
                     } else {
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -125,11 +122,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    @SuppressWarnings("ConstantConditions")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
+    protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             /**https://developer.android.com/intl/zh-cn/samples/ImmersiveMode/src/com.example.android.immersivemode/ImmersiveModeFragment.html
