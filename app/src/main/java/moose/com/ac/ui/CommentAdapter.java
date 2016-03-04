@@ -55,14 +55,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         List<View> quoteList = new ArrayList<>();
         handleQuoteList(position, holder.rootView, holder, quoteId, quoteList);
         holder.quoteFrame.setQuoteList(quoteList);
+        //修复引用楼层重叠问题.由于item会复用,所以每次设置内容前,清空ll_quote里的view.
+        holder.ll_quote.removeAllViews();
         if (!quoteList.isEmpty()) {
             RelativeLayout.LayoutParams floorsLayoutParams = new RelativeLayout.LayoutParams(-1, -2);
             int margin = DisplayUtil.dip2px(mContext, 4);
             floorsLayoutParams.setMargins(margin, 0, margin, margin);
             //floorsLayoutParams.addRule(RelativeLayout.BELOW, R.id.requote);
-            holder.ll_quote.addView(holder.quoteFrame,floorsLayoutParams);
-        }else{
-            holder.ll_quote.removeAllViews();
+            holder.ll_quote.addView(holder.quoteFrame, floorsLayoutParams);
         }
 //        RelativeLayout.LayoutParams userLayoutParams = (RelativeLayout.LayoutParams) holder.user.getLayoutParams();
 //        userLayoutParams.addRule(RelativeLayout.BELOW, holder.quoteFrame.getChildCount() > 0 ? frameId : R.id.requote);
