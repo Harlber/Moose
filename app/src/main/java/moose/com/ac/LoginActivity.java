@@ -181,11 +181,11 @@ public class LoginActivity extends BaseActivity {
 
     public boolean check() {
         if (name.getText().toString().equals("")) {
-            name.setError(getString(R.string.empty_username));
+            nameLayout.setError(getString(R.string.empty_username));
             return false;
         }
         if (pwd.getText().toString().equals("")) {
-            pwd.setError(getString(R.string.empty_pwd));
+            passwordLayout.setError(getString(R.string.empty_pwd));
             return false;
         }
         return true;
