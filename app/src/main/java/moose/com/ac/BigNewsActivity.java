@@ -4,19 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.settings.SettingsActivity;
 import moose.com.ac.ui.CommentListFragment;
-import moose.com.ac.ui.SubmitCommentFragment;
 import moose.com.ac.ui.ViewPageAdapter;
+import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.util.CommonUtil;
-import moose.com.ac.util.UncaughtHandler;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 /*
@@ -40,13 +37,11 @@ import moose.com.ac.util.ZoomOutPageTransformer;
  * 整天搞个大新闻
  */
 @SuppressWarnings("unused")
-public class BigNewsActivity extends AppCompatActivity {
+public class BigNewsActivity extends BaseActivity {
     private static final String TAG = "BigNewsActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
+    protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_big_news);
         int contendId = getIntent().getIntExtra(Config.CONTENTID, 1);
         String title = getIntent().getStringExtra(Config.TITLE);
@@ -70,8 +65,6 @@ public class BigNewsActivity extends AppCompatActivity {
             adapter.addFragment(commentListFragment);
             //adapter.addFragment(new SubmitCommentFragment());
             viewPager.setAdapter(adapter);
-        } else {
-            Log.i(TAG, "adapter is null");
         }
     }
 

@@ -1,15 +1,12 @@
 package moose.com.ac;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,23 +14,17 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonObject;
-import com.squareup.okhttp.ResponseBody;
-import com.trello.rxlifecycle.ActivityEvent;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.Profile;
-import moose.com.ac.retrofit.article.ArticleBody;
-import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
+import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.PreferenceUtil;
 import moose.com.ac.util.RxUtils;
-import moose.com.ac.util.UncaughtHandler;
-import retrofit.Response;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -53,11 +44,12 @@ import rx.subscriptions.CompositeSubscription;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * Created by dell on 2015/9/1.
  * ProfileActivity
  */
-public class ProfileActivity extends RxAppCompatActivity {
+public class ProfileActivity extends BaseActivity {
     private static final String TAG = "ProfileActivity";
     private final Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
     private final Api apiSign = RxUtils.createCookieApi(Api.class, Config.WEB_API);
@@ -76,7 +68,7 @@ public class ProfileActivity extends RxAppCompatActivity {
             switch (view.getId()) {
                 case R.id.profile_chenkin:
                     mSwipeRefreshLayout.setRefreshing(true);
-                    subscription.add(apiSign.signIn("0",System.currentTimeMillis())
+                    subscription.add(apiSign.signIn("0", System.currentTimeMillis())
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Observer<JsonObject>() {
@@ -124,11 +116,8 @@ public class ProfileActivity extends RxAppCompatActivity {
         }
     };
 
-    @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
+    protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_info);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.user_info));
@@ -159,47 +148,7 @@ public class ProfileActivity extends RxAppCompatActivity {
             date.setText(CommonUtil.toDate(CommonUtil.getRegDate()));
             gender.setText(getString(R.string.gender) + CommonUtil.getGender(CommonUtil.getGender()));
         } else {
-            mSwipeRefreshLayout.setRefreshing(true);
-            subscription.add(api.getUserProfile()
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Profile>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            mSwipeRefreshLayout.setEnabled(false);
-                            e.printStackTrace();
-                            Snack(getString(R.string.no_network));
-                        }
-
-                        @Override
-                        public void onNext(Profile profile) {
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            mSwipeRefreshLayout.setEnabled(false);
-                            if (profile.isSuccess()) {
-                                CommonUtil.setSignatrue(profile.getSign());
-                                CommonUtil.setRegDate(profile.getRegTime());
-                                CommonUtil.setGender(profile.getGender());
-                                CommonUtil.setRegistDate();//签到
-                                //registButton.setText(getString(R.string.checked_in));
-
-                                uid.setText(profile.getUsername());
-                                signature.setText(getString(R.string.user_sign) + profile.getSign());
-                                date.setText(CommonUtil.toDate(profile.getRegTime()));
-                                gender.setText(getString(R.string.gender) + CommonUtil.getGender(profile.getGender()));
-
-                            } else {
-                                Snack(profile.getInfo());
-                            }
-                        }
-                    }));
-
+            getUserProfile();
         }
 
         Glide.with(ProfileActivity.this)
@@ -207,6 +156,49 @@ public class ProfileActivity extends RxAppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(logo);
         uid.setText(CommonUtil.getUserName());
+    }
+
+    private void getUserProfile() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        subscription.add(api.getUserProfile()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Profile>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mSwipeRefreshLayout.setEnabled(false);
+                        e.printStackTrace();
+                        Snack(getString(R.string.no_network));
+                    }
+
+                    @Override
+                    public void onNext(Profile profile) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mSwipeRefreshLayout.setEnabled(false);
+                        if (profile.isSuccess()) {
+                            CommonUtil.setSignatrue(profile.getSign());
+                            CommonUtil.setRegDate(profile.getRegTime());
+                            CommonUtil.setGender(profile.getGender());
+                            CommonUtil.setRegistDate();//签到
+                            //registButton.setText(getString(R.string.checked_in));
+
+                            uid.setText(profile.getUsername());
+                            signature.setText(getString(R.string.user_sign) + profile.getSign());
+                            date.setText(CommonUtil.toDate(profile.getRegTime()));
+                            gender.setText(getString(R.string.gender) + CommonUtil.getGender(profile.getGender()));
+
+                        } else {
+                            Snack(profile.getInfo());
+                        }
+                    }
+                }));
     }
 
     @Override

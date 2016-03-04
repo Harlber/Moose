@@ -40,7 +40,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     private Activity mActivity;
     private ArticleListVH.ArticleItemClickListener listener;
     private DbHelper dbHelper;
-    private int channnel = Config.COMPLEX;//add channel support
+    private int channel = Config.COMPLEX;//add channel support
 
     public ArticleListAdapter(List<Article> lists) {
         this.lists = lists;
@@ -50,13 +50,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         this(lists);
         this.mActivity = mActivity;
         dbHelper = new DbHelper(mActivity);
-        setListener(this);
-    }
-
-    public ArticleListAdapter(List<Article> lists, Activity mActivity, int channnel) {
-        this(lists, mActivity);
-        dbHelper = new DbHelper(mActivity);
-        this.channnel = channnel;
         setListener(this);
     }
 
@@ -107,10 +100,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         return lists.size();
     }
 
-    public ArticleListVH.ArticleItemClickListener getListener() {
-        return listener;
-    }
-
     public void setListener(ArticleListVH.ArticleItemClickListener listener) {
         this.listener = listener;
     }
@@ -141,18 +130,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         } else {
             article.setIsfav(Config.STORE);//set not fav
             article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
-            dbHelper.insertArticle(article, TAB_NAME, channnel);//remove from db
+            dbHelper.insertArticle(article, TAB_NAME, channel);//remove from db
         }
         notifyDataSetChanged();
     }
 
-    @Deprecated
-    public int getChannnel() {
-        return channnel;
-    }
-
-    @Deprecated
-    public void setChannnel(int channnel) {
-        this.channnel = channnel;
-    }
 }

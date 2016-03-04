@@ -2,7 +2,6 @@ package moose.com.ac;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,7 +24,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.trello.rxlifecycle.ActivityEvent;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -40,12 +38,12 @@ import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleBody;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.ui.widget.ObservableWebView;
+import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.ScrollFABBehavior;
 import moose.com.ac.util.SettingPreferences;
-import moose.com.ac.util.UncaughtHandler;
 import moose.com.ac.util.chrome.CustomTabActivityHelper;
 import moose.com.ac.util.chrome.WebviewFallback;
 import rx.Observer;
@@ -71,7 +69,8 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Farble on 2015/8/16 20.
  */
-public class ArticleViewActivity extends RxAppCompatActivity implements ObservableWebView.OnScrollChangedCallback {
+public class ArticleViewActivity extends BaseActivity
+        implements ObservableWebView.OnScrollChangedCallback {
     private static final String TAG = "ArticleViewActivity";
     private static final int FAB_SHOW = 0x0000aa;
     private static final int FAB_HIDE = 0x0000bb;
@@ -101,15 +100,10 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
     private boolean isWebViewLoading = false;
     private Article article;
     private boolean isRequest = false;
-    private Context context;
 
-    @SuppressWarnings("ConstantConditions")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
+    protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_article_view);
-        context = this;
         article = (Article) getIntent().getSerializableExtra(Config.ARTICLE);
         /*
         * Uri data = getIntent().getData();
@@ -211,10 +205,10 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareUrl);
                 shareIntent.setType("text/plain");
-                startActivity(Intent.createChooser(shareIntent, shareUrl));
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_to)));
                 return true;
             case R.id.action_module_wap:
-                if (!SettingPreferences.externalBrowserEnabled(context)) {
+                if (!SettingPreferences.externalBrowserEnabled(mContext)) {
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.VIEW");
                     Uri content_url = Uri.parse(Config.WEB_URL + articleId + "/");
@@ -370,7 +364,7 @@ public class ArticleViewActivity extends RxAppCompatActivity implements Observab
             src = parsedUri.toString();
             Log.i(TAG, "image src:" + src);
             img.attr("org", src);
-            if (CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(context)) {
+            if (CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(mContext)) {
                 img.after("<p >[图片]</p>");
             } else if (!src.contains(Config.AC_EMOTION)) {
                 String index = "<div style=\"width: 100%;text-align: center;\"><img src=\"" + src + "\" width=\"" +

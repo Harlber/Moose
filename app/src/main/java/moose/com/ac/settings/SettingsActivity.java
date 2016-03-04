@@ -2,13 +2,12 @@ package moose.com.ac.settings;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.R;
 import moose.com.ac.ui.SettingsFragment;
-import moose.com.ac.util.UncaughtHandler;
 /*
  * Copyright Farble Dast. All rights reserved.
  *
@@ -29,13 +28,10 @@ import moose.com.ac.util.UncaughtHandler;
  * Created by dell on 2015/9/1.
  * Setting
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
-    @SuppressWarnings("ConstantConditions")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
+    protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_setting);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 

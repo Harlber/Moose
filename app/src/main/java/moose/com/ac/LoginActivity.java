@@ -13,17 +13,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.trello.rxlifecycle.ActivityEvent;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.login.LoginEntry;
 import moose.com.ac.ui.widget.EmailEditText;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
+import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.SettingPreferences;
-import moose.com.ac.util.UncaughtHandler;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -48,7 +47,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by dell on 2015/8/31.
  * Date: Mon, 31 Aug 2015 09:04:43 GMT
  */
-public class LoginActivity extends RxAppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
     private Api api;
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -65,10 +64,7 @@ public class LoginActivity extends RxAppCompatActivity {
     private boolean addAccount = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //this.setTheme(R.style.DayTheme);
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtHandler(this));
+    protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_login);
         accountManager = AccountManager.get(this);
         addAccount = getIntent().getBooleanExtra(Config.EXTRA_ADD_ACCOUNT, false);
@@ -115,7 +111,7 @@ public class LoginActivity extends RxAppCompatActivity {
                                     CommonUtil.setLoginEmail(name.getText().toString());
                                     Snack(getString(R.string.login_success));
                                     if (addAccount) {
-                                        addAccount(name.getText().toString(),pwd.getText().toString());
+                                        addAccount(name.getText().toString(), pwd.getText().toString());
                                     }
                                     new Handler().postDelayed(LoginActivity.this::finish, Config.TIME_LOGIN);
                                 } else {
@@ -137,6 +133,7 @@ public class LoginActivity extends RxAppCompatActivity {
         SettingPreferences.setUsername(this, username);
         finish();
     }
+
     private void initView() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.login));
@@ -167,7 +164,7 @@ public class LoginActivity extends RxAppCompatActivity {
         }
         Account[] accounts = AccountManager.get(this)
                 .getAccountsByType(BuildConfig.APPLICATION_ID);
-        if (accounts.length>0) {
+        if (accounts.length > 0) {
             //todo select account
         }
     }
