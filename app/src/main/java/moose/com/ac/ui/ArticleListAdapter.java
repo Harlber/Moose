@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import java.util.List;
 import moose.com.ac.AppApplication;
 import moose.com.ac.ArticleViewActivity;
 import moose.com.ac.BigNewsActivity;
-import moose.com.ac.MainActivity;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
@@ -115,10 +113,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         Bundle mBundle = new Bundle();
         mBundle.putSerializable(Config.ARTICLE, article);
         intent.putExtras(mBundle);
-        new Handler().postDelayed(() -> {
-            ((MainActivity)mActivity).resume();
-            mActivity.startActivity(intent);
-        }, Config.TIME_LATE);//make sure db insert done before intent
+        mActivity.startActivity(intent);
     }
 
     @Override

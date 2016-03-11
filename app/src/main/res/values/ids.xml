@@ -110,4 +110,12 @@
     <!--dialog fetch-->
     <item type="id" name="dialog_fetch_layout"/>
     <item type="id" name="dialog_fetch_input"/>
+    <!--include main-->
+    <item type="id" name="linear_layout"/>
+    <item type="id" name="tv_hot"/>
+    <item type="id" name="tv_complex"/>
+    <item type="id" name="tv_work"/>
+    <item type="id" name="tv_animation"/>
+    <item type="id" name="tv_cartoon"/>
+    <item type="id" name="tv_game"/>
 </resources>

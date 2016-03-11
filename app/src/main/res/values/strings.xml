@@ -3,10 +3,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">设置</string>
+    <string name="game">游戏</string>
     <string name="complex">文章综合</string>
     <string name="work">工作/情感</string>
     <string name="animation">动漫文化</string>
     <string name="cartoon">漫画小说</string>
+    <string name="hot">热门</string>
     <string name="main_page">主页</string>
     <string name="store">本地收藏</string>
     <string name="set">设置</string>

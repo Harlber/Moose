@@ -3,10 +3,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Setting</string>
+    <string name="game">Game</string>
     <string name="complex">Complex</string>
     <string name="work">Work/Emotion</string>
     <string name="animation">Animation-Culture</string>
     <string name="cartoon">Comic-Fiction</string>
+    <string name="hot">Hot</string>
     <string name="main_page">Home</string>
     <string name="store">Local favorites</string>
     <string name="set">Setting</string>

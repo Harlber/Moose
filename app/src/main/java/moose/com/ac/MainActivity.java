@@ -1,6 +1,5 @@
 package moose.com.ac;
 
-import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,15 +8,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,7 +19,6 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,35 +26,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.squareup.okhttp.ResponseBody;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import moose.com.ac.about.AboutActivity;
 import moose.com.ac.common.Config;
-import moose.com.ac.retrofit.Api;
 import moose.com.ac.settings.SettingsActivity;
 import moose.com.ac.sync.SynchronizeActivity;
-import moose.com.ac.ui.ArticleFragment;
-import moose.com.ac.ui.widget.CircleImageView;
 import moose.com.ac.ui.BaseActivity;
+import moose.com.ac.ui.widget.CircleImageView;
 import moose.com.ac.util.CommonUtil;
-import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.SettingPreferences;
-import moose.com.ac.util.ZoomOutPageTransformer;
 import moose.com.ac.util.chrome.CustomTabActivityHelper;
 import moose.com.ac.util.chrome.WebviewFallback;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2016 Farble Dast. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,20 +66,20 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private FloatingActionButton fab;
     private NavigationView navigationView;
     private SearchView searchView;
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
     private AppCompatTextView userName;
     private CircleImageView logo;
-    private Adapter adapter;
-    private int type = 0; /*orderBy 0：最近 1：人气最旺 3：评论最多*/
+    private LinearLayout linearLayout;
+
+    private TextView textViewHot;
+    private TextView textViewComplex;
+    private TextView textViewWork;
+    private TextView textViewAnimation;
+    private TextView textViewCartoon;
+    private TextView textViewGame;
 
     private boolean searchShow = false;
-
-    private CompositeSubscription cscription = new CompositeSubscription();
-    private Api api = RxUtils.createApi(Api.class, Config.GITHUB_URL);
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
@@ -113,8 +94,23 @@ public class MainActivity extends BaseActivity {
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }
                     break;
-                case R.id.fab:
-                    adapter.getFragment(viewPager.getCurrentItem()).scrollToTop();
+                case R.id.tv_complex:
+                    intentActivity(ChannelManager.COMPLEX);
+                    break;
+                case R.id.tv_hot:
+                    intentActivity(ChannelManager.HOT);
+                    break;
+                case R.id.tv_work:
+                    intentActivity(ChannelManager.WORK_EMOTION);
+                    break;
+                case R.id.tv_animation:
+                    intentActivity(ChannelManager.ANIMATION_CULTURE);
+                    break;
+                case R.id.tv_cartoon:
+                    intentActivity(ChannelManager.COMIC_FICTION);
+                    break;
+                case R.id.tv_game:
+                    intentActivity(ChannelManager.GAME);
                     break;
                 default:
                     break;
@@ -143,54 +139,7 @@ public class MainActivity extends BaseActivity {
         initData();
     }
 
-    @Deprecated
-    private void checkVersion() {
-        cscription.add(api.receiveVeision()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "--onError--");
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody response) {
-                        Log.e(TAG, "--onNext--");
-                        rx.Observable.create(subscriber -> {
-                            try {
-                                String result = CommonUtil.slurp(response.byteStream(), 256);
-                                Log.e(TAG, "result:" + result);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            subscriber.onNext("0");
-                        }).subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(s -> {
-                                    Log.e(TAG, "--complete--");
-                                });
-                    }
-                }));
-    }
-
     private void initData() {
-        adapter = new Adapter(getSupportFragmentManager());
-        //noinspection ConstantConditions
-        getSupportActionBar().setTitle(getToolBarTitle());
-        viewPager.setOffscreenPageLimit(3);
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-        }
-        fab.setOnClickListener(mOnClickListener);
-        tabLayout.setupWithViewPager(viewPager);
         userName.setOnClickListener(mOnClickListener);
         userName.setText(CommonUtil.getUserName());
         Glide.with(this)
@@ -220,12 +169,24 @@ public class MainActivity extends BaseActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
         logo = (CircleImageView) drawerHeader.findViewById(R.id.login_userimg);
         userName = (AppCompatTextView) drawerHeader.findViewById(R.id.login_username);
+        linearLayout = (LinearLayout) findViewById(R.id.linear_layout);
+
+        textViewComplex = (TextView) findViewById(R.id.tv_complex);
+        textViewHot = (TextView) findViewById(R.id.tv_hot);
+        textViewWork = (TextView) findViewById(R.id.tv_work);
+        textViewAnimation = (TextView) findViewById(R.id.tv_animation);
+        textViewCartoon = (TextView) findViewById(R.id.tv_cartoon);
+        textViewGame = (TextView) findViewById(R.id.tv_game);
+
+        textViewComplex.setOnClickListener(mOnClickListener);
+        textViewHot.setOnClickListener(mOnClickListener);
+        textViewWork.setOnClickListener(mOnClickListener);
+        textViewAnimation.setOnClickListener(mOnClickListener);
+        textViewCartoon.setOnClickListener(mOnClickListener);
+        textViewGame.setOnClickListener(mOnClickListener);
+
     }
 
     @Override
@@ -272,9 +233,6 @@ public class MainActivity extends BaseActivity {
         }
 
         switch (item.getItemId()) {
-            case R.id.action_filter:
-                buildDialog().show();
-                return true;
             case R.id.action_search:
                 mDrawerToggle.onDrawerSlide(mDrawerLayout, 1);
                 return true;
@@ -283,6 +241,12 @@ public class MainActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void intentActivity(@ChannelManager.ChannelMode int channel) {
+        Intent intent = new Intent(mContext, ChannelItemListActivity.class);
+        intent.putExtra(Config.CHANNEL_ID, channel);
+        startActivity(intent);
     }
 
     @Override
@@ -298,7 +262,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        cscription = RxUtils.getNewCompositeSubIfUnsubscribed(cscription);
         navigationView.setCheckedItem(R.id.nav_home);
         if (!userName.getText().equals(CommonUtil.getUserName())) {
             userName.setText(CommonUtil.getUserName());
@@ -309,11 +272,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        RxUtils.unsubscribeIfNotNull(cscription);
-    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -325,18 +283,6 @@ public class MainActivity extends BaseActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
-    }
-
-    public void resume() {
-        super.onResume();
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        adapter.addFragment(getArticleFragment(Config.COMPLEX), getString(R.string.complex));
-        adapter.addFragment(getArticleFragment(Config.WORK), getString(R.string.work));
-        adapter.addFragment(getArticleFragment(Config.ANIMATION), getString(R.string.animation));
-        adapter.addFragment(getArticleFragment(Config.CARTOON), getString(R.string.cartoon));
-        viewPager.setAdapter(adapter);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -386,78 +332,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    private Bundle setBundle(int key, int ty) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(Config.CHANNEL_ID, key);
-        bundle.putString(Config.CHANNEL_TYPE, String.valueOf(ty));
-        return bundle;
-    }
-
-    private ArticleFragment getArticleFragment(int key) {
-        ArticleFragment fragment = new ArticleFragment();
-        fragment.setArguments(setBundle(key, type));
-        return fragment;
-    }
-
-
-    public class Adapter extends FragmentPagerAdapter {
-        private FragmentManager fragmentManager;
-        private final List<ArticleFragment> mFragments = new ArrayList<>();
-        private List<String> mFragmentTitles = new ArrayList<>();
-
-        public Adapter(FragmentManager fm) {
-            super(fm);
-            this.fragmentManager = fm;
-        }
-
-        public void changeChannel(int channel) {
-            for (int i = 0; i < mFragments.size(); i++) {
-                Log.i(TAG, "i:" + i);
-                if (mFragments.get(i) != null) {
-                    mFragments.get(i).loadChannel(channel);
-                }
-            }
-        }
-
-        public void addFragment(ArticleFragment fragment, String title) {
-            mFragments.add(fragment);
-            mFragmentTitles.add(title);
-        }
-
-        public ArticleFragment getFragment(int position) {
-            return mFragments.get(position);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
-        }
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    private Dialog buildDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        //noinspection RedundantCast
-        builder.setTitle(getString(R.string.article_select))
-                .setItems(R.array.select_channel_array, (DialogInterface.OnClickListener) (dialog, which) -> {
-                    type = which;
-                    getSupportActionBar().setTitle(getToolBarTitle());
-                    //refresh request
-                    adapter.changeChannel(type);
-                });
-        return builder.create();
-    }
-
     private void fetchDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         LayoutInflater inflater = getLayoutInflater();
@@ -488,18 +362,9 @@ public class MainActivity extends BaseActivity {
         builder.show();
     }
 
-    private String getToolBarTitle() {
-        if (type == 0) {
-            return getString(R.string.last_comment);
-        } else if (type == 1) {
-            return getString(R.string.most_views);
-        } else {
-            return getString(R.string.most_comment);
-        }
-    }
-
+    @Deprecated
     public void snack(String msg) {
-        Snackbar snackBar = Snackbar.make(viewPager, msg, Snackbar.LENGTH_SHORT);
+        Snackbar snackBar = Snackbar.make(linearLayout, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction(R.string.snackbar_action, v -> {
             snackBar.dismiss();
         });
