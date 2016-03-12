@@ -1,12 +1,16 @@
 package moose.com.ac;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
@@ -14,6 +18,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -70,7 +75,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
     private ArticleListAdapter adapter;
-    private int type = 3;//default
+    private int type = 0;//default
 
     private
     @ChannelMode
@@ -91,6 +96,16 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         }
     };
 
+    private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(getString(R.string.store_action))) {
+                refreshListAfterBroadcastReceiver(intent.getIntExtra(Config.CONTENTID, 0),
+                        intent.getBooleanExtra(Config.STORE, false));
+            }
+        }
+    };
+
     @Override
     protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_channel_item_list);
@@ -107,7 +122,6 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /**see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines*/
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_item_list, menu);
         return true;
@@ -308,5 +322,33 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         });
         snackBar.getView().setBackgroundResource(R.color.colorPrimary);
         snackBar.show();
+    }
+
+    /**
+     * refresh store status after receiver BroadcastReceiver
+     *
+     * @param id     article id
+     * @param status store status
+     */
+    public void refreshListAfterBroadcastReceiver(int id, boolean status) {
+        for (int i = 0; i < lists.size(); i++) {
+            if (lists.get(i).getContentId() == id) {
+                lists.get(i).setIsfav(status ? Config.STORE : Config.NO_ST);
+                adapter.notifyItemChanged(i, lists.get(i));
+            }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mBroadcastReceiver,
+                new IntentFilter(getString(R.string.store_action)));
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mBroadcastReceiver);
+        super.onDestroy();
     }
 }

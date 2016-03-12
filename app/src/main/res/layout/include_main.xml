@@ -17,7 +17,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_white">
 
     <android.support.design.widget.AppBarLayout
         android:id="@id/appbarlayout"
@@ -41,46 +42,53 @@
         android:layout_below="@id/appbarlayout"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@id/tv_hot"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/hot"
-            style="@style/mainChannel"/>
+            android:background="@color/md_white">
+
+
+            <TextView
+                android:id="@id/tv_hot"
+                style="@style/mainChannel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hot" />
+        </FrameLayout>
 
         <TextView
             android:id="@id/tv_complex"
+            style="@style/mainChannel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/complex"
-            style="@style/mainChannel"/>
+            android:text="@string/complex" />
 
         <TextView
             android:id="@id/tv_work"
+            style="@style/mainChannel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/work"
-            style="@style/mainChannel"/>
+            android:text="@string/work" />
 
         <TextView
             android:id="@id/tv_animation"
+            style="@style/mainChannel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/animation"
-            style="@style/mainChannel"/>
+            android:text="@string/animation" />
 
         <TextView
             android:id="@id/tv_cartoon"
+            style="@style/mainChannel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cartoon"
-            style="@style/mainChannel"/>
+            android:text="@string/cartoon" />
 
         <TextView
             android:id="@id/tv_game"
+            style="@style/mainChannel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/game"
-            style="@style/mainChannel"/>
+            android:text="@string/game" />
     </LinearLayout>
 </RelativeLayout>

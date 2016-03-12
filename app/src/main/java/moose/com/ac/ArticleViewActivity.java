@@ -13,10 +13,12 @@ import android.os.Handler;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -197,7 +199,7 @@ public class ArticleViewActivity extends BaseActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                ArticleViewActivity.this.finish();
+                doExitActivity();
                 return true;
             case R.id.action_share:
                 String shareUrl = article.getTitle() + " " + Config.WEB_URL + articleId + getString(R.string.share_content);
@@ -516,13 +518,23 @@ public class ArticleViewActivity extends BaseActivity
         }
     }
 
-/*    @Override
-    public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
-        ArticleViewActivity.this.startActivity(intent);
-        invalidateOptionsMenu();
-        return true;
-    }*/
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            doExitActivity();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
+    private void doExitActivity() {
+        Intent intent = new Intent(getString(R.string.store_action));
+        intent.putExtra(Config.CONTENTID, articleId);
+        intent.putExtra(Config.STORE, isFav);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+        finish();
+    }
 
     private class Client extends WebViewClient {
         @Override
