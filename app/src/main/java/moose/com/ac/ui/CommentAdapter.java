@@ -1,8 +1,8 @@
 package moose.com.ac.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +19,28 @@ import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.SparseArrayCompatSerializable;
 import moose.com.ac.util.TextViewUtils;
-
-/**
- * Created by dell on 2015/8/20.
+/*
+ * Copyright 2015,2016 Farble Dast
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
-    private static final String TAG = "CommentAdapter";
 
     protected LayoutInflater mInflater;
     private SparseArrayCompatSerializable<CommentDetail> data;
     private List<Integer> commentIdList;
     private Context mContext;
     private int maxNumOfFloor;
-    private int frameId = R.id.floor;//?
 
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -45,6 +54,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return holder;
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         CommentDetail c = data.get(commentIdList.get(position));
@@ -120,6 +130,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                  List<View> quoteList) {
         if (holder.hasQuote || holder.quoteFrame == null) {
             FloorsView floors = new FloorsView(mContext);
+            int frameId = R.id.floor;
             floors.setId(frameId);
             holder.quoteFrame = floors;
         }

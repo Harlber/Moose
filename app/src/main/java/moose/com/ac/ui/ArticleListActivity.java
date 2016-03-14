@@ -15,7 +15,7 @@ import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import rx.Subscriber;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,9 +32,9 @@ import rx.Subscriber;
 
 /**
  * Created by dell on 2015/8/25.
+ * List of article
  */
 public abstract class ArticleListActivity extends BaseActivity {
-    private static final String TAG = "ArticleListActivity";
     protected DbHelper dbHelper;
     protected RecyclerView mRecyclerView;
     protected LinearLayoutManager mLayoutManager;

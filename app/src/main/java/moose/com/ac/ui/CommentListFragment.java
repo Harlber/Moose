@@ -27,7 +27,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ public class CommentListFragment extends BaseListFragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             SaveInstance saveInstance = (SaveInstance) savedInstanceState.getSerializable(TAG);
-            commentIdList.addAll(saveInstance != null ? saveInstance.getCommentIdList() : new ArrayList<Integer>());
+            commentIdList.addAll(saveInstance != null ? saveInstance.getCommentIdList() : new ArrayList<>());
             mPage = saveInstance != null ? saveInstance.getPage() : 1;
             data = saveInstance != null ? saveInstance.getData() : new SparseArrayCompatSerializable<>();
         }
@@ -115,12 +115,7 @@ public class CommentListFragment extends BaseListFragment {
     @Override
     public void onInitData() {
         //todo https://code.google.com/p/android/issues/detail?id=77712&can=1&q=SwipeRefreshLayout&sort=-stars&colspec=ID%20Status%20Priority%20Owner%20Summary%20Reporter%20Opened
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                loadData(mPage);
-            }
-        });
+        mSwipeRefreshLayout.post(() -> loadData(mPage));
     }
 
     @Override

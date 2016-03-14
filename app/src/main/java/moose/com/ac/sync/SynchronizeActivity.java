@@ -21,7 +21,7 @@ import moose.com.ac.ui.CloudCollectFragment;
 import moose.com.ac.ui.LocalCollectFragment;
 import moose.com.ac.util.ZoomOutPageTransformer;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,6 @@ import moose.com.ac.util.ZoomOutPageTransformer;
  * sync data between cloud(server) and local
  */
 public class SynchronizeActivity extends BaseActivity {
-    private static final String TAG = "SynchronizeActivity";
 
     private ViewPager viewPager;
     private FloatingActionButton fab;
@@ -112,10 +111,6 @@ public class SynchronizeActivity extends BaseActivity {
         public void addFragment(Fragment fragment, String title) {
             mFragments.add(fragment);
             mFragmentTitles.add(title);
-        }
-
-        public Fragment getFragment(int position) {
-            return mFragments.get(position);
         }
 
         @Override

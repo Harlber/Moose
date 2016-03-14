@@ -71,10 +71,6 @@
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".Reset"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

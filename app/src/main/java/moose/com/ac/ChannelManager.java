@@ -5,7 +5,7 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 /*
- * Copyright 2016 Farble Dast.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,7 @@ public interface ChannelManager {
             WORK_EMOTION,
             ANIMATION_CULTURE,
             COMIC_FICTION,
-            GAME,
-            DEFAULT
+            GAME
     })
     @interface ChannelMode {
     }
@@ -39,6 +38,5 @@ public interface ChannelManager {
     int ANIMATION_CULTURE = 74;
     int COMIC_FICTION = 75;
     int GAME = 164;
-    int DEFAULT = 63;
 
 }

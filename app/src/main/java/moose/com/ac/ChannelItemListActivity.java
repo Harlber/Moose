@@ -18,7 +18,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,7 +47,7 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /*
- * Copyright 2016 Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,12 +62,9 @@ import rx.subscriptions.CompositeSubscription;
  * limitations under the License.
  */
 public class ChannelItemListActivity extends BaseActivity implements ChannelManager {
-    private static final String TAG = "ChannelItemListActivity";
-    private FloatingActionButton fab;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    private boolean isScroll = false;//is RecyclerView scrolling
     private boolean isRequest = false;//request status
 
     private List<Article> lists = new ArrayList<>();
@@ -110,14 +106,9 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
     protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_channel_item_list);
         //noinspection WrongConstant
-        channel = getIntent().getIntExtra(Config.CHANNEL_ID, ChannelManager.DEFAULT);
+        channel = getIntent().getIntExtra(Config.CHANNEL_ID, ChannelManager.COMPLEX);
         initView();
-        mSwipeRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                load(type, mPage, true);
-            }
-        }, Config.TIME_LATE);
+        mSwipeRefreshLayout.postDelayed(() -> load(type, mPage, true), Config.TIME_LATE);
     }
 
     @Override
@@ -151,6 +142,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         builder.setTitle(getString(R.string.article_select))
                 .setItems(R.array.select_channel_array, (DialogInterface.OnClickListener) (dialog, which) -> {
                     type = which;
+                    //noinspection ConstantConditions
                     getSupportActionBar().setTitle(filterTitle(type));
                     getSupportActionBar().setSubtitle(getToolBarSubTitle());
                     doSwipeRefresh();
@@ -165,23 +157,20 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         builder.setView(rootView)
                 // Add action buttons
                 .setTitle(R.string.fetch)
-                .setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        AppCompatEditText input = (AppCompatEditText) rootView.findViewById(R.id.dialog_fetch_input);
-                        if (!input.getText().toString().equals("")) {
-                            if (!SettingPreferences.externalBrowserEnabled(ChannelItemListActivity.this)) {
-                                Intent intent = new Intent();
-                                intent.setAction("android.intent.action.VIEW");
-                                Uri content_url = Uri.parse(Config.WEB_URL + input.getText().toString() + "/");
-                                intent.setData(content_url);
-                                startActivity(intent);
-                            } else {
-                                String url = Config.WAP_URL + "v#ac=" + input.getText().toString() + ";type=article";
-                                CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
-                                CustomTabActivityHelper.openCustomTab(
-                                        ChannelItemListActivity.this, customTabsIntent, Uri.parse(url), new WebviewFallback());
-                            }
+                .setPositiveButton(R.string.positive, (dialog, id) -> {
+                    AppCompatEditText input = (AppCompatEditText) rootView.findViewById(R.id.dialog_fetch_input);
+                    if (!input.getText().toString().equals("")) {
+                        if (!SettingPreferences.externalBrowserEnabled(ChannelItemListActivity.this)) {
+                            Intent intent = new Intent();
+                            intent.setAction("android.intent.action.VIEW");
+                            Uri content_url = Uri.parse(Config.WEB_URL + input.getText().toString() + "/");
+                            intent.setData(content_url);
+                            startActivity(intent);
+                        } else {
+                            String url = Config.WAP_URL + "v#ac=" + input.getText().toString() + ";type=article";
+                            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+                            CustomTabActivityHelper.openCustomTab(
+                                    ChannelItemListActivity.this, customTabsIntent, Uri.parse(url), new WebviewFallback());
                         }
                     }
                 });
@@ -203,13 +192,15 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
         getSupportActionBar().setTitle(filterTitle(channel));
         getSupportActionBar().setSubtitle(getString(R.string.last_comment));
 
         adapter = new ArticleListAdapter(lists, this);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(listener);
         mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
@@ -230,7 +221,6 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                isScroll = newState == RecyclerView.SCROLL_STATE_SETTLING;
             }
 
             @Override
@@ -300,7 +290,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
                             mPage++;//false : new request
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
-                        List<Article> articles = new ArrayList<Article>();
+                        List<Article> articles;
                         articles = articleList.getData().getPage().getList();
                         if (isSave) {//add data into local
                             lists.addAll(articles);

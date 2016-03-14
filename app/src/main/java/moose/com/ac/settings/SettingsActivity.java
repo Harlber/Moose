@@ -9,7 +9,7 @@ import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.R;
 import moose.com.ac.ui.SettingsFragment;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,9 @@ public class SettingsActivity extends BaseActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         final ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
         getSupportActionBar().setTitle(R.string.set_all);
 
         getSupportFragmentManager().beginTransaction()

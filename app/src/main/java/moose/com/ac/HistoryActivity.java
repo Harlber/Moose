@@ -20,7 +20,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@ import rx.schedulers.Schedulers;
  * history steps
  */
 public class HistoryActivity extends ArticleListActivity {
-    private static final String TAG = "HistoryActivity";
     private Subscriber<List<Article>> listSubscriber;
     private Subscriber<Integer> deleteSubscriber;
 

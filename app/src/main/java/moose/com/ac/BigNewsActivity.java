@@ -17,7 +17,7 @@ import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,11 +61,9 @@ public class BigNewsActivity extends BaseActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.news_viewpager);
         ViewPageAdapter adapter = new ViewPageAdapter(getSupportFragmentManager());
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        if (viewPager != null) {
-            adapter.addFragment(commentListFragment);
-            //adapter.addFragment(new SubmitCommentFragment());
-            viewPager.setAdapter(adapter);
-        }
+        adapter.addFragment(commentListFragment);
+        //adapter.addFragment(new SubmitCommentFragment());
+        viewPager.setAdapter(adapter);
     }
 
     @Override

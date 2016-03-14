@@ -1,5 +1,6 @@
 package moose.com.ac;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -30,7 +31,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +51,6 @@ import rx.subscriptions.CompositeSubscription;
  * ProfileActivity
  */
 public class ProfileActivity extends BaseActivity {
-    private static final String TAG = "ProfileActivity";
     private final Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
     private final Api apiSign = RxUtils.createCookieApi(Api.class, Config.WEB_API);
     private CompositeSubscription subscription = new CompositeSubscription();
@@ -116,6 +116,7 @@ public class ProfileActivity extends BaseActivity {
         }
     };
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_info);
@@ -178,6 +179,7 @@ public class ProfileActivity extends BaseActivity {
                         Snack(getString(R.string.no_network));
                     }
 
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onNext(Profile profile) {
                         mSwipeRefreshLayout.setRefreshing(false);

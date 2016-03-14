@@ -12,7 +12,7 @@ import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.R;
 import moose.com.ac.util.AppUtils;
 /*
- * Copyright (c) 2016 Farble Dast
+ * Copyright (c) 2015,2016 Farble Dast
  * Copyright (c) 2015 Ha Duy Trung
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,6 @@ import moose.com.ac.util.AppUtils;
  * AboutActivity
  */
 public final class AboutActivity extends BaseActivity {
-    private static final String TAG = "AboutActivity";
 
     @Override
     protected void onInitView(Bundle savedInstanceState) {

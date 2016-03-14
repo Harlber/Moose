@@ -28,7 +28,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,6 @@ import rx.subscriptions.CompositeSubscription;
  * Date: Mon, 31 Aug 2015 09:04:43 GMT
  */
 public class LoginActivity extends BaseActivity {
-    private static final String TAG = "LoginActivity";
     private Api api;
     private CompositeSubscription subscription = new CompositeSubscription();
     protected MultiSwipeRefreshLayout mSwipeRefreshLayout;
@@ -162,11 +161,10 @@ public class LoginActivity extends BaseActivity {
         if (!CommonUtil.getLoginEmail().equals("")) {
             name.setText(CommonUtil.getLoginEmail());
         }
-        Account[] accounts = AccountManager.get(this)
+       /* Account[] accounts = AccountManager.get(this)
                 .getAccountsByType(BuildConfig.APPLICATION_ID);
         if (accounts.length > 0) {
-            //todo select account
-        }
+        }*/
     }
 
     @Override

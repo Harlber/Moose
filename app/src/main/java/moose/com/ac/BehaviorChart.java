@@ -20,7 +20,7 @@ import com.db.chart.view.animation.Animation;
 
 import moose.com.ac.util.CommonUtil;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@ import moose.com.ac.util.CommonUtil;
  */
 @Deprecated
 public class BehaviorChart extends AppCompatActivity {
-    private static final String TAG = "BehaviorChart";
 
     /**
      * Third chart

@@ -9,7 +9,7 @@ import com.squareup.leakcanary.RefWatcher;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.util.PreferenceUtil;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import moose.com.ac.util.PreferenceUtil;
  * application
  */
 public class AppApplication extends Application {
-    private static final String TAG = "AppApplication";
     private static Context context;
     private static DbHelper dbHelper;
 

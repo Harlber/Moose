@@ -17,7 +17,6 @@ import java.util.List;
 
 import moose.com.ac.R;
 import moose.com.ac.data.ArticleCollects;
-import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.RxDataBase;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.ui.widget.DividerItemDecoration;
@@ -26,7 +25,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,13 +39,7 @@ import rx.schedulers.Schedulers;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * Created by dell on 2015/10/17.
- */
 public class LocalCollectFragment extends BaseFragment {
-    private static final String TAG = "LocalCollectFragment";
-    private DbHelper dbHelper;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
@@ -54,7 +47,6 @@ public class LocalCollectFragment extends BaseFragment {
 
     private List<Article> lists = new ArrayList<>();
     private CacheListAdapter adapter;
-    private boolean isRequest = false;//request data status
     private boolean isScroll = false;//is RecyclerView scrolling
 
     protected RxDataBase rxDataBase;
@@ -81,7 +73,6 @@ public class LocalCollectFragment extends BaseFragment {
 
     @Override
     public void onInitData() {
-        dbHelper = new DbHelper(getActivity());
         init();
     }
 
@@ -110,7 +101,6 @@ public class LocalCollectFragment extends BaseFragment {
     }
 
     private void refresh() {
-        //todo refresh data from DB
         mSwipeRefreshLayout.setRefreshing(false);
     }
 

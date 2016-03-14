@@ -7,10 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import moose.com.ac.common.Config;
-import moose.com.ac.ui.SearchFragment;
 import moose.com.ac.ui.BaseActivity;
+import moose.com.ac.ui.SearchFragment;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,6 @@ import moose.com.ac.ui.BaseActivity;
  * SearchActivity - View
  */
 public class SearchActivity extends BaseActivity {
-    private static final String TAG = "SearchActivity";
-    private SearchFragment searchFragment;
 
     @Override
     protected void onInitView(Bundle savedInstanceState) {
@@ -48,17 +46,19 @@ public class SearchActivity extends BaseActivity {
 
     private void initData() {
         String key = getIntent().getStringExtra(Config.SEARCH_KEY);
-        getSupportActionBar().setTitle(String.format(getString(R.string.search_result), key));
+        final ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setTitle(String.format(getString(R.string.search_result), key));
+        }
         Bundle bundle = new Bundle();
         bundle.putString(Config.SEARCH_KEY, key);
-        searchFragment = new SearchFragment();
+        SearchFragment searchFragment = new SearchFragment();
         searchFragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.search_framelayout, searchFragment)
                 .commit();
 
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

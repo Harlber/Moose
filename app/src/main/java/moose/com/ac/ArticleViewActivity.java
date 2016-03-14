@@ -1,5 +1,6 @@
 package moose.com.ac;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -53,7 +54,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,6 +71,7 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Farble on 2015/8/16 20.
+ * View article body
  */
 public class ArticleViewActivity extends BaseActivity
         implements ObservableWebView.OnScrollChangedCallback {
@@ -80,12 +82,10 @@ public class ArticleViewActivity extends BaseActivity
     private ObservableWebView mWeb;
     private FloatingActionButton fab;
     private MenuItem menFav;
-    private MenuItem menuShare;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
     private DbHelper dbHelper = AppApplication.getDbHelper();
-    private Document mDocument;
 
     private String HtmlBody;//get body from network
     private String HtmlBodyClone;//get body from network
@@ -103,6 +103,7 @@ public class ArticleViewActivity extends BaseActivity
     private Article article;
     private boolean isRequest = false;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_article_view);
@@ -140,7 +141,9 @@ public class ArticleViewActivity extends BaseActivity
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
         contend = "ac" + articleId;
         getSupportActionBar().setTitle(contend);
 
@@ -190,7 +193,6 @@ public class ArticleViewActivity extends BaseActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_view_article, menu);
         menFav = menu.findItem(R.id.action_store);
-        menuShare = menu.findItem(R.id.action_share);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -247,15 +249,6 @@ public class ArticleViewActivity extends BaseActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private DialogInterface.OnClickListener mErrorDialogListener = (dialog, which) -> {
-        dialog.dismiss();
-        if (which == DialogInterface.BUTTON_POSITIVE) {
-            initData();
-        } else {
-            finish();
-        }
-    };
 
     private void initData() {
         isRequest = true;
@@ -342,7 +335,7 @@ public class ArticleViewActivity extends BaseActivity
     }
 
     private void filterImg(String str) {
-        mDocument = Jsoup.parse(str);
+        Document mDocument = Jsoup.parse(str);
 
         Elements imgs = mDocument.select("img");
         for (int imgIndex = 0; imgIndex < imgs.size(); imgIndex++) {

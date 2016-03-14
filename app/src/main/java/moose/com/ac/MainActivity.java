@@ -1,7 +1,6 @@
 package moose.com.ac;
 
 import android.app.SearchManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -43,7 +42,7 @@ import moose.com.ac.util.SettingPreferences;
 import moose.com.ac.util.chrome.CustomTabActivityHelper;
 import moose.com.ac.util.chrome.WebviewFallback;
 /*
- * Copyright 2016 Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +62,6 @@ import moose.com.ac.util.chrome.WebviewFallback;
  * SearchView see http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines
  */
 public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
@@ -72,49 +70,39 @@ public class MainActivity extends BaseActivity {
     private CircleImageView logo;
     private LinearLayout linearLayout;
 
-    private TextView textViewHot;
-    private TextView textViewComplex;
-    private TextView textViewWork;
-    private TextView textViewAnimation;
-    private TextView textViewCartoon;
-    private TextView textViewGame;
-
     private boolean searchShow = false;
 
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.login_username:
-                    if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
-                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                        intent.putExtra(Config.EXTRA_ADD_ACCOUNT, true);
-                        startActivity(intent);
-                    } else {
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    }
-                    break;
-                case R.id.tv_complex:
-                    intentActivity(ChannelManager.COMPLEX);
-                    break;
-                case R.id.tv_hot:
-                    intentActivity(ChannelManager.HOT);
-                    break;
-                case R.id.tv_work:
-                    intentActivity(ChannelManager.WORK_EMOTION);
-                    break;
-                case R.id.tv_animation:
-                    intentActivity(ChannelManager.ANIMATION_CULTURE);
-                    break;
-                case R.id.tv_cartoon:
-                    intentActivity(ChannelManager.COMIC_FICTION);
-                    break;
-                case R.id.tv_game:
-                    intentActivity(ChannelManager.GAME);
-                    break;
-                default:
-                    break;
-            }
+    private View.OnClickListener mOnClickListener = view -> {
+        switch (view.getId()) {
+            case R.id.login_username:
+                if (CommonUtil.getLoginStatus().equals(Config.LOGIN_IN)) {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    intent.putExtra(Config.EXTRA_ADD_ACCOUNT, true);
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+                break;
+            case R.id.tv_complex:
+                intentActivity(ChannelManager.COMPLEX);
+                break;
+            case R.id.tv_hot:
+                intentActivity(ChannelManager.HOT);
+                break;
+            case R.id.tv_work:
+                intentActivity(ChannelManager.WORK_EMOTION);
+                break;
+            case R.id.tv_animation:
+                intentActivity(ChannelManager.ANIMATION_CULTURE);
+                break;
+            case R.id.tv_cartoon:
+                intentActivity(ChannelManager.COMIC_FICTION);
+                break;
+            case R.id.tv_game:
+                intentActivity(ChannelManager.GAME);
+                break;
+            default:
+                break;
         }
     };
 
@@ -173,12 +161,12 @@ public class MainActivity extends BaseActivity {
         userName = (AppCompatTextView) drawerHeader.findViewById(R.id.login_username);
         linearLayout = (LinearLayout) findViewById(R.id.linear_layout);
 
-        textViewComplex = (TextView) findViewById(R.id.tv_complex);
-        textViewHot = (TextView) findViewById(R.id.tv_hot);
-        textViewWork = (TextView) findViewById(R.id.tv_work);
-        textViewAnimation = (TextView) findViewById(R.id.tv_animation);
-        textViewCartoon = (TextView) findViewById(R.id.tv_cartoon);
-        textViewGame = (TextView) findViewById(R.id.tv_game);
+        TextView textViewComplex = (TextView) findViewById(R.id.tv_complex);
+        TextView textViewHot = (TextView) findViewById(R.id.tv_hot);
+        TextView textViewWork = (TextView) findViewById(R.id.tv_work);
+        TextView textViewAnimation = (TextView) findViewById(R.id.tv_animation);
+        TextView textViewCartoon = (TextView) findViewById(R.id.tv_cartoon);
+        TextView textViewGame = (TextView) findViewById(R.id.tv_game);
 
         textViewComplex.setOnClickListener(mOnClickListener);
         textViewHot.setOnClickListener(mOnClickListener);
@@ -339,23 +327,20 @@ public class MainActivity extends BaseActivity {
         builder.setView(rootView)
                 // Add action buttons
                 .setTitle(R.string.fetch)
-                .setPositiveButton(R.string.positive, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        AppCompatEditText input = (AppCompatEditText) rootView.findViewById(R.id.dialog_fetch_input);
-                        if (!input.getText().toString().equals("")) {
-                            if (!SettingPreferences.externalBrowserEnabled(MainActivity.this)) {
-                                Intent intent = new Intent();
-                                intent.setAction("android.intent.action.VIEW");
-                                Uri content_url = Uri.parse(Config.WEB_URL + input.getText().toString() + "/");
-                                intent.setData(content_url);
-                                startActivity(intent);
-                            } else {
-                                String url = Config.WAP_URL + "v#ac=" + input.getText().toString() + ";type=article";
-                                CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
-                                CustomTabActivityHelper.openCustomTab(
-                                        MainActivity.this, customTabsIntent, Uri.parse(url), new WebviewFallback());
-                            }
+                .setPositiveButton(R.string.positive, (dialog, id) -> {
+                    AppCompatEditText input = (AppCompatEditText) rootView.findViewById(R.id.dialog_fetch_input);
+                    if (!input.getText().toString().equals("")) {
+                        if (!SettingPreferences.externalBrowserEnabled(MainActivity.this)) {
+                            Intent intent = new Intent();
+                            intent.setAction("android.intent.action.VIEW");
+                            Uri content_url = Uri.parse(Config.WEB_URL + input.getText().toString() + "/");
+                            intent.setData(content_url);
+                            startActivity(intent);
+                        } else {
+                            String url = Config.WAP_URL + "v#ac=" + input.getText().toString() + ";type=article";
+                            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+                            CustomTabActivityHelper.openCustomTab(
+                                    MainActivity.this, customTabsIntent, Uri.parse(url), new WebviewFallback());
                         }
                     }
                 });

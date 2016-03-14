@@ -8,7 +8,7 @@ import moose.com.ac.R;
 import moose.com.ac.ui.widget.RxPreferenceFragmentCompat;
 import moose.com.ac.util.SettingPreferences;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import moose.com.ac.util.SettingPreferences;
  * see {http://developer.android.com/guide/topics/ui/settings.html#Fragment}
  */
 public class SettingsFragment extends RxPreferenceFragmentCompat {
-    private static final String TAG = "SettingsFragment";
     @VisibleForTesting
     protected SharedPreferences.OnSharedPreferenceChangeListener mListener;
     @Override
@@ -46,12 +45,7 @@ public class SettingsFragment extends RxPreferenceFragmentCompat {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                SettingPreferences.sync(getPreferenceManager(), key);
-            }
-        };
+        mListener = (sharedPreferences, key) -> SettingPreferences.sync(getPreferenceManager(), key);
     }
 
     @Override

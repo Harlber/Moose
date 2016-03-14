@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import moose.com.ac.R;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,7 @@ import moose.com.ac.R;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * Created by Farble on 2015/8/16 16.
- */
 public class SubmitCommentFragment extends BaseFragment {
-    private static final String TAG = "SubmitCommentFragment";
 
     @Nullable
     @Override

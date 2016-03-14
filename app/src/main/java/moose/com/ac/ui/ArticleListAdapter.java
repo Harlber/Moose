@@ -23,7 +23,21 @@ import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.util.AppUtils;
 import moose.com.ac.util.CommonUtil;
-
+/*
+ * Copyright 2015,2016 Farble Dast
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 /**
  * Created by Farble on 2015/8/15 16.
  * ArticleListAdapter was used for ArticleFragment
@@ -31,14 +45,11 @@ import moose.com.ac.util.CommonUtil;
  * @see moose.com.ac.ui.ArticleFragment
  */
 public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> implements ArticleListVH.ArticleItemClickListener {
-    private static final String TAG = "ArticleListAdapter";
     private String TAB_NAME = ArticleCollects.ArticleEntry.TABLE_NAME;
-    private String TAB_HISTORY = ArticleCollects.ArticleHistoryEntry.TABLE_NAME;
     private List<Article> lists = new ArrayList<>();
     private Activity mActivity;
     private ArticleListVH.ArticleItemClickListener listener;
     private DbHelper dbHelper;
-    private int channel = Config.COMPLEX;//add channel support
 
     public ArticleListAdapter(List<Article> lists) {
         this.lists = lists;
@@ -55,8 +66,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     public ArticleListVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_article_list, parent, false);
-        ArticleListVH vh = new ArticleListVH(v, listener);
-        return vh;
+        return new ArticleListVH(v, listener);
     }
 
     @Override
@@ -64,6 +74,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         final Article article = lists.get(position);
         holder.num.setText(String.valueOf(position + 1));
         holder.title.setText(article.getTitle());
+        String TAB_HISTORY = ArticleCollects.ArticleHistoryEntry.TABLE_NAME;
         if (dbHelper.isExits(TAB_HISTORY, String.valueOf(article.getContentId()))) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.title.setTextAppearance(R.style.textTitleGrayStyle);
@@ -81,14 +92,11 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         holder.user.setText(String.format(mActivity.getString(R.string.ups), article.getUser().getUsername()));
         holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
         holder.comment.setText(MessageFormat.format(mActivity.getResources().getText(R.string.comment).toString(), article.getComments()));
-        holder.comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mActivity, BigNewsActivity.class);
-                intent.putExtra(Config.CONTENTID, article.getContentId());
-                intent.putExtra(Config.TITLE, article.getTitle());
-                mActivity.startActivity(intent);
-            }
+        holder.comment.setOnClickListener(view -> {
+            Intent intent = new Intent(mActivity, BigNewsActivity.class);
+            intent.putExtra(Config.CONTENTID, article.getContentId());
+            intent.putExtra(Config.TITLE, article.getTitle());
+            mActivity.startActivity(intent);
         });
         holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId())) ? View.VISIBLE : View.INVISIBLE);
     }
@@ -125,6 +133,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
         } else {
             article.setIsfav(Config.STORE);//set not fav
             article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
+            int channel = Config.COMPLEX;
             dbHelper.insertArticle(article, TAB_NAME, channel);//remove from db
         }
         notifyDataSetChanged();

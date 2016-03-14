@@ -24,7 +24,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,6 @@ import rx.subscriptions.CompositeSubscription;
  * SearchFragment
  */
 public class SearchFragment extends BaseListFragment {
-    private static final String TAG = "SearchFragment";
     private TextView result;
 
     private List<SearchList> lists = new ArrayList<>();

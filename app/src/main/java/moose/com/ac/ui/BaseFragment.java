@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.trello.rxlifecycle.components.support.RxFragment;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import com.trello.rxlifecycle.components.support.RxFragment;
  */
 /**
  * Created by Farble on 2016/2/25 22.
+ * BaseFragment
  */
 public abstract class BaseFragment extends RxFragment{
     protected boolean isAttach = false;

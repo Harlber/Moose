@@ -1,6 +1,6 @@
 package moose.com.ac.ui;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,6 @@ import rx.subscriptions.CompositeSubscription;
  * CloudCollectFragment
  */
 public class CloudCollectFragment extends BaseListFragment {
-    private static final String TAG = "CloudCollectFragment";
 
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);

@@ -9,7 +9,7 @@ import moose.com.ac.R;
 import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 /*
- * Copyright Farble Dast. All rights reserved.
+ * Copyright 2015,2016 Farble Dast
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 
 /**
  * Created by Farble on 2015/8/13 23.
+ * abstract Fragment for list
  */
 public abstract class BaseListFragment extends BaseFragment {
     protected RecyclerView mRecyclerView;
