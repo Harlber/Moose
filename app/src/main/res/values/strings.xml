@@ -113,7 +113,7 @@
     <string name="logout_success">退出登录成功</string>
     <string name="menu_share">分享</string>
     <string name="share">分享</string>
-    <string name="share_content">" ——我从#Acfun文章区#开源客户端  https://github.com/Harlber/Moose 分享"</string>
+    <string name="share_content">" ——来自[https://github.com/Harlber/Moose]"</string>
     <string name="pwd">密码</string>
     <string name="default_article_item_text">......</string>
     <string name="default_article_item_number">0</string>
