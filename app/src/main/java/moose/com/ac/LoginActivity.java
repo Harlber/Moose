@@ -2,10 +2,12 @@ package moose.com.ac;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
@@ -112,7 +114,13 @@ public class LoginActivity extends BaseActivity {
                                     if (addAccount) {
                                         addAccount(name.getText().toString(), pwd.getText().toString());
                                     }
-                                    new Handler().postDelayed(LoginActivity.this::finish, Config.TIME_LOGIN);
+                                    new Handler().postDelayed(new Runnable() {
+                                        public void run() {
+                                            Intent intent = new Intent(getString(R.string.login_action));
+                                            LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+                                            finish();
+                                        }
+                                    }, Config.TIME_LATE);
                                 } else {
                                     Snack(response.getResult());
                                 }

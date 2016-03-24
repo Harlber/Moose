@@ -1,7 +1,10 @@
 package moose.com.ac;
 
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -71,6 +75,19 @@ public class MainActivity extends BaseActivity {
     private LinearLayout linearLayout;
 
     private boolean searchShow = false;
+
+    private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(getString(R.string.login_action))) {
+                userName.setText(CommonUtil.getUserName());
+                Glide.with(mContext)
+                        .load(CommonUtil.getUserLogo())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(logo);
+            }
+        }
+    };
 
     private View.OnClickListener mOnClickListener = view -> {
         switch (view.getId()) {
@@ -251,13 +268,6 @@ public class MainActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         navigationView.setCheckedItem(R.id.nav_home);
-        if (!userName.getText().equals(CommonUtil.getUserName())) {
-            userName.setText(CommonUtil.getUserName());
-            Glide.with(this)
-                    .load(CommonUtil.getUserLogo())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(logo);
-        }
     }
 
 
@@ -355,5 +365,18 @@ public class MainActivity extends BaseActivity {
         });
         snackBar.getView().setBackgroundResource(R.color.colorPrimary);
         snackBar.show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mBroadcastReceiver,
+                new IntentFilter(getString(R.string.login_action)));
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mBroadcastReceiver);
+        super.onDestroy();
     }
 }
