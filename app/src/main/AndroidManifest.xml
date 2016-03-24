@@ -67,10 +67,6 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BehaviorChart"
-            android:exported="false"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

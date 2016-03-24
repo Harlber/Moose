@@ -83,9 +83,6 @@ public class HistoryActivity extends ArticleListActivity {
             case R.id.action_his_delete_all:
                 clearDialog(R.string.clear_his_all).show();
                 break;
-            /*case R.id.action_his_locus:
-                Intent intent = new Intent(this,BehaviorChart.class);
-                startActivity(intent);*/
         }
         return super.onOptionsItemSelected(item);
     }
