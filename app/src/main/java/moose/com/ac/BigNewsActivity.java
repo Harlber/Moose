@@ -1,7 +1,11 @@
 package moose.com.ac;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -10,9 +14,10 @@ import android.view.MenuItem;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.settings.SettingsActivity;
-import moose.com.ac.ui.CommentListFragment;
-import moose.com.ac.ui.ViewPageAdapter;
 import moose.com.ac.ui.BaseActivity;
+import moose.com.ac.ui.CommentListFragment;
+import moose.com.ac.ui.SubmitCommentFragment;
+import moose.com.ac.ui.ViewPageAdapter;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.ZoomOutPageTransformer;
 
@@ -39,6 +44,15 @@ import moose.com.ac.util.ZoomOutPageTransformer;
 @SuppressWarnings("unused")
 public class BigNewsActivity extends BaseActivity {
     private static final String TAG = "BigNewsActivity";
+    private ViewPager viewPager;
+    private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(getString(R.string.send_action))) {
+                refreshListAfterBroadcastReceiver();
+            }
+        }
+    };
 
     @Override
     protected void onInitView(Bundle savedInstanceState) {
@@ -46,9 +60,11 @@ public class BigNewsActivity extends BaseActivity {
         int contendId = getIntent().getIntExtra(Config.CONTENTID, 1);
         String title = getIntent().getStringExtra(Config.TITLE);
         CommentListFragment commentListFragment = new CommentListFragment();
+        SubmitCommentFragment submitCommentFragment = new SubmitCommentFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.CHANNEL_ID, contendId);
         commentListFragment.setArguments(bundle);
+        submitCommentFragment.setArguments(bundle);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,11 +74,12 @@ public class BigNewsActivity extends BaseActivity {
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.news_viewpager);
+        viewPager = (ViewPager) findViewById(R.id.news_viewpager);
         ViewPageAdapter adapter = new ViewPageAdapter(getSupportFragmentManager());
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+
         adapter.addFragment(commentListFragment);
-        //adapter.addFragment(new SubmitCommentFragment());
+        adapter.addFragment(submitCommentFragment);
         viewPager.setAdapter(adapter);
     }
 
@@ -83,6 +100,26 @@ public class BigNewsActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mBroadcastReceiver,
+                new IntentFilter(getString(R.string.send_action)));
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mBroadcastReceiver);
+        super.onDestroy();
+    }
+
+    /**
+     * refresh store status after receiver BroadcastReceiver
+     */
+    public void refreshListAfterBroadcastReceiver() {
+        viewPager.setCurrentItem(0);
     }
 
 }

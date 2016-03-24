@@ -29,6 +29,7 @@ public class Config {
     public static final String API_PROFILE = "/member/profile.aspx";
     public static final String API_SIGNIN = "/record/actions/signin";
     public static final String API_VERSION = "/Harlber/Moose/blob/master/app/version.json";
+    public static final String API_COMMENT = "/comment.aspx";
 
     public static final String AC_EMOTION = "emotion/images";
 

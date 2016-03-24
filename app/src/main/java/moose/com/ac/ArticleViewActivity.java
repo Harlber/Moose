@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IntDef;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,6 +33,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
@@ -102,6 +106,23 @@ public class ArticleViewActivity extends BaseActivity
     private boolean isWebViewLoading = false;
     private Article article;
     private boolean isRequest = false;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({
+            SMALLEST,
+            SMALLER,
+            NORMAL,
+            LARGER,
+            LARGEST
+    })
+    @interface TextSize {
+    }
+
+    private static final int SMALLEST = 0;
+    private static final int SMALLER = 1;
+    private static final int NORMAL = 2;
+    private static final int LARGER = 3;
+    private static final int LARGEST = 0;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -461,22 +482,21 @@ public class ArticleViewActivity extends BaseActivity
     @SuppressWarnings("deprecation")
     private void setText() {
         switch (level) {
-            case 0:
+            case SMALLEST:
                 mWeb.getSettings().setTextSize(WebSettings.TextSize.SMALLEST);
                 break;
-            case 1:
+            case SMALLER:
                 mWeb.getSettings().setTextSize(WebSettings.TextSize.SMALLER);
                 break;
-            case 2:
+            case NORMAL:
                 mWeb.getSettings().setTextSize(WebSettings.TextSize.NORMAL);
                 break;
-            case 3:
+            case LARGER:
                 mWeb.getSettings().setTextSize(WebSettings.TextSize.LARGER);
                 break;
             default:
                 mWeb.getSettings().setTextSize(WebSettings.TextSize.LARGEST);
                 break;
-
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             if (level > 4) {

@@ -81,6 +81,10 @@
     <item type="id" name="user_name"/>
     <item type="id" name="quote_img"/>
     <item type="id" name="comments_content"/>
+    <item type="id" name="comment_content"/>
+    <item type="id" name="comment_send"/>
+    <item type="id" name="comment_layout"/>
+    <item type="id" name="comment_no_layout"/>
     <!--comments quote item-->
     <item type="id" name="floor"/>
     <!--fragment article list-->

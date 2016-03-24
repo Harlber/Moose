@@ -1,9 +1,10 @@
 package moose.com.ac.retrofit;
 
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.okhttp.ResponseBody;
+
+import java.util.Map;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
@@ -12,11 +13,13 @@ import moose.com.ac.retrofit.article.ShadowArticleBody;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.Like;
 import moose.com.ac.retrofit.collect.Store;
+import moose.com.ac.retrofit.comment.CommentSend;
 import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.retrofit.login.LoginEntry;
 import moose.com.ac.retrofit.search.SearchBody;
 import retrofit.Response;
 import retrofit.http.Field;
+import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
@@ -123,8 +126,9 @@ public interface Api {
 
     /**
      * http://webapi.acfun.tv/record/actions/signin?channel=0&date=1455873634311
+     *
      * @param channel 0
-     * @param date timestamp
+     * @param date    timestamp
      */
     @POST(Config.API_SIGNIN)
     Observable<JsonObject> signIn(@Query("channel") String channel, @Query("date") Long date);
@@ -187,4 +191,13 @@ public interface Api {
     @GET(Config.API_VERSION)
     @Streaming
     Observable<ResponseBody> receiveVeision();
+
+    /**
+     * post comment to server
+     *
+     * @param map params collection
+     */
+    @FormUrlEncoded
+    @POST(Config.API_COMMENT)
+    Observable<CommentSend> sendComment(@FieldMap Map<String, String> map);
 }

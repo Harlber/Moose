@@ -219,4 +219,6 @@
     <string name="snackbar_report_to_github">Please post the information to GitHub as a issue</string>
     <string name="total_result">Total result: %s </string>
     <string name="share_to">Share to&#8230;</string>
+    <string name="send_comment">Send</string>
+    <string name="login_first">Sign in</string>
 </resources>
