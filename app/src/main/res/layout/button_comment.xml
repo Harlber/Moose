@@ -28,7 +28,7 @@
     <TextView
         android:id="@id/text"
         android:text="@string/loading_text"
-        android:textColor="@color/md_red_a400"
+        android:textColor="@color/md_teal_500"
         android:layout_centerInParent="true"
         android:gravity="center|center_vertical"
         android:layout_width="wrap_content"

@@ -19,9 +19,9 @@
 
     <color name="colorPrimary">#78909c</color>
     <color name="colorPrimaryDark">#78909c</color>
-    <color name="colorLight">#90a4ae</color>
+    <color name="colorLight">#e0e0e0</color>
     <color name="colorPrimaryLight">#FFE0B2</color>
-    <color name="colorAccent">#fdd835</color>
+    <color name="colorAccent">#009688</color>
     <color name="colorAccentLight">#FF8A80</color>
     <color name="textColorButton">#FFFFFF</color>
     <color name="background_main">#ededed</color>

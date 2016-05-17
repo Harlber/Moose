@@ -102,7 +102,7 @@
         <item name="android:paddingBottom">@dimen/textview_padding</item>
         <item name="android:gravity">center|center_vertical</item>
         <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
-        <item name="android:textColor">@color/textColorButton</item>
+        <item name="android:textColor">@color/md_grey_600</item>
     </style>
 
     <style name="AppCardView" parent="BaseAppCardView">
