@@ -35,7 +35,6 @@ import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleList;
 import moose.com.ac.ui.ArticleListAdapter;
 import moose.com.ac.ui.BaseActivity;
-import moose.com.ac.ui.widget.DividerItemDecoration;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.SettingPreferences;
@@ -210,7 +209,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
+        //mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
 
         mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);
