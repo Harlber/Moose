@@ -18,7 +18,6 @@ import java.util.List;
 import moose.com.ac.AppApplication;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.data.LocalCookie;
-import retrofit.Converter;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
@@ -178,10 +177,6 @@ public final class RxUtils {
             cookies = dbHelper.getDbCookies();
             builder.addHeader("User-Agent", UA);
             builder.addHeader("Accept", "application/json; q=0.5");
-            builder.addHeader("Accept-Encoding","gzip, deflate, sdch");
-            builder.addHeader("Accept-Language","zh-CN,zh;q=0.8");
-            builder.addHeader("Cache-Control","max-age=0");
-            builder.addHeader("Connection","keep-alive");
             for (LocalCookie cookie : cookies) {
                 builder.addHeader("Cookie", cookie.getCookie());
                 Log.i(TAG, "set cookies:" + cookie.getCookie());
@@ -196,9 +191,6 @@ public final class RxUtils {
         Response originalResponse = chain.proceed(chain.request());
         return originalResponse.newBuilder()
                 .header("User-Agent", UA)
-                .header("Accept-Language", "zh-CN,zh;q=0.8")
-                .header("Cache-Control", "max-age=0")
-                .header("Connection", "keep-alive")
                 .header("Accept", "application/json; q=0.5")
                 .build();
     };
