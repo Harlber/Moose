@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -277,10 +278,7 @@ public final class CommonUtil {
     }
 
     public static boolean isEmpty(String str) {
-        if (str == null || str.equals("")) {
-            return true;
-        }
-        return false;
+        return str == null || str.equals("");
     }
 
     public static boolean isPackageInstalled(String packagename, Context context) {
@@ -335,6 +333,7 @@ public final class CommonUtil {
     }
 
     public static int getImageShouldDisplayWidth(Context context) {
+        Log.i(TAG,"getDisplayWidth:"+getDisplayWidth(context)+"  image_margin:"+context.getResources().getDimension(R.dimen.image_margin)+" int"+(int) context.getResources().getDimension(R.dimen.image_margin));
         return getDisplayWidth(context) - (int) context.getResources().getDimension(R.dimen.image_margin);
     }
 
@@ -344,10 +343,6 @@ public final class CommonUtil {
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetInfo != null
-                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-            return isSupport;
-        }
-        return false;
+        return activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI && isSupport;
     }
 }

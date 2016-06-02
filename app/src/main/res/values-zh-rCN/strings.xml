@@ -159,20 +159,20 @@
                 			.block-title .title {
                 			font-size: 1.125rem;
                 			font-weight: normal;
-                			border-left: 6px solid #ff851b;
+                			border-left: 6px solid #78909c;
                 			padding: 2px 0 4px 8px;
                 			text-shadow: 0 1px 4px rgba(0,0,0,0.1);
                 			color: #333;
                 			}
                 			.block-title .name {
                 			font-size: 14px;
-                			border-left: 6px solid #ff851b;
+                			border-left: 6px solid #78909c;
                 			text-align: right;
                 			padding-right: 8px;
                 			padding-top: 4px;
                 			}
                 			.block-title .name span {
-                			color: #ff851b;
+                			color: #78909c;
                 			}
                 			.icon {
                 			margin-right: 5px;
@@ -181,6 +181,17 @@
                 			}
                 			</style>
             </head>
+            <script language=\"javascript\">
+                 window.onload=function(){ \n
+                    var screenWidth = screen.width \n
+                    var images = document.images; \n
+                        for (var i = 0; i < images.length; i++) { \n
+                            if (images[i].width > screenWidth) { \n
+                                images[i].width = screenWidth - 16 \n
+                            }
+                        }
+                    }
+            </script>
             <body>
             <div class="block-title">
             <h2 class="title">

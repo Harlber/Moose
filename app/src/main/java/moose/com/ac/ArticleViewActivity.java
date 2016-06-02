@@ -1,6 +1,5 @@
 package moose.com.ac;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -43,9 +42,9 @@ import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
 import moose.com.ac.retrofit.article.ArticleBody;
+import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.ui.widget.ObservableWebView;
-import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.RxUtils;
@@ -124,7 +123,6 @@ public class ArticleViewActivity extends BaseActivity
     private static final int LARGER = 3;
     private static final int LARGEST = 0;
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_article_view);
@@ -184,7 +182,9 @@ public class ArticleViewActivity extends BaseActivity
         mWeb = (ObservableWebView) findViewById(R.id.view_webview);
         settings = mWeb.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
         settings.setUserAgentString(RxUtils.UA);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         settings.setDefaultTextEncodingName(Config.TEXT_ENCODING);
@@ -313,7 +313,7 @@ public class ArticleViewActivity extends BaseActivity
                             }).subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(s -> {
-                                        mWeb.loadData(HtmlBody, "text/html; charset=UTF-8", null);
+                                        mWeb.loadDataWithBaseURL("", HtmlBody, "text/html", "UTF-8", "");
                                     });
                         }
                     }
@@ -341,6 +341,7 @@ public class ArticleViewActivity extends BaseActivity
         String index = HtmlBody;
         HtmlBody = head.toString() + index + body.toString();
         HtmlBodyClone = head.toString() + index + body.toString();
+        Log.i(TAG,"html:"+HtmlBodyClone);
     }
 
     /**
@@ -383,12 +384,14 @@ public class ArticleViewActivity extends BaseActivity
             if (CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(mContext)) {
                 img.after("<p >[图片]</p>");
             } else if (!src.contains(Config.AC_EMOTION)) {
-                String index = "<div style=\"width: 100%;text-align: center;\"><img src=\"" + src + "\" width=\"" +
-                        CommonUtil.getImageShouldDisplayWidth(getApplicationContext())
-                        + "px\"" + " alt=\" 加载失败\"/>\n" +
-                        "</div>";
-                Log.i(TAG, "index image:" + index);
-                img.after(index);
+                StringBuilder builder = new StringBuilder();
+                builder.append("<div style=\"width: 100%;text-align: center;\"><br><img src=\"")
+                        .append(src)
+                        .append("\" width=: 100%;height:auto\"")
+                        .append(" alt=\" 加载失败\"/>\n")
+                        .append("</div>");
+                Log.i(TAG, "index image:" + builder.toString());
+                img.after(builder.toString());
             } else {
                 img.after("<img src=\"" + src + "\" alt=\" 加载失败\"/>\n");
             }
@@ -458,7 +461,7 @@ public class ArticleViewActivity extends BaseActivity
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(s -> {
                                         mWeb.stopLoading();//maybe load image then ANR comes
-                                        mWeb.loadData(CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html; charset=UTF-8", null);
+                                        mWeb.loadDataWithBaseURL("", CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html", "UTF-8", "");
                                     });
                         } else {
                             if (isRequest) {
