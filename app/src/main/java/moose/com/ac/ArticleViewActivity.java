@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -35,6 +36,7 @@ import org.jsoup.select.Elements;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.HashMap;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.data.ArticleCollects;
@@ -105,6 +107,7 @@ public class ArticleViewActivity extends BaseActivity
     private boolean isWebViewLoading = false;
     private Article article;
     private boolean isRequest = false;
+    private HashMap<String,String> htmlImages = new HashMap<>();
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
@@ -194,6 +197,7 @@ public class ArticleViewActivity extends BaseActivity
             mWeb.getSettings().setDisplayZoomControls(false);
         }
         mWeb.setWebViewClient(new Client());
+        mWeb.addJavascriptInterface(new JsBridge(),"JsBridge");
         if (Build.VERSION.SDK_INT >= 11)
             mWeb.setBackgroundColor(Color.argb(1, 0, 0, 0));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -381,6 +385,19 @@ public class ArticleViewActivity extends BaseActivity
             src = parsedUri.toString();
             Log.i(TAG, "image src:" + src);
             img.attr("org", src);
+            StringBuilder builder = new StringBuilder();
+            builder.append("<div style='width: 100%;text-align: center;'><br>")
+                    .append("<img src='file:///android_asset/loading.gif'")
+                    .append("name = '")
+                    .append(src)
+                    .append("'\n;onclick = window.JsBridge.showImage('")
+                    .append(src)
+                    .append("')")
+                    .append(" alt=' 加载失败'/>\n")
+                    .append("</div>");
+            img.after(builder.toString());
+            Log.i(TAG,"image:table:-"+builder.toString());
+            /*
             if (CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(mContext)) {
                 img.after("<p >[图片]</p>");
             } else if (!src.contains(Config.AC_EMOTION)) {
@@ -394,11 +411,12 @@ public class ArticleViewActivity extends BaseActivity
                 img.after(builder.toString());
             } else {
                 img.after("<img src=\"" + src + "\" alt=\" 加载失败\"/>\n");
-            }
+            }*/
 
             img.remove();
-            img.removeAttr("style");
+            //img.removeAttr("style");
             HtmlBody = mDocument.toString();
+            Log.i(TAG,"处理后的html:"+HtmlBody);
         }
     }
 
@@ -571,6 +589,27 @@ public class ArticleViewActivity extends BaseActivity
             isWebViewLoading = false;
             mSwipeRefreshLayout.setRefreshing(false);
             mSwipeRefreshLayout.setEnabled(false);
+        }
+    }
+
+    private class JsBridge{
+
+        public JsBridge() {
+        }
+
+        @JavascriptInterface
+        public boolean isViewMode(){
+            return !(CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(mContext));
+        }
+
+        /**@param id image id*/
+        @JavascriptInterface
+        public void showImage(String id){
+            snack(id);
+        }
+
+        public String getImageUrlById(String id){
+            return htmlImages.get(id);
         }
     }
 }

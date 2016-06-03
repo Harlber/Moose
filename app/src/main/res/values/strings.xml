@@ -133,8 +133,13 @@
         <![CDATA[
         <html>
             <head>
+            <meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no\">
                <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
                 <style type="text/css">
+                img{
+                    max-width:100%;
+                    height:auto;
+                    }
                 * {
                 			padding: 0;
                 			margin: 0;
@@ -186,9 +191,7 @@
                     var screenWidth = screen.width \n
                     var images = document.images; \n
                         for (var i = 0; i < images.length; i++) { \n
-                            if (images[i].width > screenWidth) { \n
-                                images[i].width = screenWidth - 16 \n
-                            }
+                            images[i].src = images[i].getAttribute(\"name\"); \n
                         }
                     }
             </script>
