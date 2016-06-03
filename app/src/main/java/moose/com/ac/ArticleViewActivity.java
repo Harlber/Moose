@@ -386,7 +386,7 @@ public class ArticleViewActivity extends BaseActivity
             Log.i(TAG, "image src:" + src);
             img.attr("org", src);
             StringBuilder builder = new StringBuilder();
-            builder.append("<div style='width: 100%;text-align: center;'><br>")
+            builder.append("<div style='text-align: center;'><br>")
                     .append("<img src='file:///android_asset/loading.gif'")
                     .append("name = '")
                     .append(src)
