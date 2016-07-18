@@ -103,13 +103,13 @@ public class ArticleFragment extends BaseListFragment {
 
     @Override
     public void onInitData() {
-        mSwipeRefreshLayout.postDelayed(() -> loadData(type, mPage, true),Config.TIME_LATE);
+        mSwipeRefreshLayout.postDelayed(() -> loadData(type, mPage, true), Config.TIME_LATE);
     }
 
     private void loadData(int tp, int pg, boolean isSave) {
         mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         isRequest = true;
-        subscription.add(api.getArticleList(tp, mChannelId, pg, Config.PAGESIZE)
+        subscription.add(api.getArticleList(tp, mChannelId, Config.PAGESIZE, pg)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<ArticleList>bindUntilEvent(FragmentEvent.DESTROY_VIEW))

@@ -41,6 +41,7 @@ public class Article implements Serializable {
     private static final long serialVersionUID = 920177008898972172L;
     private ArticleUser user;
     private List<String> tags;
+    private String tudouDomain;
     private String description;
     private Integer contentId;
     private Integer isArticle;
@@ -61,6 +62,14 @@ public class Article implements Serializable {
 
     public ArticleUser getUser() {
         return user;
+    }
+
+    public String getTudouDomain() {
+        return tudouDomain;
+    }
+
+    public void setTudouDomain(String tudouDomain) {
+        this.tudouDomain = tudouDomain;
     }
 
     public void setUser(ArticleUser user) {

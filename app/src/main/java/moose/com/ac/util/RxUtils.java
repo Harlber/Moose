@@ -59,6 +59,7 @@ public final class RxUtils {
     public static <T> T createApi(Class<T> c, String url) {
         OkHttpClient client = OkHttpClientProvider.get(); //create OKHTTPClient
         client.interceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
+        client.interceptors().add(new LoggingInterceptor());
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .client(client)
@@ -88,6 +89,7 @@ public final class RxUtils {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         client.setCookieHandler(cookieManager); //finally set the cookie handler on client
         client.interceptors().add(new ReceivedCookiesInterceptor());
+        client.interceptors().add(new LoggingInterceptor());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)

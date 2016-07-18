@@ -264,7 +264,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
     private void load(int tp, int pg, boolean isSave) {
         mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         isRequest = true;
-        subscription.add(api.getArticleList(tp, channel, pg, Config.PAGESIZE)
+        subscription.add(api.getArticleList(tp, channel, Config.PAGESIZE, pg)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<ArticleList>bindUntilEvent(ActivityEvent.DESTROY))

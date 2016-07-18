@@ -43,7 +43,7 @@ public interface Api {
      */
     @GET(Config.API_CHANNEL)
     Observable<ArticleList> getArticleList(@Query("orderBy") int orderBy, @Query("channelId") int channelId
-            , @Query("pageNo") int pageNo, @Query("pageSize") int pageSize);
+            , @Query("pageSize") int pageSize, @Query("pageNo") int pageNo);
 
     /**
      * get comment list
