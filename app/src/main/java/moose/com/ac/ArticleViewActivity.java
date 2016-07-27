@@ -208,16 +208,14 @@ public class ArticleViewActivity extends BaseActivity
         level = CommonUtil.getTextSize();
         setText();
         mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
-        new Handler().postDelayed(() -> {
-            menFav.setTitle(isFav ? getString(R.string.store_it) : getString(R.string.cancel_store));
-            initData();
-        }, Config.TIME_LATE);
+        initData();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_view_article, menu);
         menFav = menu.findItem(R.id.action_store);
+        menFav.setTitle(isFav ? getString(R.string.store_it) : getString(R.string.cancel_store));
         return super.onCreateOptionsMenu(menu);
     }
 
