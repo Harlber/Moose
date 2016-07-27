@@ -3,6 +3,7 @@ package moose.com.ac;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -43,6 +44,7 @@ public class AppApplication extends Application {
         if (!isInUnitTests()) {
             refWatcher = LeakCanary.install(this);
         }
+        Stetho.initializeWithDefaults(this);
     }
 
     public static RefWatcher getRefWatcher() {

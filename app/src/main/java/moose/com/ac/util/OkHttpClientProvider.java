@@ -1,5 +1,6 @@
 package moose.com.ac.util;
 
+import com.facebook.stetho.okhttp.StethoInterceptor;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,7 @@ public enum OkHttpClientProvider {
         okHttpClient.setWriteTimeout(Config.OKHTTP_CLIENT_WRITE_TIMEOUT, TimeUnit.SECONDS);
         okHttpClient.setReadTimeout(Config.OKHTTP_CLIENT_READ_TIMEOUT, TimeUnit.SECONDS);
 
+        okHttpClient.networkInterceptors().add(new StethoInterceptor());
     }
 
     public static OkHttpClient get() {
