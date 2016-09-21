@@ -9,7 +9,7 @@ import java.util.List;
 
 import moose.com.ac.AppApplication;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.retrofit.article.ArticleInfo;
+import moose.com.ac.retrofit.article.ArticleListWrapper;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -39,18 +39,18 @@ public class RxDataBase {
             } else {
                 while (c.moveToNext()) {
                     Article article = new Article();
-                    ArticleInfo.ArticleUser user = new ArticleInfo.ArticleUser();
-                    article.setContentId(c.getInt(c.getColumnIndex("contentId")));
-                    article.setTitle(c.getString(c.getColumnIndex("title")));
-                    article.setViews(c.getInt(c.getColumnIndex("views")));
-                    user.name = c.getString(c.getColumnIndex("username"));
-                    article.setComments(c.getInt(c.getColumnIndex("comment")));
-                    article.setReleaseDate(c.getLong(c.getColumnIndex("releaserdate")));
-                    article.setSavedate(c.getString(c.getColumnIndex("savedate")));
-                    article.setIsfav(c.getString(c.getColumnIndex("isfav")));
-                    article.setChannelId(c.getInt(c.getColumnIndex("channelid")));
+                    ArticleListWrapper.ArticleUser user = new ArticleListWrapper.ArticleUser();
+                    article.contentId = String.valueOf(c.getInt(c.getColumnIndex("contentId")));
+                    article.title = c.getString(c.getColumnIndex("title"));
+                    article.views = c.getInt(c.getColumnIndex("views"));
+                    user.username = c.getString(c.getColumnIndex("username"));
+                    article.comments = c.getInt(c.getColumnIndex("comment"));
+                    article.releaseDate = c.getLong(c.getColumnIndex("releaserdate"));
+                    article.savedate = c.getString(c.getColumnIndex("savedate"));
+                    article.isfav = c.getString(c.getColumnIndex("isfav"));
+                    article.channelId = c.getInt(c.getColumnIndex("channelid"));
 
-                    article.setUser(user);
+                    article.user = user;
                     lists.add(article);
                 }
             }

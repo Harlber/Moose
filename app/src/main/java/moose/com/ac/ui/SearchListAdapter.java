@@ -77,7 +77,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListVH> implem
         holder.time.setText("围观:" + searchList.getViews() + "       评论:" + searchList.getComments());
         holder.rootView.setOnClickListener(v -> {
             Article article = new Article();
-            article.setContentId(Integer.valueOf(searchList.getContentId().replace("ac","")));
+            article.contentId = searchList.getContentId().replace("ac","");
             Intent intent = new Intent(mActivity,ArticleViewActivity.class);
             intent.putExtra(Config.ARTICLE,article);
             mActivity.startActivity(intent);

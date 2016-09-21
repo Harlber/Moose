@@ -76,7 +76,7 @@ public class CloudArticleAdapter extends RecyclerView.Adapter<CloudArticleVH> {
         holder.date.setText(AppUtils.formatDateByLongTime(String.valueOf(content.getReleaseDate()), context.getString(R.string.format_date)).substring(5));
         holder.rootView.setOnClickListener(v -> {
             Article article = new Article();
-            article.setContentId(Integer.valueOf(content.getUrl().replace("/a/ac", "")));
+            article.contentId = content.getUrl().replace("/a/ac", "");
             Intent intent = new Intent(context, ArticleViewActivity.class);
             intent.putExtra(Config.ARTICLE, article);
             context.startActivity(intent);

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBody;
-import moose.com.ac.retrofit.article.ArticleList;
+import moose.com.ac.retrofit.article.ArticleListWrapper;
 import moose.com.ac.retrofit.article.ShadowArticleBody;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.Like;
@@ -42,7 +42,7 @@ public interface Api {
      * @param pageSize  number of page size
      */
     @GET(Config.API_CHANNEL)
-    Observable<ArticleList> getArticleList(@Query("sort") int sort, @Query("channelIds") int channelId
+    Observable<ArticleListWrapper> getArticleList(@Query("sort") int sort, @Query("channelIds") int channelId
             , @Query("pageSize") int pageSize, @Query("pageNo") int pageNo);
 
     /**
@@ -104,7 +104,7 @@ public interface Api {
      * @param pageSize   page size
      */
     @GET(Config.API_SORT)/*?channelIds=110,73,74,75*/
-    Observable<ArticleList> getSortList(@Query("channelIds") String channelIds, @Query("pageSize") int pageSize);
+    Observable<ArticleListWrapper> getSortList(@Query("channelIds") String channelIds, @Query("pageSize") int pageSize);
 
     /**
      * login action

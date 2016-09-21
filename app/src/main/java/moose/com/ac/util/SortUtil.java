@@ -12,7 +12,7 @@ public class SortUtil {
 
         @Override
         public int compare(Article article, Article t1) {
-            return Integer.valueOf(String.valueOf(Long.valueOf(article.getSavedate()) - Long.valueOf(t1.getSavedate())));
+            return Integer.valueOf(String.valueOf(Long.valueOf(article.savedate) - Long.valueOf(t1.savedate)));
 
         }
     }
@@ -21,7 +21,7 @@ public class SortUtil {
 
         @Override
         public int compare(Article article, Article t1) {
-            return Integer.valueOf((article.getReleaseDate() - t1.getReleaseDate()) + "");
+            return Integer.valueOf((article.releaseDate - t1.releaseDate) + "");
         }
     }
 
@@ -29,7 +29,7 @@ public class SortUtil {
 
         @Override
         public int compare(Article article, Article t1) {
-            return Integer.valueOf(String.valueOf(Long.valueOf(t1.getSavedate()) - Long.valueOf(article.getSavedate())));
+            return Integer.valueOf(String.valueOf(Long.valueOf(t1.savedate) - Long.valueOf(article.savedate)));
 
         }
     }

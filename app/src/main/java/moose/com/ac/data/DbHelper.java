@@ -32,14 +32,14 @@ public class DbHelper {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_AID, article.getContentId() + "");
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_TITLE, article.getTitle());
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_VIEWS, article.getViews() + "");
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_USERNAME, article.getUser().name);
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_COMMENT, article.getComments() + "");
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE, article.getReleaseDate() + "");
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE, article.getSavedate());
-        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ISFAV, article.getIsfav());
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_AID, article.contentId);
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_TITLE, article.title);
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_VIEWS, String.valueOf(article.views));
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_USERNAME, article.user.username);
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_COMMENT, String.valueOf(article.comments));
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_RELEASEDATE, String.valueOf(article.releaseDate));
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_SAVEDATE, article.savedate);
+        values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_ISFAV, article.isfav);
         values.put(ArticleCollects.ArticleHistoryEntry.COLUMN_NAME_CHANNEL, channel);
 
         // Insert the new row, returning the primary key value of the new row

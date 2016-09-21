@@ -155,8 +155,8 @@ public class ArticleViewActivity extends BaseActivity
             aid = getIntent().getIntExtra("aid", 0);
             title = getIntent().getStringExtra("title");
         }*/
-        isFav = dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId()));
-        articleId = article.getContentId();
+        isFav = dbHelper.isExits(TAB_NAME, article.isfav);
+        articleId = Integer.valueOf(article.contentId);
         toolbarHeight = DisplayUtil.dip2px(this, 56f);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -226,7 +226,7 @@ public class ArticleViewActivity extends BaseActivity
                 doExitActivity();
                 return true;
             case R.id.action_share:
-                String shareUrl = article.getTitle() + " " + Config.WEB_URL + articleId + getString(R.string.share_content);
+                String shareUrl = article.title + " " + Config.WEB_URL + articleId + getString(R.string.share_content);
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareUrl);
@@ -260,9 +260,9 @@ public class ArticleViewActivity extends BaseActivity
                     isFav = !deleteSuc;
                     snackStore(deleteSuc ? getString(R.string.cancel_success) : getString(R.string.cancel_fal));
                 } else {//store it
-                    article.setIsfav(Config.STORE);//set not fav
-                    article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
-                    boolean insertSuc = dbHelper.insertArticle(article, TAB_NAME, article.getChannelId());
+                    article.isfav = Config.STORE;//set not fav
+                    article.savedate = String.valueOf(System.currentTimeMillis());//set save date
+                    boolean insertSuc = dbHelper.insertArticle(article, TAB_NAME, article.channelId);
                     menFav.setTitle(insertSuc ? getString(R.string.store_it) : getString(R.string.cancel_store));
                     isFav = insertSuc;
                     snackStore(isFav ? getString(R.string.store_success) : getString(R.string.store_fal));
@@ -279,7 +279,7 @@ public class ArticleViewActivity extends BaseActivity
         subscription.add(api.getNewUrlArticleBody(articleId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(1)
-                .compose(this.<ArticleBody>bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(new Observer<ArticleBody>() {
                     @Override
                     public void onCompleted() {

@@ -32,7 +32,7 @@ import java.util.List;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.retrofit.article.ArticleList;
+import moose.com.ac.retrofit.article.ArticleListWrapper;
 import moose.com.ac.ui.ArticleListAdapter;
 import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
@@ -271,8 +271,8 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         subscription.add(api.getArticleList(sort, channel, Config.PAGESIZE, pg)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(this.<ArticleList>bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new Observer<ArticleList>() {
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(new Observer<ArticleListWrapper>() {
                     @Override
                     public void onCompleted() {
 
@@ -288,13 +288,12 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
                     }
 
                     @Override
-                    public void onNext(ArticleList articleList) {
+                    public void onNext(ArticleListWrapper articleListWrapper) {
                         if (isSave) {
                             mPage++;//false : new request
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
-                        List<Article> articles;
-                        articles = articleList.getPage().getList();
+                        List<Article> articles = articleListWrapper.data.list;
                         if (isSave) {//add data into local
                             lists.addAll(articles);
                         } else {
@@ -325,8 +324,8 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
      */
     public void refreshListAfterBroadcastReceiver(int id, boolean status) {
         for (int i = 0; i < lists.size(); i++) {
-            if (lists.get(i).getContentId() == id) {
-                lists.get(i).setIsfav(status ? Config.STORE : Config.NO_ST);
+            if (Integer.valueOf(lists.get(i).contentId) == id) {
+                lists.get(i).isfav = status ? Config.STORE : Config.NO_ST;
                 adapter.notifyItemChanged(i, lists.get(i));
             }
         }
