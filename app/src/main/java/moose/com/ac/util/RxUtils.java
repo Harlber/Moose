@@ -58,6 +58,7 @@ public final class RxUtils {
 
     public static <T> T createApi(Class<T> c, String url) {
         OkHttpClient client = OkHttpClientProvider.get(); //create OKHTTPClient
+        client.interceptors().add(ACFUN_TOKEN_INTERCEPTOR);
         client.interceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
         client.interceptors().add(new LoggingInterceptor());
         Retrofit retrofit = new Retrofit.Builder()
@@ -196,6 +197,17 @@ public final class RxUtils {
                 .header("Accept", "application/json; q=0.5")
                 .build();
     };
+
+    private static final Interceptor ACFUN_TOKEN_INTERCEPTOR = chain -> {
+        Request request = chain.request();
+        Request newRequest = request.newBuilder()
+                .addHeader("market", "xiaomi")
+                .addHeader("appVersion", "4.3.0")
+                .addHeader("deviceType", "1")
+                .build();
+        return chain.proceed(newRequest);
+    };
+
 
     private static final Interceptor SHADOW_PORTAL_INTERCEPTOR = chain -> {
         Response originalResponse = chain.proceed(chain.request());

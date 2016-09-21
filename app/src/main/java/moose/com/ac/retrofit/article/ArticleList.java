@@ -1,5 +1,7 @@
 package moose.com.ac.retrofit.article;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,13 +14,13 @@ public class ArticleList implements Serializable {
     private boolean success;
     private String msg;
     private Integer status;
-    private Data data;
+    @SerializedName("data")
+    private Page page;
 
     public static class Page{
         private Integer pageNo;
         private Integer pageSize;
         private Integer totalCount;
-        private Integer orderBy;
         private List<Article>list;
 
         public Integer getPageNo() {
@@ -45,31 +47,12 @@ public class ArticleList implements Serializable {
             this.totalCount = totalCount;
         }
 
-        public Integer getOrderBy() {
-            return orderBy;
-        }
-
-        public void setOrderBy(Integer orderBy) {
-            this.orderBy = orderBy;
-        }
-
         public List<Article> getList() {
             return list;
         }
 
         public void setList(List<Article> list) {
             this.list = list;
-        }
-    }
-    public static class Data{
-        private Page page;
-
-        public Page getPage() {
-            return page;
-        }
-
-        public void setPage(Page page) {
-            this.page = page;
         }
     }
 
@@ -97,11 +80,12 @@ public class ArticleList implements Serializable {
         this.status = status;
     }
 
-    public Data getData() {
-        return data;
+    public Page getPage() {
+        return page;
     }
 
-    public void setData(Data data) {
-        this.data = data;
+    public void setPage(Page page) {
+        this.page = page;
     }
+
 }

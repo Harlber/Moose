@@ -70,7 +70,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
     private ArticleListAdapter adapter;
-    private int type = 0;//default
+    private int sort = 5;//default  代表最新回复排序
 
     private
     @ChannelMode
@@ -107,7 +107,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         //noinspection WrongConstant
         channel = getIntent().getIntExtra(Config.CHANNEL_ID, ChannelManager.COMPLEX);
         initView();
-        mSwipeRefreshLayout.postDelayed(() -> load(type, mPage, true), Config.TIME_LATE);
+        mSwipeRefreshLayout.postDelayed(() -> load(sort, mPage, true), Config.TIME_LATE);
     }
 
     @Override
@@ -140,9 +140,9 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         //noinspection RedundantCast
         builder.setTitle(getString(R.string.article_select))
                 .setItems(R.array.select_channel_array, (DialogInterface.OnClickListener) (dialog, which) -> {
-                    type = which;
+                    sort = which;
                     //noinspection ConstantConditions
-                    getSupportActionBar().setTitle(filterTitle(type));
+                    getSupportActionBar().setTitle(filterTitle(sort));
                     getSupportActionBar().setSubtitle(getToolBarSubTitle());
                     doSwipeRefresh();
                 });
@@ -177,12 +177,16 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
     }
 
     private String getToolBarSubTitle() {
-        if (type == 0) {
+        if (sort == 5) {
             return getString(R.string.last_comment);
-        } else if (type == 1) {
+        } else if (sort == 4) {
+            return getString(R.string.last_publish);
+        }else if (sort == 1) {
             return getString(R.string.most_views);
-        } else {
+        } else if (sort == 2) {
             return getString(R.string.most_comment);
+        } else {
+            return getString(R.string.last_comment);
         }
     }
 
@@ -254,17 +258,17 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
     }
 
     private void doSwipeRefresh() {
-        load(type, mPage, false);
+        load(sort, mPage, false);
     }
 
     private void loadMore() {
-        load(type, mPage, true);
+        load(sort, mPage, true);
     }
 
-    private void load(int tp, int pg, boolean isSave) {
+    private void load(int sort, int pg, boolean isSave) {
         mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         isRequest = true;
-        subscription.add(api.getArticleList(tp, channel, Config.PAGESIZE, pg)
+        subscription.add(api.getArticleList(sort, channel, Config.PAGESIZE, pg)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<ArticleList>bindUntilEvent(ActivityEvent.DESTROY))
@@ -290,7 +294,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
                         List<Article> articles;
-                        articles = articleList.getData().getPage().getList();
+                        articles = articleList.getPage().getList();
                         if (isSave) {//add data into local
                             lists.addAll(articles);
                         } else {

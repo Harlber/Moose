@@ -134,8 +134,7 @@ public class ArticleFragment extends BaseListFragment {
                             mPage++;//false : new request
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
-                        List<Article> articles = new ArrayList<Article>();
-                        articles = articleList.getData().getPage().getList();
+                        List<Article> articles = articleList.getPage().getList();
                         if (isSave) {//add data into local
                             lists.addAll(articles);
                         } else {

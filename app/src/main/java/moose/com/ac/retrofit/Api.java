@@ -36,13 +36,13 @@ public interface Api {
     /**
      * get Article List
      *
-     * @param orderBy   channel type
+     * @param sort   sort type
      * @param channelId channel id
      * @param pageNo    page number
      * @param pageSize  number of page size
      */
     @GET(Config.API_CHANNEL)
-    Observable<ArticleList> getArticleList(@Query("orderBy") int orderBy, @Query("channelId") int channelId
+    Observable<ArticleList> getArticleList(@Query("sort") int sort, @Query("channelIds") int channelId
             , @Query("pageSize") int pageSize, @Query("pageNo") int pageNo);
 
     /**
