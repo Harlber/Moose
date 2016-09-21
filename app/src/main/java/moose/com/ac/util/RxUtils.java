@@ -3,6 +3,7 @@ package moose.com.ac.util;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -198,13 +199,14 @@ public final class RxUtils {
                 .build();
     };
 
+    private static final Headers.Builder builder = new Headers.Builder()
+            .add("market", "xiaomi")
+            .add("appVersion", "4.3.0")
+            .add("deviceType", "1");
+
     private static final Interceptor ACFUN_TOKEN_INTERCEPTOR = chain -> {
         Request request = chain.request();
-        Request newRequest = request.newBuilder()
-                .addHeader("market", "xiaomi")
-                .addHeader("appVersion", "4.3.0")
-                .addHeader("deviceType", "1")
-                .build();
+        Request newRequest = request.newBuilder().headers(builder.build()).build();
         return chain.proceed(newRequest);
     };
 
