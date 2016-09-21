@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class Article implements Serializable {
     private static final long serialVersionUID = 920177008898972172L;
-    private ArticleUser user;
+    private ArticleInfo.ArticleUser user;
     private List<String> tags;
     private String tudouDomain;
     private String description;
@@ -60,7 +60,7 @@ public class Article implements Serializable {
     private String isfav;
     private String channelType;//used for chart
 
-    public ArticleUser getUser() {
+    public ArticleInfo.ArticleUser getUser() {
         return user;
     }
 
@@ -72,7 +72,7 @@ public class Article implements Serializable {
         this.tudouDomain = tudouDomain;
     }
 
-    public void setUser(ArticleUser user) {
+    public void setUser(ArticleInfo.ArticleUser user) {
         this.user = user;
     }
 

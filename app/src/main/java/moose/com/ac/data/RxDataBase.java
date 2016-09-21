@@ -9,7 +9,7 @@ import java.util.List;
 
 import moose.com.ac.AppApplication;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.retrofit.article.ArticleUser;
+import moose.com.ac.retrofit.article.ArticleInfo;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -39,11 +39,11 @@ public class RxDataBase {
             } else {
                 while (c.moveToNext()) {
                     Article article = new Article();
-                    ArticleUser user = new ArticleUser();
+                    ArticleInfo.ArticleUser user = new ArticleInfo.ArticleUser();
                     article.setContentId(c.getInt(c.getColumnIndex("contentId")));
                     article.setTitle(c.getString(c.getColumnIndex("title")));
                     article.setViews(c.getInt(c.getColumnIndex("views")));
-                    user.setUsername(c.getString(c.getColumnIndex("username")));
+                    user.name = c.getString(c.getColumnIndex("username"));
                     article.setComments(c.getInt(c.getColumnIndex("comment")));
                     article.setReleaseDate(c.getLong(c.getColumnIndex("releaserdate")));
                     article.setSavedate(c.getString(c.getColumnIndex("savedate")));

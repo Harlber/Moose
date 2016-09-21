@@ -68,7 +68,7 @@ public interface Api {
      * @param contentId article id
      */
     @GET(Config.API_ARTICLE_NEW)
-    Observable<ArticleBody> getNewUrlArticleBody(@Query("contentId") int contentId);
+    Observable<ArticleBody> getNewUrlArticleBody(@Path("id") int contentId);
 
     /**
      * get article body

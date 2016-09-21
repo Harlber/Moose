@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.IntDef;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
@@ -124,7 +123,7 @@ public class ArticleViewActivity extends BaseActivity
     private static final int SMALLER = 1;
     private static final int NORMAL = 2;
     private static final int LARGER = 3;
-    private static final int LARGEST = 0;
+    private static final int LARGEST = 4;
 
     @Override
     protected void onInitView(Bundle savedInstanceState) {
@@ -299,12 +298,12 @@ public class ArticleViewActivity extends BaseActivity
                     @Override
                     public void onNext(ArticleBody articleBody) {
                         isRequest = true;
-                        if (!articleBody.isSuccess()) {
-                            snack(articleBody.getMsg());
+                        if (TextUtils.isEmpty(articleBody.message) || !TextUtils.equals(articleBody.message.toUpperCase(), "OK")) {
+                            snack(articleBody.message);
                         } else {
-                            HtmlBody = articleBody.getData().getFullArticle().getTxt();
-                            title = articleBody.getData().getFullArticle().getTitle();
-                            user = articleBody.getData().getFullArticle().getUser().getUsername();
+                            HtmlBody = articleBody.data.article.content;
+                            title = articleBody.data.title;
+                            user = articleBody.data.owner.name;
 
                             //fix this issues https://github.com/Harlber/Moose/issues/8
                             rx.Observable.create(subscriber -> {

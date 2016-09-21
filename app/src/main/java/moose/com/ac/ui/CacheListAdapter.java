@@ -120,7 +120,7 @@ public class CacheListAdapter extends RecyclerView.Adapter<ArticleListVH> {
             }
         }
         holder.views.setText(String.valueOf(article.getViews()));
-        holder.user.setText(String.format(mActivity.getString(R.string.ups), article.getUser().getUsername()));
+        holder.user.setText(String.format(mActivity.getString(R.string.ups), article.getUser().name));
         holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
         holder.comment.setText(MessageFormat.format(mActivity.getResources().getText(R.string.comment).toString(), article.getComments()));
         holder.comment.setOnClickListener(view -> {
