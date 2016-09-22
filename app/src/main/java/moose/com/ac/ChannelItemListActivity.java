@@ -17,6 +17,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -163,7 +164,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
                 .setTitle(R.string.fetch)
                 .setPositiveButton(R.string.positive, (dialog, id) -> {
                     AppCompatEditText input = (AppCompatEditText) rootView.findViewById(R.id.dialog_fetch_input);
-                    if (!input.getText().toString().equals("")) {
+                    if (!TextUtils.isEmpty(input.getText().toString())) {
                         if (!SettingPreferences.externalBrowserEnabled(ChannelItemListActivity.this)) {
                             Intent intent = new Intent();
                             intent.setAction("android.intent.action.VIEW");
@@ -171,7 +172,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
                             intent.setData(content_url);
                             startActivity(intent);
                         } else {
-                            String url = Config.WAP_URL + "v#ac=" + input.getText().toString() + ";type=article";
+                            String url = Config.WAP_URL + "v/?ac=" + input.getText().toString() + "&type=article";
                             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                             CustomTabActivityHelper.openCustomTab(
                                     ChannelItemListActivity.this, customTabsIntent, Uri.parse(url), new WebviewFallback());
