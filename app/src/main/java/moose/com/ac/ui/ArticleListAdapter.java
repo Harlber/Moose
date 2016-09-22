@@ -73,9 +73,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     public void onBindViewHolder(ArticleListVH holder, int position) {
         final Article article = lists.get(position);
         holder.num.setText(String.valueOf(position + 1));
-        holder.title.setText(article.getTitle());
+        holder.title.setText(article.title);
         String TAB_HISTORY = ArticleCollects.ArticleHistoryEntry.TABLE_NAME;
-        if (dbHelper.isExits(TAB_HISTORY, String.valueOf(article.getContentId()))) {
+        if (dbHelper.isExits(TAB_HISTORY, String.valueOf(article.contentId))) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 holder.title.setTextAppearance(R.style.textTitleGrayStyle);
             } else {
@@ -88,17 +88,17 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
                 holder.title.setTextAppearance(mActivity, R.style.textTitleStyle);
             }
         }
-        holder.views.setText(String.valueOf(article.getViews()));
-        holder.user.setText(String.format(mActivity.getString(R.string.ups), article.getUser().getUsername()));
-        holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.getReleaseDate()), mActivity.getString(R.string.format_date)).substring(5));
-        holder.comment.setText(MessageFormat.format(mActivity.getResources().getText(R.string.comment).toString(), article.getComments()));
+        holder.views.setText(String.valueOf(article.views));
+        holder.user.setText(String.format(mActivity.getString(R.string.ups), article.user.username));
+        holder.time.setText(AppUtils.formatDateByLongTime(String.valueOf(article.releaseDate), mActivity.getString(R.string.format_date)).substring(5));
+        holder.comment.setText(MessageFormat.format(mActivity.getResources().getText(R.string.comment).toString(), article.comments));
         holder.comment.setOnClickListener(view -> {
             Intent intent = new Intent(mActivity, BigNewsActivity.class);
-            intent.putExtra(Config.CONTENTID, article.getContentId());
-            intent.putExtra(Config.TITLE, article.getTitle());
+            intent.putExtra(Config.CONTENTID, article.contentId);
+            intent.putExtra(Config.TITLE, article.title);
             mActivity.startActivity(intent);
         });
-        holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId())) ? View.VISIBLE : View.INVISIBLE);
+        holder.mark.setVisibility(dbHelper.isExits(TAB_NAME, String.valueOf(article.contentId)) ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
@@ -113,9 +113,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     @Override
     public void onItemClick(View view, int position) {
         Article article = lists.get(position);
-        article.setSavedate(String.valueOf(System.currentTimeMillis()));
+        article.savedate = String.valueOf(System.currentTimeMillis());
         if (!CommonUtil.isVisistor()) {
-            AppApplication.getDbHelper().insertArticle(article, ArticleCollects.ArticleHistoryEntry.TABLE_NAME, article.getChannelId());
+            AppApplication.getDbHelper().insertArticle(article, ArticleCollects.ArticleHistoryEntry.TABLE_NAME, article.channelId);
         }
         Intent intent = new Intent(mActivity, ArticleViewActivity.class);
         Bundle mBundle = new Bundle();
@@ -127,12 +127,12 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListVH> impl
     @Override
     public void onItemLongClick(View view, int position) {
         Article article = lists.get(position);
-        if (dbHelper.isExits(TAB_NAME, String.valueOf(article.getContentId()))) {//exits
-            article.setIsfav(Config.NO_ST);//set not fav
-            dbHelper.deleteArticle(TAB_NAME, String.valueOf(article.getContentId()));//remove from db
+        if (dbHelper.isExits(TAB_NAME, String.valueOf(article.contentId))) {//exits
+            article.isfav = Config.NO_ST;//set not fav
+            dbHelper.deleteArticle(TAB_NAME, String.valueOf(article.contentId));//remove from db
         } else {
-            article.setIsfav(Config.STORE);//set not fav
-            article.setSavedate(String.valueOf(System.currentTimeMillis()));//set save date
+            article.isfav = Config.STORE;//set not fav
+            article.savedate = String.valueOf(System.currentTimeMillis());//set save date
             int channel = Config.COMPLEX;
             dbHelper.insertArticle(article, TAB_NAME, channel);//remove from db
         }

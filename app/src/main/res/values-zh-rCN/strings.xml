@@ -30,8 +30,9 @@
     <string name="web_mode">图文模式</string>
     <string name="web_access_url">访问网页</string>
     <string name="hide_quoted">重复引用已隐藏</string>
-    <string name="last_comment">最近回复</string>
+    <string name="last_comment">最新回复</string>
     <string name="most_views">人气最旺</string>
+    <string name="last_publish">最新发布</string>
     <string name="most_comment">评论最多</string>
     <string name="no_network">网络请求异常</string>
     <string name="nw_503">NetWork 503</string>

@@ -18,7 +18,7 @@ import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.retrofit.article.ArticleList;
+import moose.com.ac.retrofit.article.ArticleListWrapper;
 import moose.com.ac.util.RxUtils;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -112,8 +112,8 @@ public class ArticleFragment extends BaseListFragment {
         subscription.add(api.getArticleList(tp, mChannelId, Config.PAGESIZE, pg)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(this.<ArticleList>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
-                .subscribe(new Observer<ArticleList>() {
+                .compose(bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .subscribe(new Observer<ArticleListWrapper>() {
                     @Override
                     public void onCompleted() {
 
@@ -129,13 +129,12 @@ public class ArticleFragment extends BaseListFragment {
                     }
 
                     @Override
-                    public void onNext(ArticleList articleList) {
+                    public void onNext(ArticleListWrapper articleListWrapper) {
                         if (isSave) {
                             mPage++;//false : new request
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
-                        List<Article> articles = new ArrayList<Article>();
-                        articles = articleList.getData().getPage().getList();
+                        List<Article> articles = articleListWrapper.data.list;
                         if (isSave) {//add data into local
                             lists.addAll(articles);
                         } else {

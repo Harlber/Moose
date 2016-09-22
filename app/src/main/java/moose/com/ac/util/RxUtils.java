@@ -3,6 +3,7 @@ package moose.com.ac.util;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -58,6 +59,7 @@ public final class RxUtils {
 
     public static <T> T createApi(Class<T> c, String url) {
         OkHttpClient client = OkHttpClientProvider.get(); //create OKHTTPClient
+        client.interceptors().add(ACFUN_TOKEN_INTERCEPTOR);
         client.interceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
         client.interceptors().add(new LoggingInterceptor());
         Retrofit retrofit = new Retrofit.Builder()
@@ -196,6 +198,18 @@ public final class RxUtils {
                 .header("Accept", "application/json; q=0.5")
                 .build();
     };
+
+    private static final Headers.Builder builder = new Headers.Builder()
+            .add("market", "xiaomi")
+            .add("appVersion", "4.3.0")
+            .add("deviceType", "1");
+
+    private static final Interceptor ACFUN_TOKEN_INTERCEPTOR = chain -> {
+        Request request = chain.request();
+        Request newRequest = request.newBuilder().headers(builder.build()).build();
+        return chain.proceed(newRequest);
+    };
+
 
     private static final Interceptor SHADOW_PORTAL_INTERCEPTOR = chain -> {
         Response originalResponse = chain.proceed(chain.request());

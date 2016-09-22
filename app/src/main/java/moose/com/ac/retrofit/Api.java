@@ -7,8 +7,8 @@ import com.squareup.okhttp.ResponseBody;
 import java.util.Map;
 
 import moose.com.ac.common.Config;
-import moose.com.ac.retrofit.article.ArticleBody;
-import moose.com.ac.retrofit.article.ArticleList;
+import moose.com.ac.retrofit.article.ArticleBodyWrapper;
+import moose.com.ac.retrofit.article.ArticleListWrapper;
 import moose.com.ac.retrofit.article.ShadowArticleBody;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.Like;
@@ -36,13 +36,13 @@ public interface Api {
     /**
      * get Article List
      *
-     * @param orderBy   channel type
+     * @param sort   sort type
      * @param channelId channel id
      * @param pageNo    page number
      * @param pageSize  number of page size
      */
     @GET(Config.API_CHANNEL)
-    Observable<ArticleList> getArticleList(@Query("orderBy") int orderBy, @Query("channelId") int channelId
+    Observable<ArticleListWrapper> getArticleList(@Query("sort") int sort, @Query("channelIds") int channelId
             , @Query("pageSize") int pageSize, @Query("pageNo") int pageNo);
 
     /**
@@ -60,7 +60,7 @@ public interface Api {
      * @param contentId article id
      */
     @GET(Config.API_ARTICLE)
-    Observable<ArticleBody> getArticleBody(@Query("contentId") int contentId);
+    Observable<ArticleBodyWrapper> getArticleBody(@Query("contentId") int contentId);
 
     /**
      * get article body
@@ -68,7 +68,7 @@ public interface Api {
      * @param contentId article id
      */
     @GET(Config.API_ARTICLE_NEW)
-    Observable<ArticleBody> getNewUrlArticleBody(@Query("contentId") int contentId);
+    Observable<ArticleBodyWrapper> getNewUrlArticleBody(@Path("id") int contentId);
 
     /**
      * get article body
@@ -104,7 +104,7 @@ public interface Api {
      * @param pageSize   page size
      */
     @GET(Config.API_SORT)/*?channelIds=110,73,74,75*/
-    Observable<ArticleList> getSortList(@Query("channelIds") String channelIds, @Query("pageSize") int pageSize);
+    Observable<ArticleListWrapper> getSortList(@Query("channelIds") String channelIds, @Query("pageSize") int pageSize);
 
     /**
      * login action

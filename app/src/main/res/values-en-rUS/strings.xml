@@ -32,6 +32,7 @@
     <string name="hide_quoted">Repeated references hidden</string>
     <string name="last_comment">Last reply</string>
     <string name="most_views">Most popular</string>
+    <string name="last_publish">Last publish</string>
     <string name="most_comment">Most Commented</string>
     <string name="no_network">Abnormal network requests</string>
     <string name="nw_503">NetWork 503</string>

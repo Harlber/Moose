@@ -4,7 +4,7 @@ package moose.com.ac.common;
  * Created by Farble on 2015/8/14 22.
  */
 public class Config {
-    public static final String ARTICLE_URL = "http://api.acfun.tv";
+    public static final String ARTICLE_URL = "http://api.aixifan.com";
     public static final String BASE_URL = "http://www.acfun.tv";
     public static final String SEARCH_URL = "http://search.acfun.tv";
     public static final String WEB_URL = "http://www.acfun.tv/a/ac";
@@ -14,11 +14,11 @@ public class Config {
 
     public static final String GITHUB_URL = "https://github.com";
 
-    public static final String API_CHANNEL = "/apiserver/content/channel";
+    public static final String API_CHANNEL = "/searches/channel";
     public static final String API_COMMENT_LIST = "/comment_list_json.aspx";
     public static final String API_COLLECT_LIST = "/member/collection.aspx";
     public static final String API_ARTICLE = "/apiserver/content/article";
-    public static final String API_ARTICLE_NEW = "/apiserver/content/info";
+    public static final String API_ARTICLE_NEW = "/articles/{id}";
     public static final String API_SEARCH = "/search?type=2&field=title&sortField=releaseDate&parentChannelId=63";
     public static final String API_SORT = "/apiserver/content/rank";
     public static final String API_LOGIN = "/login.aspx";

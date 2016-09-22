@@ -2,7 +2,6 @@ package moose.com.ac;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
@@ -32,7 +31,7 @@ import java.util.List;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.retrofit.article.ArticleList;
+import moose.com.ac.retrofit.article.ArticleListWrapper;
 import moose.com.ac.ui.ArticleListAdapter;
 import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
@@ -70,7 +69,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
     private ArticleListAdapter adapter;
-    private int type = 0;//default
+    private int sort = 5;//default  代表最新回复排序
 
     private
     @ChannelMode
@@ -107,7 +106,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         //noinspection WrongConstant
         channel = getIntent().getIntExtra(Config.CHANNEL_ID, ChannelManager.COMPLEX);
         initView();
-        mSwipeRefreshLayout.postDelayed(() -> load(type, mPage, true), Config.TIME_LATE);
+        mSwipeRefreshLayout.postDelayed(() -> load(sort, mPage, true), Config.TIME_LATE);
     }
 
     @Override
@@ -139,12 +138,18 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         AlertDialog.Builder builder = new AlertDialog.Builder(ChannelItemListActivity.this);
         //noinspection RedundantCast
         builder.setTitle(getString(R.string.article_select))
-                .setItems(R.array.select_channel_array, (DialogInterface.OnClickListener) (dialog, which) -> {
-                    type = which;
-                    //noinspection ConstantConditions
-                    getSupportActionBar().setTitle(filterTitle(type));
+                .setSingleChoiceItems(R.array.select_channel_array, -1, (dialog, which) -> {
+                    if (which < 2) {
+                        which++;
+                    } else {
+                        which += 2;
+                    }
+                    sort = which;
+//                    getSupportActionBar().setTitle(filterTitle(channel));
                     getSupportActionBar().setSubtitle(getToolBarSubTitle());
+                    dialog.dismiss();
                     doSwipeRefresh();
+
                 });
         builder.create().show();
     }
@@ -177,12 +182,16 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
     }
 
     private String getToolBarSubTitle() {
-        if (type == 0) {
+        if (sort == 5) {
             return getString(R.string.last_comment);
-        } else if (type == 1) {
+        } else if (sort == 4) {
+            return getString(R.string.last_publish);
+        }else if (sort == 1) {
             return getString(R.string.most_views);
-        } else {
+        } else if (sort == 2) {
             return getString(R.string.most_comment);
+        } else {
+            return getString(R.string.last_comment);
         }
     }
 
@@ -254,21 +263,21 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
     }
 
     private void doSwipeRefresh() {
-        load(type, mPage, false);
+        load(sort, mPage, false);
     }
 
     private void loadMore() {
-        load(type, mPage, true);
+        load(sort, mPage, true);
     }
 
-    private void load(int tp, int pg, boolean isSave) {
+    private void load(int sort, int pg, boolean isSave) {
         mSwipeRefreshLayout.setRefreshing(true);//show progressbar
         isRequest = true;
-        subscription.add(api.getArticleList(tp, channel, Config.PAGESIZE, pg)
+        subscription.add(api.getArticleList(sort, channel, Config.PAGESIZE, pg)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(this.<ArticleList>bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new Observer<ArticleList>() {
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(new Observer<ArticleListWrapper>() {
                     @Override
                     public void onCompleted() {
 
@@ -284,13 +293,12 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
                     }
 
                     @Override
-                    public void onNext(ArticleList articleList) {
+                    public void onNext(ArticleListWrapper articleListWrapper) {
                         if (isSave) {
                             mPage++;//false : new request
                         }
                         mSwipeRefreshLayout.setRefreshing(false);
-                        List<Article> articles;
-                        articles = articleList.getData().getPage().getList();
+                        List<Article> articles = articleListWrapper.data.list;
                         if (isSave) {//add data into local
                             lists.addAll(articles);
                         } else {
@@ -321,8 +329,8 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
      */
     public void refreshListAfterBroadcastReceiver(int id, boolean status) {
         for (int i = 0; i < lists.size(); i++) {
-            if (lists.get(i).getContentId() == id) {
-                lists.get(i).setIsfav(status ? Config.STORE : Config.NO_ST);
+            if (Integer.valueOf(lists.get(i).contentId) == id) {
+                lists.get(i).isfav = status ? Config.STORE : Config.NO_ST;
                 adapter.notifyItemChanged(i, lists.get(i));
             }
         }
