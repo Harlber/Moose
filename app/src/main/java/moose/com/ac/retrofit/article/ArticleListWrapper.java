@@ -16,7 +16,7 @@ public class ArticleListWrapper implements Serializable{
         public List<Article> list;
     }
 
-    public static class ArticleUser {
+    public static class ArticleUser implements Serializable{
         public String userImg;
         public int userId;
         public String username;
