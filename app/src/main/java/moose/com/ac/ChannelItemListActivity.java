@@ -139,7 +139,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         AlertDialog.Builder builder = new AlertDialog.Builder(ChannelItemListActivity.this);
         //noinspection RedundantCast
         builder.setTitle(getString(R.string.article_select))
-                .setSingleChoiceItems(R.array.select_channel_array, -1, (dialog, which) -> {
+                .setSingleChoiceItems(R.array.select_channel_array, getCheckedItem(), (dialog, which) -> {
                     if (which < 2) {
                         which++;
                     } else {
@@ -153,6 +153,14 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
 
                 });
         builder.create().show();
+    }
+
+    private int getCheckedItem() {
+        if (sort <= 2) {
+            return sort - 1;
+        } else {
+            return sort - 2;
+        }
     }
 
     private void fetchDialog() {
