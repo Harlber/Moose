@@ -7,7 +7,7 @@ import com.squareup.okhttp.ResponseBody;
 import java.util.Map;
 
 import moose.com.ac.common.Config;
-import moose.com.ac.retrofit.article.ArticleBody;
+import moose.com.ac.retrofit.article.ArticleBodyWrapper;
 import moose.com.ac.retrofit.article.ArticleListWrapper;
 import moose.com.ac.retrofit.article.ShadowArticleBody;
 import moose.com.ac.retrofit.collect.ArticleCloud;
@@ -60,7 +60,7 @@ public interface Api {
      * @param contentId article id
      */
     @GET(Config.API_ARTICLE)
-    Observable<ArticleBody> getArticleBody(@Query("contentId") int contentId);
+    Observable<ArticleBodyWrapper> getArticleBody(@Query("contentId") int contentId);
 
     /**
      * get article body
@@ -68,7 +68,7 @@ public interface Api {
      * @param contentId article id
      */
     @GET(Config.API_ARTICLE_NEW)
-    Observable<ArticleBody> getNewUrlArticleBody(@Path("id") int contentId);
+    Observable<ArticleBodyWrapper> getNewUrlArticleBody(@Path("id") int contentId);
 
     /**
      * get article body

@@ -42,7 +42,7 @@ import moose.com.ac.data.ArticleCollects;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.article.Article;
-import moose.com.ac.retrofit.article.ArticleBody;
+import moose.com.ac.retrofit.article.ArticleBodyWrapper;
 import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.ui.widget.ObservableWebView;
@@ -280,7 +280,7 @@ public class ArticleViewActivity extends BaseActivity
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(1)
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new Observer<ArticleBody>() {
+                .subscribe(new Observer<ArticleBodyWrapper>() {
                     @Override
                     public void onCompleted() {
 
@@ -296,7 +296,7 @@ public class ArticleViewActivity extends BaseActivity
                     }
 
                     @Override
-                    public void onNext(ArticleBody articleBody) {
+                    public void onNext(ArticleBodyWrapper articleBody) {
                         isRequest = true;
                         if (TextUtils.isEmpty(articleBody.message) || !TextUtils.equals(articleBody.message.toUpperCase(), "OK")) {
                             snack(articleBody.message);
