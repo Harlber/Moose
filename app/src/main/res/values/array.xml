@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="select_channel_array">
-        <item>最近回复</item>
         <item>人气最旺</item>
         <item>评论最多</item>
+        <item>最新发布</item>
+        <item>最新回复</item>
     </string-array>
     <string-array name="font_text_size">
         <item>特小</item>

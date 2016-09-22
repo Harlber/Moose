@@ -2,7 +2,6 @@ package moose.com.ac;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
@@ -139,12 +138,18 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         AlertDialog.Builder builder = new AlertDialog.Builder(ChannelItemListActivity.this);
         //noinspection RedundantCast
         builder.setTitle(getString(R.string.article_select))
-                .setItems(R.array.select_channel_array, (DialogInterface.OnClickListener) (dialog, which) -> {
+                .setSingleChoiceItems(R.array.select_channel_array, -1, (dialog, which) -> {
+                    if (which < 2) {
+                        which++;
+                    } else {
+                        which += 2;
+                    }
                     sort = which;
-                    //noinspection ConstantConditions
-                    getSupportActionBar().setTitle(filterTitle(sort));
+//                    getSupportActionBar().setTitle(filterTitle(channel));
                     getSupportActionBar().setSubtitle(getToolBarSubTitle());
+                    dialog.dismiss();
                     doSwipeRefresh();
+
                 });
         builder.create().show();
     }

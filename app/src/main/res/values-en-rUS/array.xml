@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="select_channel_array">
-        <item>Last Stories</item>
-        <item>Top Stories</item>
         <item>What\'s Hot</item>
+        <item>Most Commented</item>
+        <item>Last publish</item>
+        <item>Last reply</item>
     </string-array>
     <string-array name="font_text_size">
         <item>Extra small</item>
