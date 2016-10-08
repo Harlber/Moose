@@ -59,6 +59,7 @@
         ]]>
     </string>
     <string name="get_data_again">Being re-obtain data</string>
+    <string name="progress">progress&#8230;</string>
     <string name="no_comment_here">There are no comments</string>
     <string name="my_store">My collection</string>
     <string name="db_error">Get database data anomalies</string>

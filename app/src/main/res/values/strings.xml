@@ -59,6 +59,7 @@
         ]]>
     </string>
     <string name="get_data_again">正在重新获取数据</string>
+    <string name="progress">处理中&#8230;</string>
     <string name="no_comment_here">目前没有评论</string>
     <string name="my_store">我的收藏</string>
     <string name="db_error">获取数据库数据异常</string>

@@ -106,7 +106,7 @@ public class ArticleViewActivity extends BaseActivity
     private boolean isWebViewLoading = false;
     private Article article;
     private boolean isRequest = false;
-    private HashMap<String,String> htmlImages = new HashMap<>();
+    private HashMap<String, String> htmlImages = new HashMap<>();
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
@@ -196,7 +196,7 @@ public class ArticleViewActivity extends BaseActivity
             mWeb.getSettings().setDisplayZoomControls(false);
         }
         mWeb.setWebViewClient(new Client());
-        mWeb.addJavascriptInterface(new JsBridge(),"JsBridge");
+        mWeb.addJavascriptInterface(new JsBridge(), "JsBridge");
         if (Build.VERSION.SDK_INT >= 11)
             mWeb.setBackgroundColor(Color.argb(1, 0, 0, 0));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -342,7 +342,7 @@ public class ArticleViewActivity extends BaseActivity
         String index = HtmlBody;
         HtmlBody = head.toString() + index + body.toString();
         HtmlBodyClone = head.toString() + index + body.toString();
-        Log.i(TAG,"html:"+HtmlBodyClone);
+        Log.i(TAG, "html:" + HtmlBodyClone);
     }
 
     /**
@@ -382,20 +382,25 @@ public class ArticleViewActivity extends BaseActivity
             src = parsedUri.toString();
             Log.i(TAG, "image src:" + src);
             img.attr("org", src);
-            StringBuilder builder = new StringBuilder();
-            builder.append("<div style='text-align: center;'><br>")
-                    .append("<img src='file:///android_asset/loading.gif'")
-                    .append("name = '")
-                    .append(src)
-                    .append("'\n;onclick = window.JsBridge.showImage('")
-                    .append(src)
-                    .append("')")
-                    .append(" alt=' 加载失败'/>\n")
-                    .append("</div>");
-            img.after(builder.toString());
-            Log.i(TAG,"image:table:-"+builder.toString());
-            /*
-            if (CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(mContext)) {
+            if (CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(mContext)) {//
+                Log.i(TAG, "[无图模式]");
+                img.after("<div style=\"width: 100%;text-align: center;\"><br><p>[图片]</p></div>");
+            } else {
+                Log.i(TAG, "[有图模式]");
+                StringBuilder builder = new StringBuilder();
+                builder.append("<div style='text-align: center;'><br>")
+                        .append("<img src='file:///android_asset/loading.gif'")
+                        .append("name = '")
+                        .append(src)
+                        .append("'\n;onclick = window.JsBridge.showImage('")
+                        .append(src)
+                        .append("')")
+                        .append(" alt=' 加载失败'/>\n")
+                        .append("</div>");
+                img.after(builder.toString());
+                Log.i(TAG, "image:table:-" + builder.toString());
+            }
+            /*if (CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(mContext)) {
                 img.after("<p >[图片]</p>");
             } else if (!src.contains(Config.AC_EMOTION)) {
                 StringBuilder builder = new StringBuilder();
@@ -413,7 +418,7 @@ public class ArticleViewActivity extends BaseActivity
             img.remove();
             //img.removeAttr("style");
             HtmlBody = mDocument.toString();
-            Log.i(TAG,"处理后的html:"+HtmlBody);
+            Log.i(TAG, "处理后的html:" + HtmlBody);
         }
     }
 
@@ -468,24 +473,13 @@ public class ArticleViewActivity extends BaseActivity
                     if (isWebViewLoading)//cancel loading
                         mWeb.stopLoading();
                     if (oldMode != CommonUtil.getMode()) {
-                        if (HtmlBody != null && !HtmlBody.equals("")) {
-                            rx.Observable.create(subscriber -> {
-                                filterImg(HtmlBody);//whenever mode what,do this
-                                subscriber.onNext(HtmlBody);
-                            }).subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(s -> {
-                                        mWeb.stopLoading();//maybe load image then ANR comes
-                                        mWeb.loadDataWithBaseURL("", CommonUtil.getMode() == 0 ? HtmlBodyClone : HtmlBody, "text/html", "UTF-8", "");
-                                    });
-                        } else {
-                            if (isRequest) {
-                                RxUtils.unsubscribeIfNotNull(subscription);
-                                subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
-                            }
-                            snack(getString(R.string.get_data_again));
-                            initData();
+                        mWeb.stopLoading();//maybe load image then ANR comes
+                        if (isRequest) {
+                            RxUtils.unsubscribeIfNotNull(subscription);
+                            subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
                         }
+                        snack(getString(R.string.progress));
+                        initData();
                     }
                 })
                 .setNegativeButton(R.string.cancel, (DialogInterface.OnClickListener) (dialog, id) -> CommonUtil.setMode(oldMode));
@@ -589,23 +583,25 @@ public class ArticleViewActivity extends BaseActivity
         }
     }
 
-    private class JsBridge{
+    private class JsBridge {
 
         public JsBridge() {
         }
 
         @JavascriptInterface
-        public boolean isViewMode(){
+        public boolean isViewMode() {
             return !(CommonUtil.getMode() == 1 && !CommonUtil.isWifiConnected(mContext));
         }
 
-        /**@param id image id*/
+        /**
+         * @param id image id
+         */
         @JavascriptInterface
-        public void showImage(String id){
+        public void showImage(String id) {
             snack(id);
         }
 
-        public String getImageUrlById(String id){
+        public String getImageUrlById(String id) {
             return htmlImages.get(id);
         }
     }
