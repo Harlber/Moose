@@ -97,7 +97,7 @@ public class SearchFragment extends BaseListFragment {
         subscription.add(api.getSearch(key, mPage, Config.PAGESIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(this.<SearchBody>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .compose(bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(new Observer<SearchBody>() {
                     @Override
                     public void onCompleted() {
