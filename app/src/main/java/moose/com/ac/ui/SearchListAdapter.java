@@ -81,7 +81,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListVH> implem
             Intent intent = new Intent(mActivity,ArticleViewActivity.class);
             intent.putExtra(Config.ARTICLE,article);
             mActivity.startActivity(intent);
-            mActivity.finish();
         });
     }
 
