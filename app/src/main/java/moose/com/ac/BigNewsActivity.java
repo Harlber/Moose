@@ -57,7 +57,7 @@ public class BigNewsActivity extends BaseActivity {
     @Override
     protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_big_news);
-        int contendId = getIntent().getIntExtra(Config.CONTENTID, 1);
+        int contendId = Integer.valueOf(getIntent().getStringExtra(Config.CONTENTID));
         String title = getIntent().getStringExtra(Config.TITLE);
         CommentListFragment commentListFragment = new CommentListFragment();
         SubmitCommentFragment submitCommentFragment = new SubmitCommentFragment();

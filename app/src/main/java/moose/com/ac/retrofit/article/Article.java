@@ -1,7 +1,7 @@
 package moose.com.ac.retrofit.article;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * {
@@ -44,7 +44,7 @@ public class Article implements Serializable {
     public ArticleListWrapper.ArticleUser user;
     public int viewOnly;
     public int views;
-    public List<String> tags;
+    public ArrayList<String> tags;
 
     public String savedate;
     public String isfav;

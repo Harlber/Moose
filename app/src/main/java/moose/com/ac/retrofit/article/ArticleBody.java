@@ -1,7 +1,7 @@
 package moose.com.ac.retrofit.article;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Farble on 2015/8/15 11.
@@ -28,7 +28,7 @@ public class ArticleBody implements Serializable {
     public long updatedAt;
     public int viewOnly;
     public ArticleVisit visit;
-    public List<String> tags;
+    public ArrayList<String> tags;
 
     public static class ArticleContent {
         public String content;
