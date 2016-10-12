@@ -2,6 +2,7 @@ package moose.com.ac.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,8 +79,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListVH> implem
         holder.rootView.setOnClickListener(v -> {
             Article article = new Article();
             article.contentId = searchList.getContentId().replace("ac","");
+            article.title = searchList.getTitle();
             Intent intent = new Intent(mActivity,ArticleViewActivity.class);
-            intent.putExtra(Config.ARTICLE,article);
+            Bundle mBundle = new Bundle();
+            mBundle.putSerializable(Config.ARTICLE, article);
+            intent.putExtras(mBundle);
             mActivity.startActivity(intent);
         });
     }
