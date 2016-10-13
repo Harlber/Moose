@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
@@ -87,6 +88,7 @@ public class ArticleViewActivity extends BaseActivity
     private FloatingActionButton fab;
     private MenuItem menFav;
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
+    private CoordinatorLayout mContentView;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
     private DbHelper dbHelper = AppApplication.getDbHelper();
@@ -182,6 +184,7 @@ public class ArticleViewActivity extends BaseActivity
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
 
         mWeb = (ObservableWebView) findViewById(R.id.view_webview);
+        mContentView = (CoordinatorLayout) findViewById(R.id.view_content);
         settings = mWeb.getSettings();
         settings.setJavaScriptEnabled(true);
         //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -423,9 +426,8 @@ public class ArticleViewActivity extends BaseActivity
     }
 
     private void snack(String msg) {
-        Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
+        Snackbar snackBar = Snackbar.make(mContentView, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction(R.string.reload_action, v -> {
-            snackBar.dismiss();
             initData();
         });
         snackBar.getView().setBackgroundResource(R.color.colorPrimary);
@@ -433,10 +435,8 @@ public class ArticleViewActivity extends BaseActivity
     }
 
     private void snackStore(String msg) {
-        Snackbar snackBar = Snackbar.make(mWeb, msg, Snackbar.LENGTH_SHORT);
-        snackBar.setAction(R.string.snackbar_action, v -> {
-            snackBar.dismiss();
-        });
+        Snackbar snackBar = Snackbar.make(mContentView, msg, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.snackbar_action, v -> {});
         snackBar.getView().setBackgroundResource(R.color.colorPrimary);
         snackBar.show();
     }
