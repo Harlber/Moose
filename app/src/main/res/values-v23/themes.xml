@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Ha Duy Trung
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +18,32 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- All customizations that are NOT specific to a particular API-levelcan go here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- 底部导航栏颜色 -->
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+
+        <item name="android:windowDisablePreview">true</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">?colorPrimary</item>
 
     </style>
 
+    <!--toolbar style-->
+    <style name="AppToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <!--<item name="android:textColorSecondary">@color/md_black</item>
+        <item name="android:textColorPrimary">@color/md_black</item>-->
+    </style>
 </resources>

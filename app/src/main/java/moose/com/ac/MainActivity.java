@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
@@ -27,8 +26,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -126,9 +123,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            /**https://developer.android.com/intl/zh-cn/samples/ImmersiveMode/src/com.example.android.immersivemode/ImmersiveModeFragment.html
-             * https://developer.android.com/training/system-ui/navigation.html*/
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            *//**https://developer.android.com/intl/zh-cn/samples/ImmersiveMode/src/com.example.android.immersivemode/ImmersiveModeFragment.html
+             * https://developer.android.com/training/system-ui/navigation.html*//*
             Window window = getWindow();
             // Translucent status bar
             window.setFlags(
@@ -138,7 +135,7 @@ public class MainActivity extends BaseActivity {
             window.setFlags(
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+        }*/
         //new Handler().postDelayed(this::checkVersion, Config.TIME_LATE);
         initView();
         initData();

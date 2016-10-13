@@ -20,4 +20,4 @@
     android:layout_height="56dp"
     android:layout_width="match_parent"
     android:minHeight="?attr/actionBarSize"
-    android:background="?attr/colorPrimary" />
+    android:background="@color/colorPrimary"/>
