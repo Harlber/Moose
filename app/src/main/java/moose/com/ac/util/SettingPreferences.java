@@ -34,7 +34,7 @@ public class SettingPreferences {
 
     public static boolean externalBrowserEnabled(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(context.getString(R.string.pref_custom_tab), false);
+                .getBoolean(context.getString(R.string.pref_custom_tab), true);
     }
 
     /**
