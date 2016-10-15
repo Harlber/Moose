@@ -56,6 +56,14 @@ public class CommentListFragment extends BaseListFragment {
     private SparseArrayCompatSerializable<CommentDetail> data = new SparseArrayCompatSerializable<>();
     private List<Integer> commentIdList = new ArrayList<>();
 
+    public static CommentListFragment newInstance(int contendId) {
+        Bundle args = new Bundle();
+        CommentListFragment fragment = new CommentListFragment();
+        args.putInt(Config.CHANNEL_ID, contendId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

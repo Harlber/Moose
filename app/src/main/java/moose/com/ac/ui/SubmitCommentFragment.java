@@ -200,4 +200,12 @@ public class SubmitCommentFragment extends BaseFragment {
         super.onDestroy();
     }
 
+    public static SubmitCommentFragment newInstance(int contendId) {
+        Bundle args = new Bundle();
+        SubmitCommentFragment fragment = new SubmitCommentFragment();
+        args.putInt(Config.CHANNEL_ID, contendId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 }
