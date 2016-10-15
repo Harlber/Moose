@@ -173,7 +173,7 @@ public class ArticleViewActivity extends BaseActivity
         fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(this, BigNewsActivity.class);
-            intent.putExtra(Config.CONTENTID, articleId);
+            intent.putExtra(Config.CONTENTID, String.valueOf(articleId));
             intent.putExtra(Config.TITLE, title);
             startActivity(intent);
         });
@@ -555,7 +555,7 @@ public class ArticleViewActivity extends BaseActivity
 
     private void doExitActivity() {
         Intent intent = new Intent(getString(R.string.store_action));
-        intent.putExtra(Config.CONTENTID, articleId);
+        intent.putExtra(Config.CONTENTID, String.valueOf(articleId));
         intent.putExtra(Config.STORE, isFav);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
         finish();

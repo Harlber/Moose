@@ -95,7 +95,7 @@ public class ChannelItemListActivity extends BaseActivity implements ChannelMana
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(getString(R.string.store_action))) {
-                refreshListAfterBroadcastReceiver(intent.getIntExtra(Config.CONTENTID, 0),
+                refreshListAfterBroadcastReceiver(Integer.valueOf(intent.getStringExtra(Config.CONTENTID)),
                         intent.getBooleanExtra(Config.STORE, false));
             }
         }
