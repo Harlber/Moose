@@ -59,12 +59,8 @@ public class BigNewsActivity extends BaseActivity {
         setContentView(R.layout.activity_big_news);
         int contendId = Integer.valueOf(getIntent().getStringExtra(Config.CONTENTID));
         String title = getIntent().getStringExtra(Config.TITLE);
-        CommentListFragment commentListFragment = new CommentListFragment();
-        SubmitCommentFragment submitCommentFragment = new SubmitCommentFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Config.CHANNEL_ID, contendId);
-        commentListFragment.setArguments(bundle);
-        submitCommentFragment.setArguments(bundle);
+        CommentListFragment commentListFragment = CommentListFragment.newInstance(contendId);
+        SubmitCommentFragment submitCommentFragment = SubmitCommentFragment.newInstance(contendId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
