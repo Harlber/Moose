@@ -25,7 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import moose.com.ac.R;
-import moose.com.ac.retrofit.comment.CommentDetail;
+import moose.com.ac.retrofit.comment.CommentListWrapper;
 
 /**
  * Created by dell on 2015/8/20.
@@ -52,10 +52,10 @@ public final class TextViewUtils {
         throw new AssertionError("No instances");
     }
 
-    public static void setCommentContent(final TextView comment, CommentDetail c) {
+    public static void setCommentContent(final TextView comment, CommentListWrapper.Comment c) {
         if (comment.getMovementMethod() != null) // reset focus
             comment.setMovementMethod(null);
-        String text = c.getContent();
+        String text = c.content;
         if (TextUtils.isEmpty(text)) {
             comment.setText("");
             return;

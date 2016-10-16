@@ -11,14 +11,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import moose.com.ac.R;
-import moose.com.ac.retrofit.comment.CommentDetail;
+import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.ui.widget.FloorsView;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
 import moose.com.ac.util.SparseArrayCompatSerializable;
 import moose.com.ac.util.TextViewUtils;
+
 /*
  * Copyright 2015,2016 Farble Dast
  *
@@ -37,7 +39,7 @@ import moose.com.ac.util.TextViewUtils;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
     protected LayoutInflater mInflater;
-    private SparseArrayCompatSerializable<CommentDetail> data;
+    private SparseArrayCompatSerializable<CommentListWrapper.Comment> data;
     private List<Integer> commentIdList;
     private Context mContext;
     private int maxNumOfFloor;
@@ -57,10 +59,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
-        CommentDetail c = data.get(commentIdList.get(position));
-        holder.user.setText(String.format("#%d %s", c.getCount(), c.getUserName()));
+        CommentListWrapper.Comment c = data.get(commentIdList.get(position));
+        holder.user.setText(String.format("#%f %s", c.floor, c.username));
         TextViewUtils.setCommentContent(holder.content, c);
-        int quoteId = Integer.valueOf(c.getQuoteId() + "");
+        int quoteId = c.quoteId;
         holder.hasQuote = quoteId > 0;
         List<View> quoteList = new ArrayList<>();
         handleQuoteList(position, holder.rootView, holder, quoteId, quoteList);
@@ -101,7 +103,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
     }
 
-    public CommentAdapter(Context context, SparseArrayCompatSerializable<CommentDetail> data, List<Integer> commentIdList) {
+    public CommentAdapter(Context context, SparseArrayCompatSerializable<CommentListWrapper.Comment> data, List<Integer> commentIdList) {
         this.mInflater = LayoutInflater.from(context);
         this.mContext = context;
         this.data = data;
@@ -111,15 +113,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             maxNumOfFloor = 10;
     }
 
-    public void setData(SparseArrayCompatSerializable<CommentDetail> data, List<Integer> commentIdList) {
+    public void setData(SparseArrayCompatSerializable<CommentListWrapper.Comment> data, List<Integer> commentIdList) {
         this.data = data;
         this.commentIdList = commentIdList;
     }
 
-    private RelativeLayout generateQuoteFrame(CommentDetail quote) {
+    private RelativeLayout generateQuoteFrame(CommentListWrapper.Comment quote) {
         RelativeLayout quoteFrame = (RelativeLayout) mInflater.inflate(R.layout.comments_quote_item, null);
         TextView username = (TextView) quoteFrame.findViewById(R.id.user_name);
-        username.setText(String.format("#%d %s", quote.getCount(), quote.getUserName()));
+        username.setText(String.format(Locale.getDefault(), "#%f %s", quote.floor, quote.username));
         TextView content = (TextView) quoteFrame.findViewById(R.id.comments_content);
         TextViewUtils.setCommentContent(content, quote);
 
@@ -136,8 +138,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
 
         int num = 0;
-        for (CommentDetail quote = data.get(quoteId); quote != null && num < maxNumOfFloor;
-             num++, quoteId = Integer.valueOf(quote.getQuoteId() + ""), quote = data.get(quoteId)) {
+        for (CommentListWrapper.Comment quote = data.get(quoteId); quote != null && num < maxNumOfFloor;
+             num++, quoteId = quote.quoteId, quote = data.get(quoteId)) {
 
             if (quote.isQuoted) {
                 if (quote.beQuotedPosition == position) {

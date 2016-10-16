@@ -11,11 +11,12 @@ public class Config {
     public static final String MEMBER_URL = "http://www.acfun.tv/member";
     public static final String WAP_URL = "http://m.acfun.tv/";
     public static final String WEB_API = "http://webapi.acfun.tv";
+    public static final String COMMENT_URL = "http://mobile.app.acfun.cn";
 
     public static final String GITHUB_URL = "https://github.com";
 
     public static final String API_CHANNEL = "/searches/channel";
-    public static final String API_COMMENT_LIST = "/comment_list_json.aspx";
+    public static final String API_COMMENT_LIST = "/comment/content/list?version=4";
     public static final String API_COLLECT_LIST = "/member/collection.aspx";
     public static final String API_ARTICLE = "/apiserver/content/article";
     public static final String API_ARTICLE_NEW = "/articles/{id}";

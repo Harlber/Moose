@@ -51,7 +51,7 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class SubmitCommentFragment extends BaseFragment {
     private CompositeSubscription subscription = new CompositeSubscription();
-    private Api api = RxUtils.createCookieApi(Api.class, Config.BASE_URL);
+    private Api api = RxUtils.createCookieApi(Api.class, Config.COMMENT_URL);
     private MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private AppCompatEditText editTextComment;
     private AppCompatButton buttonSend;
@@ -145,7 +145,7 @@ public class SubmitCommentFragment extends BaseFragment {
         subscription.add(api.sendComment(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(this.<CommentSend>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .compose(bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(new Observer<CommentSend>() {
                     @Override
                     public void onCompleted() {
