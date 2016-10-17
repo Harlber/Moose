@@ -25,6 +25,7 @@ public class CommentSend implements Serializable {
     private boolean success;
     private float commentId;
     private int status;
+    public boolean captcha;
 
     public boolean isSuccess() {
         return success;

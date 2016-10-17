@@ -16,7 +16,6 @@ import moose.com.ac.common.Config;
 import moose.com.ac.settings.SettingsActivity;
 import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.ui.CommentListFragment;
-import moose.com.ac.ui.SubmitCommentFragment;
 import moose.com.ac.ui.ViewPageAdapter;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.ZoomOutPageTransformer;
@@ -60,7 +59,6 @@ public class BigNewsActivity extends BaseActivity {
         int contendId = Integer.valueOf(getIntent().getStringExtra(Config.CONTENTID));
         String title = getIntent().getStringExtra(Config.TITLE);
         CommentListFragment commentListFragment = CommentListFragment.newInstance(contendId);
-        SubmitCommentFragment submitCommentFragment = SubmitCommentFragment.newInstance(contendId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,7 +73,6 @@ public class BigNewsActivity extends BaseActivity {
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         adapter.addFragment(commentListFragment);
-        adapter.addFragment(submitCommentFragment);
         viewPager.setAdapter(adapter);
     }
 

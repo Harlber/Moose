@@ -2,12 +2,15 @@ package moose.com.ac.ui;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.trello.rxlifecycle.FragmentEvent;
 
@@ -55,6 +58,11 @@ public class CommentListFragment extends BaseListFragment {
 
     private SparseArrayCompatSerializable<CommentListWrapper.Comment> data = new SparseArrayCompatSerializable<>();
     private List<Integer> commentIdList = new ArrayList<>();
+    @NonNull
+    private AdapterView.OnItemClickListener mOnItemClickListener = (parent, view, position, id) -> {
+        CommentListWrapper.Comment comment = data.get(position);
+        createPopupMenu(view, comment);
+    };
 
     public static CommentListFragment newInstance(int contendId) {
         Bundle args = new Bundle();
@@ -62,6 +70,20 @@ public class CommentListFragment extends BaseListFragment {
         args.putInt(Config.CHANNEL_ID, contendId);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private void createPopupMenu(View view, @NonNull final CommentListWrapper.Comment comment) {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+        popupMenu.inflate(R.menu.menu_popup_comment);
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_quote:
+
+                    break;
+            }
+            return false;
+        });
+        popupMenu.show();
     }
 
     @Nullable
@@ -118,6 +140,7 @@ public class CommentListFragment extends BaseListFragment {
     @Override
     protected void initRecyclerViewAdapter() {
         adapter = new CommentAdapter(getActivity(), data, commentIdList);
+        ((CommentAdapter) adapter).setOnItemClickListener(mOnItemClickListener);
     }
 
     @Override

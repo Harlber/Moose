@@ -237,4 +237,9 @@
     <string name="share_to">Share to&#8230;</string>
     <string name="send_comment">Send</string>
     <string name="login_first">Sign in</string>
+    <string name="action_message">Message</string>
+    <string name="action_quote">Quote comments</string>
+    <string name="action_copy_content">Copy content</string>
+    <string name="action_user_info">User Info</string>
+    <string name="action_report">Report</string>
 </resources>

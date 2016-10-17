@@ -30,14 +30,14 @@ public class CommentListWrapper {
 
     public static class Comment {
         public int id;
-        public int quoteId;
+        public int quoteId;//引用id
         public double refCount;
         public String content;
         public long time;
         public double userId;
         public String username;
         public String avatar;
-        public double floor;
+        public double floor;//楼层数
         public double deep;
         public double isAt;
         public double nameRed;

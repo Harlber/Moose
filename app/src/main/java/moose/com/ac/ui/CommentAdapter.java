@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private List<Integer> commentIdList;
     private Context mContext;
     private int maxNumOfFloor;
+    private AdapterView.OnItemClickListener onItemClickListener;
 
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,6 +56,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.quoteImage = v.findViewById(R.id.quote_img);
         holder.ll_quote = (RelativeLayout) v.findViewById(R.id.ll_quote);
         return holder;
+    }
+
+    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @SuppressLint("DefaultLocale")
@@ -80,6 +86,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 //        userLayoutParams.addRule(RelativeLayout.BELOW, holder.quoteFrame.getChildCount() > 0 ? frameId : R.id.requote);
 //        holder.user.setLayoutParams(userLayoutParams);
 //        handlePadding(position, holder.rootView);
+        if (onItemClickListener != null) {
+            holder.rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClick(null, v, holder.getAdapterPosition(), holder.getItemId());
+                }
+            });
+        }
     }
 
     @Override
