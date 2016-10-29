@@ -140,7 +140,6 @@ public class CommentListFragment extends BaseListFragment {
     @Override
     protected void initRecyclerViewAdapter() {
         adapter = new CommentAdapter(getActivity(), data, commentIdList);
-        ((CommentAdapter) adapter).setOnItemClickListener(mOnItemClickListener);
     }
 
     @Override

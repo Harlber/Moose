@@ -87,12 +87,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 //        holder.user.setLayoutParams(userLayoutParams);
 //        handlePadding(position, holder.rootView);
         if (onItemClickListener != null) {
-            holder.rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onItemClickListener.onItemClick(null, v, holder.getAdapterPosition(), holder.getItemId());
-                }
-            });
+            holder.rootView.setOnClickListener(v -> onItemClickListener.onItemClick(null, v, holder.getAdapterPosition(), holder.getItemId()));
         }
     }
 
