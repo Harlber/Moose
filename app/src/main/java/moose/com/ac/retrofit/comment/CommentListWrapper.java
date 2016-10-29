@@ -57,11 +57,14 @@ public class CommentListWrapper implements Parcelable{
     }
 
     public static class CommentListPage implements Parcelable {
-        public double totalCount;
-        public double pageSize;
-        public double pageNo;
+        public int totalCount;
+        public int pageSize;
+        public int pageNo;
         public Map<String, Comment> map;
         public List<Integer> list;
+
+        public CommentListPage() {
+        }
 
         @Override
         public int describeContents() {
@@ -70,9 +73,9 @@ public class CommentListWrapper implements Parcelable{
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeDouble(this.totalCount);
-            dest.writeDouble(this.pageSize);
-            dest.writeDouble(this.pageNo);
+            dest.writeInt(this.totalCount);
+            dest.writeInt(this.pageSize);
+            dest.writeInt(this.pageNo);
             dest.writeInt(this.map.size());
             for (Map.Entry<String, Comment> entry : this.map.entrySet()) {
                 dest.writeString(entry.getKey());
@@ -81,21 +84,18 @@ public class CommentListWrapper implements Parcelable{
             dest.writeList(this.list);
         }
 
-        public CommentListPage() {
-        }
-
         protected CommentListPage(Parcel in) {
-            this.totalCount = in.readDouble();
-            this.pageSize = in.readDouble();
-            this.pageNo = in.readDouble();
+            this.totalCount = in.readInt();
+            this.pageSize = in.readInt();
+            this.pageNo = in.readInt();
             int mapSize = in.readInt();
-            this.map = new HashMap<String, Comment>(mapSize);
+            this.map = new HashMap<>(mapSize);
             for (int i = 0; i < mapSize; i++) {
                 String key = in.readString();
                 Comment value = in.readParcelable(Comment.class.getClassLoader());
                 this.map.put(key, value);
             }
-            this.list = new ArrayList<Integer>();
+            this.list = new ArrayList<>();
             in.readList(this.list, Integer.class.getClassLoader());
         }
 
@@ -115,17 +115,17 @@ public class CommentListWrapper implements Parcelable{
     public static class Comment implements Parcelable{
         public int id;
         public int quoteId;//引用id
-        public double refCount;
+        public int refCount;
         public String content;
         public long time;
-        public double userId;
+        public int userId;
         public String username;
         public String avatar;
-        public double floor;//楼层数
-        public double deep;
-        public double isAt;
-        public double nameRed;
-        public double avatarFrame;
+        public int floor;//楼层数
+        public int deep;//深度
+        public int isAt;
+        public int nameRed;
+        public int avatarFrame;
         public boolean isDelete;
         public boolean isUpDelete;
 
@@ -133,6 +133,8 @@ public class CommentListWrapper implements Parcelable{
         public boolean isQuoted;
         public int beQuotedPosition;
 
+        public Comment() {
+        }
 
         @Override
         public int describeContents() {
@@ -143,40 +145,37 @@ public class CommentListWrapper implements Parcelable{
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeInt(this.id);
             dest.writeInt(this.quoteId);
-            dest.writeDouble(this.refCount);
+            dest.writeInt(this.refCount);
             dest.writeString(this.content);
             dest.writeLong(this.time);
-            dest.writeDouble(this.userId);
+            dest.writeInt(this.userId);
             dest.writeString(this.username);
             dest.writeString(this.avatar);
-            dest.writeDouble(this.floor);
-            dest.writeDouble(this.deep);
-            dest.writeDouble(this.isAt);
-            dest.writeDouble(this.nameRed);
-            dest.writeDouble(this.avatarFrame);
+            dest.writeInt(this.floor);
+            dest.writeInt(this.deep);
+            dest.writeInt(this.isAt);
+            dest.writeInt(this.nameRed);
+            dest.writeInt(this.avatarFrame);
             dest.writeByte(this.isDelete ? (byte) 1 : (byte) 0);
             dest.writeByte(this.isUpDelete ? (byte) 1 : (byte) 0);
             dest.writeByte(this.isQuoted ? (byte) 1 : (byte) 0);
             dest.writeInt(this.beQuotedPosition);
         }
 
-        public Comment() {
-        }
-
         protected Comment(Parcel in) {
             this.id = in.readInt();
             this.quoteId = in.readInt();
-            this.refCount = in.readDouble();
+            this.refCount = in.readInt();
             this.content = in.readString();
             this.time = in.readLong();
-            this.userId = in.readDouble();
+            this.userId = in.readInt();
             this.username = in.readString();
             this.avatar = in.readString();
-            this.floor = in.readDouble();
-            this.deep = in.readDouble();
-            this.isAt = in.readDouble();
-            this.nameRed = in.readDouble();
-            this.avatarFrame = in.readDouble();
+            this.floor = in.readInt();
+            this.deep = in.readInt();
+            this.isAt = in.readInt();
+            this.nameRed = in.readInt();
+            this.avatarFrame = in.readInt();
             this.isDelete = in.readByte() != 0;
             this.isUpDelete = in.readByte() != 0;
             this.isQuoted = in.readByte() != 0;

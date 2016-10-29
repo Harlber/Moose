@@ -66,7 +66,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         CommentListWrapper.Comment c = data.get(commentIdList.get(position));
-        holder.user.setText(String.format("#%f %s", c.floor, c.username));
+        holder.user.setText(String.format("#%d %s", c.floor, c.username));
         TextViewUtils.setCommentContent(holder.content, c);
         int quoteId = c.quoteId;
         holder.hasQuote = quoteId > 0;
@@ -125,7 +125,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private RelativeLayout generateQuoteFrame(CommentListWrapper.Comment quote) {
         RelativeLayout quoteFrame = (RelativeLayout) mInflater.inflate(R.layout.comments_quote_item, null);
         TextView username = (TextView) quoteFrame.findViewById(R.id.user_name);
-        username.setText(String.format(Locale.getDefault(), "#%f %s", quote.floor, quote.username));
+        username.setText(String.format(Locale.getDefault(), "#%d %s", quote.floor, quote.username));
         TextView content = (TextView) quoteFrame.findViewById(R.id.comments_content);
         TextViewUtils.setCommentContent(content, quote);
 
