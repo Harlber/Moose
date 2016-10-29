@@ -64,7 +64,7 @@ public class CommentListFragment extends BaseListFragment {
     private CommentAdapter.OnItemClickListener mOnItemClickListener = new CommentAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            CommentListWrapper.Comment comment = data.get(position);
+            CommentListWrapper.Comment comment = data.get(commentIdList.get(position));
             createPopupMenu(view, comment);
         }
 
