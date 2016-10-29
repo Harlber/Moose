@@ -129,9 +129,9 @@ public class CommentListWrapper implements Parcelable{
         public boolean isDelete;
         public boolean isUpDelete;
 
-        //不存在的数据
-        public boolean isQuoted;
-        public int beQuotedPosition;
+        //用来处理布局额外添加的属性，不参与api接口中
+        public transient boolean isQuoted;
+        public transient int beQuotedPosition;
 
         public Comment() {
         }
@@ -158,8 +158,6 @@ public class CommentListWrapper implements Parcelable{
             dest.writeInt(this.avatarFrame);
             dest.writeByte(this.isDelete ? (byte) 1 : (byte) 0);
             dest.writeByte(this.isUpDelete ? (byte) 1 : (byte) 0);
-            dest.writeByte(this.isQuoted ? (byte) 1 : (byte) 0);
-            dest.writeInt(this.beQuotedPosition);
         }
 
         protected Comment(Parcel in) {
@@ -178,8 +176,6 @@ public class CommentListWrapper implements Parcelable{
             this.avatarFrame = in.readInt();
             this.isDelete = in.readByte() != 0;
             this.isUpDelete = in.readByte() != 0;
-            this.isQuoted = in.readByte() != 0;
-            this.beQuotedPosition = in.readInt();
         }
 
         public static final Creator<Comment> CREATOR = new Creator<Comment>() {
