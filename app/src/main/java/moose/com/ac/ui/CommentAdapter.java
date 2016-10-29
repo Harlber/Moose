@@ -2,6 +2,7 @@ package moose.com.ac.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,6 @@ import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.ui.widget.FloorsView;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
-import moose.com.ac.util.SparseArrayCompatSerializable;
 import moose.com.ac.util.TextViewUtils;
 
 /*
@@ -40,7 +40,7 @@ import moose.com.ac.util.TextViewUtils;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
     protected LayoutInflater mInflater;
-    private SparseArrayCompatSerializable<CommentListWrapper.Comment> data;
+    private SparseArrayCompat<CommentListWrapper.Comment> data;
     private List<Integer> commentIdList;
     private Context mContext;
     private int maxNumOfFloor;
@@ -107,7 +107,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
     }
 
-    public CommentAdapter(Context context, SparseArrayCompatSerializable<CommentListWrapper.Comment> data, List<Integer> commentIdList) {
+    public CommentAdapter(Context context, SparseArrayCompat<CommentListWrapper.Comment> data, List<Integer> commentIdList) {
         this.mInflater = LayoutInflater.from(context);
         this.mContext = context;
         this.data = data;
@@ -117,7 +117,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             maxNumOfFloor = 10;
     }
 
-    public void setData(SparseArrayCompatSerializable<CommentListWrapper.Comment> data, List<Integer> commentIdList) {
+    public void setData(SparseArrayCompat<CommentListWrapper.Comment> data, List<Integer> commentIdList) {
         this.data = data;
         this.commentIdList = commentIdList;
     }

@@ -2,9 +2,12 @@ package moose.com.ac.ui;
 
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +17,6 @@ import android.widget.AdapterView;
 
 import com.trello.rxlifecycle.FragmentEvent;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,7 @@ import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.util.RxUtils;
-import moose.com.ac.util.SparseArrayCompatSerializable;
+import moose.com.ac.util.SparseArrayCompatUtil;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -56,7 +58,7 @@ public class CommentListFragment extends BaseListFragment {
     private Api api = RxUtils.createApi(Api.class, Config.COMMENT_URL);
     private int contentId;
 
-    private SparseArrayCompatSerializable<CommentListWrapper.Comment> data = new SparseArrayCompatSerializable<>();
+    private SparseArrayCompat<CommentListWrapper.Comment> data = new SparseArrayCompat<>();
     private List<Integer> commentIdList = new ArrayList<>();
     @NonNull
     private AdapterView.OnItemClickListener mOnItemClickListener = (parent, view, position, id) -> {
@@ -100,10 +102,10 @@ public class CommentListFragment extends BaseListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            SaveInstance saveInstance = (SaveInstance) savedInstanceState.getSerializable(TAG);
+            SaveInstance saveInstance = savedInstanceState.getParcelable(TAG);
             commentIdList.addAll(saveInstance != null ? saveInstance.getCommentIdList() : new ArrayList<>());
             mPage = saveInstance != null ? saveInstance.getPage() : 1;
-            data = saveInstance != null ? saveInstance.getData() : new SparseArrayCompatSerializable<>();
+            data = saveInstance != null ? saveInstance.getData() : new SparseArrayCompat<>();
         }
     }
 
@@ -154,7 +156,7 @@ public class CommentListFragment extends BaseListFragment {
         saveInstance.setCommentIdList(commentIdList);
         saveInstance.setData(data);
         saveInstance.setPage(mPage);
-        outState.putSerializable(TAG, saveInstance);
+        outState.putParcelable(TAG, saveInstance);
         super.onSaveInstanceState(outState);
     }
 
@@ -206,26 +208,38 @@ public class CommentListFragment extends BaseListFragment {
     }
 
 
-    public static class SaveInstance implements Serializable {
+    public static class SaveInstance implements Parcelable {
 
-        private static final long serialVersionUID = -3563014084844531564L;
-        private SparseArrayCompatSerializable<CommentListWrapper.Comment> data = new SparseArrayCompatSerializable<>();
+        public static final Creator<SaveInstance> CREATOR = new Creator<SaveInstance>() {
+            @Override
+            public SaveInstance createFromParcel(Parcel source) {
+                return new SaveInstance(source);
+            }
+
+            @Override
+            public SaveInstance[] newArray(int size) {
+                return new SaveInstance[size];
+            }
+        };
+        private SparseArrayCompat<CommentListWrapper.Comment> data = new SparseArrayCompat<>();
         private List<Integer> commentIdList = new ArrayList<>();
         private int page;
 
-        public int getPage() {
-            return page;
+        public SaveInstance() {
         }
 
-        public void setPage(int page) {
-            this.page = page;
+        protected SaveInstance(Parcel in) {
+            this.data = SparseArrayCompatUtil.readSparseArrayCompat(in);
+            this.commentIdList = new ArrayList<>();
+            in.readList(this.commentIdList, Integer.class.getClassLoader());
+            this.page = in.readInt();
         }
 
-        public SparseArrayCompatSerializable<CommentListWrapper.Comment> getData() {
+        public SparseArrayCompat<CommentListWrapper.Comment> getData() {
             return data;
         }
 
-        public void setData(SparseArrayCompatSerializable<CommentListWrapper.Comment> data) {
+        public void setData(SparseArrayCompat<CommentListWrapper.Comment> data) {
             this.data = data;
         }
 
@@ -235,6 +249,26 @@ public class CommentListFragment extends BaseListFragment {
 
         public void setCommentIdList(List<Integer> commentIdList) {
             this.commentIdList = commentIdList;
+        }
+
+        public int getPage() {
+            return page;
+        }
+
+        public void setPage(int page) {
+            this.page = page;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            SparseArrayCompatUtil.writeSparseArrayCompat(dest, this.data);
+            dest.writeList(this.commentIdList);
+            dest.writeInt(this.page);
         }
     }
 }
