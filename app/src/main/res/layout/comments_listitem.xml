@@ -37,25 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp" />
 
-        <!--<TextView-->
-        <!--android:id="@id/requote"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/requote"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="4dp"-->
-        <!--android:paddingTop="4dp"-->
-        <!--android:paddingBottom="4dp"-->
-        <!--android:background="@color/accent_material_light"-->
-        <!--android:gravity="center"-->
-        <!--android:text="@string/hide_requote"-->
-        <!--android:textSize="12sp"-->
-        <!--android:visibility="gone" />-->
-
         <TextView
             android:id="@id/user_name"
             android:layout_width="wrap_content"

@@ -79,13 +79,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             RelativeLayout.LayoutParams floorsLayoutParams = new RelativeLayout.LayoutParams(-1, -2);
             int margin = DisplayUtil.dip2px(mContext, 4);
             floorsLayoutParams.setMargins(margin, 0, margin, margin);
-            //floorsLayoutParams.addRule(RelativeLayout.BELOW, R.id.requote);
             holder.ll_quote.addView(holder.quoteFrame, floorsLayoutParams);
         }
-//        RelativeLayout.LayoutParams userLayoutParams = (RelativeLayout.LayoutParams) holder.user.getLayoutParams();
-//        userLayoutParams.addRule(RelativeLayout.BELOW, holder.quoteFrame.getChildCount() > 0 ? frameId : R.id.requote);
-//        holder.user.setLayoutParams(userLayoutParams);
-//        handlePadding(position, holder.rootView);
         if (onItemClickListener != null) {
             holder.rootView.setOnClickListener(v -> onItemClickListener.onItemClick(null, v, holder.getAdapterPosition(), holder.getItemId()));
         }
