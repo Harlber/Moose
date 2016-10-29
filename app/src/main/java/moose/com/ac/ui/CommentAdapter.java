@@ -44,7 +44,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private List<Integer> commentIdList;
     private Context mContext;
     private int maxNumOfFloor;
-    private AdapterView.OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickListener;
 
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,10 +55,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.content = (TextView) v.findViewById(R.id.comments_content);
         holder.quoteImage = v.findViewById(R.id.quote_img);
         holder.ll_quote = (RelativeLayout) v.findViewById(R.id.ll_quote);
+        holder.commentLayout = (RelativeLayout) v.findViewById(R.id.comment_layout);
         return holder;
     }
 
-    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -82,7 +83,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             holder.ll_quote.addView(holder.quoteFrame, floorsLayoutParams);
         }
         if (onItemClickListener != null) {
-            holder.rootView.setOnClickListener(v -> onItemClickListener.onItemClick(null, v, holder.getAdapterPosition(), holder.getItemId()));
+            holder.commentLayout.setOnClickListener(v -> onItemClickListener.onItemClick(null, v, holder.getAdapterPosition(), holder.getItemId()));
         }
     }
 
@@ -100,6 +101,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public boolean hasQuote;
         public FloorsView quoteFrame;
         public RelativeLayout ll_quote;
+        public RelativeLayout commentLayout;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
@@ -128,7 +130,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         username.setText(String.format(Locale.getDefault(), "#%d %s", quote.floor, quote.username));
         TextView content = (TextView) quoteFrame.findViewById(R.id.comments_content);
         TextViewUtils.setCommentContent(content, quote);
-
+        if (onItemClickListener != null) {
+            quoteFrame.setOnClickListener(v -> onItemClickListener.onItemClick(null, v, quote));
+        }
         return quoteFrame;
     }
 
@@ -167,5 +171,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             convertView.setPadding(padding, paddingTop + padding, padding, padding * 2);
         } else
             convertView.setPadding(padding, padding * 2, padding, padding * 2);
+    }
+
+    interface OnItemClickListener {
+
+        void onItemClick(AdapterView<?> parent, View view, int position, long id);
+
+        void onItemClick(AdapterView<?> parent, View view, CommentListWrapper.Comment comment);
     }
 }

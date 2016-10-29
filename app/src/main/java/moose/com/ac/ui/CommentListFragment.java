@@ -61,9 +61,17 @@ public class CommentListFragment extends BaseListFragment {
     private SparseArrayCompat<CommentListWrapper.Comment> data = new SparseArrayCompat<>();
     private List<Integer> commentIdList = new ArrayList<>();
     @NonNull
-    private AdapterView.OnItemClickListener mOnItemClickListener = (parent, view, position, id) -> {
-        CommentListWrapper.Comment comment = data.get(position);
-        createPopupMenu(view, comment);
+    private CommentAdapter.OnItemClickListener mOnItemClickListener = new CommentAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            CommentListWrapper.Comment comment = data.get(position);
+            createPopupMenu(view, comment);
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, CommentListWrapper.Comment comment) {
+            createPopupMenu(view, comment);
+        }
     };
 
     public static CommentListFragment newInstance(int contendId) {
@@ -142,6 +150,7 @@ public class CommentListFragment extends BaseListFragment {
     @Override
     protected void initRecyclerViewAdapter() {
         adapter = new CommentAdapter(getActivity(), data, commentIdList);
+        ((CommentAdapter) adapter).setOnItemClickListener(mOnItemClickListener);
     }
 
     @Override
