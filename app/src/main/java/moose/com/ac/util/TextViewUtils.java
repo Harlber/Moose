@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -18,14 +17,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import org.xml.sax.XMLReader;
-
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import moose.com.ac.R;
-import moose.com.ac.retrofit.comment.CommentListWrapper;
 
 /**
  * Created by dell on 2015/8/20.
@@ -52,66 +48,57 @@ public final class TextViewUtils {
         throw new AssertionError("No instances");
     }
 
-    public static void setCommentContent(final TextView comment, CommentListWrapper.Comment c) {
-        if (comment.getMovementMethod() != null) // reset focus
-            comment.setMovementMethod(null);
-        String text = c.content;
+
+    public static void setCommentContent(final TextView commentView, String text) {
+        if (commentView.getMovementMethod() != null) // reset focus
+            commentView.setMovementMethod(null);
         if (TextUtils.isEmpty(text)) {
-            comment.setText("");
+            commentView.setText("");
             return;
         }
         text = replace(text);
         try {
-            comment.setText(Html.fromHtml(text, new Html.ImageGetter() {
-
-                @Override
-                public Drawable getDrawable(String source) {
-                    try {
-                        Bitmap bm = BitmapFactory.decodeStream(comment.getContext().getAssets()
-                                .open(source));
-                        Drawable drawable = new BitmapDrawable(comment.getResources(), bm);
-                        if (drawable != null) {
-                            int w = comment.getResources().getDimensionPixelSize(
-                                    R.dimen.emotions_column_width);
-                            drawable.setBounds(0, 0, w, drawable.getIntrinsicHeight() * w
-                                    / drawable.getIntrinsicWidth());
-                        }
-
-                        return drawable;
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return null;
+            commentView.setText(Html.fromHtml(text, source -> {
+                try {
+                    Bitmap bm = BitmapFactory.decodeStream(commentView.getContext().getAssets()
+                            .open(source));
+                    Drawable drawable = new BitmapDrawable(commentView.getResources(), bm);
+                    if (drawable != null) {
+                        int w = commentView.getResources().getDimensionPixelSize(
+                                R.dimen.emotions_column_width);
+                        drawable.setBounds(0, 0, w, drawable.getIntrinsicHeight() * w
+                                / drawable.getIntrinsicWidth());
                     }
 
-                }
-            }, new Html.TagHandler() {
+                    return drawable;
 
-                @Override
-                public void handleTag(boolean opening, String tag, Editable output,
-                                      XMLReader xmlReader) {
-                    int len = output.length();
-                    if (opening) {
-                        if (tag.equalsIgnoreCase("strike")) {
-                            output.setSpan(new StrikethroughSpan(), len, len,
-                                    Spannable.SPAN_MARK_MARK);
-                        }
-                    } else {
-                        if (tag.equalsIgnoreCase("strike")) {
-                            end((SpannableStringBuilder) output, StrikethroughSpan.class,
-                                    new StrikethroughSpan());
-                        }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+
+            }, (opening, tag, output, xmlReader) -> {
+                int len = output.length();
+                if (opening) {
+                    if (tag.equalsIgnoreCase("strike")) {
+                        output.setSpan(new StrikethroughSpan(), len, len,
+                                Spannable.SPAN_MARK_MARK);
+                    }
+                } else {
+                    if (tag.equalsIgnoreCase("strike")) {
+                        end((SpannableStringBuilder) output, StrikethroughSpan.class,
+                                new StrikethroughSpan());
                     }
                 }
             }));
         } catch (ArrayIndexOutOfBoundsException e) {
-            comment.setText(text);
+            commentView.setText(text);
             Log.e("wtf", "set comment", e);
         }
         Pattern http = Pattern.compile("http://[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]",
                 Pattern.CASE_INSENSITIVE);
-        Linkify.addLinks(comment, http, "http://");
-        Linkify.addLinks(comment, Pattern.compile("(ac\\d{5,})", Pattern.CASE_INSENSITIVE), "ac://");
+        Linkify.addLinks(commentView, http, "http://");
+        Linkify.addLinks(commentView, Pattern.compile("(ac\\d{5,})", Pattern.CASE_INSENSITIVE), "ac://");
     }
 
     static void end(SpannableStringBuilder text, Class<?> kind,
@@ -143,7 +130,7 @@ public final class TextViewUtils {
         }
     }
 
-    private static String replace(String text) {
+    public static String replace(String text) {
         String reg = "\\[emot=(.*?),(.*?)\\/\\]";
         Pattern p = Pattern.compile(reg);
         Matcher m = p.matcher(text);

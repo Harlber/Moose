@@ -68,7 +68,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         CommentListWrapper.Comment c = data.get(commentIdList.get(position));
         holder.user.setText(String.format("#%d %s", c.floor, c.username));
-        TextViewUtils.setCommentContent(holder.content, c);
+        TextViewUtils.setCommentContent(holder.content, c.content);
         int quoteId = c.quoteId;
         holder.hasQuote = quoteId > 0;
         List<View> quoteList = new ArrayList<>();
@@ -129,7 +129,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         TextView username = (TextView) quoteFrame.findViewById(R.id.user_name);
         username.setText(String.format(Locale.getDefault(), "#%d %s", quote.floor, quote.username));
         TextView content = (TextView) quoteFrame.findViewById(R.id.comments_content);
-        TextViewUtils.setCommentContent(content, quote);
+        TextViewUtils.setCommentContent(content, quote.content);
         if (onItemClickListener != null) {
             quoteFrame.setOnClickListener(v -> onItemClickListener.onItemClick(null, v, quote));
         }
