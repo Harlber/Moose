@@ -15,7 +15,7 @@ import moose.com.ac.retrofit.comment.CommentBody;
 import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.retrofit.comment.CommentSend;
 import moose.com.ac.retrofit.login.CheckIn;
-import moose.com.ac.retrofit.login.LoginEntry;
+import moose.com.ac.retrofit.login.LoginResultWrapper;
 import moose.com.ac.retrofit.search.SearchBody;
 import retrofit.Response;
 import retrofit.http.Body;
@@ -115,7 +115,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST(Config.API_LOGIN)
-    Observable<LoginEntry> login(@Field("username") String username, @Field("password") String password);
+    Observable<LoginResultWrapper> login(@Field("username") String username, @Field("password") String password, @Field("response_type") String response_type, @Field("client_id") String client_id);
 
     /**
      * check in action
