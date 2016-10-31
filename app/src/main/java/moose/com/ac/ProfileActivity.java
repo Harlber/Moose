@@ -188,6 +188,7 @@ public class ProfileActivity extends BaseActivity {
                             CommonUtil.setSignatrue(profile.getSign());
                             CommonUtil.setRegDate(profile.getRegTime());
                             CommonUtil.setGender(profile.getGender());
+                            CommonUtil.setUseruid(profile.getUid());
                             CommonUtil.setRegistDate();//签到
                             //registButton.setText(getString(R.string.checked_in));
 

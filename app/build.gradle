@@ -95,8 +95,6 @@ dependencies {
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
 
-    compile 'me.shaohui:bottomdialog:1.1.9'
-
     apply from: "${rootProject.getRootDir()}/robolectric.gradle"
     apply from: "${rootProject.getRootDir()}/jacoco.gradle"
 }

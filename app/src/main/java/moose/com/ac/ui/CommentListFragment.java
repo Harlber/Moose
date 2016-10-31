@@ -24,7 +24,6 @@ import java.util.Map;
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
-import moose.com.ac.retrofit.comment.CommentBody;
 import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.SparseArrayCompatUtil;
@@ -89,7 +88,7 @@ public class CommentListFragment extends BaseListFragment {
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_quote:
-                    QuoteCommentDialogFragment fragment = QuoteCommentDialogFragment.newInstance(comment);
+                    QuoteCommentDialogFragment fragment = QuoteCommentDialogFragment.newInstance(comment, contentId);
                     fragment.show(getActivity().getSupportFragmentManager());
                     break;
             }

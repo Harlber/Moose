@@ -345,4 +345,13 @@ public final class CommonUtil {
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI && isSupport;
     }
+
+    public static void setUseruid(Long uid) {
+        PreferenceUtil.setLongValue(Config.USER_UID, uid);
+    }
+
+    public static Long getUseruid() {
+        return PreferenceUtil.getLong(Config.USER_UID, 0L);
+    }
+
 }
