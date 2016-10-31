@@ -22,4 +22,5 @@ public class CommentBody {
     public int quoteId;
     public int contentId;
     public int userId;
+    public String access_token;
 }

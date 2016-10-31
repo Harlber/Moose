@@ -130,6 +130,7 @@ public class QuoteCommentDialogFragment extends BottomDialogFragment implements 
         commentBody.quoteId = mQuoteComment == null ? 0 : mQuoteComment.id;
         commentBody.contentId = mContentId;
         commentBody.userId = Integer.valueOf(String.valueOf(CommonUtil.getUseruid()));
+        commentBody.access_token = CommonUtil.getToken();
         return commentBody;
     }
 
