@@ -116,7 +116,7 @@ public class QuoteCommentDialogFragment extends BottomDialogFragment implements 
 
                 break;
             case R.id.comment_send_button:
-                if (!TextUtils.isEmpty(mEditText.getText())) {
+                if (!TextUtils.isEmpty(mEditText.getText().toString())) {
                     sendComment(mEditText.getText().toString());
                 }
                 break;

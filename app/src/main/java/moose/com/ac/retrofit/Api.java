@@ -195,10 +195,8 @@ public interface Api {
 
     /**
      * post comment to server
-     *
      * @param commentBody
      */
-    @FormUrlEncoded
     @POST(Config.API_COMMENT)
     Observable<CommentSend> sendComment(@Body CommentBody commentBody);
 }
