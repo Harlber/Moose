@@ -15,10 +15,12 @@ import java.util.Locale;
 
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
+import moose.com.ac.event.CommentEvent;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.comment.CommentBody;
 import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.util.CommonUtil;
+import moose.com.ac.util.RxBus;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.TextViewUtils;
 import rx.android.schedulers.AndroidSchedulers;
@@ -136,11 +138,10 @@ public class QuoteCommentDialogFragment extends BottomDialogFragment implements 
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(commentSend -> {
-                    
+                    RxBus.get().post(new CommentEvent(CommentEvent.TYPE_REFRESH_COMMENT));
                     dismiss();
                 }, throwable -> {
-
-
+                    dismiss();
                 }));
     }
 

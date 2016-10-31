@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
 import com.trello.rxlifecycle.FragmentEvent;
 
 import java.util.ArrayList;
@@ -23,8 +24,10 @@ import java.util.Map;
 
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
+import moose.com.ac.event.CommentEvent;
 import moose.com.ac.retrofit.Api;
 import moose.com.ac.retrofit.comment.CommentListWrapper;
+import moose.com.ac.util.RxBus;
 import moose.com.ac.util.RxUtils;
 import moose.com.ac.util.SparseArrayCompatUtil;
 import rx.Observer;
@@ -129,9 +132,28 @@ public class CommentListFragment extends BaseListFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        RxBus.get().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        RxBus.get().unregister(this);
+    }
+
+    @Override
     public void onInitView() {
         initRecyclerView();
         initRefreshLayout();
+    }
+
+    @Subscribe
+    public void refreshCommentData(CommentEvent event) {
+        if (event.type == CommentEvent.TYPE_REFRESH_COMMENT) {
+            doSwipeRefresh();
+        }
     }
 
     @Override
