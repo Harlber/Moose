@@ -140,7 +140,9 @@ public class QuoteCommentDialogFragment extends BottomDialogFragment implements 
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(commentSend -> {
-                    RxBus.get().post(new CommentEvent(CommentEvent.TYPE_REFRESH_COMMENT));
+                    if (commentSend.success) {
+                        RxBus.get().post(new CommentEvent(CommentEvent.TYPE_REFRESH_COMMENT));
+                    }
                     dismiss();
                 }, throwable -> {
                     dismiss();

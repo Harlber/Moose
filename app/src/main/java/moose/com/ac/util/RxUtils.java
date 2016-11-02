@@ -72,35 +72,6 @@ public final class RxUtils {
 
     }
 
-    private static final Headers.Builder CommentBuilder = new Headers.Builder()
-            .add("market", "xiaomi")
-            .add("appVersion", "4.3.0")
-            .add("deviceType", "1")
-            .add("uid", String.valueOf(CommonUtil.getUseruid()))
-            .add("token", CommonUtil.getToken())
-            .add("udid", "1bfbeabd-bc43-32fa-ba2a-db535c1a7542");
-
-    private static final Interceptor ACFUN_COMMENT_TOKEN_INTERCEPTOR = chain -> {
-        Request request = chain.request();
-        Request newRequest = request.newBuilder().headers(CommentBuilder.build()).build();
-        return chain.proceed(newRequest);
-    };
-
-    public static <T> T createCommentApi(Class<T> c, String url) {
-        OkHttpClient client = OkHttpClientProvider.get(); //create OKHTTPClient
-        client.interceptors().add(ACFUN_COMMENT_TOKEN_INTERCEPTOR);
-        client.interceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
-        client.interceptors().add(new LoggingInterceptor());
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-        return retrofit.create(c);
-
-    }
-
     public static <T> T createShadowApi(Class<T> c) {
         OkHttpClient client = OkHttpClientProvider.get();
         client.interceptors().add(SHADOW_PORTAL_INTERCEPTOR);
