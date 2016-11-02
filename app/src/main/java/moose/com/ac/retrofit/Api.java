@@ -4,6 +4,8 @@ package moose.com.ac.retrofit;
 import com.google.gson.JsonObject;
 import com.squareup.okhttp.ResponseBody;
 
+import java.util.Map;
+
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.article.ArticleBodyWrapper;
 import moose.com.ac.retrofit.article.ArticleListWrapper;
@@ -11,15 +13,14 @@ import moose.com.ac.retrofit.article.ShadowArticleBody;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.Like;
 import moose.com.ac.retrofit.collect.Store;
-import moose.com.ac.retrofit.comment.CommentBody;
 import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.retrofit.comment.CommentSend;
 import moose.com.ac.retrofit.login.CheckIn;
 import moose.com.ac.retrofit.login.LoginResultWrapper;
 import moose.com.ac.retrofit.search.SearchBody;
 import retrofit.Response;
-import retrofit.http.Body;
 import retrofit.http.Field;
+import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
@@ -195,8 +196,9 @@ public interface Api {
 
     /**
      * post comment to server
-     * @param commentBody
+     * @param map
      */
+    @FormUrlEncoded
     @POST(Config.API_COMMENT)
-    Observable<CommentSend> sendComment(@Body CommentBody commentBody);
+    Observable<CommentSend> sendComment(@FieldMap Map<String, Object> map);
 }

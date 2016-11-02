@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 import com.trello.rxlifecycle.FragmentEvent;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
 import moose.com.ac.event.CommentEvent;
 import moose.com.ac.retrofit.Api;
-import moose.com.ac.retrofit.comment.CommentBody;
 import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.RxBus;
@@ -123,15 +124,15 @@ public class QuoteCommentDialogFragment extends BottomDialogFragment implements 
         }
     }
 
-    public CommentBody generateCommentBody (String commentText) {
-        CommentBody commentBody = new CommentBody();
-        commentBody.text = commentText;
-        commentBody.source = "mobile";
-        commentBody.quoteId = mQuoteComment == null ? 0 : mQuoteComment.id;
-        commentBody.contentId = mContentId;
-        commentBody.userId = Integer.valueOf(String.valueOf(CommonUtil.getUseruid()));
-        commentBody.access_token = CommonUtil.getToken();
-        return commentBody;
+    public Map<String, Object> generateCommentBody(String commentText) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("text", commentText);
+        map.put("source", "mobile");
+        map.put("quoteId", mQuoteComment == null ? 0 : mQuoteComment.id);
+        map.put("contentId", mContentId);
+        map.put("userId", CommonUtil.getUseruid());
+        map.put("access_token", CommonUtil.getToken());
+        return map;
     }
 
     private void sendComment(String text) {
