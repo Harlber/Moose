@@ -103,8 +103,7 @@ public class CommentListFragment extends BaseListFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(
-                R.layout.abs_list_fragment, container, false);
+        return inflater.inflate(R.layout.abs_list_fragment, container, false);
     }
 
     /**
@@ -119,11 +118,6 @@ public class CommentListFragment extends BaseListFragment {
             mPage = saveInstance != null ? saveInstance.getPage() : 1;
             data = saveInstance != null ? saveInstance.getData() : new SparseArrayCompat<>();
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
 
     @Override
@@ -166,7 +160,6 @@ public class CommentListFragment extends BaseListFragment {
         mPage = 1;
         data.clear();
         commentIdList.clear();
-        adapter.notifyDataSetChanged();
         loadData(mPage);
     }
 
@@ -212,7 +205,6 @@ public class CommentListFragment extends BaseListFragment {
 
                     @Override
                     public void onNext(CommentListWrapper commentListWrapper) {
-
                         List<Integer> list = commentListWrapper.data.page.list;
                         Map<String, CommentListWrapper.Comment> map = commentListWrapper.data.page.map;
                         commentIdList.addAll(list);
@@ -223,6 +215,7 @@ public class CommentListFragment extends BaseListFragment {
                         if (data.size() == 0) {
                             snack(getString(R.string.no_comment_here));
                         }
+                        ((CommentAdapter) adapter).setData(data, commentIdList);
                         adapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;
