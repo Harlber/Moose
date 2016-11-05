@@ -1,12 +1,10 @@
 package moose.com.ac;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,9 +14,7 @@ import moose.com.ac.common.Config;
 import moose.com.ac.settings.SettingsActivity;
 import moose.com.ac.ui.BaseActivity;
 import moose.com.ac.ui.CommentListFragment;
-import moose.com.ac.ui.ViewPageAdapter;
 import moose.com.ac.util.CommonUtil;
-import moose.com.ac.util.ZoomOutPageTransformer;
 
 /*
  * Copyright 2015,2016 Farble Dast
@@ -43,22 +39,12 @@ import moose.com.ac.util.ZoomOutPageTransformer;
 @SuppressWarnings("unused")
 public class BigNewsActivity extends BaseActivity {
     private static final String TAG = "BigNewsActivity";
-    private ViewPager viewPager;
-    private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(getString(R.string.send_action))) {
-                refreshListAfterBroadcastReceiver();
-            }
-        }
-    };
 
     @Override
     protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_big_news);
         int contendId = Integer.valueOf(getIntent().getStringExtra(Config.CONTENTID));
         String title = getIntent().getStringExtra(Config.TITLE);
-        CommentListFragment commentListFragment = CommentListFragment.newInstance(contendId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,12 +54,14 @@ public class BigNewsActivity extends BaseActivity {
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.news_viewpager);
-        ViewPageAdapter adapter = new ViewPageAdapter(getSupportFragmentManager());
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-
-        adapter.addFragment(commentListFragment);
-        viewPager.setAdapter(adapter);
+        Fragment fragment = getSingleFragment();
+        if (fragment == null) {
+            fragment = CommentListFragment.newInstance(contendId);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.root_container, fragment)
+                    .commit();
+        }
     }
 
     @Override
@@ -95,24 +83,9 @@ public class BigNewsActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        LocalBroadcastManager.getInstance(mContext).registerReceiver(mBroadcastReceiver,
-                new IntentFilter(getString(R.string.send_action)));
+    @Nullable
+    protected Fragment getSingleFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        return fragmentManager.findFragmentById(R.id.root_container);
     }
-
-    @Override
-    protected void onDestroy() {
-        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mBroadcastReceiver);
-        super.onDestroy();
-    }
-
-    /**
-     * refresh store status after receiver BroadcastReceiver
-     */
-    public void refreshListAfterBroadcastReceiver() {
-        viewPager.setCurrentItem(0);
-    }
-
 }
