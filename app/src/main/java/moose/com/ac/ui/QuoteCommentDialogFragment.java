@@ -1,5 +1,6 @@
 package moose.com.ac.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -43,6 +44,7 @@ public class QuoteCommentDialogFragment extends BottomDialogFragment implements 
     private TextView mQuoteCommentContentView;
     private View mCommentLayout;
     private View mSendButton;
+    private ProgressDialog mPD;
     private CommentListWrapper.Comment mQuoteComment;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.COMMENT_URL);
@@ -136,6 +138,7 @@ public class QuoteCommentDialogFragment extends BottomDialogFragment implements 
     }
 
     private void sendComment(String text) {
+        showProgressDialog();
         subscription.add(api.sendComment(generateCommentBody(text))
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindUntilEvent(FragmentEvent.DESTROY_VIEW))
@@ -143,10 +146,28 @@ public class QuoteCommentDialogFragment extends BottomDialogFragment implements 
                     if (commentSend.success) {
                         RxBus.get().post(new CommentEvent(CommentEvent.TYPE_REFRESH_COMMENT));
                     }
+                    hideProgressDialog();
                     dismiss();
                 }, throwable -> {
+                    hideProgressDialog();
                     dismiss();
                 }));
+    }
+
+    private void showProgressDialog() {
+        mPD = new ProgressDialog(getActivity());
+        mPD.setMessage("Loading...");
+        mPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mPD.setCancelable(false);
+        mPD.setCanceledOnTouchOutside(false);
+        mPD.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mPD != null) {
+            mPD.dismiss();
+            mPD = null;
+        }
     }
 
 }
