@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,6 +62,7 @@ public class CommentListFragment extends BaseListFragment {
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.COMMENT_URL);
     private int contentId;
+    private FloatingActionButton mFloatingActionButton;
 
     private SparseArrayCompat<CommentListWrapper.Comment> data = new SparseArrayCompat<>();
     private List<Integer> commentIdList = new ArrayList<>();
@@ -159,6 +161,16 @@ public class CommentListFragment extends BaseListFragment {
             }
         });
         initRefreshLayout();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.view_fab);
+        mFloatingActionButton.setOnClickListener(v -> {
+            QuoteCommentDialogFragment fragment = QuoteCommentDialogFragment.newInstance(null, contentId);
+            fragment.show(getActivity().getSupportFragmentManager());
+        });
     }
 
     @Subscribe
