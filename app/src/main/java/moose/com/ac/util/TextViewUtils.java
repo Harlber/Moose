@@ -44,7 +44,7 @@ import moose.com.ac.R;
 public final class TextViewUtils {
     private static final String TAG = "TextViewUtils";
 
-    private TextViewUtils(){
+    private TextViewUtils() {
         throw new AssertionError("No instances");
     }
 
@@ -60,20 +60,18 @@ public final class TextViewUtils {
         try {
             commentView.setText(Html.fromHtml(text, source -> {
                 try {
-                    Bitmap bm = BitmapFactory.decodeStream(commentView.getContext().getAssets()
-                            .open(source));
+                    Bitmap bm = BitmapFactory.decodeStream(commentView.getContext().getAssets().open(source));
                     Drawable drawable = new BitmapDrawable(commentView.getResources(), bm);
                     if (drawable != null) {
-                        int w = commentView.getResources().getDimensionPixelSize(
-                                R.dimen.emotions_column_width);
-                        drawable.setBounds(0, 0, w, drawable.getIntrinsicHeight() * w
-                                / drawable.getIntrinsicWidth());
+                        int w = commentView.getResources().getDimensionPixelSize(R.dimen.emotions_column_width);
+                        drawable.setBounds(0, 0, w, drawable.getIntrinsicHeight() * w / drawable.getIntrinsicWidth());
                     }
-
                     return drawable;
-
                 } catch (IOException e) {
                     e.printStackTrace();
+                    return null;
+                } catch (NullPointerException e) {
+                    e.printStackTrace();// 截取字符串后，image不完整的情况下，getAssets().open()方法 throw null pointer exception
                     return null;
                 }
 
@@ -81,19 +79,17 @@ public final class TextViewUtils {
                 int len = output.length();
                 if (opening) {
                     if (tag.equalsIgnoreCase("strike")) {
-                        output.setSpan(new StrikethroughSpan(), len, len,
-                                Spannable.SPAN_MARK_MARK);
+                        output.setSpan(new StrikethroughSpan(), len, len, Spannable.SPAN_MARK_MARK);
                     }
                 } else {
                     if (tag.equalsIgnoreCase("strike")) {
-                        end((SpannableStringBuilder) output, StrikethroughSpan.class,
-                                new StrikethroughSpan());
+                        end((SpannableStringBuilder) output, StrikethroughSpan.class, new StrikethroughSpan());
                     }
                 }
             }));
         } catch (ArrayIndexOutOfBoundsException e) {
             commentView.setText(text);
-            Log.e("wtf", "set comment", e);
+            Log.e(TAG, "set comment", e);
         }
         Pattern http = Pattern.compile("http://[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]",
                 Pattern.CASE_INSENSITIVE);
@@ -144,8 +140,9 @@ public final class TextViewUtils {
                 // Invalid format text
                 continue;
             }
-            if (parsedId > 54)
+            if (parsedId > 54) {
                 id = "54";
+            }
             String replace = cat.equals("brd") || cat.equals("td") ?
                     "<img src='emotion/" + cat + "/%02d.gif'/>" : "<img src='emotion/%02d.gif'/>";
             text = text.replace(m.group(), String.format(replace, parsedId));
