@@ -16,6 +16,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="12dp"
             android:text="评论"
+            android:textColor="@color/md_grey_900"
             android:textSize="18sp" />
 
         <Space
@@ -50,6 +51,7 @@
 
             <TextView
                 android:id="@+id/quote_username"
+                android:textColor="#ABABAB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -57,6 +59,7 @@
                 android:id="@+id/quote_comment_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#ABABAB"
                 android:layout_marginTop="5dip"
                 android:focusable="false"
                 android:padding="4dp" />
@@ -81,6 +84,7 @@
                 android:padding="4dp"
                 android:gravity="top"
                 android:background="@null"
+                android:textColor="@color/md_grey_900"
                 android:hint="随便说点什么吧"
                 android:textSize="14sp" />
 
