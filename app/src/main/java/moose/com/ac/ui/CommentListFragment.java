@@ -2,30 +2,40 @@ package moose.com.ac.ui;
 
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
+import android.support.v4.util.SparseArrayCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.hwangjr.rxbus.annotation.Subscribe;
 import com.trello.rxlifecycle.FragmentEvent;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import moose.com.ac.R;
 import moose.com.ac.common.Config;
+import moose.com.ac.event.CommentEvent;
 import moose.com.ac.retrofit.Api;
-import moose.com.ac.retrofit.comment.CommentDetail;
+import moose.com.ac.retrofit.comment.CommentListWrapper;
+import moose.com.ac.util.RxBus;
 import moose.com.ac.util.RxUtils;
-import moose.com.ac.util.SparseArrayCompatSerializable;
+import moose.com.ac.util.SparseArrayCompatUtil;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
+
 /*
  * Copyright 2015,2016 Farble Dast
  *
@@ -50,11 +60,25 @@ public class CommentListFragment extends BaseListFragment {
     private static final String TAG = "CommentListFragment";
 
     private CompositeSubscription subscription = new CompositeSubscription();
-    private Api api = RxUtils.createApi(Api.class, Config.BASE_URL);
+    private Api api = RxUtils.createApi(Api.class, Config.COMMENT_URL);
     private int contentId;
+    private FloatingActionButton mFloatingActionButton;
 
-    private SparseArrayCompatSerializable<CommentDetail> data = new SparseArrayCompatSerializable<>();
+    private SparseArrayCompat<CommentListWrapper.Comment> data = new SparseArrayCompat<>();
     private List<Integer> commentIdList = new ArrayList<>();
+    @NonNull
+    private CommentAdapter.OnItemClickListener mOnItemClickListener = new CommentAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            CommentListWrapper.Comment comment = data.get(commentIdList.get(position));
+            createPopupMenu(view, comment);
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, CommentListWrapper.Comment comment) {
+            createPopupMenu(view, comment);
+        }
+    };
 
     public static CommentListFragment newInstance(int contendId) {
         Bundle args = new Bundle();
@@ -64,11 +88,25 @@ public class CommentListFragment extends BaseListFragment {
         return fragment;
     }
 
+    private void createPopupMenu(View view, @NonNull final CommentListWrapper.Comment comment) {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+        popupMenu.inflate(R.menu.menu_popup_comment);
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_quote:
+                    QuoteCommentDialogFragment fragment = QuoteCommentDialogFragment.newInstance(comment, contentId);
+                    fragment.show(getActivity().getSupportFragmentManager());
+                    break;
+            }
+            return false;
+        });
+        popupMenu.show();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(
-                R.layout.abs_list_fragment, container, false);
+        return inflater.inflate(R.layout.abs_list_fragment, container, false);
     }
 
     /**
@@ -78,16 +116,11 @@ public class CommentListFragment extends BaseListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            SaveInstance saveInstance = (SaveInstance) savedInstanceState.getSerializable(TAG);
+            SaveInstance saveInstance = savedInstanceState.getParcelable(TAG);
             commentIdList.addAll(saveInstance != null ? saveInstance.getCommentIdList() : new ArrayList<>());
             mPage = saveInstance != null ? saveInstance.getPage() : 1;
-            data = saveInstance != null ? saveInstance.getData() : new SparseArrayCompatSerializable<>();
+            data = saveInstance != null ? saveInstance.getData() : new SparseArrayCompat<>();
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
 
     @Override
@@ -96,9 +129,55 @@ public class CommentListFragment extends BaseListFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        RxBus.get().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        RxBus.get().unregister(this);
+    }
+
+    private int mLastVisibleItemPosition;
+    @Override
     public void onInitView() {
         initRecyclerView();
+        mRecyclerView.clearOnScrollListeners();//clear BaseListFragment data
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && mLastVisibleItemPosition + 1 == adapter.getItemCount()) {
+                    loadMore();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                mLastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+            }
+        });
         initRefreshLayout();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.view_fab);
+        mFloatingActionButton.setOnClickListener(v -> {
+            QuoteCommentDialogFragment fragment = QuoteCommentDialogFragment.newInstance(null, contentId);
+            fragment.show(getActivity().getSupportFragmentManager());
+        });
+    }
+
+    @Subscribe
+    public void refreshCommentData(CommentEvent event) {
+        if (event.type == CommentEvent.TYPE_REFRESH_COMMENT) {
+            doSwipeRefresh();
+        }
     }
 
     @Override
@@ -111,13 +190,13 @@ public class CommentListFragment extends BaseListFragment {
         mPage = 1;
         data.clear();
         commentIdList.clear();
-        adapter.notifyDataSetChanged();
         loadData(mPage);
     }
 
     @Override
     protected void initRecyclerViewAdapter() {
         adapter = new CommentAdapter(getActivity(), data, commentIdList);
+        ((CommentAdapter) adapter).setOnItemClickListener(mOnItemClickListener);
     }
 
     @Override
@@ -132,16 +211,16 @@ public class CommentListFragment extends BaseListFragment {
         saveInstance.setCommentIdList(commentIdList);
         saveInstance.setData(data);
         saveInstance.setPage(mPage);
-        outState.putSerializable(TAG, saveInstance);
+        outState.putParcelable(TAG, saveInstance);
         super.onSaveInstanceState(outState);
     }
 
     private void loadData(int pg) {
         mSwipeRefreshLayout.setRefreshing(true);
-        subscription.add(api.getCommentList(contentId, pg)
+        subscription.add(api.getCommentList(contentId, 50, pg)
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(this.<JsonObject>bindUntilEvent(FragmentEvent.DESTROY_VIEW))
-                .subscribe(new Observer<JsonObject>() {
+                .compose(bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .subscribe(new Observer<CommentListWrapper>() {
                     @Override
                     public void onCompleted() {
                         mSwipeRefreshLayout.setRefreshing(false);
@@ -155,21 +234,21 @@ public class CommentListFragment extends BaseListFragment {
                     }
 
                     @Override
-                    public void onNext(JsonObject response) {
-                        JsonArray jsonElements = response.getAsJsonObject("data").getAsJsonArray("commentList");
-                        JsonObject lists = response.getAsJsonObject("data").getAsJsonObject("commentContentArr");
-                        for (int i = 0; i < jsonElements.size(); i++) {
-                            int listId = jsonElements.get(i).getAsInt();
-                            commentIdList.add(listId);
-                            data.put(listId, convertToObject(lists.getAsJsonObject("c" + listId)));
+                    public void onNext(CommentListWrapper commentListWrapper) {
+                        List<Integer> list = commentListWrapper.data.page.list;
+                        Map<String, CommentListWrapper.Comment> map = commentListWrapper.data.page.map;
+                        commentIdList.addAll(list);
+                        for (int i = 0; i < list.size(); i++) {
+                            int listId = list.get(i);
+                            data.put(listId, map.get("c" + listId));
                         }
                         if (data.size() == 0) {
                             snack(getString(R.string.no_comment_here));
                         }
+                        ((CommentAdapter) adapter).setData(data, commentIdList);
                         adapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                         isRequest = false;
-                        Log.i(TAG, "get comments response:" + response.toString());
                         mPage++;
                     }
                 }));
@@ -177,54 +256,44 @@ public class CommentListFragment extends BaseListFragment {
 
     private void snack(String msg) {
         Snackbar snackBar = Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_SHORT);
-        snackBar.setAction(R.string.snackbar_action, v -> {
-            snackBar.dismiss();
-        });
+        snackBar.setAction(R.string.snackbar_action, v -> {});
         snackBar.getView().setBackgroundResource(R.color.colorPrimary);
         snackBar.show();
     }
 
-    private CommentDetail convertToObject(JsonObject object) {
-        CommentDetail detail = new CommentDetail();
-        detail.setCid(object.get("cid").getAsLong());
-        detail.setQuoteId(object.get("quoteId").getAsLong());
-        detail.setContent(object.get("content").getAsString());
-        detail.setPostDate(object.get("postDate").getAsString());
 
-        detail.setUserID(object.get("userID").getAsLong());
-        detail.setUserName(object.get("userName").getAsString());
-        //detail.setUserImg(object.get("userImg").getAsString());
+    public static class SaveInstance implements Parcelable {
 
-        detail.setCount(object.get("count").getAsLong());
-        detail.setDeep(object.get("deep").getAsLong());
-        detail.setRefCount(object.get("refCount").getAsLong());
-        detail.setUps(object.get("ups").getAsLong());
-        detail.setDowns(object.get("downs").getAsLong());
-        detail.setNameRed(object.get("nameRed").getAsLong());
-        detail.setAvatarFrame(object.get("avatarFrame").getAsLong());
-        return detail;
-    }
+        public static final Creator<SaveInstance> CREATOR = new Creator<SaveInstance>() {
+            @Override
+            public SaveInstance createFromParcel(Parcel source) {
+                return new SaveInstance(source);
+            }
 
-    public static class SaveInstance implements Serializable {
-
-        private static final long serialVersionUID = -3563014084844531564L;
-        private SparseArrayCompatSerializable<CommentDetail> data = new SparseArrayCompatSerializable<>();
+            @Override
+            public SaveInstance[] newArray(int size) {
+                return new SaveInstance[size];
+            }
+        };
+        private SparseArrayCompat<CommentListWrapper.Comment> data = new SparseArrayCompat<>();
         private List<Integer> commentIdList = new ArrayList<>();
         private int page;
 
-        public int getPage() {
-            return page;
+        public SaveInstance() {
         }
 
-        public void setPage(int page) {
-            this.page = page;
+        protected SaveInstance(Parcel in) {
+            this.data = SparseArrayCompatUtil.readSparseArrayCompat(in);
+            this.commentIdList = new ArrayList<>();
+            in.readList(this.commentIdList, Integer.class.getClassLoader());
+            this.page = in.readInt();
         }
 
-        public SparseArrayCompatSerializable<CommentDetail> getData() {
+        public SparseArrayCompat<CommentListWrapper.Comment> getData() {
             return data;
         }
 
-        public void setData(SparseArrayCompatSerializable<CommentDetail> data) {
+        public void setData(SparseArrayCompat<CommentListWrapper.Comment> data) {
             this.data = data;
         }
 
@@ -234,6 +303,26 @@ public class CommentListFragment extends BaseListFragment {
 
         public void setCommentIdList(List<Integer> commentIdList) {
             this.commentIdList = commentIdList;
+        }
+
+        public int getPage() {
+            return page;
+        }
+
+        public void setPage(int page) {
+            this.page = page;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            SparseArrayCompatUtil.writeSparseArrayCompat(dest, this.data);
+            dest.writeList(this.commentIdList);
+            dest.writeInt(this.page);
         }
     }
 }

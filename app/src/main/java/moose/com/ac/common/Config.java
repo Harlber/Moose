@@ -11,17 +11,19 @@ public class Config {
     public static final String MEMBER_URL = "http://www.acfun.tv/member";
     public static final String WAP_URL = "http://m.acfun.tv/";
     public static final String WEB_API = "http://webapi.acfun.tv";
+    public static final String COMMENT_URL = "http://mobile.app.acfun.cn";
+    public static final String LOGIN_URL = "http://mobile.app.acfun.cn";
 
     public static final String GITHUB_URL = "https://github.com";
 
     public static final String API_CHANNEL = "/searches/channel";
-    public static final String API_COMMENT_LIST = "/comment_list_json.aspx";
+    public static final String API_COMMENT_LIST = "/comment/content/list?version=4";
     public static final String API_COLLECT_LIST = "/member/collection.aspx";
     public static final String API_ARTICLE = "/apiserver/content/article";
     public static final String API_ARTICLE_NEW = "/articles/{id}";
     public static final String API_SEARCH = "/search?type=2&field=title&sortField=releaseDate&parentChannelId=63";
     public static final String API_SORT = "/apiserver/content/rank";
-    public static final String API_LOGIN = "/login.aspx";
+    public static final String API_LOGIN = "/oauth2/authorize2.aspx";
     public static final String API_CHENK_IN = "/checkin.aspx";
     public static final String API_COLLECT = "/collect.aspx";
     public static final String API_LIKE = "/content_up.aspx";
@@ -97,4 +99,5 @@ public class Config {
     /*database*/
     public static final String TABLE_NAME_STORY = "story";
     public static final String TABLE_NAME_HISTORY = "histroy";
+    public static final String ACCESS_TOKEN = "access_token";
 }

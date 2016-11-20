@@ -13,30 +13,47 @@
       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
       See the License for the specific language governing permissions and
       limitations under the License.
-      -->
-<moose.com.ac.ui.widget.MultiSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/swiperefresh"
+-->
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <moose.com.ac.ui.widget.MultiSwipeRefreshLayout
+        android:id="@id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@id/recycler_view"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@id/tv_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:padding="@dimen/margin_4dp"
-            android:text="@string/no_local_data"
-            android:visibility="gone"
-            android:background="@color/colorPrimary"/>
-    </RelativeLayout>
-</moose.com.ac.ui.widget.MultiSwipeRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+
+            <TextView
+                android:id="@id/tv_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@color/colorPrimary"
+                android:padding="@dimen/margin_4dp"
+                android:text="@string/no_local_data"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </moose.com.ac.ui.widget.MultiSwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@id/view_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/commit_white" />
+
+</android.support.design.widget.CoordinatorLayout>
+
+

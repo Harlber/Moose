@@ -2,23 +2,26 @@ package moose.com.ac.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import moose.com.ac.R;
-import moose.com.ac.retrofit.comment.CommentDetail;
+import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.ui.widget.FloorsView;
 import moose.com.ac.util.CommonUtil;
 import moose.com.ac.util.DisplayUtil;
-import moose.com.ac.util.SparseArrayCompatSerializable;
 import moose.com.ac.util.TextViewUtils;
+
 /*
  * Copyright 2015,2016 Farble Dast
  *
@@ -37,10 +40,11 @@ import moose.com.ac.util.TextViewUtils;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
     protected LayoutInflater mInflater;
-    private SparseArrayCompatSerializable<CommentDetail> data;
+    private SparseArrayCompat<CommentListWrapper.Comment> data;
     private List<Integer> commentIdList;
     private Context mContext;
     private int maxNumOfFloor;
+    private OnItemClickListener onItemClickListener;
 
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,16 +55,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.content = (TextView) v.findViewById(R.id.comments_content);
         holder.quoteImage = v.findViewById(R.id.quote_img);
         holder.ll_quote = (RelativeLayout) v.findViewById(R.id.ll_quote);
+        holder.commentLayout = (RelativeLayout) v.findViewById(R.id.comment_layout);
         return holder;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
-        CommentDetail c = data.get(commentIdList.get(position));
-        holder.user.setText(String.format("#%d %s", c.getCount(), c.getUserName()));
-        TextViewUtils.setCommentContent(holder.content, c);
-        int quoteId = Integer.valueOf(c.getQuoteId() + "");
+        CommentListWrapper.Comment c = data.get(commentIdList.get(position));
+        holder.user.setText(String.format("#%d %s", c.floor, c.username));
+        TextViewUtils.setCommentContent(holder.content, c.content);
+        int quoteId = c.quoteId;
         holder.hasQuote = quoteId > 0;
         List<View> quoteList = new ArrayList<>();
         handleQuoteList(position, holder.rootView, holder, quoteId, quoteList);
@@ -71,13 +80,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             RelativeLayout.LayoutParams floorsLayoutParams = new RelativeLayout.LayoutParams(-1, -2);
             int margin = DisplayUtil.dip2px(mContext, 4);
             floorsLayoutParams.setMargins(margin, 0, margin, margin);
-            //floorsLayoutParams.addRule(RelativeLayout.BELOW, R.id.requote);
             holder.ll_quote.addView(holder.quoteFrame, floorsLayoutParams);
         }
-//        RelativeLayout.LayoutParams userLayoutParams = (RelativeLayout.LayoutParams) holder.user.getLayoutParams();
-//        userLayoutParams.addRule(RelativeLayout.BELOW, holder.quoteFrame.getChildCount() > 0 ? frameId : R.id.requote);
-//        holder.user.setLayoutParams(userLayoutParams);
-//        handlePadding(position, holder.rootView);
+        if (onItemClickListener != null) {
+            holder.commentLayout.setOnClickListener(v -> onItemClickListener.onItemClick(null, v, holder.getAdapterPosition(), holder.getItemId()));
+        }
     }
 
     @Override
@@ -94,6 +101,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public boolean hasQuote;
         public FloorsView quoteFrame;
         public RelativeLayout ll_quote;
+        public RelativeLayout commentLayout;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
@@ -101,7 +109,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
     }
 
-    public CommentAdapter(Context context, SparseArrayCompatSerializable<CommentDetail> data, List<Integer> commentIdList) {
+    public CommentAdapter(Context context, SparseArrayCompat<CommentListWrapper.Comment> data, List<Integer> commentIdList) {
         this.mInflater = LayoutInflater.from(context);
         this.mContext = context;
         this.data = data;
@@ -111,18 +119,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             maxNumOfFloor = 10;
     }
 
-    public void setData(SparseArrayCompatSerializable<CommentDetail> data, List<Integer> commentIdList) {
+    public void setData(SparseArrayCompat<CommentListWrapper.Comment> data, List<Integer> commentIdList) {
         this.data = data;
         this.commentIdList = commentIdList;
     }
 
-    private RelativeLayout generateQuoteFrame(CommentDetail quote) {
+    private RelativeLayout generateQuoteFrame(CommentListWrapper.Comment quote) {
         RelativeLayout quoteFrame = (RelativeLayout) mInflater.inflate(R.layout.comments_quote_item, null);
         TextView username = (TextView) quoteFrame.findViewById(R.id.user_name);
-        username.setText(String.format("#%d %s", quote.getCount(), quote.getUserName()));
+        username.setText(String.format(Locale.getDefault(), "#%d %s", quote.floor, quote.username));
         TextView content = (TextView) quoteFrame.findViewById(R.id.comments_content);
-        TextViewUtils.setCommentContent(content, quote);
-
+        TextViewUtils.setCommentContent(content, quote.content);
+        if (onItemClickListener != null) {
+            quoteFrame.setOnClickListener(v -> onItemClickListener.onItemClick(null, v, quote));
+        }
         return quoteFrame;
     }
 
@@ -136,8 +146,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
 
         int num = 0;
-        for (CommentDetail quote = data.get(quoteId); quote != null && num < maxNumOfFloor;
-             num++, quoteId = Integer.valueOf(quote.getQuoteId() + ""), quote = data.get(quoteId)) {
+        for (CommentListWrapper.Comment quote = data.get(quoteId); quote != null && num < maxNumOfFloor;
+             num++, quoteId = quote.quoteId, quote = data.get(quoteId)) {
 
             if (quote.isQuoted) {
                 if (quote.beQuotedPosition == position) {
@@ -161,5 +171,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             convertView.setPadding(padding, paddingTop + padding, padding, padding * 2);
         } else
             convertView.setPadding(padding, padding * 2, padding, padding * 2);
+    }
+
+    interface OnItemClickListener {
+
+        void onItemClick(AdapterView<?> parent, View view, int position, long id);
+
+        void onItemClick(AdapterView<?> parent, View view, CommentListWrapper.Comment comment);
     }
 }

@@ -91,6 +91,10 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.3.0'
     compile 'com.facebook.stetho:stetho-okhttp:1.3.0'
 
+    compile ('com.hwangjr.rxbus:rxbus:1.0.5') {
+        exclude group: 'com.jakewharton.timber', module: 'timber'
+    }
+
     debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"

@@ -13,9 +13,10 @@ import moose.com.ac.retrofit.article.ShadowArticleBody;
 import moose.com.ac.retrofit.collect.ArticleCloud;
 import moose.com.ac.retrofit.collect.Like;
 import moose.com.ac.retrofit.collect.Store;
+import moose.com.ac.retrofit.comment.CommentListWrapper;
 import moose.com.ac.retrofit.comment.CommentSend;
 import moose.com.ac.retrofit.login.CheckIn;
-import moose.com.ac.retrofit.login.LoginEntry;
+import moose.com.ac.retrofit.login.LoginResultWrapper;
 import moose.com.ac.retrofit.search.SearchBody;
 import retrofit.Response;
 import retrofit.http.Field;
@@ -48,11 +49,12 @@ public interface Api {
     /**
      * get comment list
      *
-     * @param contentId   article id
-     * @param currentPage page number
+     * @param contentId article id
+     * @param pageSize page size
+     * @param pageNo page number
      */
     @GET(Config.API_COMMENT_LIST)
-    Observable<JsonObject> getCommentList(@Query("contentId") int contentId, @Query("currentPage") int currentPage);
+    Observable<CommentListWrapper> getCommentList(@Query("contentId") int contentId, @Query("pageSize") int pageSize, @Query("pageNo") int pageNo);
 
     /**
      * get article body
@@ -114,7 +116,7 @@ public interface Api {
      */
     @FormUrlEncoded
     @POST(Config.API_LOGIN)
-    Observable<LoginEntry> login(@Field("username") String username, @Field("password") String password);
+    Observable<LoginResultWrapper> login(@Field("username") String username, @Field("password") String password, @Field("response_type") String response_type, @Field("client_id") String client_id);
 
     /**
      * check in action
@@ -194,10 +196,9 @@ public interface Api {
 
     /**
      * post comment to server
-     *
-     * @param map params collection
+     * @param map
      */
     @FormUrlEncoded
     @POST(Config.API_COMMENT)
-    Observable<CommentSend> sendComment(@FieldMap Map<String, String> map);
+    Observable<CommentSend> sendComment(@FieldMap Map<String, Object> map);
 }

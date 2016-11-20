@@ -37,11 +37,6 @@ public class FloorsView extends LinearLayout {
     private Drawable mBorder;
     private int mMaxNum;
 
-    @Override
-    public boolean isDuplicateParentStateEnabled() {
-        return true;
-    }
-
     public FloorsView(Context context) {
         this(context, null);
     }
@@ -54,7 +49,6 @@ public class FloorsView extends LinearLayout {
     private void initView(Context context) {
         setOrientation(VERTICAL);
         mMaxNum = getResources().getInteger(R.integer.max_floors_w);
-        setBackgroundResource(R.drawable.item_background);
     }
 
     public void setQuoteList(List<View> quoteList) {

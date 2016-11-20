@@ -96,6 +96,14 @@ public final class CommonUtil {
         PreferenceUtil.setStringValue(Config.USERNAME, name);
     }
 
+    public static void setToken(String token) {
+        PreferenceUtil.setStringValue(Config.ACCESS_TOKEN, token);
+    }
+
+    public static String getToken() {
+        return PreferenceUtil.getString(Config.ACCESS_TOKEN, "");
+    }
+
     public static String getUserLogo() {
         return PreferenceUtil.getString(Config.USER_LOG, AppApplication.getContext().getString(R.string.default_user_logo));
     }
@@ -345,4 +353,13 @@ public final class CommonUtil {
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI && isSupport;
     }
+
+    public static void setUseruid(Long uid) {
+        PreferenceUtil.setLongValue(Config.USER_UID, uid);
+    }
+
+    public static Long getUseruid() {
+        return PreferenceUtil.getLong(Config.USER_UID, 0L);
+    }
+
 }

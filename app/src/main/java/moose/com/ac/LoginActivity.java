@@ -18,7 +18,7 @@ import com.trello.rxlifecycle.ActivityEvent;
 
 import moose.com.ac.common.Config;
 import moose.com.ac.retrofit.Api;
-import moose.com.ac.retrofit.login.LoginEntry;
+import moose.com.ac.retrofit.login.LoginResultWrapper;
 import moose.com.ac.ui.widget.EmailEditText;
 import moose.com.ac.ui.widget.MultiSwipeRefreshLayout;
 import moose.com.ac.ui.BaseActivity;
@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         accountManager = AccountManager.get(this);
         addAccount = getIntent().getBooleanExtra(Config.EXTRA_ADD_ACCOUNT, false);
-        api = RxUtils.createLoginApi(Api.class, Config.BASE_URL);
+        api = RxUtils.createLoginApi(Api.class, Config.LOGIN_URL);
         initView();
         setListener();
     }
@@ -80,11 +80,11 @@ public class LoginActivity extends BaseActivity {
                 isRequest = true;
                 mSwipeRefreshLayout.setEnabled(true);
                 mSwipeRefreshLayout.setRefreshing(true);
-                subscription.add(api.login(name.getText().toString(), pwd.getText().toString())
+                subscription.add(api.login(name.getText().toString(), pwd.getText().toString(), "token", "ELSH6ruK0qva88DD")
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .compose(this.<LoginEntry>bindUntilEvent(ActivityEvent.DESTROY))
-                        .subscribe(new Observer<LoginEntry>() {
+                        .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                        .subscribe(new Observer<LoginResultWrapper>() {
                             @Override
                             public void onCompleted() {
 
@@ -101,28 +101,28 @@ public class LoginActivity extends BaseActivity {
                             }
 
                             @Override
-                            public void onNext(LoginEntry response) {
+                            public void onNext(LoginResultWrapper result) {
                                 isRequest = false;//fix button of LoginActivity enable after login-request
                                 mSwipeRefreshLayout.setRefreshing(false);
                                 mSwipeRefreshLayout.setEnabled(false);
-                                if (response.isSuccess()) {
-                                    CommonUtil.setUserName(response.getUsername());
-                                    CommonUtil.setUserLogo(response.getImg());
+                                if (result.success) {
+                                    CommonUtil.setUserName(result.data.username);
+                                    CommonUtil.setUserLogo(result.data.userImg);
                                     CommonUtil.setLoginStatus(Config.LOGIN_IN);
-                                    CommonUtil.setLoginEmail(name.getText().toString());
+                                    CommonUtil.setLoginEmail(name.getText().toString());//不见得是邮箱，也可能是手机号
+                                    CommonUtil.setUseruid(Long.valueOf(String.valueOf(result.data.userId)));
+                                    CommonUtil.setToken(result.data.access_token);
                                     Snack(getString(R.string.login_success));
                                     if (addAccount) {
                                         addAccount(name.getText().toString(), pwd.getText().toString());
                                     }
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            Intent intent = new Intent(getString(R.string.login_action));
-                                            LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
-                                            finish();
-                                        }
+                                    new Handler().postDelayed(() -> {
+                                        Intent intent = new Intent(getString(R.string.login_action));
+                                        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+                                        finish();
                                     }, Config.TIME_LATE);
                                 } else {
-                                    Snack(response.getResult());
+                                    Snack(result.result);
                                 }
                             }
                         }));

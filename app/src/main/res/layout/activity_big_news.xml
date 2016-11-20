@@ -15,7 +15,6 @@
       limitations under the License.
       -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/news_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,10 +22,10 @@
 
     <include layout="@layout/toolbar" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@id/news_viewpager"
+    <FrameLayout
+        android:id="@+id/root_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="match_parent"/>
+
 
 </LinearLayout>

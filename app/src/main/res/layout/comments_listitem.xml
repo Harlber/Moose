@@ -27,9 +27,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants"
-        android:duplicateParentState="true">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/ll_quote"
@@ -37,54 +35,43 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp" />
 
-        <!--<TextView-->
-        <!--android:id="@id/requote"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/requote"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="4dp"-->
-        <!--android:paddingTop="4dp"-->
-        <!--android:paddingBottom="4dp"-->
-        <!--android:background="@color/accent_material_light"-->
-        <!--android:gravity="center"-->
-        <!--android:text="@string/hide_requote"-->
-        <!--android:textSize="12sp"-->
-        <!--android:visibility="gone" />-->
-
-        <TextView
-            android:id="@id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ll_quote"
-            android:paddingLeft="@dimen/textview_padding"
-            android:textColor="#ABABAB"
-            tools:text="userName" />
-
-        <ImageView
-            android:id="@id/quote_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/user_name"
-            android:layout_toRightOf="@id/user_name"
-            android:src="@drawable/forward"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@id/comments_content"
+        <RelativeLayout
+            android:id="@+id/comment_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/user_name"
-            android:layout_marginTop="5dip"
-            android:focusable="false"
-            android:padding="@dimen/textview_padding"
-            android:textColor="@color/md_grey_900"
-            android:visibility="visible"
-            tools:text="content" />
+            android:layout_below="@id/ll_quote">
+
+            <TextView
+                android:id="@id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/textview_padding"
+                android:textColor="#ABABAB"
+                tools:text="userName" />
+
+            <ImageView
+                android:id="@id/quote_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/user_name"
+                android:layout_toRightOf="@id/user_name"
+                android:src="@drawable/forward"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@id/comments_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_name"
+                android:layout_marginTop="5dip"
+                android:focusable="false"
+                android:padding="@dimen/textview_padding"
+                android:textColor="@color/md_grey_900"
+                android:visibility="visible"
+                tools:text="content" />
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

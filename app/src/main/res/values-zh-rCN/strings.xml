@@ -236,4 +236,9 @@
     <string name="share_to">分享到&#8230;</string>
     <string name="send_comment">发送评论</string>
     <string name="login_first">请先登录</string>
+    <string name="action_message">私信</string>
+    <string name="action_quote">引用评论</string>
+    <string name="action_copy_content">复制内容</string>
+    <string name="action_user_info">用户信息</string>
+    <string name="action_report">举报</string>
 </resources>
