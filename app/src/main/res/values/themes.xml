@@ -42,6 +42,10 @@
         <item name="android:textColorSecondary">@color/md_grey_500</item>
     </style>
 
+    <style name="LaunchTheme" parent="AppTheme">
+        <item name="android:windowBackground" >@drawable/launch_background</item>
+    </style>
+
     <style name="NightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark" tools:ignore="NewApi">@color/md_black</item>
         <item name="statusBarColor">@color/md_black</item>

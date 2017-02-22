@@ -120,7 +120,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="5dp"
-                    android:text="发送"
+                    android:text="@string/send_comment"
                     android:textColor="@color/colorPrimary" />
             </RelativeLayout>
 

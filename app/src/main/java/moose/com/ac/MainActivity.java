@@ -121,6 +121,12 @@ public class MainActivity extends BaseActivity {
     };
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     protected void onInitView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
