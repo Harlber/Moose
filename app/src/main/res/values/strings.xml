@@ -49,7 +49,7 @@
     <string name="application_info_text" formatted="false">
         <![CDATA[
             <p>Version: %s</p>
-            <p>This application is open source at <a href="https://github.com/Harlber/Moose">github.com/Harlber/Moose</a></p>
+            <p>This application is open source at <a href="https://github.com/Harlber/Moose">https://github.com/Harlber/Moose</a></p>
         ]]>
     </string>
     <string name="developer_info_title">特别贡献</string>

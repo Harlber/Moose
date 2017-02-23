@@ -49,7 +49,7 @@
     <string name="application_info_text" formatted="false">
         <![CDATA[
             <p>版本: %s</p>
-            <p>本应用开源，项目托管在 <a href="https://github.com/Harlber/Moose">github.com/Harlber/Moose</a></p>
+            <p>本应用开源，项目托管在 <a href="https://github.com/Harlber/Moose">https://github.com/Harlber/Moose</a></p>
         ]]>
     </string>
     <string name="developer_info_title">特别贡献</string>
