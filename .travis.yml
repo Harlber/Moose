@@ -9,10 +9,6 @@ android:
 jdk:
   - oraclejdk8
 sudo: required
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
 
 licenses:
     - 'android-sdk-preview-license-.+'

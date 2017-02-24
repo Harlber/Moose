@@ -4,7 +4,7 @@
     <!-- Your product logo - 144dp color version of your app icon -->
     <item>
         <bitmap
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/preview_bg"
             android:gravity="center"/>
     </item>
 </layer-list>
