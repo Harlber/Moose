@@ -1,4 +1,3 @@
-sudo: false
 language: android
 
 android:
@@ -9,6 +8,16 @@ android:
 
 jdk:
   - oraclejdk8
+sudo: required
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
+licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 
 script: "./gradlew assembleDebug;./gradlew testDebug"
 
@@ -18,6 +27,9 @@ after_success:
 
 notifications:
   email: false
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
 cache:
   directories:
