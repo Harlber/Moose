@@ -22,10 +22,18 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.trello.rxlifecycle.ActivityEvent;
 
@@ -87,7 +95,8 @@ public class ArticleViewActivity extends BaseActivity
     private ObservableWebView mWeb;
     private FloatingActionButton fab;
     private MenuItem menFav;
-    private MultiSwipeRefreshLayout mSwipeRefreshLayout;
+    private ImageView image;
+    private ImageView image_load_error;
     private CoordinatorLayout mContentView;
     private CompositeSubscription subscription = new CompositeSubscription();
     private Api api = RxUtils.createApi(Api.class, Config.ARTICLE_URL);
@@ -168,7 +177,7 @@ public class ArticleViewActivity extends BaseActivity
             ab.setDisplayHomeAsUpEnabled(true);
         }
         contend = "ac" + articleId;
-        getSupportActionBar().setTitle(contend);
+        getSupportActionBar().setSubtitle(contend);
 
         fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(v -> {
@@ -178,12 +187,9 @@ public class ArticleViewActivity extends BaseActivity
             startActivity(intent);
         });
 
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.web_swipe);
-        mSwipeRefreshLayout.setSwipeableChildren(R.id.view_fab);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.md_white);
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
-
         mWeb = (ObservableWebView) findViewById(R.id.view_webview);
+        image = (ImageView) findViewById(R.id.image);
+        image_load_error = (ImageView) findViewById(R.id.image_load_error);
         mContentView = (CoordinatorLayout) findViewById(R.id.view_content);
         settings = mWeb.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -209,7 +215,6 @@ public class ArticleViewActivity extends BaseActivity
         mWeb.setOnScrollChangedCallback(this);
         level = CommonUtil.getTextSize();
         setText();
-        mSwipeRefreshLayout.post(() -> mSwipeRefreshLayout.setRefreshing(true));
         initData();
     }
 
@@ -275,7 +280,28 @@ public class ArticleViewActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void showProgress() {
+        if (image.getVisibility() != View.VISIBLE) {
+            image.setVisibility(View.VISIBLE);
+        }
+        if (image_load_error.getVisibility() == View.VISIBLE) {
+            image_load_error.setVisibility(View.GONE);
+        }
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.loading);
+        LinearInterpolator interpolator = new LinearInterpolator();
+        animation.setInterpolator(interpolator);
+        if (animation != null) {
+            image.startAnimation(animation);  //开始动画
+        }
+    }
+
+    private void hideProgress() {
+        image.clearAnimation();
+        image.setVisibility(View.GONE);
+    }
+
     private void initData() {
+        showProgress();
         isRequest = true;
         HtmlBody = "";
         HtmlBodyClone = "";
@@ -293,8 +319,7 @@ public class ArticleViewActivity extends BaseActivity
                     public void onError(Throwable e) {
                         isRequest = true;
                         e.printStackTrace();
-                        mSwipeRefreshLayout.setRefreshing(false);//show progressbar
-                        mSwipeRefreshLayout.setEnabled(true);
+                        image_load_error.setVisibility(View.VISIBLE);
                         snack(e.getMessage());
                     }
 
@@ -306,6 +331,7 @@ public class ArticleViewActivity extends BaseActivity
                         } else {
                             HtmlBody = articleBody.data.article.content;
                             title = articleBody.data.title;
+                            getSupportActionBar().setTitle(articleBody.data.title);
                             user = articleBody.data.owner.name;
 
                             //fix this issues https://github.com/Harlber/Moose/issues/8
@@ -436,7 +462,8 @@ public class ArticleViewActivity extends BaseActivity
 
     private void snackStore(String msg) {
         Snackbar snackBar = Snackbar.make(mContentView, msg, Snackbar.LENGTH_SHORT);
-        snackBar.setAction(R.string.snackbar_action, v -> {});
+        snackBar.setAction(R.string.snackbar_action, v -> {
+        });
         snackBar.getView().setBackgroundResource(R.color.colorPrimary);
         snackBar.show();
     }
@@ -523,11 +550,6 @@ public class ArticleViewActivity extends BaseActivity
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onScroll(int l, int t, int oldl, int oldt) {
-        if (t > toolbarHeight) {
-            getSupportActionBar().setTitle(title);
-        } else {
-            getSupportActionBar().setTitle(contend);
-        }
         if (t - oldt > 0) {
             if (fabStatus == FAB_SHOW) {
                 //hide fab
@@ -578,8 +600,7 @@ public class ArticleViewActivity extends BaseActivity
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             isWebViewLoading = false;
-            mSwipeRefreshLayout.setRefreshing(false);
-            mSwipeRefreshLayout.setEnabled(false);
+            hideProgress();
         }
     }
 

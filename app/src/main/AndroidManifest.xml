@@ -47,7 +47,7 @@
             android:name=".ArticleViewActivity"
             android:screenOrientation="portrait"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:launchMode="singleInstance"
+            android:launchMode="standard"
             android:taskAffinity="">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

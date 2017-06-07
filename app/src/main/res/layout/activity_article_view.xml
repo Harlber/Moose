@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
       Copyright 2014 Farble Dast. All rights reserved.
 
       Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,25 +19,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
-    <moose.com.ac.ui.widget.MultiSwipeRefreshLayout
+    <!--<moose.com.ac.ui.widget.MultiSwipeRefreshLayout
         android:id="@id/web_swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginTop="?attr/actionBarSize">-->
+
+    <FrameLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <moose.com.ac.ui.widget.ObservableWebView
             android:id="@id/view_webview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            />
-    </moose.com.ac.ui.widget.MultiSwipeRefreshLayout>
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/loading" />
+
+        <ImageView
+            android:id="@+id/image_load_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/img_load_not_success"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!--</moose.com.ac.ui.widget.MultiSwipeRefreshLayout>-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@id/view_fab"
