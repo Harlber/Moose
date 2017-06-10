@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -69,7 +70,7 @@ public class MainActivity extends BaseActivity {
     private SearchView searchView;
     private AppCompatTextView userName;
     private CircleImageView logo;
-    private LinearLayout linearLayout;
+    private FrameLayout frame_layout;
 
     private boolean searchShow = false;
 
@@ -179,7 +180,7 @@ public class MainActivity extends BaseActivity {
         }
         logo = (CircleImageView) drawerHeader.findViewById(R.id.login_userimg);
         userName = (AppCompatTextView) drawerHeader.findViewById(R.id.login_username);
-        linearLayout = (LinearLayout) findViewById(R.id.linear_layout);
+        frame_layout = (FrameLayout) findViewById(R.id.frame_layout);
 
         TextView textViewComplex = (TextView) findViewById(R.id.tv_complex);
         TextView textViewHot = (TextView) findViewById(R.id.tv_hot);
@@ -362,7 +363,7 @@ public class MainActivity extends BaseActivity {
 
     @Deprecated
     public void snack(String msg) {
-        Snackbar snackBar = Snackbar.make(linearLayout, msg, Snackbar.LENGTH_SHORT);
+        Snackbar snackBar = Snackbar.make(frame_layout, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction(R.string.snackbar_action, v -> {
             snackBar.dismiss();
         });

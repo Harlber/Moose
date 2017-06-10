@@ -2,11 +2,18 @@ package moose.com.ac;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 
 import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import moose.com.ac.common.Config;
+import moose.com.ac.crash.CrashActivity;
 import moose.com.ac.data.DbHelper;
 import moose.com.ac.util.PreferenceUtil;
 /*
@@ -34,11 +41,13 @@ public class AppApplication extends Application {
     private static DbHelper dbHelper;
 
     private static RefWatcher refWatcher;
+    private final UncaughtHandler mUncaughtHandler = new UncaughtHandler();
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
+        Thread.setDefaultUncaughtExceptionHandler(mUncaughtHandler);
         new PreferenceUtil(this);
         dbHelper = new DbHelper(this);
         if (!isInUnitTests()) {
@@ -66,6 +75,53 @@ public class AppApplication extends Application {
 
     public static DbHelper getDbHelper() {
         return dbHelper == null ? new DbHelper(context) : dbHelper;
+    }
+
+    protected class UncaughtHandler implements Thread.UncaughtExceptionHandler {
+        private final String LINE_SEPARATOR = "\n";
+
+        public UncaughtHandler() {
+        }
+
+        @Override
+        public void uncaughtException(Thread thread, Throwable exception) {
+            StringWriter stackTrace = new StringWriter();
+            exception.printStackTrace(new PrintWriter(stackTrace));
+            String errorReport = "******** CAUSE OF ERROR ********\n\n" +
+                    stackTrace.toString() +
+                    "\n******** DEVICE INFORMATION ********\n" +
+                    "Brand: " +
+                    Build.BRAND +
+                    LINE_SEPARATOR +
+                    "Device: " +
+                    Build.DEVICE +
+                    LINE_SEPARATOR +
+                    "Model: " +
+                    Build.MODEL +
+                    LINE_SEPARATOR +
+                    "Id: " +
+                    Build.ID +
+                    LINE_SEPARATOR +
+                    "Product: " +
+                    Build.PRODUCT +
+                    LINE_SEPARATOR +
+                    "\n******** FIRMWARE ********\n" +
+                    "SDK: " +
+                    Build.VERSION.SDK +
+                    LINE_SEPARATOR +
+                    "Release: " +
+                    Build.VERSION.RELEASE +
+                    LINE_SEPARATOR +
+                    "Incremental: " +
+                    Build.VERSION.INCREMENTAL +
+                    LINE_SEPARATOR;
+
+            Intent intent = new Intent(context, CrashActivity.class);
+            intent.putExtra(Config.CRASH, errorReport);
+            startActivity(intent);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(10);
+        }
     }
 
 }
