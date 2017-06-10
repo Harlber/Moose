@@ -177,7 +177,7 @@ public class ArticleViewActivity extends BaseActivity
             ab.setDisplayHomeAsUpEnabled(true);
         }
         contend = "ac" + articleId;
-        getSupportActionBar().setSubtitle(contend);
+        getSupportActionBar().setTitle(contend);
 
         fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(v -> {
@@ -331,7 +331,7 @@ public class ArticleViewActivity extends BaseActivity
                         } else {
                             HtmlBody = articleBody.data.article.content;
                             title = articleBody.data.title;
-                            getSupportActionBar().setTitle(articleBody.data.title);
+                            getSupportActionBar().setSubtitle(articleBody.data.title);
                             user = articleBody.data.owner.name;
 
                             //fix this issues https://github.com/Harlber/Moose/issues/8
