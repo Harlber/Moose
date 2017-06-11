@@ -41,13 +41,13 @@ public class AppApplication extends Application {
     private static DbHelper dbHelper;
 
     private static RefWatcher refWatcher;
-    private final UncaughtHandler mUncaughtHandler = new UncaughtHandler();
+    //private final UncaughtHandler mUncaughtHandler = new UncaughtHandler();
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
-        Thread.setDefaultUncaughtExceptionHandler(mUncaughtHandler);
+        //Thread.setDefaultUncaughtExceptionHandler(mUncaughtHandler);
         new PreferenceUtil(this);
         dbHelper = new DbHelper(this);
         if (!isInUnitTests()) {
