@@ -249,7 +249,7 @@ public class ArticleViewActivity extends BaseActivity
                     intent.setData(content_url);
                     startActivity(intent);
                 } else {
-                    String url = Config.WAP_URL + "v#ac=" + articleId + ";type=article";
+                    String url = Config.WAP_URL + "v/?ac=" + articleId;
                     CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                     CustomTabActivityHelper.openCustomTab(
                             this, customTabsIntent, Uri.parse(url), new WebviewFallback());

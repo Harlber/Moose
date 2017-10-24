@@ -9,7 +9,7 @@ public class Config {
     public static final String SEARCH_URL = "http://search.acfun.tv";
     public static final String WEB_URL = "http://www.acfun.tv/a/ac";
     public static final String MEMBER_URL = "http://www.acfun.tv/member";
-    public static final String WAP_URL = "http://m.acfun.tv/";
+    public static final String WAP_URL = "http://m.acfun.cn/";
     public static final String WEB_API = "http://webapi.acfun.tv";
     public static final String COMMENT_URL = "http://mobile.app.acfun.cn";
     public static final String LOGIN_URL = "http://mobile.app.acfun.cn";
