@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 //apply plugin: 'com.android.databinding'
 apply plugin: 'com.neenbedankt.android-apt'
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
 
     defaultConfig {
         applicationId "ac.moose.com.moose"
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "0.7"
     }
@@ -53,7 +53,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     ext {
-        supportVersion = "25.3.1"
+        supportVersion = "26.0.0-alpha1"
         retrofitVersion = "2.0.0-beta1"
         assertjVersion = '1.1.1'
         robolectricVersion = '3.0'

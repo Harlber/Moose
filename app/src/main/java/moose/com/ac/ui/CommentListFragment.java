@@ -106,7 +106,7 @@ public class CommentListFragment extends BaseListFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.abs_list_fragment, container, false);
+        return inflater.inflate(R.layout.abs_list_floating_fragment, container, false);
     }
 
     /**
