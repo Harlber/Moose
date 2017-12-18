@@ -46,6 +46,14 @@
         </RelativeLayout>
     </moose.com.ac.ui.widget.MultiSwipeRefreshLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@id/view_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/commit_white" />
+
 </android.support.design.widget.CoordinatorLayout>
 
 
