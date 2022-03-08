@@ -10,7 +10,7 @@ android.testOptions.unitTests.all {
     jvmArgs '-XX:MaxPermSize=512m', '-XX:-UseSplitVerifier'
 
     // Specify max number of processes (default is 1)
-    maxParallelForks = 1
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 
     // Specify max number of test classes to execute in a test process
     // before restarting the process (default is unlimited)
